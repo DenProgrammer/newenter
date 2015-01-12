@@ -6,8 +6,13 @@
 !/tmp/index.html
 /images/stories/virtuemart/product/*
 !/images/stories/virtuemart/product/index.html
+!/images/stories/virtuemart/product/resized
+/images/stories/virtuemart/product/resized/*
 !/images/stories/virtuemart/product/resized/index.html
 /images/stories/virtuemart/category/*
 !/images/stories/virtuemart/category/index.html
+!/images/stories/virtuemart/category/resized
+/images/stories/virtuemart/category/resized/*
 !/images/stories/virtuemart/category/resized/index.html
 /configuration.php
+/nbproject
