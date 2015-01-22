@@ -57,6 +57,7 @@ $currency = $viewData['currency'];
 	$unitPriceDescription = vmText::sprintf ('COM_VIRTUEMART_PRODUCT_UNITPRICE', vmText::_('COM_VIRTUEMART_UNIT_SYMBOL_'.$product->product_unit));
 	echo $currency->createPriceDiv ('unitPrice', $unitPriceDescription, $product->prices);
 	}
+	echo '<span class="price_som">'.$currency->roundForDisplay ($product->prices['salesPrice'],417,1,false).' Сом</span>';
 	?>
 </div>
 <div class="clear"></div>

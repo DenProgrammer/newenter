@@ -31,8 +31,9 @@ jQuery(document).ready(function () {
 ";
 
 vmJsApi::addJScript('vm.hover',$js);
-
-if (empty($this->keyword) and !empty($this->category)) {
+?>
+<h1><?php echo $this->category->category_name; ?></h1>
+<?php if (empty($this->keyword) and !empty($this->category)) {
 	?>
 <div class="category_description">
 	<?php echo $this->category->category_description; ?>

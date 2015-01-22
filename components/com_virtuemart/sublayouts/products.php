@@ -67,7 +67,7 @@ foreach ($viewData['products'] as $type => $products ) {
 					</a>
 
 			</div>
-
+			<div class="desc_block">
 			<div class="vm-product-rating-container">
 				<?php echo shopFunctionsF::renderVmSubLayout('rating',array('showRating'=>$showRating, 'product'=>$product));
 				if ( VmConfig::get ('display_stock', 1)) { ?>
@@ -109,7 +109,7 @@ foreach ($viewData['products'] as $type => $products ) {
 				?>
 			</div>
 
-		</div>
+		</div></div>
 	</div>
 
 	<?php
