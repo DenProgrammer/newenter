@@ -1,5 +1,7 @@
 /cache/*
 !/cache/index.html
+/administrator/cache/*
+!/administrator/cache/index.html
 /logs/*
 !/logs/index.html
 /tmp/*

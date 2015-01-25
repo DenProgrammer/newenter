@@ -191,7 +191,6 @@ p, ul, h1, h2, h3, h4, h5, h6{
 }
 
 #wrapper #rightcol .moduletablecall input[type=submit]{
-    background:#000000 url("../images/menu-bg.png") repeat-x bottom left;
     display:block;
     height:30px;
     margin:5px 0;
@@ -228,7 +227,6 @@ p, ul, h1, h2, h3, h4, h5, h6{
 
 #wrapper #rightcol span.addtocart-button input.addtocart-button, 
 #wrapper #rightcol span.addtocart-button input.notify-button{
-    background:url("../images/menu-bg.png") repeat-x bottom left;
     border: none;
     border-radius: 0;
     color: #fff;
@@ -250,7 +248,6 @@ p, ul, h1, h2, h3, h4, h5, h6{
 }
 
 #wrapper #rightcol .right_col_but{
-    background: url("../images/menu-bg.png") repeat-x scroll left bottom #000000;
     border: medium none;
     color: #ffffff;
     display: block;
@@ -463,7 +460,6 @@ p, ul, h1, h2, h3, h4, h5, h6{
 }
 
 #wrapper #content .cart-view .checkout-button-top #checkoutFormSubmit{
-    background: url("../images/menu-bg.png") repeat-x scroll left bottom #000000;
     border: medium none;
     color: #ffffff;
     height: 30px;
@@ -517,7 +513,10 @@ p, ul, h1, h2, h3, h4, h5, h6{
 /********************************ELEMENTS**************************************/
 /******************************************************************************/
 
-#wrapper #content .spacer input.button-gloss {
+#wrapper #content .spacer input.button-gloss,
+span.addtocart-button input.button-gloss,
+#checkoutFormSubmit,
+input.button-gloss {
     position: relative;
     color: white;
     font-weight: bold;
@@ -534,11 +533,17 @@ p, ul, h1, h2, h3, h4, h5, h6{
     box-shadow: rgba(0,0,0,.3) 0 2px 5px;
     border-radius: 0px;
 } 
-#wrapper #content .spacer input.button-gloss:active {
+#wrapper #content .spacer input.button-gloss:active,
+span.addtocart-button input.button-gloss:active,
+#checkoutFormSubmit:active,
+input.button-gloss:active {
     top: 1px;
     box-shadow: none;
 }
-#wrapper #content .spacer input.button-gloss:hover {
+#wrapper #content .spacer input.button-gloss:hover,
+span.addtocart-button input.button-gloss:hover,
+#checkoutFormSubmit:hover,
+input.button-gloss:hover {
     transition: .5s linear;
     background-position: -200% 0, 0 0;
 }
