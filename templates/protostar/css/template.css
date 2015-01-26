@@ -24,7 +24,7 @@ p, ul, h1, h2, h3, h4, h5, h6{
     background:#ffffff;
     box-shadow: 0 0 10px 10px #cccccc inset; 
     padding:10px;
-	min-width:900px;
+    min-width:900px;
 }
 
 /*********************************************************************/
@@ -86,10 +86,10 @@ p, ul, h1, h2, h3, h4, h5, h6{
     text-decoration:none;
     display:block;
     padding:5px;
+    height: 17px;
 }
 
 #header_block #mainmenu_block ul li a:hover{
-    color:#f90000;
     text-decoration:underline;
 }
 
@@ -233,7 +233,7 @@ p, ul, h1, h2, h3, h4, h5, h6{
     color: #fff;
     cursor: pointer;
     font-size: 14px;
-    width: 193px;
+    width: 135px;
     padding:0;
     height:30px;
     text-align: center;
@@ -396,7 +396,7 @@ p, ul, h1, h2, h3, h4, h5, h6{
 }
 
 #wrapper #content .spacer .vm-product-descr-container-0{
-	height:auto;
+    height:auto;
 }
 
 #wrapper #content .spacer .vm-product-descr-container-0 h2 a{
@@ -415,13 +415,13 @@ p, ul, h1, h2, h3, h4, h5, h6{
 
 #wrapper #content .spacer .vm3pr-0{
     margin-top:10px;
-	text-align:right;
+    text-align:right;
 }
 
 #wrapper #content .spacer .vm3pr-0 .addtocart-bar{
     position:relative;
-	bottom:0;
-	/*right:0;*/
+    bottom:0;
+    /*right:0;*/
 }
 
 #wrapper #content .spacer .PricebasePrice{
@@ -496,19 +496,23 @@ p, ul, h1, h2, h3, h4, h5, h6{
 }
 
 .general-bg, input.custom-attribute, input.quantity-input, .manufacturer-product-link a, a.ask-a-question, input.vm-default, a.product-details, a.details, div.details, button.default{
-	border-radius:0;
+    border-radius:0;
 }
 
 #wrapper #content .browse-view input.quantity-input{
-	padding:0;
+    padding:0;
 }
 
 #wrapper #content .browse-view span.quantity-controls input.quantity-plus{
-	margin:5px 0 0 0;
+    margin:5px 0 0 0;
 }
 
 #wrapper #content .browse-view span.quantity-controls input.quantity-minus{
-	margin:0 0 5px 0;
+    margin:0 0 5px 0;
+}
+
+span.VmArrowdown{
+    display: none;
 }
 
 
@@ -584,4 +588,29 @@ span.addtocart-button input.button-gloss:hover,
 input.button-gloss:hover {
     transition: .5s linear;
     background-position: -200% 0, 0 0;
+}
+
+#mainmenu_block ul.menu li{
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: -1px -1px #000;
+    text-align: center;
+    border: solid 1px black;
+    background-repeat: no-repeat;
+    background-size: 100% 300%, auto;
+    background-position: 100% 100%;
+    /*background-color: #000;*/
+    background-image: linear-gradient(
+        rgb(3,3,3) 0%, 
+        rgb(73,73,73) 40%, 
+        rgb(73,73,73) 49%, 
+        rgb(100,100,100) 50%, 
+        rgb(73,73,73) 50%, 
+        rgb(73,73,73) 60%, 
+        rgb(3,3,3) 100%);
+}
+#mainmenu_block ul.menu li:hover {
+    transition: .4s linear;
+    background-position: 100% 0%;
 }
