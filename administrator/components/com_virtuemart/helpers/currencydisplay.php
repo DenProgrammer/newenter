@@ -272,7 +272,7 @@ class CurrencyDisplay {
 			$price = round((float)$price * 2,1) * 0.5;
 		} else {
 			$price = round($price,$nb);
-		}
+                }echo $price."<br>";
 		return $price;
 	}
 

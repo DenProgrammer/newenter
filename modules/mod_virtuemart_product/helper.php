@@ -53,7 +53,7 @@ class mod_virtuemart_product {
 			$stockhandle = VmConfig::get ('stockhandle', 'none');
 			if (($stockhandle == 'disableit' or $stockhandle == 'disableadd') and ($product->product_in_stock - $product->product_ordered) < 1) {
 				$button_lbl = vmText::_ ('COM_VIRTUEMART_CART_NOTIFY');
-				$button_cls = 'notify-button';
+				$button_cls = 'notify-button button-gloss';
 				$button_name = 'notifycustomer';
 				?>
 				<div style="display:inline-block;">
