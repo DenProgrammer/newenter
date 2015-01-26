@@ -24,6 +24,7 @@ p, ul, h1, h2, h3, h4, h5, h6{
     background:#ffffff;
     box-shadow: 0 0 10px 10px #cccccc inset; 
     padding:10px;
+	min-width:900px;
 }
 
 /*********************************************************************/
@@ -384,16 +385,21 @@ p, ul, h1, h2, h3, h4, h5, h6{
 #wrapper #content .browse-view .vm-product-media-container{
     display:inline-block;
     vertical-align:top;
-    width:300px;
+    width:20%;
 }   
 
 #wrapper #content .browse-view .desc_block{
     display:inline-block;
     vertical-align:top;
+    width:79%;
 }
 
 #wrapper #content .spacer .vm-product-rating-container{
     display:none;
+}
+
+#wrapper #content .spacer .vm-product-descr-container-0{
+	height:auto;
 }
 
 #wrapper #content .spacer .vm-product-descr-container-0 h2 a{
@@ -405,6 +411,22 @@ p, ul, h1, h2, h3, h4, h5, h6{
     font-weight:normal;
 }
 
+#wrapper #content .spacer .vm3pr-1{
+    float: left;
+    margin-top: 10px;
+}
+
+#wrapper #content .spacer .vm3pr-0{
+    margin-top:10px;
+	text-align:right;
+}
+
+#wrapper #content .spacer .vm3pr-0 .addtocart-bar{
+    position:relative;
+	bottom:0;
+	/*right:0;*/
+}
+
 #wrapper #content .spacer .PricebasePrice{
     color: #f90000;
     font-size: 16px;
@@ -413,8 +435,8 @@ p, ul, h1, h2, h3, h4, h5, h6{
 }
 
 #wrapper #content .spacer .product-price{
-    float:none;
-    margin-right:100px;
+    /*float:none;
+    margin-right:100px;*/
 }
 
 #wrapper #content .spacer .addtocart-area{
@@ -475,6 +497,22 @@ p, ul, h1, h2, h3, h4, h5, h6{
     font-size:14px;
     border-radius:0;
     font-weight:normal;
+}
+
+.general-bg, input.custom-attribute, input.quantity-input, .manufacturer-product-link a, a.ask-a-question, input.vm-default, a.product-details, a.details, div.details, button.default{
+	border-radius:0;
+}
+
+#wrapper #content .browse-view input.quantity-input{
+	padding:0;
+}
+
+#wrapper #content .browse-view span.quantity-controls input.quantity-plus{
+	margin:5px 0 0 0;
+}
+
+#wrapper #content .browse-view span.quantity-controls input.quantity-minus{
+	margin:0 0 5px 0;
 }
 
 
