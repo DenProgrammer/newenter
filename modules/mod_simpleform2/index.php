@@ -27,24 +27,6 @@ require_once ( JPATH_BASE . DS . 'includes' . DS . 'framework.php' );
 $app = JFactory::getApplication('site');
 $app->initialise();
 
-$mailer = JFactory::getMailer();
-$sender = array('shiryaeva.kseniya@gmail.com', 'shiryaeva.kseniya@gmail.com');
-$mailer->setSender($sender);
-$mailer->addRecipient('fenix.programmer@gmail.com');
-$mailer->setSubject('Your subject string');
-$body   = '<h2>Our mail</h2>'
-         .'<div>A message to our dear readers</div>';
-$mailer->isHTML(true);
-$mailer->setBody($body);
-
-$send = $mailer->Send();
-if ($send !== true) {
-    echo 'Error sending email: '.$send->getError();
-} else {
-    echo 'Mail sent';
-}
-exit;
-
 $language = JFactory::getLanguage();
 $language->load('mod_simpleform2', JPATH_SITE);
 $user     = JFactory::getUser();
