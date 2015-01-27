@@ -59,7 +59,6 @@ if(vRequest::getInt('print',false)){ ?>
 		echo JHtml::_('link', $next_link, $this->product->neighbours ['next'][0] ['product_name'], array('rel'=>'next','class' => 'next-page','data-dynamic-update' => '1'));
 	    }
 	    ?>
-    	<div class="clear"></div>
         </div>
     <?php } // Product Navigation END
     ?>

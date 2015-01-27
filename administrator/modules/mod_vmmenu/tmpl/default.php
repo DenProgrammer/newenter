@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @version $Id$
@@ -15,17 +16,16 @@
  *
  * http://virtuemart.net
  */
-
 // No direct access.
 defined('_JEXEC') or die;
 
 
-$show_vmmenu 	= $params->get('show_vmmenu', 1);
-$vmMenu="";
-$user = JFactory::getUser();
-$lang = JFactory::getLanguage();
+$show_vmmenu = $params->get('show_vmmenu', 1);
+$vmMenu      = "";
+$user        = JFactory::getUser();
+$lang        = JFactory::getLanguage();
 if ($show_vmmenu) {
-	$hideMainmenu=false;
+    $hideMainmenu = false;
 }
 
 // Get the authorised components and sub-menus.
@@ -33,34 +33,33 @@ $vmComponentItems = ModVMMenuHelper::getVMComponent(true);
 
 // Check if there are any components, otherwise, don't render the menu
 if ($vmComponentItems) {
-	$class = '';
-	if ($hideMainmenu) {
-		$class = "disabled";
-	}
-	if(JVM_VERSION<3){
-		$vmMenu='<ul id="menu" >';
-		$vmMenu.='<li class="node '.$class.'"><a href="'.$vmComponentItems->link.'">'.$vmComponentItems->text.'</a>';
-	} else{
-		$vmMenu='<ul id="menu" class="nav '.$class.'" >';
-		$vmMenu.='<li class="dropdown" ><a class="dropdown-toggle" data-toggle="dropdown" href="#">'.$vmComponentItems->text.'<span class="caret"></span></a>';
-	}
+    $class = '';
+    if ($hideMainmenu) {
+        $class = "disabled";
+    }
+    if (JVM_VERSION < 3) {
+        $vmMenu = '<ul id="menu" >';
+        $vmMenu.='<li class="node ' . $class . '"><a href="' . $vmComponentItems->link . '">' . $vmComponentItems->text . '</a>';
+    } else {
+        $vmMenu = '<ul id="menu" class="nav ' . $class . '" >';
+        $vmMenu.='<li class="dropdown" ><a class="dropdown-toggle" data-toggle="dropdown" href="#">' . $vmComponentItems->text . '<span class="caret"></span></a>';
+    }
 
-	if (!$hideMainmenu) {
-		if (!empty($vmComponentItems->submenu)) {
-			if(JVM_VERSION<3){
-				$vmMenu.='<ul>';
-			} else {
-				$vmMenu.='<ul class="dropdown-menu">';
-			}
+    if (!$hideMainmenu) {
+        if (!empty($vmComponentItems->submenu)) {
+            if (JVM_VERSION < 3) {
+                $vmMenu.='<ul>';
+            } else {
+                $vmMenu.='<ul class="dropdown-menu">';
+            }
 
-			foreach ($vmComponentItems->submenu as $sub) {
-				$vmMenu.='<li><a class="'.$sub->class.'" href="'.$sub->link.'">'.$sub->text.'</a></li>';
-			}
-			$vmMenu.='</ul>';
-		}
-	}
-	$vmMenu.='</li></ul>';
+            foreach ($vmComponentItems->submenu as $sub) {
+                $vmMenu.='<li><a class="' . $sub->class . '" href="' . $sub->link . '">' . $sub->text . '</a></li>';
+            }
+            $vmMenu.='</ul>';
+        }
+    }
+    $vmMenu.='</li></ul>';
 }
-
 
 echo $vmMenu;
