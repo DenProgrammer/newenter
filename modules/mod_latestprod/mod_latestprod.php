@@ -14,13 +14,16 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if (!class_exists('vRequest')){
+    return;
+}
+
 // Include the syndicate functions only once
 require_once (dirname(__FILE__) . '/helper.php');
 
 $products = modLatestprodHelper::getProducts($params);
 $kurs     = modLatestprodHelper::getKurs();
-
-echo '<pre>';print_r($_SESSION);exit;
+//echo '<pre>';print_r($products);exit;
 if ($products) {
     require(JModuleHelper::getLayoutPath('mod_latestprod'));
 }

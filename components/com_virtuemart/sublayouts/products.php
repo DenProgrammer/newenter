@@ -104,10 +104,13 @@ foreach ($viewData['products'] as $type => $products) {
 
 
                             <?php //echo $rowsHeight[$row]['price']  ?>
-                            <div class="vm3pr-<?php echo $rowsHeight[$row]['price'] ?>"> <?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?>
+                            <div class="vm3pr-<?php echo $rowsHeight[$row]['price'] ?>"> 
+                                <?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?>
                             </div>
                             <?php //echo $rowsHeight[$row]['customs']  ?>
-                            <div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
+                            <div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> 
+                                <?php echo preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $product->product_sku); ?>
+                                <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
                             </div>
 
                             <div class="vm-details-button">
@@ -115,7 +118,6 @@ foreach ($viewData['products'] as $type => $products) {
                                 // Product Details Button
                                 $link = empty($product->link) ? $product->canonical : $product->link;
                                 echo JHtml::link($link, vmText::_('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'product-details'));
-                                //echo JHtml::link ( JRoute::_ ( 'index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=' . $product->virtuemart_product_id . '&virtuemart_category_id=' . $product->virtuemart_category_id , FALSE), vmText::_ ( 'COM_VIRTUEMART_PRODUCT_DETAILS' ), array ('title' => $product->product_name, 'class' => 'product-details' ) );
                                 ?>
                             </div>
 

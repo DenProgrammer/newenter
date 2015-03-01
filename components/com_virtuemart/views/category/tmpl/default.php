@@ -51,16 +51,16 @@ if (VmConfig::get('showCategory', 1) and empty($this->keyword)) {
 if ($this->showproducts) {
     ?>
     <div class="browse-view">
-    <?php if (!empty($this->keyword)) { ?>
+        <?php if (!empty($this->keyword)) { ?>
             <h3><?php echo $this->keyword; ?></h3>
 
             <form action="<?php echo JRoute::_('index.php?option=com_virtuemart&view=category&limitstart=0', FALSE); ?>" method="get">
 
                 <!--BEGIN Search Box -->
                 <div class="virtuemart_search">
-        <?php echo $this->searchcustom ?>
+                    <?php echo $this->searchcustom ?>
                     <br/>
-        <?php echo $this->searchCustomValues ?>
+                    <?php echo $this->searchCustomValues ?>
                     <input name="keyword" class="inputbox" type="text" size="20" value="<?php echo $this->keyword ?>"/>
                     <input type="submit" value="<?php echo vmText::_('COM_VIRTUEMART_SEARCH') ?>" class="button" onclick="this.form.keyword.focus();"/>
                 </div>
@@ -71,14 +71,14 @@ if ($this->showproducts) {
 
             </form>
             <!-- End Search Box -->
-    <?php } ?>
+        <?php } ?>
 
-    <?php // Show child categories
-    ?>
+        <?php // Show child categories
+        ?>
         <div class="orderby-displaynumber">
             <div class="floatleft vm-order-list">
-        <?php echo $this->orderByList['orderby']; ?>
-        <?php echo $this->orderByList['manufacturer']; ?>
+                <?php echo $this->orderByList['orderby']; ?>
+                <?php echo $this->orderByList['manufacturer']; ?>
             </div>
             <div class="vm-pagination vm-pagination-top">
                 <?php echo $this->vmPagination->getPagesLinks(); ?>
@@ -92,12 +92,12 @@ if ($this->showproducts) {
 
         <h1><?php echo $this->category->category_name; ?></h1>
 
-    <?php
-    if (!empty($this->products)) {
-        $products    = array();
-        $products[0] = $this->products;
-        echo shopFunctionsF::renderVmSubLayout($this->productsLayout, array('products' => $products, 'currency' => $this->currency, 'products_per_row' => $this->perRow, 'showRating' => $this->showRating));
-        ?>
+        <?php
+        if (!empty($this->products)) {
+            $products    = array();
+            $products[0] = $this->products;
+            echo shopFunctionsF::renderVmSubLayout($this->productsLayout, array('products' => $products, 'currency' => $this->currency, 'products_per_row' => $this->perRow, 'showRating' => $this->showRating));
+            ?>
 
             <div class="vm-pagination vm-pagination-bottom"><?php echo $this->vmPagination->getPagesLinks(); ?><span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span></div>
 
@@ -108,6 +108,4 @@ if ($this->showproducts) {
         ?>
     </div>
 
-    <?php } ?>
-
-<!-- end browse-view -->
+<?php } 

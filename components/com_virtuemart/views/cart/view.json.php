@@ -20,7 +20,8 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
+if (!class_exists('VmView'))
+    require(VMPATH_SITE . DS . 'helpers' . DS . 'vmview.php');
 
 /**
  * View for the shopping cart
@@ -29,28 +30,30 @@ if(!class_exists('VmView'))require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
  */
 class VirtueMartViewCart extends VmView {
 
-	public function display($tpl = null) {
+    public function display($tpl = null) {
 
-		$document = JFactory::getDocument();
+        $document = JFactory::getDocument();
 
-		$layoutName = $this->getLayout();
-		if (!$layoutName) $layoutName = vRequest::getCmd('layout', 'default');
-		$this->assignRef('layoutName', $layoutName);
-		$format = vRequest::getCmd('format');
+        $layoutName = $this->getLayout();
+        if (!$layoutName) {
+            $layoutName = vRequest::getCmd('layout', 'default');
+        }
+        $this->assignRef('layoutName', $layoutName);
+        $format = vRequest::getCmd('format');
 
-		if (!class_exists('VirtueMartCart'))
-		require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
-		$cart = VirtueMartCart::getCart();
+        if (!class_exists('VirtueMartCart')){
+            require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
+        }
+        $cart = VirtueMartCart::getCart();
 
-		//$cart->prepareCartData();
-		$this->assignRef('cart', $cart);
+        //$cart->prepareCartData();
+        $this->assignRef('cart', $cart);
 
-    	$this->prepareContinueLink();
-		shopFunctionsF::setVmTemplate($this, 0, 0, $layoutName);
+        $this->prepareContinueLink();
+        shopFunctionsF::setVmTemplate($this, 0, 0, $layoutName);
 
-		parent::display($tpl);
-	}
-
+        parent::display($tpl);
+    }
 
 }
 

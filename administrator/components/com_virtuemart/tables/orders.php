@@ -87,7 +87,13 @@ class TableOrders extends VmTableData {
 	var $ip_address = 0;
 	/** @var char Order language */
 	var $order_language = NULL;
-	var $delivery_date = NULL;
+        
+        /** custom fields */
+	var $vendor_info_id = 0;
+	var $shoper_info = NULL;
+	var $nrt = 0;
+	var $exchange_usd = 0;
+	var $delivery = 0;
 
 
 	/**

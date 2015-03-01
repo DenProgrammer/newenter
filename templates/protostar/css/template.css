@@ -27,6 +27,10 @@ p, ul, h1, h2, h3, h4, h5, h6{
     min-width:900px;
 }
 
+h1, h2, h3, h4, h5, h6, .site-title{
+    font-family: Arial !important;
+}
+
 /*********************************************************************/
 /*************************HEADER TOP**********************************/
 /*********************************************************************/
@@ -282,6 +286,19 @@ p, ul, h1, h2, h3, h4, h5, h6{
     text-decoration:none;
     text-align:center;
     line-height:30px;
+}
+
+#fancybox-content a.continue_link,
+#fancybox-content a.showcart{
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+}
+
+#fancybox-content hr{
+    border: none;
+    border-bottom: dashed 1px #e5e5e5;
+    margin: 10px 0px 5px 0px;
 }
 
 /******************content********************************************/
@@ -632,6 +649,8 @@ ul.VMmenu li div{
 #wrapper #content .spacer input.button-gloss,
 span.addtocart-button input.button-gloss,
 #checkoutFormSubmit,
+#fancybox-content a.continue_link,
+#fancybox-content a.showcart,
 input.button-gloss {
     position: relative;
     color: white;
@@ -651,6 +670,8 @@ input.button-gloss {
 } 
 #wrapper #content .spacer input.button-gloss:active,
 span.addtocart-button input.button-gloss:active,
+#fancybox-content a.continue_link:active,
+#fancybox-content a.showcart:active,
 #checkoutFormSubmit:active,
 input.button-gloss:active {
     top: 1px;
@@ -658,6 +679,8 @@ input.button-gloss:active {
 }
 #wrapper #content .spacer input.button-gloss:hover,
 span.addtocart-button input.button-gloss:hover,
+#fancybox-content a.continue_link:hover,
+#fancybox-content a.showcart:hover,
 #checkoutFormSubmit:hover,
 input.button-gloss:hover {
     transition: .5s linear;

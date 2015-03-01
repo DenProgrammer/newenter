@@ -16,5 +16,6 @@
 !/images/stories/virtuemart/category/resized
 /images/stories/virtuemart/category/resized/*
 !/images/stories/virtuemart/category/resized/index.html
+/images/prices/*
 /configuration.php
 /nbproject

@@ -1,0 +1,569 @@
+
+/**************************************************************************************/
+
+#import_prldr{
+    position:fixed;
+    margin-left:15px;
+    margin-top:15px;
+    width:20px;
+    height:20px;
+    z-index:100;
+    display:none;
+}
+
+.subhead-collapse{
+    display: none;
+}
+
+/**************************************************************************************/
+#progres_panel{
+    display:none;
+    border:solid 3px red;
+}
+
+div#element-box div.m {
+}
+
+
+#top_btns td div{
+    width:236px;
+    height:33px;
+    background:url(../images/top_btn.png) center center no-repeat;
+    color:white;
+    font:normal 13px/33px Arial;
+    cursor:pointer;
+}
+#top_btns td div.active{
+    background:url(../images/top_btn_active.png) center center no-repeat;
+    color:black;
+    font:bold 13px/33px Arial;
+    word-spacing: -3px;
+}
+
+#page{
+    width:90%;
+    position:relative;
+    background:#E3E3E3;
+    margin:20px auto;
+    padding:2px;
+}
+.round{
+    position:absolute;
+    width:10px;
+    height:10px;
+}
+#page_lt{left:0px;top:0px;background:url(../images/round/page_lt.png) center center no-repeat;}
+#page_rt{right:0px;top:0px;background:url(../images/round/page_rt.png) center center no-repeat;}
+#page_lb{left:0px;bottom:0px;background:url(../images/round/page_lb.png) center center no-repeat;}
+#page_rb{right:0px;bottom:0px;background:url(../images/round/page_rb.png) center center no-repeat;}
+
+#win{
+    width:445px;
+    height:220px;
+    margin:5px;
+    position:relative;
+    background:#ffffff;
+    overflow:hidden;
+}
+#win2{
+    width:600px;
+    height:220px;
+    margin:5px;
+    position:relative;
+    background:#ffffff;
+    overflow:hidden;
+}
+.win_lt{left:0px;top:0px;background:url(../images/round/win_lt.png) center center no-repeat;}
+.win_rt{right:0px;top:0px;background:url(../images/round/win_rt.png) center center no-repeat;}
+.win_lb{left:0px;bottom:0px;background:url(../images/round/win_lb.png) center center no-repeat;}
+.win_rb{right:0px;bottom:0px;background:url(../images/round/win_rb.png) center center no-repeat;}
+
+
+/***************************************************scroll bar***********************************/
+
+#scroll{
+    position:absolute;
+    top:3px;
+    right:3px;
+    width:14px;
+    height:213px;
+    background:url(../images/scroll/scroll.png) center center no-repeat;
+}
+#bar{
+    margin-top:0px;
+    width:12px;
+    height:43px;
+    background:url(../images/scroll/bar.png) center center no-repeat;
+    margin-left:1px;
+}
+
+#scroll2{
+    position:absolute;
+    top:3px;
+    right:3px;
+    width:14px;
+    height:213px;
+    background:url(../images/scroll/scroll.png) center center no-repeat;
+}
+#bar2{
+    margin-top:0px;
+    width:12px;
+    height:43px;
+    background:url(../images/scroll/bar.png) center center no-repeat;
+    margin-left:1px;
+}
+/************************************************************************************/
+.page_conteyner{
+    display:none;
+}
+#page_conteyner_1{
+    display:block;
+}
+.data{
+    width:410px;
+    min-height:200px;
+    padding:7px;
+}
+#win2 .data{
+    width:560px;
+}
+.documents{
+    width:200px;
+    height:90px;
+    float:left;
+    position:relative;
+    background:#ffffff;
+    border:solid 1px #C9C9C9;
+    cursor:pointer;
+}
+.documents_active{
+    background:#D5D5D5;
+}
+.documents img{
+    position:absolute;
+    left:15px;
+    top:15px;
+}
+.documents h3{
+    position:absolute;
+    left:80px;
+    top:10px;
+    margin-top:0px;
+    color:#000000;
+    font:normal 12px Arial;
+    text-decoration:underline;
+}
+.documents div.doc_info{
+    position:absolute;
+    left:80px;
+    top:30px;
+    color:#6F6F6F;
+    font:normal 11px Arial;
+}
+
+.documents div.d_lt{left:-1px;top:-1px;background:url(../images/round/d_lt.png) center center no-repeat;}
+.documents div.d_rt{right:-1px;top:-1px;background:url(../images/round/d_rt.png) center center no-repeat;}
+.documents div.d_lb{left:-1px;bottom:-1px;background:url(../images/round/d_lb.png) center center no-repeat;}
+.documents div.d_rb{right:-1px;bottom:-1px;background:url(../images/round/d_rb.png) center center no-repeat;}
+
+.documents_active div.d_lt{left:-1px;top:-1px;background:url(../images/round/da_lt.png) center center no-repeat;}
+.documents_active div.d_rt{right:-1px;top:-1px;background:url(../images/round/da_rt.png) center center no-repeat;}
+.documents_active div.d_lb{left:-1px;bottom:-1px;background:url(../images/round/da_lb.png) center center no-repeat;}
+.documents_active div.d_rb{right:-1px;bottom:-1px;background:url(../images/round/da_rb.png) center center no-repeat;}
+
+.options h3{
+    color:#000000;
+    font: bold 13px Arial;
+    text-transform:uppercase;
+    text-decoration:underline;
+}
+
+div.select_top_options{
+    background: url("../images/select_fon.png") no-repeat scroll center center transparent;
+}
+div.select_long{
+    background: url("../images/select_fon_long.png") no-repeat scroll center center transparent;
+}
+.width_long{
+    width:168px !important;
+}
+div.select_top_addprice{
+    background: url("../images/addprice_fon.png") no-repeat scroll center center transparent;
+}
+#options_update{
+    display:none;
+}
+#options_update div.select_top, #page_conteyner_2 div.select_top{
+    height: 24px;
+    padding: 5px 0 0 10px;
+    color:#000000;
+    font: bold 13px Arial;
+    position: absolute;
+    text-align: left;
+    width: 120px;
+}
+#options_update .select_conteyner, #page_conteyner_2 .select_conteyner{
+    position:relative;
+    width:130px;
+    height:20px;
+    margin-bottom:10px;
+}
+#options_update select, #page_conteyner_2 select{
+    width:130px;
+    height:29px;
+    cursor:pointer;
+    opacity:0;
+}
+#options_update select option, #page_conteyner_2 select option{
+    height:20px;
+    font: bold 13px Arial;
+    background:#ffffff;
+}
+#options_addprice{
+    position:fixed;
+    display:none;
+    left:50%;
+    margin-left:-210px;
+    top:50%;
+    margin-top:-220px;
+    z-index:10;
+    width:425px;
+    height:439px;
+    background:url(../images/add_nadbavka.png) center center no-repeat;
+    text-align:center;
+}
+
+#options_addprice div.content{
+    height: 360px;
+    margin: 50px auto 0;
+    overflow: auto;
+    width: 330px;
+}
+#options_addprice input, #options_addprice select{
+    color:#3D3D3D;
+}
+
+#options_addprice div.select_top{
+    height: 23px;
+    padding: 5px 0 0 10px;
+    font: bold 12px/18px Arial;
+    position: absolute;
+    text-align: left;
+    width: 91px;
+}
+
+#options_addprice .select_conteyner{
+    position:relative;
+    width:101px;
+    height:23px;
+    margin-bottom:6px;
+}
+#options_addprice select{
+    width:101px;
+    height:29px;
+    cursor:pointer;
+    opacity:0;
+}
+#options_addprice select option{
+    height:20px;
+    font: bold 13px Arial;
+    background:#ffffff;
+}
+.opt_update_text{
+    font: normal 13px Arial;
+    text-align:center;
+}
+#options_addprice input[type=text]{
+    height:23px;
+    width:85px;
+    font: bold 13px Arial;
+    background:url("../images/input_fon.png") center center no-repeat;
+    border:none;
+    padding:0 3px;
+    margin-left:5px;
+}
+
+
+/********************************************upload*****************************************/
+
+#upload_price input[type=submit],#upload_price input[type=button]{
+    background:url(../images/btn_fon.png) center center no-repeat;
+    border:none;
+    cursor:pointer;
+    width:113px;
+    height:32px;
+    color:#6F6F6F;
+    font:normal 13px/32px Arial;
+}
+#upload_price input[type=button]{
+    position:absolute;
+    top:0px;
+    right:0px;
+}
+#upload_price input[type=file]{
+    cursor:pointer;
+    width:217px;
+    height:32px;
+    color:#6F6F6F;
+    font:normal 13px/32px Arial;
+    opacity:0;
+}
+#upload_str{
+    width:217px;
+    height:32px;
+    background:url(../images/update_btn_str.png) center center no-repeat;
+    position:relative;
+}
+.start_btn{
+    width:159px !important;
+    height:39px;
+    background:url(../images/start.png) center center no-repeat;	
+    border:none;
+    cursor:pointer;
+    color:#ffffff;
+    font:normal 13px/39px Arial;
+    text-transform:uppercase;
+}
+
+/***************************************************************/
+
+.progres_panel{
+    margin-top:5px;
+    width:350px;
+    height:150px;
+    position:relative;
+    background:#ffffff;
+}
+.progres_panel div.status{
+    height: 110px;
+    padding: 10px;
+    text-align: left;
+    width: 309px;
+}
+.progres_panel div.progress{
+    width:309px;
+    height:13px;
+    position:relative;
+    background:url(../images/progress.png) center center no-repeat;
+}
+.progres_panel div.progress div.progr_bar{
+    background:#FFFFFF;
+    height: 10px;
+    left: 0;
+    margin-left: 4px;
+    position: absolute;
+    right: 5px;
+    top: 2px;
+}
+
+.percent{
+    background:none;
+    height: 14px;
+    left: 50%;
+    margin-right: 10px;
+    position: absolute;
+    top: 0px;
+}
+.prod_complite{
+    background:none;
+    height: 14px;
+    text-align:right;
+    right: 5px;
+    position: absolute;
+    top: -15px;
+}
+
+
+/**************************************************************/
+
+.txt1{
+    color:#000000;
+    font:bold 13px Arial;
+    text-transform:uppercase;
+    text-decoration:underline;
+    padding-left:10px;
+}
+.txt2{
+    color:#000000;
+    font:bold 12px Arial;
+    text-transform:uppercase;
+    text-align:center;
+}
+.model_input{
+    width:144px;
+    padding:0 3px;
+    border:none;
+    height:23px;
+    background:url(../images/input_fon_long.png) center center no-repeat;	
+}
+
+#parse_model a{
+    margin:0 2px;
+    color:#FF0000;
+    font:bold 11px/16px Arial;
+    background:#ffffff;
+    cursor:pointer;
+}
+
+
+/****************************sklads, add, edit, delete****************************/
+
+#sklads{
+    position:fixed;
+    left:50%;
+    top:50%;
+    margin-left:-300px;
+    margin-top:-210px;
+    width:592px;
+    height:419px;
+    display:none;
+    z-index:10;
+}
+#AddNewSklad{
+    width:592px;
+    height:419px;
+    background:url('../images/nadbavka_fon.png') center center no-repeat;
+    position:relative;
+}
+
+#priceName{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 22px;
+    left: 295px;
+    padding: 0 5px;
+    position: absolute;
+    top: 45px;
+    width: 185px;
+}
+
+#clearLine{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 22px;
+    left: 295px;
+    padding: 0 5px;
+    position: absolute;
+    top: 88px;
+    width: 85px;
+}
+#categoryNamePosition{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 22px;
+    left: 295px;
+    padding: 0 5px;
+    position: absolute;
+    top: 180px;
+    width: 85px;
+}
+#productPricePosition{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 22px;
+    left: 295px;
+    padding: 0 5px;
+    position: absolute;
+    top: 259px;
+    width: 85px;
+}
+#productNamePosition{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 22px;
+    left: 295px;
+    padding: 0 5px;
+    position: absolute;
+    top: 296px;
+    width: 85px;
+}
+#productDescPosition{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    height: 22px;
+    left: 295px;
+    padding: 0 5px;
+    position: absolute;
+    top: 334px;
+    width: 85px;
+}
+#cancel{
+    background:url(../images/btn_red.png) center center no-repeat;
+    border: medium none;
+    height: 32px;
+    left: 110px;
+    padding: 0 5px;
+    position: absolute;
+    bottom: 18px;
+    width: 172px;
+    color:#ffffff;
+    font:normal 14px Arial;
+}
+#save{
+    background:url(../images/btn_green.png) center center no-repeat;
+    border: medium none;
+    height: 32px;
+    right: 110px;
+    padding: 0 5px;
+    position: absolute;
+    bottom: 18px;
+    width: 172px;
+    color:#ffffff;
+    font:normal 14px Arial;
+}
+
+#ListSklad{
+    width:592px;
+    height:435px;
+    background:url('../images/sklad_list_fon.png') center center no-repeat;
+    position:relative;
+}
+#ListSklad div.conteyner{
+    height: 365px;
+    left: 7px;
+    position: absolute;
+    top: 55px;
+    width: 576px;
+    overflow:auto;
+}
+#ListSklad div.conteyner table tr td{
+    background:url(../images/gradient.png) left center no-repeat;
+    height:30px;
+    padding-left:15px;
+    color:#B50202;
+    font:normal 16px Arial;
+    text-transform:uppercase;
+}
+#ListSklad div.conteyner table tr td.btn{
+    cursor:pointer;
+}
+#new{
+    background:url(../images/btn_green.png) center center no-repeat;
+    border: medium none;
+    height: 32px;
+    left: 15px;
+    padding: 0 5px;
+    position: absolute;
+    top: 12px;
+    width: 172px;
+    color:#ffffff;
+    font:normal 14px Arial;
+}
+
+#listSkladClose{
+    position:absolute;
+    right:-5px;
+    top:-5px;
+    cursor:pointer;
+}
+
+
+
+
+
+
+
+
+
+
+

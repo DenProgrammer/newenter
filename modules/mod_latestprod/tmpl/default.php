@@ -50,27 +50,23 @@ defined('_JEXEC') or die('Restricted access');
     }
 </style>
 <div class="latest_products">
-    <h2><?php echo JText::_('MOD_LATESTPROD_TITLE') ?></h2>
     <ul>
         <?php
         foreach ($products as $product) {
-            $url = 'index.php?page=shop.product_details&flypage=flypage.tpl&option=com_virtuemart&Itemid=1'
-                    . '&product_id=' . $product->product_id . '&category_id=' . $product->category_id;
-
-            $src = 'components/com_virtuemart/shop_image/product/' . $product->product_thumb_image;
-            if (!is_file($src)){
-                $src = 'images/yandex.png';
-            }
+            $image = $product->images[0];
             ?>
             <li>
-                <a href ="<?php echo $url; ?>">
-                    <div class="prod_title"><?php echo $product->product_name; ?></div>
-                    <div class="prod_img"><img height="80" src="<?php echo $src; ?>" /></div>
-                    <div class="prod_price">
-                        <span><?php echo JText::_('MOD_LATESTPROD_PRICE') ?></span>
-                        <span><?php echo round($product->product_price, 2); ?> USD / <?php echo round($product->product_price * $kurs); ?> Сом</span>
-                    </div>
-                </a>
+                <div class="prod_title"><a href ="<?php echo $product->link; ?>">
+                        <?php echo $product->product_name; ?>
+                    </a>
+                </div>
+                <div class="prod_img">
+                    <img height="80" src="<?php echo $image->createThumb(80, 80); ?>" />
+                </div>
+                <div class="prod_price">
+                    <span><?php echo JText::_('MOD_LATESTPROD_PRICE') ?></span>
+                    <span><?php echo round($product->prices['salesPrice'], 2); ?> USD / <?php echo round($product->product_price * $kurs); ?> Сом</span>
+                </div>
             </li>
             <?php
         }

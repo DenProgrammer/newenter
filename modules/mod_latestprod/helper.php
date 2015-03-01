@@ -25,38 +25,14 @@ class modLatestprodHelper {
         $countProducts = $params->get('count_products', 3);
 
         $productNumbers = self::getProductNumbers($countProducts);
+        $product_model  = VmModel::getModel('product');
 
         $db = JFactory::getDbo();
         for ($i = 0; $i < count($productNumbers); $i++) {
-            $db->setQuery('SELECT
-p.product_id,
-p.product_thumb_image,
-p.product_name,
-pr.product_price,
-c.category_id
-FROM
-jos_vm_product AS p
-INNER JOIN jos_vm_product_price AS pr ON pr.product_id = p.product_id
-INNER JOIN jos_vm_product_category_xref AS c ON c.product_id = p.product_id
-WHERE
-pr.product_currency = \'USD\' AND
-p.product_publish = \'Y\' AND
-p.product_id = ' . $productNumbers[$i]);
-            echo 'SELECT
-p.product_id,
-p.product_thumb_image,
-p.product_name,
-pr.product_price,
-c.category_id
-FROM
-jos_vm_product AS p
-INNER JOIN jos_vm_product_price AS pr ON pr.product_id = p.product_id
-INNER JOIN jos_vm_product_category_xref AS c ON c.product_id = p.product_id
-WHERE
-pr.product_currency = \'USD\' AND
-p.product_publish = \'Y\' AND
-p.product_id = ' . $productNumbers[$i];
-            $products[] = $db->LoadObject();
+            $product = $product_model->getProduct($productNumbers[$i]);
+            $product_model->addImages($product);
+
+            $products[] = $product;
         }
 
         return $products;
@@ -70,7 +46,7 @@ p.product_id = ' . $productNumbers[$i];
     public static function getProductNumbers($countProducts) {
         $cookie = isset($_COOKIE['latestproducts']) ? explode(',', $_COOKIE['latestproducts']) : array();
 
-        $productId = JRequest::getVar('product_id');
+        $productId = vRequest::getInt('virtuemart_product_id');
 
         if ($productId > 0 && !in_array($productId, $cookie)) {
             while (count($cookie) >= $countProducts) {
