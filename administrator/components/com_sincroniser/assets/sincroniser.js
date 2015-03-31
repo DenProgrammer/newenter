@@ -177,28 +177,6 @@ function changeSelect(id)
     var url = mainurl + '&ajax=set_select';
     jQuery.get(url, {type: id, value: value});
 }
-//изменение значения прайса
-function changePrice()
-{
-    var value = jQuery("#price").val();
-    var html = jQuery("#price [value=" + value + "]").html();
-    jQuery("#price_top").html(html);
-
-    var markup = markups[value];
-    var markupStr = (markup === 1) ? 'Да' : 'Нет';
-
-    jQuery('#markup_top').html(markupStr);
-    jQuery('#markup').val(markup);
-
-    var currency = currencys[value];
-    var currencyStr = (currency === 'USD') ? 'Доллар США' : 'Сом';
-
-    jQuery('#currency_top').html(currencyStr);
-    jQuery('#currency').val(currency);
-
-    var url = mainurl + '&ajax=set_select';
-    jQuery.get(url, {type: 'price', value: value});
-}
 //изменение значения селекта
 function changeNadbavka(id)
 {
@@ -223,21 +201,6 @@ function changeAkcent(id)
 
     var url = mainurl + '&ajax=setAkcent';
     jQuery.get(url, {akcent: akcent, akcent_time: akcent_time});
-}
-//изменение значения селекта
-function changeMarkup()
-{
-    var value = jQuery("#markup").val();
-    var html = jQuery("#markup [value=" + value + "]").html();
-    jQuery("#markup_top").html(html);
-
-    var markup = jQuery("#markup").val();
-    var price = jQuery("#price").val();
-
-    markups[price] = markup;
-
-    var url = mainurl + '&ajax=setMarkup';
-    jQuery.get(url, {markup: markup, price: price});
 }
 //изменение значения селекта
 function changeCategory(value, filtr)
@@ -265,41 +228,101 @@ function addNadbavka()
 
 /***************************************update******************************************/
 
-/**
- * start import products
- */
-function startUpdate()
+//начало импорта товаров из прайса
+function startUpdate(id)
 {
-    var url = mainurl + '&ajax=startUpdate';
-    jQuery('#import_loading').show();
+    if (action_document)
+    {
+        jQuery("#input_update").attr("disabled", "false");
+        var url = mainurl + '&ajax=startUpdate';
+        timerUpdate = setInterval("updateProgress()", 100);
+        jQuery.get(url, {id: id});
 
+        jQuery("#options_update").animate({height: "hide"}, 500);
+        jQuery(".progres_panel").animate({height: "show"}, 500);
+
+        if (id == '0')
+            jQuery("div.status").html("");
+
+        updateComplite = 0;
+    }
+}
+//обновление содержимого панели информации
+var temp_update_status = 0;
+var last_product_time = 0;
+function updateProgress()
+{
+    var url = mainurl + '&ajax=getUpdateStatus';
     jQuery.get(url, {}, function(data) {
-        jQuery('#import_loading').hide();
-        
-        data = jQuery.parseJSON(data);
-        var message = "Обновление завершено.\n";
-        message += 'Обновлено ' + data.count + " товаров.\n";
-        message += 'Из них новых товаров ' + data.new + ".\n";
-        message += 'Удалить файл?';
+        var update_status = getDataFromXML(data, 'update_status');
+        var count = getDataFromXML(data, 'count');
+        var prod = getDataFromXML(data, 'prod');
+        var update_status_name = getDataFromXML(data, 'update_status_name');
+        var per = getDataFromXML(data, 'per');
+        var reload = getDataFromXML(data, 'reload');
 
-        if (confirm(message))
+        jQuery("div.percent").html(per + '%');
+        jQuery("div.prod_complite").html('Обновлено ' + prod);
+
+        if (reload == '1')
+        {
+            clearInterval(timerUpdate);
+            startUpdate(prod);
+        }
+
+        if (update_status == '100')
+        {
+            clearInterval(timerUpdate);
+            timerUpdate = 0;
+            hideUpdateProgress();
+            updateComplite = 1;
+        }
+        if ((update_status > temp_update_status) && (action_document))
+        {
+            jQuery("span.line" + temp_update_status).css("color", "green");
+            jQuery("div.status").html(jQuery("div.status").html() + '<span class="line' + update_status + ' line">' + update_status_name + "</span><br>");
+            temp_update_status = update_status;
+        }
+        jQuery("div.progr_bar").css("left", per * 3);
+    });
+}
+
+//скрыть панель информации о статусе обработки
+var progrestempid = 0;
+function hideUpdateProgress()
+{
+    if (updateComplite == 0)
+    {
+        jQuery("span.line").css("color", "green");
+
+        temp_update_status = 0;
+        jQuery("#input_update").removeAttr("disabled");
+        action_document = '';
+
+        var url = mainurl + '&ajax=clearUpdateVars';
+        jQuery.get(url, {});
+        if (confirm('Обновление завершено, удалить файл?'))
         {
             var url = mainurl + '&ajax=delete_price';
             jQuery.get(url, {}, function(data) {
                 var content = getDataFromXML(data, 'content');
                 jQuery("div.data table").html(content);
-                document.location = 'index.php?option=com_import';
+                document.location = 'index.php?option=com_import_2';
             });
         }
         else
         {
-            document.location = 'index.php?option=com_import';
+            document.location = 'index.php?option=com_import_2';
         }
-    });
+
+    }
 }
-//обновление содержимого панели информации
-var temp_update_status = 0;
-var last_product_time = 0;
+function hideProgrPanel()
+{
+    clearInterval(progrestempid);
+    jQuery(".progres_panel").animate({height: "hide"}, 500);
+}
+
 
 /**************************************парсинг информации о продукте**************************************/
 
@@ -387,7 +410,6 @@ function searchText()
         hidePreloader();
     });
 }
-
 function searchById(id)
 {
     showPreloader();
@@ -419,7 +441,6 @@ function searchById(id)
         hidePreloader();
     });
 }
-
 function setDataForProduct()
 {
     var bigimg = jQuery("#search input.bimg").attr("value");
@@ -443,14 +464,12 @@ function getWinAddNewSklad()
         jQuery("#sklads").html(data).animate({opacity: "show"}, 500);
     });
 }
-
 function hideWinAddNewSklad()
 {
     jQuery("#sklads").animate({opacity: "hide"}, 500, function() {
         jQuery("#sklads").html("")
     });
 }
-
 function getWinListSklad()
 {
     var url = mainurl + '&ajax=getWinListSklad';
@@ -458,7 +477,6 @@ function getWinListSklad()
         jQuery("#sklads").html(data).animate({opacity: "show"}, 500);
     });
 }
-
 function saveEditSklad(id)
 {
     var priceName = jQuery("#priceName").attr("value");
@@ -474,7 +492,7 @@ function saveEditSklad(id)
         productDescPosition: productDescPosition, priceName: priceName}, function(data) {
         var msg = getDataFromXML(data, 'message');
         var st = getDataFromXML(data, 'status');
-        if (st === '1')
+        if (st == '1')
         {
             if (confirm(msg))
             {
@@ -505,7 +523,7 @@ function addNewSklad()
         productNamePosition: productNamePosition, productPricePosition: productPricePosition, productDescPosition: productDescPosition}, function(data) {
         var msg = getDataFromXML(data, 'message');
         var st = getDataFromXML(data, 'status');
-        if (st === '1')
+        if (st == '1')
         {
             if (confirm(msg))
             {
@@ -536,6 +554,7 @@ function deletePrice(id)
         var url = mainurl + '&ajax=deletePrice';
         jQuery.get(url, {id: id}, function(data) {
             var msg = getDataFromXML(data, 'message');
+            var st = getDataFromXML(data, 'status');
 
             alert(msg);
             getWinListSklad();
@@ -572,7 +591,7 @@ var clearImagesStatus = false;
 function clearData() {
     jQuery('#clearImages-status').html('');
     jQuery('#clearImages-status').append('Инициализация<br>');
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=clear', {}, function() {
+    jQuery.get('index.php?option=com_import_2&view=clearimages&tmpl=ajax&action=clear', {}, function() {
         jQuery('#clearImages-status').append('Выполнено!<br>');
 
         prepareData();
@@ -580,7 +599,7 @@ function clearData() {
 }
 function prepareData() {
     jQuery('#clearImages-status').append('Сбор данных по изображениям<br>');
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=prepare', {}, function(data) {
+    jQuery.get('index.php?option=com_import_2&view=clearimages&tmpl=ajax&action=prepare', {}, function(data) {
         var data = jQuery.parseJSON(data);
         jQuery('#clearImages-status').append('Выполнено, изображений найдено ' + data.count + '!<br>');
 
@@ -589,7 +608,7 @@ function prepareData() {
 }
 function detectImages() {
     jQuery('#clearImages-status').append('Определение ненужных изображений<br>');
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=detect', {}, function(data) {
+    jQuery.get('index.php?option=com_import_2&view=clearimages&tmpl=ajax&action=detect', {}, function(data) {
         var data = jQuery.parseJSON(data);
         jQuery('#clearImages-status').append('Выполнено, будет удалено ' + data.count + ' изображений!<br>');
 
@@ -603,7 +622,7 @@ function moveImages() {
     moveImagesProcees();
 }
 function moveImagesProcees() {
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=move', {}, function(data) {
+    jQuery.get('index.php?option=com_import_2&view=clearimages&tmpl=ajax&action=move', {}, function(data) {
         var data = jQuery.parseJSON(data);
         var move = parseInt(jQuery('#moveImages').html());
 
@@ -623,12 +642,12 @@ function finishOperation() {
     clearImagesStatus = false;
 }
 function clearImages() {
-    if (clearImagesStatus) {
+    if (clearImagesStatus){
         return;
     }
-
+    
     clearImagesStatus = true;
-
+    
     clearData();
 }
 

@@ -84,6 +84,50 @@ class ImportController {
         return $db->loadObjectList();
     }
 
+    /**
+     * get markup summa
+     * 
+     * @param float $summa
+     * @return float
+     */
+    protected function getMarkupSumm($summa) {
+        $db      = JFactory::getDbo();
+        $sum     = 0;
+        $sum_tax = 0;
+        $select  = '';
+
+        if (!$summa) {
+            return 0;
+        }
+
+        $sql = 'SELECT * FROM `#__import_xref` WHERE `sum`>=' . $summa . ' ORDER BY `sum` LIMIT 1';
+        $db->setQuery($sql);
+        $row = $db->LoadObject();
+        if ($row) {
+            $sum     = $row->sum;
+            $sum_tax = $row->sum_tax;
+            $select  = $row->tax;
+        }
+
+        $markupSumma = 0;
+        switch ($select) {
+            case 'fix': {
+                    $markupSumma = $summa + $sum_tax;
+                    break;
+                }
+            case 'per': {
+                    $markupSumma = $summa * (1 + ($sum_tax) / 100);
+                    break;
+                }
+        }
+
+        if ($markupSumma == 0) {
+            $markupSumma = $summa;
+        }
+
+        return $markupSumma;
+    }
+
     function getPercent($s) {
         $db = JFactory::getDbo();
 
@@ -158,341 +202,140 @@ class ImportController {
         return strtr($s, $table);
     }
 
-    function checkWhite($s) {
-        static $table = array
-            (
-            "a" => "1", "b" => "1", "c" => "1", "d" => "1", "e" => "1",
-            "f" => "1", "g" => "1", "h" => "1", "i" => "1", "j" => "1",
-            "k" => "1", "l" => "1", "m" => "1", "n" => "1", "o" => "1",
-            "p" => "1", "q" => "1", "r" => "1", "s" => "1", "t" => "1",
-            "u" => "1", "v" => "1", "w" => "1", "x" => "1", "y" => "1",
-            "z" => "1",
-            "A" => "1", "B" => "1", "C" => "1", "D" => "1", "E" => "1",
-            "F" => "1", "G" => "1", "H" => "1", "I" => "1", "J" => "1",
-            "K" => "1", "L" => "1", "M" => "1", "N" => "1", "O" => "1",
-            "P" => "1", "Q" => "1", "R" => "1", "S" => "1", "T" => "1",
-            "U" => "1", "V" => "1", "W" => "1", "X" => "1", "Y" => "1",
-            "Z" => "1",
-            "а" => "1", "б" => "1", "в" => "1", "г" => "1", "д" => "1",
-            "е" => "1", "ё" => "1", "ж" => "1", "з" => "1", "и" => "1",
-            "й" => "1", "к" => "1", "л" => "1", "м" => "1", "н" => "1",
-            "о" => "1", "п" => "1", "р" => "1", "с" => "1", "т" => "1",
-            "у" => "1", "ф" => "1", "х" => "1", "ц" => "1", "ч" => "1",
-            "ш" => "1", "щ" => "1", "ь" => "1", "ы" => "1", "ъ" => "1",
-            "э" => "1", "ю" => "1", "я" => "1",
-            "А" => "1", "Б" => "1", "В" => "1", "Г" => "1", "Д" => "1",
-            "Е" => "1", "Ё" => "1", "Ж" => "1", "З" => "1", "И" => "1",
-            "Й" => "1", "К" => "1", "Л" => "1", "М" => "1", "Н" => "1",
-            "О" => "1", "П" => "1", "Р" => "1", "С" => "1", "Т" => "1",
-            "У" => "1", "Ф" => "1", "Х" => "1", "Ц" => "1", "Ч" => "1",
-            "Ш" => "1", "Щ" => "1", "Ь" => "1", "Ы" => "1", "Ъ" => "1",
-            "Э" => "1", "Ю" => "1", "Я" => "1",
-            "." => "1", ";" => "1", "," => "1", "(" => "1", ")" => "1",
-            "=" => "1", "+" => "1", "-" => "1", "|" => "1",
-            "_" => "1",
-            "&" => "1", "$" => "1", "@" => "1", "#" => "1",
-            "!" => "1", "%" => "1", "^" => "1", "*" => "1", "?" => "1",
-            "0" => "1", "1" => "1", "2" => "1", "3" => "1", "4" => "1",
-            "5" => "1", "6" => "1", "7" => "1", "8" => "1", "9" => "1"
-        );
-
-        $s = $this->winToUtf8($s);
-
-        return (isset($table[$s]) && $table[$s] === "1") ? $s : ' ';
+    /**
+     * check type record
+     * 
+     * @param array   $data
+     * @param integer $posName
+     * @param integer $posPrice
+     * @return string
+     */
+    protected function checkType($data, $posName, $posPrice) {
+        return (trim($data[$posName]) != '' && floatval($data[$posPrice]) > 0) ? 'PRODUCT' : '';
     }
 
-    function checkType($arr, $ppn, $ppp) {
-        $arr[$ppp] = str_replace(',', '.', $arr[$ppp]);
-        $ret       = (is_numeric($arr[$ppp]) && (number_format($arr[$ppp], 4, '.', '') > 0) && (trim($arr[$ppn]) != '')) ? 'PRODUCT' : false;
+    /**
+     * read file 
+     * 
+     * @param integer $clear_line
+     * @return array file
+     */
+    protected function readFile($options, $clear_line = 0) {
+        $excel = PHPExcel_IOFactory::load($this->filepath);
 
-        if ($this->debbuger == 1) {
-            echo 'checkType<br><br>';
-            echo '<pre>';
-            print_r($arr);
-            echo '</pre>';
-            echo '<br>' . $this->checkMetod . '<br>';
-            echo $arr[$ppp] . ' => ' . number_format($arr[$ppp], 4, '.', '') . '<br>';
-            echo number_format($arr[$ppp], 4, '.', '') . '>0 and ' . trim($arr[$ppn]) . "!=''</br>";
-            echo $ret . '<br><br>';
+        $data = array();
+        foreach ($excel->getWorksheetIterator() as $worksheet) {
+            $highestRow         = $worksheet->getHighestRow() + 1;
+            $highestColumn      = $worksheet->getHighestColumn();
+            $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+            for ($row = 1; $row <= $highestRow; ++$row) {
+                if ($clear_line > $row) {
+                    continue;
+                }
+                $arr = array();
+                for ($col = 0; $col < $highestColumnIndex; ++$col) {
+                    $cell  = $worksheet->getCellByColumnAndRow($col, $row);
+                    $arr[] = trim(str_replace(array(chr(194) . chr(160)), ' ', $cell->getValue()));
+                }
+
+                if ($arr[$options->position_product_name] && $arr[$options->position_product_price] > 0) {
+                    $data[$row] = array(
+                        'product_name'  => $arr[$options->position_product_name],
+                        'product_price' => $arr[$options->position_product_price],
+                        'product_desk'  => $arr[$options->position_product_s_desk],
+                    );
+                }
+            }
         }
 
-        return $ret;
+        return $data;
     }
 
     //parsing csv files for update sklads
     function parceCSV() {
-        $db = JFactory::getDbo();
-
-        $_SESSION['import']['update']['update_status'] = '1';
-
-        setVars('update_status', '1');
-        setVars('update_status_name', 'Инициализация обновления');
-        sleep(1);
+        $offset = JRequest::getInt('offset');
 
         //get options from current price
-        $sql = 'SELECT * FROM `#__import_sklads` WHERE `price_name`=\'' . $this->price_type . '\'';
-        $db->setQuery($sql);
-        $row = $db->LoadObject();
+        $options = getOptionsPrice($this->price_type);
 
-        $sklad                  = $row->sklad_name;
-        $price_name             = $row->price_name;
-        $position_category_name = $row->position_category_name;
-        $position_product_name  = $row->position_product_name;
-        $position_product_price = $row->position_product_price;
-        $position_product_desk  = $row->position_product_s_desk;
-        $clear_line             = $row->clear_line;
-        $this->checkMetod       = $price_name;
+        $sklad                   = $options->sklad_name;
+        $position_product_name   = $options->position_product_name;
+        $position_product_price  = $options->position_product_price;
+        $position_product_s_desc = $options->position_product_s_desk;
+        $clear_line              = $options->clear_line;
+        $markup                  = $options->markup;
+        $this->checkMetod        = $options->price_name;
 
-        if (($sklad) and ($this->start_prod == 0)) {
-            $_SESSION['import']['update']['update_status'] = '2';
-            setVars('update_status', '2');
-            setVars('update_status_name', "Снятие с публикации всех товаров склада $sklad");
-
-            $sql = "UPDATE `#__virtuemart_products` SET 
-                    `published` = 0 WHERE `product_sku` LIKE '%$sklad%'";
-            if ($this->debbuger == 1) {
-                echo $sql . '<br><br>';
-            }
-
-            $db->setQuery($sql);
-            $db->execute();
-        }
-
-        $_SESSION['import']['update']['update_status'] = '3';
-        setVars('update_status', '3');
-        setVars('update_status_name', "Создание кэш-массива продуктов");
-
-        $chars = array("А" => "а", "Б" => "б", "В" => "в", "Г" => "г", "Д" => "д", "Е" => "е", "Ё" => "ё", "Ж" => "ж",
-            "З" => "з", "И" => "и", "Й" => "й", "К" => "к", "Л" => "л", "М" => "м", "Н" => "н", "О" => "о",
-            "П" => "п", "Р" => "р", "С" => "с", "Т" => "т", "У" => "у", "Ф" => "ф", "Х" => "х", "Ц" => "ц", "Ч" => "ч",
-            "Ш" => "ш", "Щ" => "щ", "Ь" => "ь", "Ы" => "ы", "Э" => "э", "Ю" => "ю", "Я" => "я",
-            "A" => "a", "B" => "b", "C" => "c", "D" => "d", "E" => "e", "F" => "f", "G" => "g", "H" => "h",
-            "I" => "i", "J" => "j", "K" => "k", "L" => "l", "M" => "m", "N" => "n", "O" => "o", "P" => "p",
-            "Q" => "q", "R" => "r", "S" => "s", "T" => "t", "U" => "u", "V" => "v", "W" => "w",
-            "X" => "x", "Y" => "y", "Z" => "z");
-
-        $sql = 'SELECT virtuemart_product_id, product_name FROM `#__virtuemart_products_ru_ru`';
-        $db->setQuery($sql);
-
-        $rows      = $db->loadObjectList();
-        $blacklist = array(' ', ',', '.', '+', '-', '&', '*', '%', '?', '=', '/', '>', '<', ':', '@', '®');
-        $hash      = array();
-        foreach ($rows as $row) {
-            $product_id_temp = $row->virtuemart_product_id;
-            $product_name    = strtr($row->product_name, $chars);
-
-            $nm = str_ireplace('z', '', str_replace($blacklist, '', $product_name));
-
-            $hash[$nm] = $product_id_temp;
-        }
-
-        if ($this->debbuger == 1) {
-            echo '<pre>';
-            print_r($hash);
-            echo '</pre>';
+        if (($sklad) and ($offset == 0)) {
+            unpublishSklad($sklad);
         }
 
         if ((file_exists($this->filepath)) and (trim($this->file) != '')) {
-            $_SESSION['import']['update']['update_status'] = '4';
-            setVars('update_status', '4');
-            setVars('update_status_name', 'Чтение файла импорта ' . $this->file);
-            setVars('works_products_time', 0);
-            sleep(1);
+            $data = $this->readFile($options, $clear_line);
 
-            if ($this->debbuger == 1) {
-                echo 'read file - ' . $this->filepath . '<br>';
-            }
+            $newProduct    = 0;
+            $updateProduct = 0;
+            $record        = 0;
 
-            $file_array_temp = file($this->filepath);
+            foreach ($data as $item) {
+                $record++;
+                $product_name = str_replace('\\', '&#92;', htmlentities($item['product_name'], ENT_QUOTES, 'UTF-8'));
+                $hash         = preg_replace(getPattern(), '', $item['product_name']);
+                $product_id   = checkIssetProductByHash($item['product_name']);
+                $product_desc = trim(htmlentities($item['product_desk'], ENT_QUOTES, 'UTF-8'));
 
-            $_SESSION['import']['update']['count_products'] = 0;
-            if ($this->start_prod == 0) {
-                setVars('count_products', '0');
-            }
+                $product_price = preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $item['product_price']));
+                if ($markup == 1) {
+                    $product_price = $this->getMarkupSumm($product_price);
+                }
+                if (strlen($product_desc) < 6) {
+                    $product_desc = '';
+                }
 
-            for ($i = 0; $i < count($file_array_temp); $i++) {
-                if ($i < $clear_line) {
-                    $file_array_temp[$i] = '';
+                $category_id = getCategoryById($product_id);
+
+                $data = $this->getProductTemplate(
+                        $product_id, $sklad . $product_name, $product_name, $product_price, $category_id, $product_desc, $hash
+                );
+
+                vRequest::setVar(JSession::getFormToken(), 1);
+
+                $model = VmModel::getModel('product');
+                $id    = $model->store($data);
+
+                $this->setProductSku($id, $sklad . $id);
+
+                if ($product_id == 0) {
+                    $newProduct++;
                 } else {
-                    $file_array_temp[$i] = str_replace("<", "-=", $file_array_temp[$i]);
-                    $file_array_temp[$i] = str_replace(">", "=-", $file_array_temp[$i]);
-
-                    $temp = '';
-                    for ($j = 0; $j < strlen($file_array_temp[$i]); $j++) {
-                        $temp .= $this->checkWhite($file_array_temp[$i][$j]);
-                    }
-
-                    $file_array[$i] = ($temp) ? $temp : '';
-
-                    $file_array[$i] = str_replace("-=", "<", $file_array[$i]);
-                    $file_array[$i] = str_replace("=-", ">", $file_array[$i]);
+                    $updateProduct++;
                 }
             }
-
-            if ($this->debbuger == 1) {
-                echo '<pre>';
-                print_r($file_array);
-                echo '</pre>';
-            }
-
-            $_SESSION['import']['update']['count_products'] = $i;
-            if ($this->start_prod == 0) {
-                setVars('count_products', $i);
-            }
-            $_SESSION['import']['update']['works_products'] = 0;
-            if ($this->start_prod == 0) {
-                setVars('works_products', '0');
-            }
-
-            $num_category = 4;
-            $product_id   = 0;
-
-            $_SESSION['import']['update']['update_status'] = '5';
-            setVars('update_status', '5');
-            setVars('update_status_name', 'Обновление начато, товаров обновить ' . $i);
-
-            $nadbavka = 0;
-            $z        = 0;
-
-            foreach ($file_array as $k => $v) {
-                $z++;
-
-                if ($this->start_prod > $z)
-                    continue;
-                $_SESSION['import']['update']['works_products'] = $z;
-                setVars('works_products', $z);
-                setVars('works_products_time', time());
-
-                $arr_value = explode(';', $v);
-
-                $arr    = explode(' ', $arr_value[$position_category_name]);
-                $string = '';
-                $sep    = '';
-                for ($i = 0; $i < count($arr); $i++) {
-                    $arr[$i] = trim($arr[$i]);
-
-                    if ($arr[$i] != '') {
-                        $string.=$sep . $arr[$i];
-                        $sep = ' ';
-                    }
-                }
-
-                $arr_value[$position_category_name] = $string;
-
-                $arr_value[$position_product_price] = str_replace(' ', '', trim($arr_value[$position_product_price]));
-                $arr_value[$position_product_price] = trim(str_replace('$', '', $arr_value[$position_product_price]));
-
-                if (isset($arr_value[10]) && $arr_value[10] > 0)
-                    $nadbavka = $arr_value[10];
-
-                if ($this->checkType($arr_value, $position_product_name, $position_product_price) == 'PRODUCT') {
-                    $arr_value[$position_product_name] = str_replace('/', ' ', $arr_value[$position_product_name]);
-                    $arr_value[$position_product_name] = str_replace("<", "", $arr_value[$position_product_name]);
-                    $arr_value[$position_product_name] = str_replace(">", "", $arr_value[$position_product_name]);
-
-                    $arr    = explode(' ', $arr_value[$position_product_name]);
-                    $string = '';
-                    $sep    = '';
-                    for ($i = 0; $i < count($arr); $i++) {
-                        $arr[$i] = trim($arr[$i]);
-
-                        if ($arr[$i] != '') {
-                            $string.=$sep . $arr[$i];
-                            $sep = ' ';
-                        }
-                    }
-
-                    $arr_value[$position_product_name] = $string;
-
-                    $prod_temp = str_replace($blacklist, '', $arr_value[$position_product_name]);
-                    $prod_temp = str_ireplace('z', '', $prod_temp);
-                    $prod_temp = strtr($prod_temp, $chars);
-
-                    $product_id = 0;
-                    if (isset($hash[$prod_temp])) {
-                        $product_id = $hash[$prod_temp];
-                    }
-                    if ($this->debbuger == 1) {
-                        echo $product_id . ' - ' . $prod_temp . '<br>';
-                    }
-
-                    $arr_value[$position_product_price] = trim(str_replace('USD', '', $arr_value[$position_product_price]));
-                    $arr_value[$position_product_price] = trim(str_replace(',', '.', $arr_value[$position_product_price]));
-
-                    if (isset($arr_value[$position_product_desk]) && strlen($arr_value[$position_product_desk]) < 6) {
-                        $arr_value[$position_product_desk] = '';
-                    }
-                    $arr_value[$position_product_price] = $this->getPercent($arr_value[$position_product_price]);
-
-                    $product_name  = $arr_value[$position_product_name];
-                    $product_price = $arr_value[$position_product_price];
-                    $product_desc  = (isset($arr_value[$position_product_desk])) ? $arr_value[$position_product_desk] : null;
-
-                    $sql        = 'SELECT virtuemart_product_id '
-                            . 'FROM #__virtuemart_products_ru_ru '
-                            . 'WHERE product_name = \'' . $product_name . '\'';
-                    $db->setQuery($sql);
-                    $product_id = $db->loadResult();
-
-                    $category_id = 0;
-                    if ($product_id > 0) {
-                        $sql = 'SELECT virtuemart_category_id '
-                                . 'FROM #__virtuemart_product_categories '
-                                . 'WHERE virtuemart_product_id = ' . $product_id;
-
-                        $db->setQuery($sql);
-                        $category_id = $db->loadResult();
-                    }
-
-                    $set_category_id = ($category_id > 0) ? $category_id : $num_category;
-
-                    $data = $this->getProductTemplate(
-                            $product_id, $sklad . $product_name, $product_name, $product_price, $set_category_id, $product_desc
-                    );
-
-                    vRequest::setVar(JSession::getFormToken(), 1);
-
-                    $model = VmModel::getModel('product');
-                    $id    = $model->store($data);
-
-                    $this->setProductSku($id, $sklad . $id);
-                }
-            }
-            $_SESSION['import']['update']['update_status'] = '6';
-            setVars('update_status', '6');
-            setVars('update_status_name', 'Завершение обновления');
-            sleep(1);
-
-            $_SESSION['import']['update']['update_status'] = '100';
-            setVars('update_status', '100');
-
-            //очистка временных переменных
-            setVars('works_products', 0);
-            setVars('count_products', 0);
-            setVars('update_status_name', '');
-            setVars('works_products_time', 0);
         }
+
+        $data = array(
+            'count'  => $record,
+            'new'    => $newProduct,
+            'update' => $updateProduct,
+        );
+
+        echo json_encode($data);
+        exit;
     }
 
     function moveFile() {
-        if ($this->debbuger == 1)
-            echo 'moveFile<br>';
-        if (file_exists($this->filepath)) {
-            if ($this->debbuger == 1)
-                echo 'moveFile checkOK<br>';
-            $year     = date("Y");
-            $new_name = date("d.m.Y") . '_' . time() . '.csv';
-            $arhiv    = ($this->file_directory_arhiv);
-            if (file_exists($arhiv)) {
-                if ($this->debbuger == 1)
-                    echo 'moveFile arhiv exists<br>';
-                $catalog = $arhiv . 'import_arhiv_' . $year;
-                if (!((file_exists($catalog)) and (is_dir($catalog)))) {
-                    mkdir($catalog);
-                }
-                $filepath = $this->filepath;
-                unlink($filepath);
+        if (!file_exists($this->filepath)) {
+            return;
+        }
+
+        $arhiv = $this->file_directory_arhiv;
+        if (file_exists($arhiv)) {
+            $catalog = $arhiv . 'import_arhiv_' . date("Y");
+            if (!((file_exists($catalog)) and (is_dir($catalog)))) {
+                mkdir($catalog);
             }
+            $filepath = $this->filepath;
+            unlink($filepath);
         }
     }
 
@@ -504,7 +347,18 @@ class ImportController {
         $db->execute();
     }
 
-    public function getProductTemplate($product_id, $sku, $name, $price, $category_id, $desc) {
+    /**
+     * get product template
+     * 
+     * @param integer $product_id
+     * @param string  $sku
+     * @param string  $name
+     * @param float   $price
+     * @param integer $category_id
+     * @param string  $desc
+     * @return array
+     */
+    public function getProductTemplate($product_id, $sku, $name, $price, $category_id, $desc, $hash) {
         $db   = JFactory::getDbo();
         $lang = JFactory::getLanguage();
         $slug = $lang->transliterate($name);
@@ -589,6 +443,7 @@ class ImportController {
             'active_media_id'        => 0,
             'virtuemart_product_id'  => $product_id,
             'product_parent_id'      => 0,
+            'hash'                   => $hash,
         );
 
         return $product;

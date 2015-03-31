@@ -4,6 +4,11 @@ $category = getCategoryList();
 ?>
 <img id="import_prldr" src="<?php echo PATH_ASSETS; ?>/images/prldr.gif">
 
+<div id="import_loading">
+    <h3>Загрузка прайса</h3>
+    <img src="../images/loading.GIF" />
+</div>
+
 <div id="parse_panel" style="display:none;"></div>
 <div id="sklads" style="display:none;"></div>
 <table style="table-layout:fixed;width:100%;" border="0">
@@ -89,13 +94,13 @@ $category = getCategoryList();
                                 <td class="opt_update_text">
                                     Укажите склад 
                                 </td>
-                                <td rowspan="4" width="10">&nbsp;</td>
+                                <td rowspan="5" width="10">&nbsp;</td>
                                 <td>
                                     <div class="select_conteyner">
                                         <div id="price_top" class="select_top select_top_options">
                                             <?php echo $dataPriceType[0]; ?>
                                         </div>
-                                        <select id="price" onchange="changeSelect('price')">
+                                        <select id="price" onchange="changePrice()">
                                             <?php
                                             if ($dataPriceType)
                                                 foreach ($dataPriceType as $item) {
@@ -117,14 +122,27 @@ $category = getCategoryList();
                                     Укажите валюту
                                 </td>
                                 <td>
-                                    <div class="select_conteyner">
-                                        <div id="currency_top" class="select_top select_top_options">
-                                            Доллар США
+                                    <div id="currency_top" class="select_top select_top_options">
+                                            <?php
+                                            if ($currencys[$dataPriceType[0]] == 'USD') {
+                                                echo 'Доллар США';
+                                            } else {
+                                                echo 'Сом';
+                                            }
+                                            ?>
                                         </div>
-                                        <select id="currency" onchange="changeSelect('currency')">
-                                            <option value="USD">Доллар США</option>
-                                            <option value="KGS">Сом</option>
+                                        <select id="currency" onchange="changeCurrency()">
+                                            <option <?php if ($currencys[$dataPriceType[0]] == 'USD') { ?>selected<?php } ?> value="USD">Доллар США</option>
+                                            <option <?php if ($currencys[$dataPriceType[0]] == 'KGS') { ?>selected<?php } ?> value="KGS">Сом</option>
                                         </select>
+                                        <script type="text/javascript">
+                                            var currencys = new Array();
+<?php
+foreach ($currencys as $key => $val) {
+    echo "currencys['$key'] = '$val';\n";
+}
+?>
+                                        </script>
                                     </div>
                                 </td>
                             </tr>
@@ -188,25 +206,35 @@ $category = getCategoryList();
                                 </td>
                             </tr>
                             <tr>
+                                <td class="opt_update_text">
+                                    Добавлять надбавку
+                                </td>
+                                <td>
+                                    <div class="select_conteyner">
+                                        <div id="markup_top" class="select_top select_top_options">
+                                            <?php echo ($markups[$dataPriceType[0]] == 1) ? 'Да' : 'Нет'; ?>
+                                        </div>
+                                        <select id="markup" onchange="changeMarkup()">
+                                            <option <?php if ($markups[$dataPriceType[0]] == 1) { ?>selected<?php } ?> value='1'>Да</option>
+                                            <option <?php if ($markups[$dataPriceType[0]] == 0) { ?>selected<?php } ?> value='0'>Нет</option>
+                                        </select>
+                                        <script type="text/javascript">
+                                            var markups = new Array();
+<?php
+foreach ($markups as $key => $val) {
+    echo 'markups["' . $key . '"] = ' . $val . ";\n";
+}
+?>
+                                        </script>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td colspan="3" align="center">
                                     <input type="button" id="input_update" class="start_btn" onclick="startUpdate(0)" value="обновить"/>
                                 </td>
                             </tr>
                         </table>
-                    </div>
-                    <div class="progres_panel">
-                        <div class="win_lt round"></div>
-                        <div class="win_rt round"></div>
-                        <div class="win_lb round"></div>
-                        <div class="win_rb round"></div>
-                        <div class="conteyner">
-                            <div class="status"></div>
-                            <div class="progress">
-                                <div class="progr_bar"></div>
-                                <div class="percent">0%</div>
-                                <div class="prod_complite">0</div>
-                            </div>
-                        </div>
                     </div>
 
                     <div id="options_addprice" class="options">

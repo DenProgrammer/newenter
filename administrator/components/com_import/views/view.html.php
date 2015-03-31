@@ -25,24 +25,13 @@ if (JRequest::getVar('view') == 'clearimages') {
 
 $tpl  = JRequest::getVar('tpl');
 $ajax = JRequest::getVar('ajax');
+$db   = JFactory::getDBO();
+
 if ($ajax) {
     $tpl = 'ajax';
 }
 
 switch (JRequest::getVar('ajax')) {
-    case 'test': {
-
-            $controller = new ImportController($_SESSION['import']['document_list'][1]->basename);
-            $product    = new VirtuemartControllerProduct();
-
-            $data = $controller->getProductTemplate(0, 1111, 'имя продукта 4', 100, 6, 'desc');
-
-            vRequest::setVar(JSession::getFormToken(), 1);
-            $product->save($data);
-
-            echo 'test';
-            break;
-        }
     case 'getsumstring': {
             require_once('./components/com_import/helpers/string.php');
             $summa          = JRequest::getInt('summa');
@@ -65,7 +54,10 @@ switch (JRequest::getVar('ajax')) {
             $nrt           = (float) $_POST['nrt'];
             $realprice     = ($nrt > 0) ? round($itemprice / (1 + $nrt / 100)) : $itemprice;
 
-            $itemname = str_replace('*AMPERSAND*', '&', $itemname);
+            $itemname = str_replace(' ', '+', $itemname);
+            $itemname = base64_decode($itemname);
+            $itemname = htmlentities($itemname);
+            $itemname = str_replace('\\', '&#' . ord('\\') . ';', $itemname);
 
             $sql = "UPDATE `#__vm_orders` 
                     SET `shopper_info`='$shopper_info', `nrt`='$nrt'
@@ -1797,20 +1789,19 @@ switch (JRequest::getVar('ajax')) {
             else
                 $productDescPosition = JRequest::getVar('productDescPosition');
             if (!checkSkladName($priceName) > 0) {
-                $maxlist = 0;
                 $sql     = 'SELECT MAX(`list`) AS `maxlist` FROM `#__import_sklads`';
                 $db->setQuery($sql);
                 $maxlist = $db->loadResult();
 
                 $maxlist++;
                 $skladName = 'sklad-' . $maxlist . '-';
-                $sql       = "INSERT INTO `#__import_sklads` (
+                $sql2      = "INSERT INTO `#__import_sklads` (
                             `price_name`, `sklad_name`, `curency`, `position_category_name`, 
                             `position_product_name`, `position_product_price`, `position_product_s_desk`, `clear_line`, `list`
                             ) VALUES (
                             '$priceName', '$skladName', '', '$categoryNamePosition', 
                             '$productNamePosition', '$productPricePosition', '$productDescPosition', '$clearLine', '$maxlist')";
-                $db->setQuery($sql);
+                $db->setQuery($sql2);
                 $db->execute();
 
                 $msg    = 'Создан тип прайса ' . $priceName . ' / ' . $skladName . ', перейти в список складов?';
@@ -2192,6 +2183,15 @@ switch (JRequest::getVar('ajax')) {
 
             break;
         }
+    case 'setMarkup': {
+            $markup = JRequest::getInt('markup');
+            $price  = JRequest::getVar('price');
+
+            $db->setQuery('UPDATE #__import_sklads SET markup = ' . $markup . ' WHERE price_name = "' . $price . '"');
+            $db->query();
+
+            break;
+        }
     case 'get_active_document': {
             $id = $_SESSION['import']['active_document'];
 
@@ -2284,7 +2284,6 @@ switch (JRequest::getVar('ajax')) {
             break;
         }
     case 'createPrice': {
-            $dbo       = JFactory::getDBO();
             $pricepath = JRequest::getVar("pricepath");
 
             $cleartime  = strtotime($clearDateValue);
@@ -2315,8 +2314,8 @@ switch (JRequest::getVar('ajax')) {
                                             FROM `jos_vm_product_category_xref` 
                                             WHERE `category_id`=$id
                                     )";
-                $dbo->setQuery($subsql);
-                $rows   = $dbo->LoadObjectList();
+                $db->setQuery($subsql);
+                $rows   = $db->LoadObjectList();
                 foreach ($rows as $row) {
                     $product_id    = $row->product_id;
                     $product_name  = $row->product_name;
@@ -2424,12 +2423,18 @@ switch (JRequest::getVar('ajax')) {
     default: {
             deleteClearNadbavka();
 
-            $sql = 'SELECT price_name FROM `#__import_sklads`';
+            $sql = 'SELECT * FROM `#__import_sklads`';
 
             $db->setQuery($sql);
             $rows = $db->loadObjectList();
+
+            $markups   = array();
+            $currencys = array();
             foreach ($rows as $row) {
                 $dataPriceType[] = $row->price_name;
+
+                $markups[$row->price_name]   = $row->markup;
+                $currencys[$row->price_name] = $row->currency;
             }
         }
 }

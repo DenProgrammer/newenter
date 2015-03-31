@@ -45,7 +45,7 @@ function getDocumentList() {
     $array = null;
     $i     = 1;
     while ($file  = readdir($dir)) {
-        if ((( $file != ".") && ($file != "..")) and (getExtension2($file, 'csv', 'CSV'))) {
+        if ((( $file != ".") && ($file != "..")) and (getExtension2($file, 'xls', 'XLS') || getExtension2($file, 'xlsx', 'XLSX'))) {
             $mas = pathinfo($file);
 
             $array[$i] = new stdClass();
@@ -401,4 +401,53 @@ function createBakup() {
     $f        = fopen($path, "w");
     fwrite($f, $str);
     fclose($f);
+}
+
+/**
+ * initialisation component
+ */
+function init() {
+    $db  = JFactory::getDbo();
+    $sql = 'SELECT `extension_id` FROM `#__extensions` WHERE `element`=\'com_import\'';
+    $db->setQuery($sql);
+
+    $_SESSION['import']['component_id'] = $db->LoadResult();
+
+    $config = getConfig($_SESSION['import']['component_id']);
+
+//значения по умолчанию
+    $def['page']            = 1;
+    $def['active_document'] = 0;
+    $def['price']           = 'alifco';
+    $def['currency']        = 'USD';
+    $def['akcent']          = $config->shownewproduct;
+    $def['akcent_time']     = $config->actualtime;
+    $def['category_id']     = 0;
+    $def['category_title']  = 'Выбрать категорию';
+    $def['product_id']      = 0;
+
+    $_SESSION['import']['def']           = $def;
+    $_SESSION['import']['document_list'] = getDocumentList();
+
+    if (!$_SESSION['import']['price']) {
+        $_SESSION['import']['price'] = $_SESSION['import']['def']['price'];
+    }
+    if (!$_SESSION['import']['page']) {
+        $_SESSION['import']['page'] = $_SESSION['import']['def']['page'];
+    }
+    if (!$_SESSION['import']['currency']) {
+        $_SESSION['import']['currency'] = $_SESSION['import']['def']['currency'];
+    }
+    if (!$_SESSION['import']['akcent']) {
+        $_SESSION['import']['akcent'] = $_SESSION['import']['def']['akcent'];
+    }
+    if (!$_SESSION['import']['akcent_time']) {
+        $_SESSION['import']['akcent_time'] = $_SESSION['import']['def']['akcent_time'];
+    }
+    if (!$_SESSION['import']['category_title']) {
+        $_SESSION['import']['category_title'] = $_SESSION['import']['def']['category_title'];
+    }
+    if (!$_SESSION['import']['product_id']) {
+        $_SESSION['import']['product_id'] = $_SESSION['import']['def']['product_id'];
+    }
 }
