@@ -43,16 +43,13 @@ else
                             <option value=""><?php echo vmText::sprintf('COM_VIRTUEMART_SELECT', vmText::_('COM_VIRTUEMART_CATEGORY')); ?></option>
                             <?php echo $this->category_tree; ?>
                         </select>
-                        <?php
-                        echo JHtml::_('select.genericlist', $this->manufacturers, 'virtuemart_manufacturer_id', 'class="inputbox" onchange="document.adminForm.submit(); return false;"', 'value', 'text', $this->model->virtuemart_manufacturer_id);
-                        ?>
 
                         <?php echo vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE') ?>&nbsp;
                         <input type="text" value="<?php echo vRequest::getVar('filter_product'); ?>" name="filter_product" size="25" />
                         <?php
-                        echo $this->lists['search_type'];
-                        echo $this->lists['search_order'];
-                        echo vmJsApi::jDate(vRequest::getVar('search_date', $nowstring), 'search_date');
+//                        echo $this->lists['search_type'];
+//                        echo $this->lists['search_order'];
+//                        echo vmJsApi::jDate(vRequest::getVar('search_date', $nowstring), 'search_date');
                         ?>
                         <button  class="btn btn-small" onclick="this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_GO'); ?></button>
                         <button  class="btn btn-small" onclick="document.adminForm.filter_product.value = '';
@@ -80,10 +77,6 @@ else
                     <th class="admin-checkbox"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
 
                     <th width="20%"><?php echo $this->sort('product_name', $col_product_name) ?> </th>
-                    <?php if (!$product_parent_id) { ?>
-                        <th width="10%"><?php echo $this->sort('product_parent_id', 'COM_VIRTUEMART_PRODUCT_CHILDREN_OF'); ?></th>
-                    <?php } ?>
-                    <th width="80px" ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_PARENT_LIST_CHILDREN'); ?></th>
                     <th style="min-width:<?php echo $imgWidth ?>px;width:5%;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MEDIA'); ?></th>
                     <th><?php echo $this->sort('product_sku') ?></th>
                     <th width="90px" ><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?></th>
@@ -99,9 +92,6 @@ else
                             <?php echo JHtml::_('grid.order', $this->productlist); //vmCommonHTML::getSaveOrderButton( $num_rows, 'changeordering' );  ?>
                         </th>
                     <?php } ?>
-                    <th width="10%"><?php echo $this->sort('mf_name', 'COM_VIRTUEMART_MANUFACTURER_S'); ?></th>
-                    <th width="40px" ><?php echo vmText::_('COM_VIRTUEMART_REVIEW_S'); ?></th>
-                    <th width="40px" ><?php echo $this->sort('product_special', 'COM_VIRTUEMART_PRODUCT_FORM_SPECIAL'); ?> </th>
                     <th width="40px" ><?php echo $this->sort('published'); ?></th>
                     <th><?php echo $this->sort('p.virtuemart_product_id', 'COM_VIRTUEMART_ID') ?></th>
                 </tr>
@@ -127,26 +117,11 @@ else
                             <td class="admin-checkbox"><?php echo $checked; ?></td>
 
                             <td align ="left>">
-                                    <!--<span style="float:left; clear:left"> -->
                                 <?php
                                 if (empty($product->product_name)) {
                                     $product->product_name = 'Language Missing id ' . $product->virtuemart_product_id;
                                 }
                                 echo JHtml::_('link', JRoute::_($link), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . htmlentities($product->product_name)));
-                                ?>
-                                <!-- </span>  -->
-                            </td>
-
-                            <?php if (!$product_parent_id) { ?>
-                                <td><?php
-                                    if ($product->product_parent_id) {
-                                        VirtuemartViewProduct::displayLinkToParent($product->product_parent_id);
-                                    }
-                                    ?></td>
-                                <!-- Vendor name -->
-                            <?php } ?>
-                            <td><?php
-                                VirtuemartViewProduct::displayLinkToChildList($product->virtuemart_product_id, $product->product_name);
                                 ?>
                             </td>
                             <!-- Media -->
@@ -193,14 +168,6 @@ else
                                     <?php // echo vmCommonHTML::getOrderingField( $product->ordering ); ?>
                                 </td>
                             <?php } ?>
-                            <!-- Manufacturer name -->
-                            <td><?php
-                                echo $product->manuList;
-                                ?></td>
-
-                            <!-- Reviews -->
-                            <?php $link = 'index.php?option=com_virtuemart&view=ratings&task=listreviews&virtuemart_product_id=' . $product->virtuemart_product_id; ?>
-                            <td align="center" ><?php echo JHtml::_('link', $link, $product->reviews); ?></td>
                             <td align="center" >
                                 <?php
                                 echo $is_featured;

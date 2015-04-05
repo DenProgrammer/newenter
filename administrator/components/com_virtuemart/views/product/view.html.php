@@ -85,9 +85,9 @@ class VirtuemartViewProduct extends VmViewAdmin {
                 //vmdebug('my customfields',$product->customfields);
                 // Get the category tree
                 if (isset($product->categories))
-                    $this->category_tree = ShopFunctions::categoryListTree($product->categories);
+                    $this->category_tree   = ShopFunctions::categoryListTree($product->categories);
                 else
-                    $this->category_tree = ShopFunctions::categoryListTree();
+                    $this->category_tree   = ShopFunctions::categoryListTree();
 
                 //Fallback for categories inherited by parent to correctly calculate the prices
                 if (empty($product->categories) and !empty($product_parent->categories)) {
@@ -235,22 +235,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
 
                 $this->assignRef('product', $product);
-                /* $product_empty_price = array(
-                  'virtuemart_product_price_id' => 0
-                  , 'virtuemart_product_id'         => $virtuemart_product_id
-                  , 'virtuemart_shoppergroup_id'    => NULL
-                  , 'product_price'                 => NULL
-                  , 'override'                      => NULL
-                  , 'product_override_price'        => NULL
-                  , 'product_tax_id'                => NULL
-                  , 'product_discount_id'           => NULL
-                  , 'product_currency'              => $vendor->vendor_currency
-                  , 'product_price_publish_up'      => NULL
-                  , 'product_price_publish_down'    => NULL
-                  , 'price_quantity_start'          => NULL
-                  , 'price_quantity_end'            => NULL
-                  );
-                  $this->assignRef ('product_empty_price', $product_empty_price); */
 
                 $this->assignRef('product_parent', $product_parent);
                 /* Assign label values */
@@ -266,7 +250,6 @@ class VirtuemartViewProduct extends VmViewAdmin {
                     $sku = ' (' . $product->product_sku . ')';
                 else
                     $sku = "";
-                //if (!empty($product->canonCatLink)) $canonLink = '&virtuemart_category_id=' . $product->canonCatLink; else $canonLink = '';
                 if (!empty($product->virtuemart_product_id)) {
                     if (!class_exists('shopFunctionsF'))
                         require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
@@ -413,30 +396,34 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
                 /* add Search filter in lists */
                 /* Search type */
-                $options                    = array(''             => vmText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'),
+                $options = array(
+                    ''             => vmText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'),
                     'parent'       => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_PARENT_PRODUCT'),
                     'product'      => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRODUCT'),
                     'price'        => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_PRICE'),
                     'withoutprice' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_TYPE_WITHOUTPRICE')
                 );
+
                 $this->lists['search_type'] = VmHTML::selectList('search_type', vRequest::getVar('search_type'), $options);
 
                 /* Search order */
-                $options                     = array('bf' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_BEFORE'),
+                $options = array(
+                    'bf' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_BEFORE'),
                     'af' => vmText::_('COM_VIRTUEMART_PRODUCT_LIST_SEARCH_BY_DATE_AFTER')
                 );
+
                 $this->lists['search_order'] = VmHTML::selectList('search_order', vRequest::getVar('search_order'), $options);
 
                 // Toolbar
                 if ($this->canDo->get('core.admin') or $this->canDo->get('vm.product.edit')) {
                     JToolBarHelper::custom('massxref_cats', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_CAT'), true);
-                    JToolBarHelper::custom('massxref_sgrps', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS'), true);
+//                    JToolBarHelper::custom('massxref_sgrps', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_XREF_SGRPS'), true);
                 }
                 if ($this->canDo->get('core.admin') || $this->canDo->get('vm.product.create')) {
-                    JToolBarHelper::custom('createchild', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_CHILD'), true);
+//                    JToolBarHelper::custom('createchild', 'new', 'new', vmText::_('COM_VIRTUEMART_PRODUCT_CHILD'), true);
                     JToolBarHelper::custom('cloneproduct', 'copy', 'copy', vmText::_('COM_VIRTUEMART_PRODUCT_CLONE'), true);
                 }
-                JToolBarHelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), true);
+//                JToolBarHelper::custom('addrating', 'default', '', vmText::_('COM_VIRTUEMART_ADD_RATING'), true);
                 $this->addStandardDefaultViewCommands();
 
 
