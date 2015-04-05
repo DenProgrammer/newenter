@@ -549,8 +549,11 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #content #com-form-login{
-    float:left;
-    width:100%;
+    border-bottom: 1px solid #cccccc;
+    float: left;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    width: 100%;
 }
 
 #wrapper #content #checkoutForm{
@@ -577,6 +580,167 @@ h1, h2, h3, h4, h5, h6, .site-title{
     font-weight:normal;
 }
 
+#wrapper #content .cart-view .continue_link{
+	background-color: #000;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%), radial-gradient(190% 100% at 50% 0 , rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(0, 0, 0, 0) 50%);
+    background-position: 200% 0px, 0 0;
+    background-repeat: no-repeat;
+    background-size: 200% 100%, auto auto;
+    border-radius: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: bold;
+    outline: medium none;
+    padding: 5px 15px;
+    position: relative;
+    text-decoration: none;
+    text-shadow: -1px -1px #000;
+    border: medium none;
+    border-radius: 0;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    height: 20px;
+    margin: 0;
+    width: 200px;
+	text-align:center;
+	display:block;
+	float:right;
+	margin-bottom:20px;
+}
+
+#wrapper #content .cart-view .sectiontableentry1 a{
+	color:#3a3a3a;
+	text-decoration:none;
+}
+
+#wrapper #content .cart-view .sectiontableentry1 input.quantity-input{
+	padding:0;
+	height:auto;
+	font-weight:bold;
+}
+
+#wrapper #content .cart-view .sectiontableentry2 input.details-button, #wrapper #content a.vm-button-correct{
+	background-color: #000;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%), radial-gradient(190% 100% at 50% 0 , rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(0, 0, 0, 0) 50%);
+    background-position: 200% 0px, 0 0;
+    background-repeat: no-repeat;
+    background-size: 200% 100%, auto auto;
+    border-radius: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: bold;
+    outline: medium none;
+    padding: 5px 15px;
+    position: relative;
+    text-decoration: none;
+    text-shadow: -1px -1px #000;
+    border: medium none;
+    border-radius: 0;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    height: 30px;
+    margin: 0;
+    width: 100px;
+	text-align:center;
+}
+
+ #wrapper #content a.vm-button-correct{
+	width:200px;
+	height:20px;
+ }
+
+#wrapper #content .cart-view .vm2-add_quantity_cart{
+	background:url('../images/update_quantity_cart.png') no-repeat;
+	vertical-align:middle;
+}
+
+#wrapper #content .cart-view .vm2-remove_from_cart{
+	background:url('../images/remove_from_cart.png') no-repeat;
+}
+
+#wrapper #content .cart-view .checkout-button-top{
+	margin-bottom:50px;
+}
+
+#wrapper #content #com-form-login  p.floatleft{
+	float:none;
+	display:block;
+}
+
+#wrapper #content #com-form-login .inputbox{
+	width:200px;
+	margin:5px;
+}
+
+#wrapper #content #com-form-login #remember{
+	width:auto;
+}
+
+#wrapper #content #com-form-login input[type=submit]{
+	background-color: #000;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%), radial-gradient(190% 100% at 50% 0 , rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(0, 0, 0, 0) 50%);
+    background-position: 200% 0px, 0 0;
+    background-repeat: no-repeat;
+    background-size: 200% 100%, auto auto;
+    border-radius: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: bold;
+    outline: medium none;
+    padding: 5px 15px;
+    position: relative;
+    text-decoration: none;
+    text-shadow: -1px -1px #000;
+    border: medium none;
+    border-radius: 0;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    height: 30px;
+    margin: 0;
+    width: 100px;
+	text-align:center;
+}
+
+
+#wrapper #content #com-form-login .width30.floatleft{
+	float:none;
+	display:block;
+}
+
+
+#wrapper #content #userForm h2{
+	margin-bottom:15px;
+}
+
+
+#wrapper #content #userForm .control-buttons .default{
+	background-color: #000;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%), radial-gradient(190% 100% at 50% 0 , rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(0, 0, 0, 0) 50%);
+    background-position: 200% 0px, 0 0;
+    background-repeat: no-repeat;
+    background-size: 200% 100%, auto auto;
+    border-radius: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: bold;
+    outline: medium none;
+    padding: 5px 15px;
+    position: relative;
+    text-decoration: none;
+    text-shadow: -1px -1px #000;
+    border: medium none;
+    border-radius: 0;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    height: 30px;
+    margin: 0;
+	text-align:center;
+}
+
 .general-bg, input.custom-attribute, input.quantity-input, .manufacturer-product-link a, a.ask-a-question, input.vm-default, a.product-details, a.details, div.details, button.default{
     border-radius:0;
 }
@@ -593,6 +757,18 @@ h1, h2, h3, h4, h5, h6, .site-title{
     margin:0 0 5px 0;
 }
 
+#wrapper #content .category_description{
+    margin:10px 0 20px 0;
+}
+
+#wrapper #content .product-neighbours .previous-page, #wrapper #content .product-neighbours .next-page{
+    display:none;
+}
+
+#wrapper #content .back-to-category{
+    display:none;
+}
+
 ul.VMmenu li div{
     position: relative;
 }
@@ -605,6 +781,34 @@ ul.VMmenu li div{
     padding: 0px;
     width: 10px;
     height: 10px;
+}
+
+#wrapper #content .cart-view #com-form-login, #wrapper #content .cart-view #checkoutForm .billto-shipto{
+	display:none;
+}
+
+#wrapper #content .form-validate{
+	float:left;
+}
+
+#wrapper #content .form-validate fieldset{
+	clear:both;
+}
+
+#wrapper #content .userfields_info{
+	border-top: 1px dotted #cccccc;
+    font-size: 16px;
+    margin: 20px 0 0 0;
+    padding-top: 15px;
+}
+
+#wrapper #content .key label{
+	font-weight:bold;
+}
+
+#wrapper #content #userForm{
+	margin-bottom:30px;
+	border-bottom:1px solid #cccccc;
 }
 
 /*********************************************************************/
