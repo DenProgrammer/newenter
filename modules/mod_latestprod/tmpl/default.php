@@ -61,7 +61,7 @@ defined('_JEXEC') or die('Restricted access');
                     </a>
                 </div>
                 <div class="prod_img">
-                    <img height="80" src="<?php echo $image->createThumb(80, 80); ?>" />
+                    <img height="80" src="<?php // echo $image->createThumb(80, 80); ?>" />
                 </div>
                 <div class="prod_price">
                     <span><?php echo JText::_('MOD_LATESTPROD_PRICE') ?></span>

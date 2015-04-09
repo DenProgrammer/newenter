@@ -134,8 +134,6 @@ switch (JRequest::getVar('ajax')) {
         }
     case 'saveJsonNew'://обновление данных о товаре в заказе
         {
-            $db = JFactory::getDBO();
-
             $json = $_POST['strjson'];
 
             $obj = json_decode($json);
@@ -191,8 +189,6 @@ switch (JRequest::getVar('ajax')) {
         }
     case 'saveVendor'://обновление данных о товаре в заказе
         {
-            $db = JFactory::getDBO();
-
             $order_id       = (int) $_POST['order_id'];
             $vendor_info_id = (int) $_POST['vendor_info_id'];
 
@@ -205,7 +201,6 @@ switch (JRequest::getVar('ajax')) {
             break;
         }
     case 'setparamfororderitem': {
-            $db        = JFactory::getDBO();
             $orditemid = JRequest::getInt('orditemid');
             $pkey      = JRequest::getVar('pkey');
             $pvalue    = JRequest::getVar('pvalue');
@@ -243,7 +238,6 @@ switch (JRequest::getVar('ajax')) {
             require_once './components/com_import/helpers/PHPExcel/IOFactory.php';
             require_once('./components/com_import/helpers/string.php');
 
-            $db          = JFactory::getDBO();
             $objPHPExcel = new PHPExcel();
             $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
                     ->setLastModifiedBy("Maarten Balliauw")
@@ -1165,8 +1159,6 @@ switch (JRequest::getVar('ajax')) {
             require_once('./components/com_import/helpers/string.php');
             switch (JRequest::getVar('type')) {
                 case 'schetfactura': {
-                        $db = JFactory::getDBO();
-
                         //получение номера счет фактуры
                         $sql             = "SELECT `value` FROM `#__conf` WHERE `key`='schetfacturanum'";
                         $db->setQuery($sql);
@@ -1276,8 +1268,6 @@ switch (JRequest::getVar('ajax')) {
                         break;
                     }
                 case 'nakladnaya': {
-                        $db = JFactory::getDBO();
-
                         //получение номера счет фактуры
                         $sql             = "SELECT `value` FROM `#__conf` WHERE `key`='schetfacturanum'";
                         $db->setQuery($sql);
@@ -1402,8 +1392,6 @@ switch (JRequest::getVar('ajax')) {
                         break;
                     }
                 case 'compred': {
-                        $db = JFactory::getDBO();
-
                         //получение номера счет фактуры
                         $sql             = "SELECT `value` FROM `#__conf` WHERE `key`='schetfacturanum'";
                         $db->setQuery($sql);
@@ -1526,8 +1514,6 @@ switch (JRequest::getVar('ajax')) {
                         break;
                     }
                 case 'schnaopl': {
-                        $db = JFactory::getDBO();
-
                         //получение номера счет фактуры
                         $sql             = "SELECT `value` FROM `#__conf` WHERE `key`='schetfacturanum'";
                         $db->setQuery($sql);
@@ -1651,7 +1637,6 @@ switch (JRequest::getVar('ajax')) {
                         break;
                     }
                 case 'prilogenie': {
-                        $db       = JFactory::getDBO();
                         //описание гарантии
                         $sql      = 'SELECT `fulltext` FROM `#__content` WHERE `id`=65';
                         $db->setQuery($sql);
@@ -1681,8 +1666,6 @@ switch (JRequest::getVar('ajax')) {
                 case 'garantiya': {
                         //получение информации о заказе
                         $order_id = $_GET['id'];
-
-                        $db = JFactory::getDBO();
 
                         $date = date("d.m.Y");
 
@@ -2417,6 +2400,22 @@ switch (JRequest::getVar('ajax')) {
             $result3 = $mas3[2][0] . $mas3[3][0] . $mas3[4][0];
 
             echo $result1 . '<br><br>' . $result2 . '<br><br>' . $result3;
+
+            break;
+        }
+    case 'loadProducts': {
+
+//            ini_set('max_execution_time', 0);
+//            ini_set('memory_limit', '128M');
+            define('AC_DIR', dirname(__FILE__));
+
+            require_once( AC_DIR . '/../helpers/RollingCurl.php');
+            require_once( AC_DIR . '/../helpers/AngryCurl.php');
+            require_once( AC_DIR . '/../helpers/ProductImport.php');
+
+            $productImport = new ProductImport();
+
+            $productImport->execute();
 
             break;
         }
