@@ -85,7 +85,7 @@ class ProductImport {
             $this->AC3->get($url);
         }
 
-        $this->AC3->execute(200);
+        $this->AC3->execute(10);
     }
 
     /**
@@ -147,11 +147,16 @@ class ProductImport {
      */
     public function loadProductsCallback($response, $info, $request) {
         if ($info['http_code'] !== 200) {
+
+            AngryCurl::add_debug_msg(
+                    "->\tFAIL\t" . $info['http_code'] .
+                    "\t" . $info['total_time'] . "\t" . $info['url']
+            );
             return;
         }
 
         AngryCurl::add_debug_msg(
-                "->\t" . $request->options[CURLOPT_PROXY] . "\tOK\t" . $info['http_code'] .
+                "->\tOK\t" . $info['http_code'] .
                 "\t" . $info['total_time'] . "\t" . $info['url']
         );
 
@@ -175,14 +180,18 @@ class ProductImport {
         $media_path           = $this->media . 'category/';
         $user_id              = $this->user;
         $category_id          = $category->category_id;
-        $category_desc        = str_replace('\\', '&#92;', htmlentities($category->category_description, ENT_QUOTES, 'UTF-8'));
-        $category_name        = str_replace('\\', '&#92;', htmlentities($category->category_name, ENT_QUOTES, 'UTF-8'));
+        $category_desc        = $category->category_description;
+        $category_name        = $category->category_name;
         $slug                 = rand(1000, 9999) . $category_id;
         $category_publish     = ($category->category_publish == 'Y') ? 1 : 0;
         $list_order           = $category->list_order;
         $category_parent_id   = $category->category_parent_id;
         $category_full_image  = ($category->full_image) ? $media_path . $category->full_image : null;
         $category_thumb_image = ($category->thumb_image) ? $media_path . $category->thumb_image : null;
+
+        if (!$category_full_image) {
+            $category_full_image = $category_thumb_image;
+        }
 
         $categorySql = "INSERT INTO `#__virtuemart_categories` (
                 `virtuemart_category_id`, `virtuemart_vendor_id`, `category_template`, `category_layout`, 
@@ -268,10 +277,14 @@ class ProductImport {
         $product_desc        = str_replace('\\', '&#92;', htmlentities($product->product_desc, ENT_QUOTES, 'UTF-8'));
         $product_name        = str_replace('\\', '&#92;', htmlentities($product->product_name, ENT_QUOTES, 'UTF-8'));
         $product_price       = $product->product_price;
-        $product_publish     = ($product->product_publish == 'Y') ? 1 : 0;
+        $product_publish     = ($product->product_publish === 'Y') ? 1 : 0;
         $product_currency    = $currencies[$product->product_currency];
         $product_full_image  = ($product->full_image) ? $media_path . $product->full_image : null;
         $product_thumb_image = ($product->thumb_image) ? $media_path . $product->thumb_image : null;
+
+        if (!$product_full_image) {
+            $product_full_image = $product_thumb_image;
+        }
 
         $productSql = "INSERT IGNORE INTO `#__virtuemart_products`(
                 `virtuemart_product_id`, `virtuemart_vendor_id`, `product_parent_id`, `product_sku`, `product_gtin`, 
@@ -285,9 +298,9 @@ class ProductImport {
                 $product_id, 1, 0, '$product_sku', '', 
                 '', NULL, 'KG', NULL, NULL, 
                 NULL, 'M', '', 0, 0, 
-                0, '2015-1-1 00:00:00', '', $product_publish, 0, 
+                0, '2015-1-1 00:00:00', '', 0, 0, 
                 'KG', NULL, 'min_order_level=\"\"|max_order_level=\"\"|step_order_level=\"\"|product_box=\"\"|', NULL, '', 
-                '', '', '0', 1, 0, 
+                '', '', '0', $product_publish, 0, 
                 '2015-1-1 00:00:00', $user_id, '2015-1-1 00:00:00', $user_id, '0000-0-0 00:00:00', 0)";
         $db->setQuery($productSql);
         $db->query();
