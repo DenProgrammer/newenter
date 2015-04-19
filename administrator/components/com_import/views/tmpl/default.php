@@ -123,26 +123,26 @@ $category = getCategoryList();
                                 </td>
                                 <td>
                                     <div id="currency_top" class="select_top select_top_options">
-                                            <?php
-                                            if ($currencys[$dataPriceType[0]] == 'USD') {
-                                                echo 'Доллар США';
-                                            } else {
-                                                echo 'Сом';
-                                            }
-                                            ?>
-                                        </div>
-                                        <select id="currency" onchange="changeCurrency()">
-                                            <option <?php if ($currencys[$dataPriceType[0]] == 'USD') { ?>selected<?php } ?> value="USD">Доллар США</option>
-                                            <option <?php if ($currencys[$dataPriceType[0]] == 'KGS') { ?>selected<?php } ?> value="KGS">Сом</option>
-                                        </select>
-                                        <script type="text/javascript">
-                                            var currencys = new Array();
+                                        <?php
+                                        if ($currencys[$dataPriceType[0]] == 'USD') {
+                                            echo 'Доллар США';
+                                        } else {
+                                            echo 'Сом';
+                                        }
+                                        ?>
+                                    </div>
+                                    <select id="currency" onchange="changeCurrency()">
+                                        <option <?php if ($currencys[$dataPriceType[0]] == 'USD') { ?>selected<?php } ?> value="USD">Доллар США</option>
+                                        <option <?php if ($currencys[$dataPriceType[0]] == 'KGS') { ?>selected<?php } ?> value="KGS">Сом</option>
+                                    </select>
+                                    <script type="text/javascript">
+                                        var currencys = new Array();
 <?php
 foreach ($currencys as $key => $val) {
     echo "currencys['$key'] = '$val';\n";
 }
 ?>
-                                        </script>
+                                    </script>
                                     </div>
                                 </td>
                             </tr>
@@ -470,6 +470,10 @@ foreach ($markups as $key => $val) {
             <div id="clearImages-status">
 
             </div>
+        </fieldset>
+        <fieldset class="adminform">
+            <legend>Загрузка продуктов с http://enter.kg. внимание, перед загрузкой база будет очищена</legend>
+            <a target="blank" href="index.php?option=com_import&tmpl=ajax&ajax=loadProducts">Начать загрузку</a>
         </fieldset>
     </div>
 </div>
