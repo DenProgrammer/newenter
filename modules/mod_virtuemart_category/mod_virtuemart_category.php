@@ -22,8 +22,9 @@ defined('_JEXEC') or die('Direct Access to ' . basename(__FILE__) . ' is not all
  */
 
 defined('DS') or define('DS', DIRECTORY_SEPARATOR);
-if (!class_exists('VmConfig'))
+if (!class_exists('VmConfig')) {
     require(JPATH_ROOT . DS . 'administrator' . DS . 'components' . DS . 'com_virtuemart' . DS . 'helpers' . DS . 'config.php');
+}
 
 VmConfig::loadConfig();
 VmConfig::loadJLang('mod_virtuemart_category', true);
@@ -39,22 +40,23 @@ $layout             = $params->get('layout', 'default');
 $active_category_id = vRequest::getInt('virtuemart_category_id', '0');
 $vendorId           = '1';
 
-$categories = $categoryModel->getChildCategoryList($vendorId, $category_id, 'category_name');
+$categories = $categoryModel->getChildCategoryList($vendorId, $category_id, 'c.ordering, category_name', null, false);
 
 // We dont use image here
 //$categoryModel->addImages($categories);
 
-if (empty($categories)){
+if (empty($categories)) {
     return false;
 }
 
 foreach ($categories as $category) {
-    $category->childs = $categoryModel->getChildCategoryList($vendorId, $category->virtuemart_category_id, 'category_name');
+    $category->childs = $categoryModel->getChildCategoryList($vendorId, $category->virtuemart_category_id, 'c.ordering, category_name');
     // No image used here
     //$categoryModel->addImages($category->childs);
 }
 
 $parentCategories = $categoryModel->getCategoryRecurse($active_category_id, 0);
+$countProducts    = $categoryModel->getCountAllProducts();
 
 /* Load tmpl default */
 require(JModuleHelper::getLayoutPath('mod_virtuemart_category', $layout));

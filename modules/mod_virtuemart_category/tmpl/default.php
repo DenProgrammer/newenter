@@ -38,8 +38,18 @@ $document->addScriptDeclaration($js);
             $active_menu = 'class="VmOpen"';
             $path        = '0,2,5,4,10,2,5,8';
         }
-        ?>
 
+        $countProduct = $countProducts[$category->virtuemart_category_id];
+        if ($category->childs) {
+            foreach ($category->childs as $child) {
+                $countProduct += $countProducts[$child->virtuemart_category_id];
+            }
+        }
+
+        if ($countProduct > 0) {
+            $cattext .= ' (' . $countProduct . ')';
+        }
+        ?>
         <li <?php echo $active_menu ?>>
             <div>
                 <?php
@@ -48,11 +58,11 @@ $document->addScriptDeclaration($js);
                     ?>
                     <span class="VmArrowdown">
                         <svg class="svg" width="10" height="10">
-                            <symbol id="s-crown">
-                                <polygon points="<?php echo $path; ?>"
-                                         fill="white" stroke="orange" stroke-width="0"/>
-                            </symbol>
-                            <use xlink:href="#s-crown" x="0" y="0"/>
+                        <symbol id="s-crown">
+                            <polygon points="<?php echo $path; ?>"
+                                     fill="white" stroke="orange" stroke-width="0"/>
+                        </symbol>
+                        <use xlink:href="#s-crown" x="0" y="0"/>
                         </svg>
                     </span>
                     <?php
@@ -67,8 +77,15 @@ $document->addScriptDeclaration($js);
                         $active_child_menu = 'class="VmClose"';
                         $caturl            = JRoute::_('index.php?option=com_virtuemart&view=category&virtuemart_category_id=' . $child->virtuemart_category_id);
                         $cattext           = $child->category_name;
-                        if ($child->virtuemart_category_id == $active_category_id)
+                        if ($child->virtuemart_category_id == $active_category_id) {
                             $active_child_menu = 'class="VmOpen"';
+                        }
+
+                        $countSubProduct = $countProducts[$child->virtuemart_category_id];
+
+                        if ($countSubProduct > 0) {
+                            $cattext .= ' (' . $countSubProduct . ')';
+                        }
                         ?>
                         <li <?php echo $active_child_menu ?>>
                         <li>
