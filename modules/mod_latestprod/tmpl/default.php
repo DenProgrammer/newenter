@@ -43,6 +43,14 @@ defined('_JEXEC') or die('Restricted access');
         line-height: 30px;
         text-align: left;
     }
+    div.latest_products ul li div.prod_title{
+        max-height: 30px;
+        overflow: hidden;
+    }
+    div.latest_products ul li div.prod_img{
+        height: 120px;
+        margin: 10px 0px;
+    }
     div.latest_products ul li a div.prod_price span:last-child{
         float: right;
         font-weight: bold;
@@ -56,16 +64,17 @@ defined('_JEXEC') or die('Restricted access');
             $image = $product->images[0];
             ?>
             <li>
-                <div class="prod_title"><a href ="<?php echo $product->link; ?>">
+                <div class="prod_title">
+                    <a href ="<?php echo $product->link; ?>">
                         <?php echo $product->product_name; ?>
                     </a>
                 </div>
                 <div class="prod_img">
-                    <img height="80" src="<?php // echo $image->createThumb(80, 80); ?>" />
+                    <img height="80" src="<?php echo $image->createThumb(80, 80); ?>" />
                 </div>
                 <div class="prod_price">
                     <span><?php echo JText::_('MOD_LATESTPROD_PRICE') ?></span>
-                    <span><?php echo round($product->prices['salesPrice'], 2); ?> USD / <?php echo round($product->product_price * $kurs); ?> Сом</span>
+                    <span><?php echo round($product->prices['salesPrice'], 2); ?> USD / <?php echo round($product->prices['salesPrice'] * $kurs); ?> Сом</span>
                 </div>
             </li>
             <?php
