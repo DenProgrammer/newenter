@@ -33,44 +33,47 @@ if (!class_exists('VmView'))
  */
 class VirtuemartViewCategory extends VmView {
 
+    /**
+     * display view
+     * 
+     * @param string $tpl
+     * @return boolean
+     */
     public function display($tpl = null) {
 
         $show_prices = VmConfig::get('show_prices', 1);
         if ($show_prices == '1') {
-            if (!class_exists('calculationHelper'))
+            if (!class_exists('calculationHelper')) {
                 require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
+            }
         }
         $this->assignRef('show_prices', $show_prices);
 
-        if (!class_exists('shopFunctionsF'))
+        if (!class_exists('shopFunctionsF')) {
             require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
+        }
 
         // add javascript for price and cart, need even for quantity buttons, so we need it almost anywhere
         vmJsApi::jPrice();
 
         $document = JFactory::getDocument();
+        $app      = JFactory::getApplication();
+        $pathway  = $app->getPathway();
 
-        $app     = JFactory::getApplication();
-        $pathway = $app->getPathway();
-
-        if (!class_exists('VmImage'))
+        if (!class_exists('VmImage')) {
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
+        }
 
         // set search and keyword
         if ($keyword = vRequest::uword('keyword', false, ' ,-,+,.,_')) {
             $pathway->addItem($keyword);
-            //$title .=' ('.$keyword.')';
         }
-        //$search = vRequest::uword('keyword', null);
+
         $this->searchcustom       = '';
         $this->searchCustomValues = '';
-        //if (!empty($keyword)) {
+
         $this->getSearchCustom();
-        $search                   = $keyword;
-        /* } else {
-          $keyword ='';
-          $search = NULL;
-          } */
+        $search = $keyword;
 
         $this->assignRef('keyword', $keyword);
         $this->assignRef('search', $search);
@@ -78,6 +81,12 @@ class VirtuemartViewCategory extends VmView {
         $menus = $app->getMenu();
         $menu  = $menus->getActive();
 
+        $advanced_search = array(
+            'categories' => vRequest::getVar('advanced_search_categories', ''),
+            'price_max'  => vRequest::getVar('advanced_search_price_max', -1),
+            'price_min'  => vRequest::getVar('advanced_search_price_min', -1),
+            'currency'   => vRequest::getVar('advanced_search_currency', -1)
+        );
 
         $virtuemart_manufacturer_id = vRequest::getInt('virtuemart_manufacturer_id', -1);
         if ($virtuemart_manufacturer_id === -1 and !empty($menu->query['virtuemart_manufacturer_id'])) {
@@ -104,15 +113,17 @@ class VirtuemartViewCategory extends VmView {
         $categoryModel = VmModel::getModel('category');
         $productModel  = VmModel::getModel('product');
 
-        if ($this->categoryId === -1)
+        if ($this->categoryId === -1) {
             $this->categoryId = 0;
+        }
 
         $vendorId = 1;
         $category = $categoryModel->getCategory($this->categoryId);
 
-        if (!isset($menu->query['showproducts']))
+        if (!isset($menu->query['showproducts'])) {
             $menu->query['showproducts'] = 1;
-        $this->showproducts          = vRequest::getInt('showproducts', $menu->query['showproducts']);
+        }
+        $this->showproducts = vRequest::getInt('showproducts', $menu->query['showproducts']);
 
         if (!empty($category)) {
 
@@ -120,7 +131,7 @@ class VirtuemartViewCategory extends VmView {
             if ($this->showproducts) {
                 //if(empty($category->category_layout) or $category->category_layout != 'categories') {
                 // Load the products in the given category
-                $ids = $productModel->sortSearchListQuery(TRUE, $this->categoryId);
+                $ids = $productModel->sortSearchListQuery(TRUE, $this->categoryId, false, false, null, $advanced_search);
 
                 $this->perRow = empty($category->products_per_row) ? VmConfig::get('products_per_row', 3) : $category->products_per_row;
 
@@ -331,6 +342,12 @@ class VirtuemartViewCategory extends VmView {
         parent::display($tpl);
     }
 
+    /**
+     * set title by JMenu
+     * 
+     * @param object $app
+     * @return string
+     */
     public function setTitleByJMenu($app) {
         $menus = $app->getMenu();
         $menu  = $menus->getActive();
@@ -350,6 +367,14 @@ class VirtuemartViewCategory extends VmView {
         return $title;
     }
 
+    /**
+     * set canonical link
+     * 
+     * @param string  $tpl
+     * @param object  $document
+     * @param integer $categoryId
+     * @param integer $manId
+     */
     public function setCanonicalLink($tpl, $document, $categoryId, $manId) {
         // Set Canonic link
         if (!empty($tpl)) {
@@ -371,10 +396,9 @@ class VirtuemartViewCategory extends VmView {
         }
     }
 
-    /*
+    /**
      * generate custom fields list to display as search in FE
      */
-
     public function getSearchCustom() {
 
         $emptyOption            = array('virtuemart_custom_id' => 0, 'custom_title' => vmText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'));
@@ -410,5 +434,3 @@ class VirtuemartViewCategory extends VmView {
     }
 
 }
-
-//no closing tag
