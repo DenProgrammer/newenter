@@ -217,7 +217,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
     color:#ffffff;
 }
 
-#wrapper #rightcol #mod_curency{
+#wrapper #rightcol #mod_currency{
     margin-top:10px;
     width:193px;
     height:28px;
@@ -227,10 +227,10 @@ h1, h2, h3, h4, h5, h6, .site-title{
     font: normal 14px Arial;
     margin:10px 0;
     font-size:12px;
-    line-height:12px;
+    line-height:13px;
 }
 
-#wrapper #rightcol #mod_curency select[name=product_currency]{
+#wrapper #rightcol #mod_currency select[name=product_currency]{
     width:193px !important;
 }
 
