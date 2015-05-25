@@ -32,31 +32,12 @@ $currency = $viewData['currency'];
         <a class="ask-a-question bold" href="<?php echo $askquestion_url ?>" rel="nofollow" ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ASKPRICE') ?></a>
         <?php
     } else {
-        //if ($showBasePrice) {
-        echo $currency->createPriceDiv('basePrice', 'COM_VIRTUEMART_PRODUCT_BASEPRICE', $product->prices);
-        //if (round($product->prices['basePrice'],$currency->_priceConfig['basePriceVariant'][1]) != $product->prices['basePriceVariant']) {
-        echo $currency->createPriceDiv('basePriceVariant', 'COM_VIRTUEMART_PRODUCT_BASEPRICE_VARIANT', $product->prices);
-        //}
-        //}
-        echo $currency->createPriceDiv('variantModification', 'COM_VIRTUEMART_PRODUCT_VARIANT_MOD', $product->prices);
-        if (round($product->prices['basePriceWithTax'], $currency->_priceConfig['salesPrice'][1]) != $product->prices['salesPrice']) {
-            echo '<span class="price-crossed" >' . $currency->createPriceDiv('basePriceWithTax', 'COM_VIRTUEMART_PRODUCT_BASEPRICE_WITHTAX', $product->prices) . "</span>";
-        }
-        if (round($product->prices['salesPriceWithDiscount'], $currency->_priceConfig['salesPrice'][1]) != $product->prices['salesPrice']) {
-            echo $currency->createPriceDiv('salesPriceWithDiscount', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITH_DISCOUNT', $product->prices);
-        }
-        echo $currency->createPriceDiv('salesPrice', 'COM_VIRTUEMART_PRODUCT_SALESPRICE', $product->prices);
-        if ($product->prices['discountedPriceWithoutTax'] != $product->prices['priceWithoutTax']) {
-            echo $currency->createPriceDiv('discountedPriceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
-        } else {
-            echo $currency->createPriceDiv('priceWithoutTax', 'COM_VIRTUEMART_PRODUCT_SALESPRICE_WITHOUT_TAX', $product->prices);
-        }
-        echo $currency->createPriceDiv('discountAmount', 'COM_VIRTUEMART_PRODUCT_DISCOUNT_AMOUNT', $product->prices);
-        echo $currency->createPriceDiv('taxAmount', 'COM_VIRTUEMART_PRODUCT_TAX_AMOUNT', $product->prices);
-        $unitPriceDescription = vmText::sprintf('COM_VIRTUEMART_PRODUCT_UNITPRICE', vmText::_('COM_VIRTUEMART_UNIT_SYMBOL_' . $product->product_unit));
-        echo $currency->createPriceDiv('unitPrice', $unitPriceDescription, $product->prices);
+        echo '<span class="PricebasePrice">$' . $product->prices['salesPrice']
+        . ' / '
+        . $currency->roundForDisplay($product->prices['salesPrice'], 165, 1, 0) . ' '
+        . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
+        . '</span>';
     }
-//    echo '<span class="price_som">' .$product->prices['salesPrice'].' - '. $currency->roundForDisplay($product->prices['salesPrice'], 840, 1, 1) . ' Сом</span>';
     ?>
 </div>
 <div class="clear"></div>
