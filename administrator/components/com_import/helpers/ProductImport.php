@@ -11,13 +11,18 @@ class ProductImport {
     protected $AC1;
     protected $AC2;
     protected $AC3;
-    protected $limit   = 1000;
+    protected $AC4;
+    protected $AC5;
+    protected $limit    = 1000;
+    protected $limitOrd = 100;
     protected $total;
-    protected $passw   = 'ofhwoephgepwohg';
-    protected $page    = 'http://enter.kg/exportProducts.php';
-    protected $pageCat = 'http://enter.kg/exportCategories.php';
-    protected $media   = 'images/stories/virtuemart/';
-    protected $user    = 436;
+    protected $totalOrd;
+    protected $passw    = 'ofhwoephgepwohg';
+    protected $page     = 'http://enter.kg/exportProducts.php';
+    protected $pageCat  = 'http://enter.kg/exportCategories.php';
+    protected $pageOrd  = 'http://enter.kg/exportOrders.php';
+    protected $media    = 'images/stories/virtuemart/';
+    protected $user     = 436;
 
     /**
      * construct
@@ -31,6 +36,12 @@ class ProductImport {
 
         $this->AC3 = new AngryCurl(array($this, 'loadProductsCallback'));
         $this->AC3->init_console();
+
+        $this->AC4 = new AngryCurl(array($this, 'loadTotalOrdersCallback'));
+        $this->AC4->init_console();
+
+        $this->AC5 = new AngryCurl(array($this, 'loadOrdersCallback'));
+        $this->AC5->init_console();
     }
 
     /**
@@ -48,6 +59,7 @@ class ProductImport {
         $this->loadCategories();
         $this->loadTotal();
         $this->loadProducts();
+        $this->loadOrders();
     }
 
     /**
@@ -70,6 +82,12 @@ class ProductImport {
         AngryCurl::add_debug_msg('Load product total');
 
         $this->AC2->execute(2);
+
+        $this->AC4->get($this->pageOrd . '?passw=' . $this->passw);
+
+        AngryCurl::add_debug_msg('Load orders total');
+
+        $this->AC4->execute(2);
     }
 
     /**
@@ -86,6 +104,21 @@ class ProductImport {
         }
 
         $this->AC3->execute(10);
+    }
+
+    /**
+     * load orders
+     */
+    public function loadOrders() {
+        $count = ceil($this->totalOrd / $this->limitOrd);
+
+        for ($i = 0; $i < $count; $i++) {
+            $offset = $i * $this->limitOrd;
+            $url    = $this->pageOrd . '?limit=' . $this->limitOrd . '&offset=' . $offset . '&passw=' . $this->passw;
+            $this->AC5->get($url);
+        }
+        AngryCurl::add_debug_msg('Load orders');
+        $this->AC5->execute(10);
     }
 
     /**
@@ -138,6 +171,28 @@ class ProductImport {
     }
 
     /**
+     * load total orders callback
+     * 
+     * @param string $response
+     * @param array  $info
+     * @param object $request
+     * @return null
+     */
+    public function loadTotalOrdersCallback($response, $info, $request) {
+        if ($info['http_code'] !== 200) {
+            return;
+        }
+
+        $data = json_decode($response);
+
+        $this->totalOrd = $data->total;
+
+        AngryCurl::add_debug_msg('Load complite, total orders ' . $this->total);
+
+        return;
+    }
+
+    /**
      * load product callback
      * 
      * @param string $response
@@ -157,20 +212,53 @@ class ProductImport {
 
         AngryCurl::add_debug_msg(
                 "->\tOK\t" . $info['http_code'] .
-                "\t" . $info['total_time'] . "\t" . $info['url']
+                "\t" . round($info['total_time'], 2) . "\t" . $info['url']
         );
 
         $data = json_decode($response);
 
-        foreach ($data->items as $item) {
-            $this->saveProduct($item);
+        if (isset($data->items) && count($data->items)) {
+            foreach ($data->items as $item) {
+                $this->saveProduct($item);
+            }
         }
 
         return;
     }
 
     /**
-     * save product
+     * load orders callback
+     * 
+     * @param string $response
+     * @param array  $info
+     * @param object $request
+     * @return null
+     */
+    public function loadOrdersCallback($response, $info, $request) {
+        if ($info['http_code'] !== 200) {
+            return;
+        }
+
+        AngryCurl::add_debug_msg(
+                "->\t" . $request->options[CURLOPT_PROXY] . "\tOK\t" . $info['http_code'] .
+                "\t" . $info['total_time'] . "\t" . $info['url']
+        );
+
+        $data = json_decode($response);
+
+        if (isset($data->orders)) {
+            foreach ($data->orders as $item) {
+                $this->saveOrders($item);
+            }
+        } else {
+            $this->AC5->get($request->url);
+        }
+
+        return;
+    }
+
+    /**
+     * save category
      * 
      * @param object $product
      */
@@ -365,6 +453,174 @@ class ProductImport {
     }
 
     /**
+     * save orders
+     * 
+     * @param object $product
+     */
+    protected function saveOrders($order) {
+        $db = JFactory::getDbo();
+
+        $order_id = $order->order_id;
+        $user_id  = 0; //$order->user_id;
+        $total    = $order->order_total;
+        $currency = ($order->order_currency == 'USD') ? 202 : 165;
+        $cdate    = date('Y-m-d H:i:s', $order->cdate);
+        $note     = $order->customer_note;
+        $ip       = $order->ip_address;
+        $exchange = $order->exchange_usd;
+        $delivery = $order->delivery;
+        $nrt      = $order->nrt;
+        $name     = $order->first_name;
+        $phone    = $order->phone_1;
+        $address  = $order->address_1;
+
+        $order_number = $this->generateOrderNumber($user_id);
+        $order_pass   = 'p_' . substr(md5((string) time() . rand(1, 1000) . $order_number), 0, 5);
+
+        $ordersSql = "INSERT INTO `#__virtuemart_orders` ("
+                . "`virtuemart_order_id`, `virtuemart_user_id`, `virtuemart_vendor_id`, `order_number`, "
+                . "`customer_number`, `order_pass`, `order_total`, `order_salesPrice`, `order_billTaxAmount`, "
+                . "`order_billTax`, `order_billDiscountAmount`, `order_discountAmount`, `order_subtotal`, "
+                . "`order_tax`, `order_shipment`, `order_shipment_tax`, `order_payment`, "
+                . "`order_payment_tax`, `coupon_discount`, `coupon_code`, `order_discount`, "
+                . "`order_currency`, `order_status`, `user_currency_id`, `user_currency_rate`, "
+                . "`virtuemart_paymentmethod_id`, `virtuemart_shipmentmethod_id`, `delivery_date`, `order_language`, "
+                . "`ip_address`, `created_on`, `created_by`, `modified_on`, "
+                . "`modified_by`, `locked_on`, `locked_by`, `vendor_info_id`, "
+                . "`shoper_info`, `nrt`, `exchange_usd`, `delivery`"
+                . ") VALUES ("
+                . "$order_id, 0, 1, '$order_number', "
+                . "'nonreg_$name', '$order_pass', $total, $total, 0.00000, "
+                . "'0', 0.00000, 0.00000, $total, "
+                . "0.00000, 0.00, 0.00000, 0.00, "
+                . "0.00000, 0.00, NULL, 0.00, "
+                . "$currency, 'U', $currency, 1.00000, "
+                . "1, 1, 'Такая же как и дата выписки счета', 'ru-RU', "
+                . "'$ip', '$cdate', 0, '$cdate', "
+                . "0, '0000-0-0 00:00:00', 0, NULL, "
+                . "NULL, $nrt, $exchange, $delivery)";
+        $db->setQuery($ordersSql);
+        $db->query();
+
+        $userInfosSql = "INSERT INTO `#__virtuemart_order_userinfos` ("
+                . "`virtuemart_order_id`, `virtuemart_user_id`, `address_type`, "
+                . "`address_type_name`, `company`, `title`, `last_name`, "
+                . "`first_name`, `middle_name`, `phone_1`, `phone_2`, "
+                . "`fax`, `address_1`, `address_2`, `city`, "
+                . "`virtuemart_state_id`, `virtuemart_country_id`, `zip`, `email`, "
+                . "`agreed`, `tos`, `customer_note`, `created_on`, "
+                . "`created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`"
+                . ") VALUES ("
+                . "$order_id, $user_id, 'BT', "
+                . "NULL, NULL, NULL, NULL, "
+                . "'$name', NULL, '$phone', NULL, "
+                . "NULL, '$address', NULL, '', "
+                . "0, 0, '', NULL, "
+                . "0, 0, '$note', '$cdate', "
+                . "0, '$cdate', 0, '0000-0-0 00:00:00', 0);";
+        $db->setQuery($userInfosSql);
+        $db->query();
+
+        $orderHistoriesSql = "INSERT INTO `#__virtuemart_order_histories` ("
+                . "`virtuemart_order_id`, `order_status_code`, `customer_notified`, "
+                . "`comments`, `published`, `created_on`, `created_by`, "
+                . "`modified_on`, `modified_by`, `locked_on`, `locked_by`"
+                . ") VALUES ("
+                . "$order_id, 'P', 0, "
+                . "'', 1, '$cdate', 0, "
+                . "'$cdate', 0, '0000-0-0 00:00:00', 0)";
+        $db->setQuery($orderHistoriesSql);
+        $db->query();
+
+        $orderHistoriesSql2 = "INSERT INTO `#__virtuemart_order_histories` ("
+                . "`virtuemart_order_id`, `order_status_code`, `customer_notified`, "
+                . "`comments`, `published`, `created_on`, `created_by`, "
+                . "`modified_on`, `modified_by`, `locked_on`, `locked_by`"
+                . ") VALUES ("
+                . "$order_id, 'U', 1, "
+                . "'', 1, '$cdate', 0, "
+                . "'$cdate', 0, '0000-0-0 00:00:00', 0)";
+        $db->setQuery($orderHistoriesSql2);
+        $db->query();
+
+        $orderCalcRulesSql = "INSERT INTO `#__virtuemart_order_calc_rules` ("
+                . "`virtuemart_calc_id`, `virtuemart_order_id`, `virtuemart_vendor_id`, "
+                . "`virtuemart_order_item_id`, `calc_rule_name`, `calc_kind`, "
+                . "`calc_mathop`, `calc_amount`, `calc_result`, "
+                . "`calc_value`, `calc_currency`, `calc_params`, "
+                . "`created_on`, `created_by`, `modified_on`, "
+                . "`modified_by`, `locked_on`, `locked_by`"
+                . ") VALUES ("
+                . "0, $order_id, 1, "
+                . "NULL, '', 'payment', "
+                . "'', 0.00000, 0.00000, "
+                . "0.00000, 0, '', "
+                . "'$cdate', 0, '$cdate', "
+                . "0, '0000-0-0 00:00:00', 0)";
+        $db->setQuery($orderCalcRulesSql);
+        $db->query();
+
+        $orderCalcRulesSql2 = "INSERT INTO `#__virtuemart_order_calc_rules` ("
+                . "`virtuemart_calc_id`, `virtuemart_order_id`, `virtuemart_vendor_id`, "
+                . "`virtuemart_order_item_id`, `calc_rule_name`, `calc_kind`, "
+                . "`calc_mathop`, `calc_amount`, `calc_result`, "
+                . "`calc_value`, `calc_currency`, `calc_params`, "
+                . "`created_on`, `created_by`, `modified_on`, "
+                . "`modified_by`, `locked_on`, `locked_by`"
+                . ") VALUES ("
+                . "0, $order_id, 1, "
+                . "NULL, '', 'shipment', "
+                . "'', 0.00000, 0.00000, "
+                . "0.00000, 0, '', "
+                . "'$cdate', 0, '$cdate', "
+                . "0, '0000-0-0 00:00:00', 0)";
+        $db->setQuery($orderCalcRulesSql2);
+        $db->query();
+
+        foreach ($order->items as $item) {
+            $product_id  = $item->product_id;
+            $item_sku    = $item->order_item_sku;
+            $item_name   = $item->order_item_name;
+            $quantity    = $item->product_quantity;
+            $item_price  = $item->product_item_price;
+            $final_price = $item->product_final_price;
+            $currency    = $item->order_item_currency;
+
+            $itemSql = "INSERT INTO `#__virtuemart_order_items` ("
+                    . "`virtuemart_order_id`, `virtuemart_vendor_id`, `virtuemart_product_id`, "
+                    . "`order_item_sku`, `order_item_name`, `product_quantity`, `product_item_price`, "
+                    . "`product_priceWithoutTax`, `product_tax`, `product_basePriceWithTax`, `product_discountedPriceWithoutTax`, "
+                    . "`product_final_price`, `product_subtotal_discount`, `product_subtotal_with_tax`, `order_item_currency`, "
+                    . "`order_status`, `product_attribute`, `delivery_date`, `created_on`, "
+                    . "`created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`"
+                    . ") VALUES ("
+                    . "$order_id, 1, $product_id, "
+                    . "'$item_sku', '$item_name', $quantity, $item_price, "
+                    . "$item_price, 0.00000, 0.00000, $item_price, "
+                    . "$item_price, 0.00000, $final_price, NULL, "
+                    . "'U', '[]', NULL, '$cdate', "
+                    . "0, '$cdate', 0, '0000-0-0 00:00:00', 0);";
+            $db->setQuery($itemSql);
+            $db->query();
+        }
+    }
+
+    /**
+     * generate order number
+     * @param type $uid
+     * @param type $length
+     * @return string
+     */
+    public function generateOrderNumber($uid = 0, $length = 4) {
+        $data = substr(md5(session_id() . (string) time() . (string) $uid)
+                        , 0
+                        , $length
+                ) . '0' . rand(0, 99);
+
+        return $data;
+    }
+
+    /**
      * clear base
      */
     protected function clearBase() {
@@ -393,6 +649,16 @@ class ProductImport {
         $db->query();
         $db->query();
         $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_medias`');
+        $db->query();
+        $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_items`');
+        $db->query();
+        $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_userinfos`');
+        $db->query();
+        $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_histories`');
+        $db->query();
+        $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_calc_rules`');
+        $db->query();
+        $db->setQuery('TRUNCATE TABLE `#__virtuemart_orders`');
         $db->query();
     }
 

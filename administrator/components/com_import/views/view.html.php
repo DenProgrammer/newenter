@@ -2404,9 +2404,6 @@ switch (JRequest::getVar('ajax')) {
             break;
         }
     case 'loadProducts': {
-
-//            ini_set('max_execution_time', 0);
-//            ini_set('memory_limit', '128M');
             define('AC_DIR', dirname(__FILE__));
 
             require_once( AC_DIR . '/../helpers/RollingCurl.php');

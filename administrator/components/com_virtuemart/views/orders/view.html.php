@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * Description
@@ -14,12 +15,12 @@
  * is derivative of works licensed under the GNU General Public License or
  * other free or open source software licenses.
  */
-
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmin.php');
+if (!class_exists('VmViewAdmin'))
+    require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmviewadmin.php');
 
 /**
  * HTML View class for the VirtueMart Component
@@ -29,229 +30,223 @@ if(!class_exists('VmViewAdmin'))require(VMPATH_ADMIN.DS.'helpers'.DS.'vmviewadmi
  */
 class VirtuemartViewOrders extends VmViewAdmin {
 
-	function display($tpl = null) {
+    function display($tpl = null) {
 
 
-		//Load helpers
-		if (!class_exists('CurrencyDisplay'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
+        //Load helpers
+        if (!class_exists('CurrencyDisplay'))
+            require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 
-		if (!class_exists('VmHTML'))
-			require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
+        if (!class_exists('VmHTML'))
+            require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
 
-		if(!class_exists('vmPSPlugin')) require(VMPATH_PLUGINLIBS.DS.'vmpsplugin.php');
-		$orderStatusModel=VmModel::getModel('orderstatus');
-		$orderStates = $orderStatusModel->getOrderStatusList();
+        if (!class_exists('vmPSPlugin'))
+            require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
+        $orderStatusModel = VmModel::getModel('orderstatus');
+        $orderStates      = $orderStatusModel->getOrderStatusList();
 
-		$this->SetViewTitle( 'ORDER');
+        $this->SetViewTitle('ORDER');
 
-		$orderModel = VmModel::getModel();
+        $orderModel = VmModel::getModel();
 
-		$curTask = vRequest::getCmd('task');
-		if ($curTask == 'edit') {
-			VmConfig::loadJLang('com_virtuemart_shoppers',TRUE);
-			VmConfig::loadJLang('com_virtuemart_orders', true);
+        $curTask = vRequest::getCmd('task');
+        if ($curTask == 'edit') {
+            VmConfig::loadJLang('com_virtuemart_shoppers', TRUE);
+            VmConfig::loadJLang('com_virtuemart_orders', true);
 
-			//For getOrderStatusName
-			if (!class_exists('ShopFunctions'))	require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+            //For getOrderStatusName
+            if (!class_exists('ShopFunctions')) {
+                require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
+            }
 
-			// Load addl models
-			$userFieldsModel = VmModel::getModel('userfields');
+            // Load addl models
+            $userFieldsModel = VmModel::getModel('userfields');
 
-			// Get the data
-			$virtuemart_order_id = vRequest::getInt('virtuemart_order_id');
-			$order = $orderModel->getOrder($virtuemart_order_id);
+            // Get the data
+            $virtuemart_order_id = vRequest::getInt('virtuemart_order_id');
+
+            $order = $orderModel->getOrder($virtuemart_order_id);
 
 
-			$_orderID = $order['details']['BT']->virtuemart_order_id;
-			$orderbt = $order['details']['BT'];
-			$orderst = (array_key_exists('ST', $order['details'])) ? $order['details']['ST'] : $orderbt;
-			$orderbt ->invoiceNumber = $orderModel->getInvoiceNumber($orderbt->virtuemart_order_id);
+            $_orderID = $order['details']['BT']->virtuemart_order_id;
+            $orderbt  = $order['details']['BT'];
+            $orderst  = (array_key_exists('ST', $order['details'])) ? $order['details']['ST'] : $orderbt;
 
-			$currency = CurrencyDisplay::getInstance('',$order['details']['BT']->virtuemart_vendor_id);
+            $orderbt->invoiceNumber = $orderModel->getInvoiceNumber($orderbt->virtuemart_order_id);
 
-			$this->assignRef('currency', $currency);
+            $currency = CurrencyDisplay::getInstance('', $order['details']['BT']->virtuemart_vendor_id);
 
-			$_userFields = $userFieldsModel->getUserFields(
-					 'account'
-					, array('captcha' => true, 'delimiters' => true) // Ignore these types
-					, array('delimiter_userinfo','user_is_vendor' ,'username','name','password', 'password2', 'agreed', 'address_type') // Skips
-			);
-			$userFieldsCart = $userFieldsModel->getUserFields(
-				'cart'
-				, array('captcha' => true, 'delimiters' => true) // Ignore these types
-				, array('delimiter_userinfo','user_is_vendor' ,'username','password', 'password2', 'agreed', 'address_type') // Skips
-			);
-			$_userFields = array_merge($userFieldsCart,$_userFields);
+            $this->assignRef('currency', $currency);
 
-			//Fallback for customer_note
-			if(empty($orderbt->customer_note) and !empty($orderbt->oc_note)){
-				$orderbt->customer_note = $orderbt->oc_note;
-			}
+            $_userFields    = $userFieldsModel->getUserFields(
+                    'account'
+                    , array('captcha' => true, 'delimiters' => true) // Ignore these types
+                    , array('delimiter_userinfo', 'user_is_vendor', 'username', 'name', 'password', 'password2', 'agreed', 'address_type') // Skips
+            );
+            $userFieldsCart = $userFieldsModel->getUserFields(
+                    'cart'
+                    , array('captcha' => true, 'delimiters' => true) // Ignore these types
+                    , array('delimiter_userinfo', 'user_is_vendor', 'username', 'password', 'password2', 'agreed', 'address_type') // Skips
+            );
+            $_userFields    = array_merge($userFieldsCart, $_userFields);
 
-			$userfields = $userFieldsModel->getUserFieldsFilled(
-					 $_userFields
-					,$orderbt
-					,'BT_'
-			);
+            //Fallback for customer_note
+            if (empty($orderbt->customer_note) and !empty($orderbt->oc_note)) {
+                $orderbt->customer_note = $orderbt->oc_note;
+            }
 
-			$_userFields = $userFieldsModel->getUserFields(
-					 'shipment'
-					, array() // Default switches
-					, array('delimiter_userinfo', 'username', 'email', 'password', 'password2', 'agreed', 'address_type') // Skips
-			);
+            $userfields = $userFieldsModel->getUserFieldsFilled(
+                    $_userFields
+                    , $orderbt
+                    , 'BT_'
+            );
 
-			$shipmentfields = $userFieldsModel->getUserFieldsFilled(
-					 $_userFields
-					,$orderst
-					,'ST_'
-			);
+            $_userFields = $userFieldsModel->getUserFields(
+                    'shipment'
+                    , array() // Default switches
+                    , array('delimiter_userinfo', 'username', 'email', 'password', 'password2', 'agreed', 'address_type') // Skips
+            );
 
-			// Create an array to allow orderlinestatuses to be translated
-			// We'll probably want to put this somewhere in ShopFunctions...
-			$_orderStatusList = array();
-			foreach ($orderStates as $orderState) {
-				//$_orderStatusList[$orderState->virtuemart_orderstate_id] = $orderState->order_status_name;
-				//When I use update, I have to use this?
-				$_orderStatusList[$orderState->order_status_code] = vmText::_($orderState->order_status_name);
-			}
+            $shipmentfields = $userFieldsModel->getUserFieldsFilled(
+                    $_userFields
+                    , $orderst
+                    , 'ST_'
+            );
 
-			$_itemStatusUpdateFields = array();
-			$_itemAttributesUpdateFields = array();
-			foreach($order['items'] as $_item) {
-				$_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[".$_item->virtuemart_order_item_id."][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status'.$_item->virtuemart_order_item_id,true);
+            // Create an array to allow orderlinestatuses to be translated
+            // We'll probably want to put this somewhere in ShopFunctions...
+            $_orderStatusList = array();
+            foreach ($orderStates as $orderState) {
+                //$_orderStatusList[$orderState->virtuemart_orderstate_id] = $orderState->order_status_name;
+                //When I use update, I have to use this?
+                $_orderStatusList[$orderState->order_status_code] = vmText::_($orderState->order_status_name);
+            }
 
-			}
+            $_itemStatusUpdateFields     = array();
+            $_itemAttributesUpdateFields = array();
+            foreach ($order['items'] as $_item) {
+                $_itemStatusUpdateFields[$_item->virtuemart_order_item_id] = JHtml::_('select.genericlist', $orderStates, "item_id[" . $_item->virtuemart_order_item_id . "][order_status]", 'class="selectItemStatusCode"', 'order_status_code', 'order_status_name', $_item->order_status, 'order_item_status' . $_item->virtuemart_order_item_id, true);
+            }
 
-			if(!isset($_orderStatusList[$orderbt->order_status])){
-				if(empty($orderbt->order_status)){
-					$orderbt->order_status = 'unknown';
-				}
-				$_orderStatusList[$orderbt->order_status] = vmText::_('COM_VIRTUEMART_UNKNOWN_ORDER_STATUS');
-			}
+            if (!isset($_orderStatusList[$orderbt->order_status])) {
+                if (empty($orderbt->order_status)) {
+                    $orderbt->order_status = 'unknown';
+                }
+                $_orderStatusList[$orderbt->order_status] = vmText::_('COM_VIRTUEMART_UNKNOWN_ORDER_STATUS');
+            }
 
-			$this->lists['search'] = '';
+            $this->lists['search'] = '';
 
-			/* Assign the data */
-			$this->assignRef('orderdetails', $order);
-			$this->assignRef('orderID', $_orderID);
-			$this->assignRef('userfields', $userfields);
-			$this->assignRef('shipmentfields', $shipmentfields);
-			$this->assignRef('orderstatuslist', $_orderStatusList);
-			$this->assignRef('itemstatusupdatefields', $_itemStatusUpdateFields);
-			$this->assignRef('itemattributesupdatefields', $_itemAttributesUpdateFields);
-			$this->assignRef('orderbt', $orderbt);
-			$this->assignRef('orderst', $orderst);
-			$this->assignRef('virtuemart_shipmentmethod_id', $orderbt->virtuemart_shipmentmethod_id);
+            /* Assign the data */
+            $this->assignRef('orderdetails', $order);
+            $this->assignRef('orderID', $_orderID);
+            $this->assignRef('userfields', $userfields);
+            $this->assignRef('shipmentfields', $shipmentfields);
+            $this->assignRef('orderstatuslist', $_orderStatusList);
+            $this->assignRef('itemstatusupdatefields', $_itemStatusUpdateFields);
+            $this->assignRef('itemattributesupdatefields', $_itemAttributesUpdateFields);
+            $this->assignRef('orderbt', $orderbt);
+            $this->assignRef('orderst', $orderst);
+            $this->assignRef('virtuemart_shipmentmethod_id', $orderbt->virtuemart_shipmentmethod_id);
 
-			/* Data for the Edit Status form popup */
-			$_currentOrderStat = $order['details']['BT']->order_status;
-			// used to update all item status in one time
-			$_orderStatusSelect = JHtml::_('select.genericlist', $orderStates, 'order_status', '', 'order_status_code', 'order_status_name', $_currentOrderStat, 'order_items_status',true);
-			$this->assignRef('orderStatSelect', $_orderStatusSelect);
-			$this->assignRef('currentOrderStat', $_currentOrderStat);
+            /* Data for the Edit Status form popup */
+            $_currentOrderStat  = $order['details']['BT']->order_status;
+            // used to update all item status in one time
+            $_orderStatusSelect = JHtml::_('select.genericlist', $orderStates, 'order_status', '', 'order_status_code', 'order_status_name', $_currentOrderStat, 'order_items_status', true);
+            $this->assignRef('orderStatSelect', $_orderStatusSelect);
+            $this->assignRef('currentOrderStat', $_currentOrderStat);
 
-			/* Toolbar */
-			if (JVM_VERSION < 3) { $backward="back"; $list='back';} else {$backward='backward';$list='list';}
-			JToolBarHelper::custom( 'prevItem', $backward,'','COM_VIRTUEMART_ITEM_PREVIOUS',false);
-			JToolBarHelper::custom( 'nextItem', 'forward','','COM_VIRTUEMART_ITEM_NEXT',false);
-			JToolBarHelper::divider();
-			JToolBarHelper::custom( 'cancel', $list,'','COM_VIRTUEMART_ORDER_LIST_LBL',false,false);
-		}
-		else if ($curTask == 'editOrderItem') {
-			if(!class_exists('calculationHelper')) require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
+            /* Toolbar */
+            if (JVM_VERSION < 3) {
+                $backward = "back";
+                $list     = 'back';
+            } else {
+                $backward = 'backward';
+                $list     = 'list';
+            }
+            JToolBarHelper::custom('prevItem', $backward, '', 'COM_VIRTUEMART_ITEM_PREVIOUS', false);
+            JToolBarHelper::custom('nextItem', 'forward', '', 'COM_VIRTUEMART_ITEM_NEXT', false);
+            JToolBarHelper::divider();
+            JToolBarHelper::custom('cancel', $list, '', 'COM_VIRTUEMART_ORDER_LIST_LBL', false, false);
+        } else if ($curTask == 'editOrderItem') {
+            if (!class_exists('calculationHelper')) {
+                require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
+            }
 
-			$this->assignRef('orderstatuses', $orderStates);
+            $this->assignRef('orderstatuses', $orderStates);
 
-			$model = VmModel::getModel();
-			$orderId = vRequest::getString('orderId', '');
-			$orderLineItem = vRequest::getVar('orderLineId', '');
-			$this->assignRef('virtuemart_order_id', $orderId);
-			$this->assignRef('virtuemart_order_item_id', $orderLineItem);
+            $model         = VmModel::getModel();
+            $orderId       = vRequest::getString('orderId', '');
+            $orderLineItem = vRequest::getVar('orderLineId', '');
+            $this->assignRef('virtuemart_order_id', $orderId);
+            $this->assignRef('virtuemart_order_item_id', $orderLineItem);
 
-			$orderItem = $model->getOrderLineDetails($orderId, $orderLineItem);
-			$this->assignRef('orderitem', $orderItem);
-		}
-		else {
-			$this->setLayout('orders');
+            $orderItem = $model->getOrderLineDetails($orderId, $orderLineItem);
+            $this->assignRef('orderitem', $orderItem);
+        } else {
+            $this->setLayout('orders');
 
-			$model = VmModel::getModel();
-			$this->addStandardDefaultViewLists($model,'created_on');
-			$orderStatusModel =VmModel::getModel('orderstatus');
-			$orderstates = vRequest::getCmd('order_status_code','');
-			$this->lists['state_list'] = $orderStatusModel->renderOSList($orderstates,'order_status_code',FALSE,' onchange="this.form.submit();" ');
-			$orderslist = $model->getOrdersList();
+            $model                     = VmModel::getModel();
+            $this->addStandardDefaultViewLists($model, 'created_on');
+            $orderStatusModel          = VmModel::getModel('orderstatus');
+            $orderstates               = vRequest::getCmd('order_status_code', '');
+            $this->lists['state_list'] = $orderStatusModel->renderOSList($orderstates, 'order_status_code', FALSE, ' onchange="this.form.submit();" ');
+            $orderslist                = $model->getOrdersList();
 
-			$this->assignRef('orderstatuses', $orderStates);
+            $this->assignRef('orderstatuses', $orderStates);
 
-			if(!class_exists('CurrencyDisplay'))require(VMPATH_ADMIN.DS.'helpers'.DS.'currencydisplay.php');
+            if (!class_exists('CurrencyDisplay'))
+                require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
 
-			/* Apply currency This must be done per order since it's vendor specific */
-			$_currencies = array(); // Save the currency data during this loop for performance reasons
+            /* Apply currency This must be done per order since it's vendor specific */
+            $_currencies = array(); // Save the currency data during this loop for performance reasons
 
-			if ($orderslist) {
+            if ($orderslist) {
 
-			    foreach ($orderslist as $virtuemart_order_id => $order) {
+                foreach ($orderslist as $virtuemart_order_id => $order) {
 
-				    if(!empty($order->order_currency)){
-					    $currency = $order->order_currency;
-				    } else if($order->virtuemart_vendor_id){
-					    if(!class_exists('VirtueMartModelVendor')) require(VMPATH_ADMIN.DS.'models'.DS.'vendor.php');
-					    $currObj = VirtueMartModelVendor::getVendorCurrency($order->virtuemart_vendor_id);
-				        $currency = $currObj->virtuemart_currency_id;
-				   }
-				    //This is really interesting for multi-X, but I avoid to support it now already, lets stay it in the code
-				    if (!array_key_exists('curr'.$currency, $_currencies)) {
+                    if (!empty($order->order_currency)) {
+                        $currency = $order->order_currency;
+                    } else if ($order->virtuemart_vendor_id) {
+                        if (!class_exists('VirtueMartModelVendor'))
+                            require(VMPATH_ADMIN . DS . 'models' . DS . 'vendor.php');
+                        $currObj  = VirtueMartModelVendor::getVendorCurrency($order->virtuemart_vendor_id);
+                        $currency = $currObj->virtuemart_currency_id;
+                    }
+                    //This is really interesting for multi-X, but I avoid to support it now already, lets stay it in the code
+                    if (!array_key_exists('curr' . $currency, $_currencies)) {
 
-					    $_currencies['curr'.$currency] = CurrencyDisplay::getInstance($currency,$order->virtuemart_vendor_id);
-				    }
+                        $_currencies['curr' . $currency] = CurrencyDisplay::getInstance($currency, $order->virtuemart_vendor_id);
+                    }
 
-				    $order->order_total = $_currencies['curr'.$currency]->priceDisplay($order->order_total);
-				    $order->invoiceNumber = $model->getInvoiceNumber($order->virtuemart_order_id);
-			    }
+                    $order->order_total   = $_currencies['curr' . $currency]->priceDisplay($order->order_total);
+                    $order->invoiceNumber = $model->getInvoiceNumber($order->virtuemart_order_id);
+                }
+            }
 
-			}
+            /* Toolbar */
+            //JToolBarHelper::customX( 'CreateOrderHead', 'new','new','New',false);
+            JToolBarHelper::save('updatestatus', vmText::_('COM_VIRTUEMART_UPDATE_STATUS'));
 
-			//update order items button
-			/*$q = 'SELECT * FROM #__virtuemart_order_items WHERE `product_discountedPriceWithoutTax` IS NULL ';
-			$db = JFactory::getDBO();
-			$db->setQuery($q);
-			//$res = $db->loadRow();
-			if(true) {
-				JToolBarHelper::custom('updateCustomsOrderItems', 'new', 'new', vmText::_('COM_VIRTUEMART_REPORT_UPDATEORDERITEMS'),false);
-				vmError('COM_VIRTUEMART_UPDATEORDERITEMS_WARN');
-			}*/
-			/*
-			 * UpdateStatus removed from the toolbar; don't understand how this was intented to work but
-			 * the order ID's aren't properly passed. Might be readded later; the controller needs to handle
-			 * the arguments.
-			 */
+            if ($this->canDo->get('core.admin') || $this->canDo->get('vm.orders.delete')) {
+                JToolBarHelper::spacer('100');
+                JToolBarHelper::deleteList();
+            }
 
-			/* Toolbar */
-			//JToolBarHelper::customX( 'CreateOrderHead', 'new','new','New',false);
-			JToolBarHelper::save('updatestatus', vmText::_('COM_VIRTUEMART_UPDATE_STATUS'));
+            /* Assign the data */
+            $this->assignRef('orderslist', $orderslist);
 
-			if ($this->canDo->get('core.admin') || $this->canDo->get('vm.orders.delete')) {
-				JToolBarHelper::spacer('100');
-				JToolBarHelper::deleteList();
-			}
+            $pagination = $model->getPagination();
+            $this->assignRef('pagination', $pagination);
+        }
+        if (JFactory::getApplication()->isSite()) {
+            $bar = JToolBar::getInstance('toolbar');
+            $bar->appendButton('Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0');
+        }
 
-			/* Assign the data */
-			$this->assignRef('orderslist', $orderslist);
+        shopFunctions::checkSafePath();
 
-			$pagination = $model->getPagination();
-			$this->assignRef('pagination', $pagination);
-
-		}
-		if(JFactory::getApplication()->isSite()) {
-			$bar = JToolBar::getInstance( 'toolbar' );
-			$bar->appendButton( 'Link', 'back', 'COM_VIRTUEMART_LEAVE', 'index.php?option=com_virtuemart&manage=0' );
-		}
-
-		shopFunctions::checkSafePath();
-
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
 }
-

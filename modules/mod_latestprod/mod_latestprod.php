@@ -14,10 +14,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if (!class_exists('VmImage')) require(VMPATH_ADMIN.DS.'helpers'.DS.'image.php');
+
 if (!class_exists('vRequest')){
     return;
 }
-
+return;
 // Include the syndicate functions only once
 require_once (dirname(__FILE__) . '/helper.php');
 

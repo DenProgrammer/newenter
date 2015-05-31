@@ -27,7 +27,6 @@ class modLatestprodHelper {
         $productNumbers = self::getProductNumbers($countProducts);
         $product_model  = VmModel::getModel('product');
 
-        $db = JFactory::getDbo();
         for ($i = 0; $i < count($productNumbers); $i++) {
             $product = $product_model->getProduct($productNumbers[$i]);
             $product_model->addImages($product);
