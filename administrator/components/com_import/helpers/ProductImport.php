@@ -497,7 +497,7 @@ class ProductImport {
                 . "$currency, 'U', $currency, 1.00000, "
                 . "1, 1, 'Такая же как и дата выписки счета', 'ru-RU', "
                 . "'$ip', '$cdate', 0, '$cdate', "
-                . "0, '0000-0-0 00:00:00', 0, NULL, "
+                . "0, '0000-0-0 00:00:00', 0, '', "
                 . "NULL, $nrt, $exchange, $delivery)";
         $db->setQuery($ordersSql);
         $db->query();
