@@ -247,19 +247,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
     color:#000000;
 }
 
-#wrapper #rightcol span.addtocart-button input.addtocart-button, 
-#wrapper #rightcol span.addtocart-button input.notify-button{
-    border: none;
-    border-radius: 0;
-    color: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    width: 135px;
-    padding:0;
-    height:30px;
-    text-align: center;
-}
-
 #wrapper #rightcol .moduletablecartmod{
     text-align: center;
     margin-bottom:15px;
@@ -563,17 +550,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #content .cart-view .checkout-button-top #checkoutFormSubmit{
-    border: medium none;
-    color: #ffffff;
-    height: 30px;
-    margin: 5px 0;
     width: 200px;
-    padding:0;
-    margin:0;
-    letter-spacing:none;
-    font-size:14px;
-    border-radius:0;
-    font-weight:normal;
 }
 
 #wrapper #content .cart-view .sectiontableentry1 a{
@@ -766,16 +743,14 @@ hr.userFormSeparate{
 /********************************ELEMENTS**************************************/
 /******************************************************************************/
 
-#wrapper #content .spacer input.button-gloss,
-span.addtocart-button input.button-gloss,
+#fancybox-content a.continue_link,
+#fancybox-content a.showcart,
 input.addtocart-button,
 input.details-button,
 #wrapper #content .cart-view .continue_link,
 #wrapper #rightcol .vmCartModule .show_cart a,
 #wrapper #content #userForm .control-buttons .default,
 #checkoutFormSubmit,
-#fancybox-content a.continue_link,
-#fancybox-content a.showcart,
 input.button-gloss {
     position: relative;
     color: white;
@@ -801,8 +776,6 @@ input.button-gloss {
     font-family: 'MS Shell Dlg', Arial, Tahoma;
     line-height: 28px;
 } 
-#wrapper #content .spacer input.button-gloss:active,
-span.addtocart-button input.button-gloss:active,
 #fancybox-content a.continue_link:active,
 #fancybox-content a.showcart:active,
 input.addtocart-button:active,
@@ -815,8 +788,6 @@ input.button-gloss:active {
     top: 1px;
     box-shadow: none;
 }
-#wrapper #content .spacer input.button-gloss:hover,
-span.addtocart-button input.button-gloss:hover,
 #fancybox-content a.continue_link:hover,
 #fancybox-content a.showcart:hover,
 input.addtocart-button:hover,
