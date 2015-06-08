@@ -510,16 +510,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #content .spacer .addtocart-button{
-    background: url("../images/menu-bg.png") repeat-x scroll left bottom #000000;
-    border: medium none;
-    color: #ffffff;
-    height: 30px;
-    margin: 5px 0;
     width: 120px;
-    padding:0;
-    margin:0;
-    letter-spacing: normal;
-    font-size:14px;
 }
 
 #wrapper #content .spacer .vm-details-button{
@@ -745,7 +736,6 @@ hr.userFormSeparate{
 
 #fancybox-content a.continue_link,
 #fancybox-content a.showcart,
-input.addtocart-button,
 input.details-button,
 #wrapper #content .cart-view .continue_link,
 #wrapper #rightcol .vmCartModule .show_cart a,
@@ -757,7 +747,6 @@ input.button-gloss {
     font-weight: bold;
     text-decoration: none;
     text-shadow: -1px -1px #000;
-    user-select: none;
     padding: 0 15px;
     outline: none;
     background-color: #000;
@@ -778,7 +767,6 @@ input.button-gloss {
 } 
 #fancybox-content a.continue_link:active,
 #fancybox-content a.showcart:active,
-input.addtocart-button:active,
 input.details-button:active,
 #wrapper #content .cart-view .continue_link:active,
 #wrapper #rightcol .vmCartModule .show_cart a:active,
@@ -790,7 +778,6 @@ input.button-gloss:active {
 }
 #fancybox-content a.continue_link:hover,
 #fancybox-content a.showcart:hover,
-input.addtocart-button:hover,
 input.details-button:hover,
 #wrapper #content .cart-view .continue_link:hover,
 #wrapper #rightcol .vmCartModule .show_cart a:hover,

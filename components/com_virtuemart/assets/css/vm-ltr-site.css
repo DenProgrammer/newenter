@@ -159,7 +159,6 @@ ul.VMmenu,.VMmenu ul,.VMmenu li{list-style-type:none!important;background-image:
 .browseProductImage {max-height: 90px;width:auto;max-width: 100%;}
 .customer-reviews,.ask-a-question-view .form-field{margin:25px 0 0;}
 span.variant-name,span.custom-variant-name{width:100px;float:left;display:block;margin-bottom:5px;}
-span.addtocart-button input.addtocart-button:hover,span.addtocart-button input.notify-button:hover,input.highlight-button:hover,a.highlight:hover{background-position:0 -200px;color:#f2f2f2;}
 .category-view .row .category .spacer,.featured-view .spacer,.latest-view .spacer,.topten-view .spacer,.recent-view .spacer,.related-products-view .spacer,.browse-view .row .product .spacer{padding:0.4em;}
 .featured-view .spacer h3,.latest-view .spacer h3,.topten-view .spacer h3,.recent-view .spacer h3,.related-products-view .spacer h3,.browse-view .row .product .spacer h2{font-size:14px;margin:0 0 0.2em;padding:0;}
 .browse-view .row .product .spacer img,.related-products-view .row .product .spacer img{width:auto;height:auto;}
