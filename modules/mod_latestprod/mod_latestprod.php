@@ -14,18 +14,24 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists('VmImage')) require(VMPATH_ADMIN.DS.'helpers'.DS.'image.php');
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+defined('VMPATH_ADMIN') or define('VMPATH_ADMIN', JPATH_ROOT.DS.'administrator'.DS.'components'.DS.'com_virtuemart');
+defined('VMPATH_ROOT') or define('VMPATH_ROOT', JPATH_ROOT);
 
-if (!class_exists('vRequest')){
+if (!class_exists('VmImage')) {
+    require(VMPATH_ADMIN . '/helpers/image.php');
+}
+
+if (!class_exists('vRequest')) {
     return;
 }
-return;
+
 // Include the syndicate functions only once
 require_once (dirname(__FILE__) . '/helper.php');
 
 $products = modLatestprodHelper::getProducts($params);
 $kurs     = modLatestprodHelper::getKurs();
-//echo '<pre>';print_r($products);exit;
+echo '<pre>';print_r($products);exit;
 if ($products) {
     require(JModuleHelper::getLayoutPath('mod_latestprod'));
 }

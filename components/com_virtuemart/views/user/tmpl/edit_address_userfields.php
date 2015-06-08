@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * Modify user form view, User info
@@ -21,75 +20,61 @@ defined('_JEXEC') or die('Restricted access');
 
 // Status Of Delimiter
 $closeDelimiter = false;
-$openTable = true;
-$hiddenFields = '';
+$openTable      = true;
+$hiddenFields   = '';
 
 // Output: Userfields
-foreach($this->userFields['fields'] as $field) {
+foreach ($this->userFields['fields'] as $field) {
 
-	if($field['type'] == 'delimiter') {
+    if ($field['type'] == 'delimiter') {
+        ?>
+            <span class="userfields_info"><?php echo $field['title'] ?></span>
 
-		// For Every New Delimiter
-		// We need to close the previous
-		// table and delimiter
-		if($closeDelimiter) { ?>
-			</table>
-		</fieldset>
-		<?php
-			$closeDelimiter = false;
-		} //else {
-			?>
-			<fieldset>
-			<span class="userfields_info"><?php echo $field['title'] ?></span>
+            <?php
+            $closeDelimiter = true;
+            $openTable      = true;
+            //}
+        } elseif ($field['hidden'] == true) {
 
-			<?php
-			$closeDelimiter = true;
-			$openTable = true;
-		//}
+            // We collect all hidden fields
+            // and output them at the end
+            $hiddenFields .= $field['formcode'] . "\n";
+        } else {
 
-	} elseif ($field['hidden'] == true) {
+            // If we have a new delimiter
+            // we have to start a new table
+            if ($openTable) {
+                $openTable = false;
+                ?>
 
-		// We collect all hidden fields
-		// and output them at the end
-		$hiddenFields .= $field['formcode'] . "\n";
+                <table class="adminForm user-details">
 
-	} else {
+                    <?php
+                }
 
-		// If we have a new delimiter
-		// we have to start a new table
-		if($openTable) {
-			$openTable = false;
-			?>
-
-			<table class="adminForm user-details">
-
-		<?php
-		}
-
-		$descr = empty($field['description'])? $field['title']:$field['description'];
-		// Output: Userfields
-		?>
-				<tr>
-					<td class="key" title="<?php echo $field['title']  ?>" >
-						<label class="<?php echo $field['name'] ?>" for="<?php echo $field['name'] ?>_field">
-							<?php echo $descr . ($field['required'] ? ' *' : '') ?>
-						</label>
-					</td>
-					<td>
-						<?php echo $field['formcode'] ?>
-					</td>
-				</tr>
-	<?php
-	}
-
-}
+                $descr = empty($field['description']) ? $field['title'] : $field['description'];
+                // Output: Userfields
+                ?>
+                <tr>
+                    <td class="key" title="<?php echo $field['title'] ?>" >
+                        <label class="<?php echo $field['name'] ?>" for="<?php echo $field['name'] ?>_field">
+                            <?php echo $descr . ($field['required'] ? ' *' : '') ?>
+                        </label>
+                    </td>
+                    <td>
+                        <?php echo $field['formcode'] ?>
+                    </td>
+                </tr>
+                <?php
+            }
+        }
 
 // At the end we have to close the current
-// table and delimiter ?>
+// table and delimiter 
+        ?>
 
-			</table>
-		</fieldset>
+    </table>
 
-<?php // Output: Hidden Fields
-echo $hiddenFields
-?>
+<?php
+// Output: Hidden Fields
+echo $hiddenFields;

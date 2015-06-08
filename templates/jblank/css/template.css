@@ -279,20 +279,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
     cursor: pointer;
 }
 
-#wrapper #rightcol .vmCartModule .show_cart a{
-    display:block;
-    background: url("../images/menu-bg.png") repeat-x scroll left bottom #000000;
-    border: medium none;
-    color: #ffffff;
-    display: block;
-    height: 30px;
-    margin: 5px 0;
-    width: 193px;
-    text-decoration:none;
-    text-align:center;
-    line-height:30px;
-}
-
 #fancybox-content a.continue_link,
 #fancybox-content a.showcart{
     display: inline-block;
@@ -585,35 +571,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
     font-weight:normal;
 }
 
-#wrapper #content .cart-view .continue_link{
-    background-color: #000;
-    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%), radial-gradient(190% 100% at 50% 0 , rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(0, 0, 0, 0) 50%);
-    background-position: 200% 0px, 0 0;
-    background-repeat: no-repeat;
-    background-size: 200% 100%, auto auto;
-    border-radius: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    color: white;
-    font-weight: bold;
-    outline: medium none;
-    padding: 5px 15px;
-    position: relative;
-    text-decoration: none;
-    text-shadow: -1px -1px #000;
-    border: medium none;
-    border-radius: 0;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: normal;
-    height: 20px;
-    margin: 0;
-    width: 200px;
-    text-align:center;
-    display:block;
-    float:right;
-    margin-bottom:20px;
-}
-
 #wrapper #content .cart-view .sectiontableentry1 a{
     color:#3a3a3a;
     text-decoration:none;
@@ -623,32 +580,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
     padding:0;
     height:auto;
     font-weight:bold;
-}
-
-#wrapper #content .cart-view .sectiontableentry2 input.details-button, #wrapper #content a.vm-button-correct{
-    background-color: #000;
-    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%), radial-gradient(190% 100% at 50% 0 , rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(0, 0, 0, 0) 50%);
-    background-position: 200% 0px, 0 0;
-    background-repeat: no-repeat;
-    background-size: 200% 100%, auto auto;
-    border-radius: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    color: white;
-    font-weight: bold;
-    outline: medium none;
-    padding: 5px 15px;
-    position: relative;
-    text-decoration: none;
-    text-shadow: -1px -1px #000;
-    border: medium none;
-    border-radius: 0;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: normal;
-    height: 30px;
-    margin: 0;
-    width: 100px;
-    text-align:center;
 }
 
 #wrapper #content a.vm-button-correct{
@@ -720,32 +651,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
     margin-bottom:15px;
 }
 
-
-#wrapper #content #userForm .control-buttons .default{
-    background-color: #000;
-    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 70%), radial-gradient(190% 100% at 50% 0 , rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(0, 0, 0, 0) 50%);
-    background-position: 200% 0px, 0 0;
-    background-repeat: no-repeat;
-    background-size: 200% 100%, auto auto;
-    border-radius: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    color: white;
-    font-weight: bold;
-    outline: medium none;
-    padding: 5px 15px;
-    position: relative;
-    text-decoration: none;
-    text-shadow: -1px -1px #000;
-    border: medium none;
-    border-radius: 0;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: normal;
-    height: 30px;
-    margin: 0;
-    text-align:center;
-}
-
 .general-bg, input.custom-attribute, input.quantity-input, .manufacturer-product-link a, a.ask-a-question, input.vm-default, a.product-details, a.details, div.details, button.default{
     border-radius:0;
 }
@@ -811,8 +716,9 @@ ul.VMmenu li div{
     font-weight:bold;
 }
 
-#wrapper #content #userForm{
-    margin-bottom:30px;
+hr.userFormSeparate{
+    margin-bottom:15px;
+    border: none;
     border-bottom:1px solid #cccccc;
 }
 
@@ -857,6 +763,11 @@ ul.VMmenu li div{
 
 #wrapper #content .spacer input.button-gloss,
 span.addtocart-button input.button-gloss,
+input.addtocart-button,
+input.details-button,
+#wrapper #content .cart-view .continue_link,
+#wrapper #rightcol .vmCartModule .show_cart a,
+#wrapper #content #userForm .control-buttons .default,
 #checkoutFormSubmit,
 #fancybox-content a.continue_link,
 #fancybox-content a.showcart,
@@ -877,11 +788,23 @@ input.button-gloss {
     box-shadow: rgba(0,0,0,.3) 0 2px 5px;
     border-radius: 0px;
     cursor: pointer;
+    border: none;
+    height: 32px;
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'MS Shell Dlg', Arial, Tahoma;
+    line-height: 28px;
 } 
 #wrapper #content .spacer input.button-gloss:active,
 span.addtocart-button input.button-gloss:active,
 #fancybox-content a.continue_link:active,
 #fancybox-content a.showcart:active,
+input.addtocart-button:active,
+input.details-button:active,
+#wrapper #content .cart-view .continue_link:active,
+#wrapper #rightcol .vmCartModule .show_cart a:active,
+#wrapper #content #userForm .control-buttons .default:active,
 #checkoutFormSubmit:active,
 input.button-gloss:active {
     top: 1px;
@@ -891,6 +814,11 @@ input.button-gloss:active {
 span.addtocart-button input.button-gloss:hover,
 #fancybox-content a.continue_link:hover,
 #fancybox-content a.showcart:hover,
+input.addtocart-button:hover,
+input.details-button:hover,
+#wrapper #content .cart-view .continue_link:hover,
+#wrapper #rightcol .vmCartModule .show_cart a:hover,
+#wrapper #content #userForm .control-buttons .default:hover,
 #checkoutFormSubmit:hover,
 input.button-gloss:hover {
     transition: .5s linear;
@@ -920,4 +848,12 @@ input.button-gloss:hover {
 #mainmenu_block ul.menu li:hover {
     transition: .4s linear;
     background-position: 100% 0%;
+}
+
+a.continue_link{
+    width: 200px;
+}
+
+div.moduletablesearch, div.total_products{
+    margin-bottom: 10px;
 }
