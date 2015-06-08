@@ -18,11 +18,11 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-if(VmConfig::get('usefancy',1)){
-	vmJsApi::addJScript( 'fancybox/jquery.fancybox-1.3.4.pack', false);
-	vmJsApi::css('jquery.fancybox-1.3.4');
-	$document = JFactory::getDocument ();
-	$imageJS = '
+if (VmConfig::get('usefancy', 1)) {
+    vmJsApi::addJScript('fancybox/jquery.fancybox-1.3.4.pack', false);
+    vmJsApi::css('jquery.fancybox-1.3.4');
+    $document = JFactory::getDocument();
+    $imageJS  = '
 	jQuery(document).ready(function() {
 		Virtuemart.updateImageEventListeners()
 	});
@@ -46,10 +46,10 @@ if(VmConfig::get('usefancy',1)){
 	}
 	';
 } else {
-	vmJsApi::addJScript( 'facebox',false );
-	vmJsApi::css( 'facebox' );
-	$document = JFactory::getDocument ();
-	$imageJS = '
+    vmJsApi::addJScript('facebox', false);
+    vmJsApi::css('facebox');
+    $document = JFactory::getDocument();
+    $imageJS  = '
 	jQuery(document).ready(function() {
 		Virtuemart.updateImageEventListeners()
 	});
@@ -60,15 +60,14 @@ if(VmConfig::get('usefancy',1)){
 	}
 	';
 }
-vmJsApi::addJScript('imagepopup',$imageJS);
+vmJsApi::addJScript('imagepopup', $imageJS);
 
 if (!empty($this->product->images)) {
-	$image = $this->product->images[0];
-	?>
-	<div class="main-image">
-		<?php echo $image->displayMediaFull("",true,"rel='vm-additional-images'"); ?>
-		<div class="clear"></div>
-	</div>
-	<?php
+    $image = $this->product->images[0];
+    ?>
+    <div class="main-image">
+        <?php echo $image->displayMediaFull("", true, "rel='vm-additional-images'"); ?>
+        <div class="clear"></div>
+    </div>
+    <?php
 }
-?>

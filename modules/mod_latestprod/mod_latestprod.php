@@ -31,7 +31,7 @@ require_once (dirname(__FILE__) . '/helper.php');
 
 $products = modLatestprodHelper::getProducts($params);
 $kurs     = modLatestprodHelper::getKurs();
-echo '<pre>';print_r($products);exit;
+
 if ($products) {
     require(JModuleHelper::getLayoutPath('mod_latestprod'));
 }
