@@ -843,6 +843,7 @@ div.latest_products ul li{
     border-radius: 10px;
     display: inline-block;
     margin: 5px 10px;
+    vertical-align: top;
 }
 div.latest_products ul li a div.prod_title{
     height: 30px;

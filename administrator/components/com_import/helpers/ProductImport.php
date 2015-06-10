@@ -23,24 +23,26 @@ class ProductImport {
     protected $pageOrd  = 'http://enter.kg/exportOrders.php';
     protected $media    = 'images/stories/virtuemart/';
     protected $user     = 436;
+    protected $catId    = null; //array(281, 282);
+    protected $iterator = 0;
 
     /**
      * construct
      */
     public function __construct() {
-        $this->AC1 = new AngryCurl(array($this, 'loadCategoriesCallback'));
+        $this->AC1 = new AngryCurl(array($this, 'loadCategoriesCallback'), 1);
         $this->AC1->init_console();
 
-        $this->AC2 = new AngryCurl(array($this, 'loadTotalCallback'));
+        $this->AC2 = new AngryCurl(array($this, 'loadTotalCallback'), 1);
         $this->AC2->init_console();
 
-        $this->AC3 = new AngryCurl(array($this, 'loadProductsCallback'));
+        $this->AC3 = new AngryCurl(array($this, 'loadProductsCallback'), 1);
         $this->AC3->init_console();
 
-        $this->AC4 = new AngryCurl(array($this, 'loadTotalOrdersCallback'));
+        $this->AC4 = new AngryCurl(array($this, 'loadTotalOrdersCallback'), 1);
         $this->AC4->init_console();
 
-        $this->AC5 = new AngryCurl(array($this, 'loadOrdersCallback'));
+        $this->AC5 = new AngryCurl(array($this, 'loadOrdersCallback'), 1);
         $this->AC5->init_console();
     }
 
@@ -59,7 +61,7 @@ class ProductImport {
         $this->loadCategories();
         $this->loadTotal();
         $this->loadProducts();
-        $this->loadOrders();
+//        $this->loadOrders();
     }
 
     /**
@@ -100,6 +102,9 @@ class ProductImport {
         for ($i = 0; $i < $count; $i++) {
             $offset = $i * $this->limit;
             $url    = $this->page . '?limit=' . $this->limit . '&offset=' . $offset . '&passw=' . $this->passw;
+            if ($this->catId) {
+                $url.='&catid=' . implode(',', $this->catId);
+            }
             $this->AC3->get($url);
         }
 
@@ -131,13 +136,12 @@ class ProductImport {
      */
     public function loadCategoriesCallback($response, $info, $request) {
         if ($info['http_code'] !== 200) {
+            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
+            $this->AC1->get($request->url);
             return;
         }
 
-        AngryCurl::add_debug_msg(
-                "->\t" . $request->options[CURLOPT_PROXY] . "\tOK\t" . $info['http_code'] .
-                "\t" . $info['total_time'] . "\t" . $info['url']
-        );
+        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
 
         $data = json_decode($response);
 
@@ -201,27 +205,38 @@ class ProductImport {
      * @return null
      */
     public function loadProductsCallback($response, $info, $request) {
-        if ($info['http_code'] !== 200) {
+        $this->iterator++;
 
+        $data = json_decode($response);
+
+        if ($info['http_code'] !== 200 || !isset($data->items)) {
+
+            $this->AC3->get($request->url);
             AngryCurl::add_debug_msg(
-                    "->\tFAIL\t" . $info['http_code'] .
+                    $this->iterator . "\t->\tFAIL\t" . $info['http_code'] .
                     "\t" . $info['total_time'] . "\t" . $info['url']
             );
             return;
         }
 
         AngryCurl::add_debug_msg(
-                "->\tOK\t" . $info['http_code'] .
+                $this->iterator . "\t->\tOK\t" . $info['http_code'] .
                 "\t" . round($info['total_time'], 2) . "\t" . $info['url']
         );
 
-        $data = json_decode($response);
-
+        $countSaved = 0;
         if (isset($data->items) && count($data->items)) {
             foreach ($data->items as $item) {
-                $this->saveProduct($item);
+                if ($this->saveProduct($item)) {
+                    $countSaved++;
+                }
             }
         }
+
+        AngryCurl::add_debug_msg(
+                $this->iterator . "\t->\tLoad\t" . count($data->items) .
+                "\tSaved\t" . $countSaved
+        );
 
         return;
     }
@@ -374,7 +389,16 @@ class ProductImport {
             $product_full_image = $product_thumb_image;
         }
 
-        $productSql = "INSERT IGNORE INTO `#__virtuemart_products`(
+        $checkSql = "SELECT `virtuemart_product_id` FROM `#__virtuemart_products`
+                WHERE `virtuemart_product_id` = $product_id LIMIT 1";
+        $db->setQuery($checkSql);
+        $check    = $db->loadResult();
+
+        if ($check) {
+            return false;
+        }
+
+        $productSql = "INSERT INTO `#__virtuemart_products`(
                 `virtuemart_product_id`, `virtuemart_vendor_id`, `product_parent_id`, `product_sku`, `product_gtin`, 
                 `product_mpn`, `product_weight`, `product_weight_uom`, `product_length`, `product_width`, 
                 `product_height`, `product_lwh_uom`, `product_url`, `product_in_stock`, `product_ordered`, 
@@ -393,7 +417,7 @@ class ProductImport {
         $db->setQuery($productSql);
         $db->query();
 
-        $productRuSql = "INSERT IGNORE INTO `#__virtuemart_products_ru_ru` (
+        $productRuSql = "INSERT INTO `#__virtuemart_products_ru_ru` (
                 `virtuemart_product_id`, `product_s_desc`, `product_desc`, `product_name`, `metadesc`, 
                 `metakey`, `customtitle`, `slug`, `hash`
                 ) VALUES (
@@ -450,6 +474,8 @@ class ProductImport {
             $db->setQuery($mediaProductSql);
             $db->query();
         }
+
+        return true;
     }
 
     /**
@@ -669,10 +695,14 @@ class ProductImport {
      * @return string
      */
     protected function getFileTitle($product) {
-        if ($product->full_image) {
-            $title = end(explode('/', $product->full_image));
-        } elseif ($product->thumb_image) {
-            $title = end(explode('/', $product->thumb_image));
+        $full  = $product->full_image;
+        $thumb = $product->thumb_image;
+        if ($full) {
+            $array = explode('.', $full);
+            $title = end($array);
+        } elseif ($thumb) {
+            $array = explode('.', $thumb);
+            $title = end($array);
         } else {
             $title = 'image';
         }
@@ -688,7 +718,9 @@ class ProductImport {
      */
     protected function getFileMimetype($product) {
         if ($product->full_image) {
-            $ext = end(explode('.', $product->full_image));
+            $image = $product->full_image;
+            $array = explode('.', $image);
+            $ext   = end($array);
 
             if (in_array($ext, array('png', 'jpg', 'gif'))) {
                 return 'image/' . $ext;

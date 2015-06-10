@@ -87,6 +87,11 @@ class VirtuemartViewCategory extends VmView {
             'price_min'  => vRequest::getVar('advanced_search_price_min', -1),
             'currency'   => vRequest::getVar('advanced_search_currency', -1)
         );
+        
+        if ($advanced_search['categories'] == null and $advanced_search['price_max'] == -1 
+                and $advanced_search['price_min'] == -1 and $advanced_search['currency'] == -1){
+            $advanced_search = null;
+        }
 
         $virtuemart_manufacturer_id = vRequest::getInt('virtuemart_manufacturer_id', -1);
         if ($virtuemart_manufacturer_id === -1 and !empty($menu->query['virtuemart_manufacturer_id'])) {
