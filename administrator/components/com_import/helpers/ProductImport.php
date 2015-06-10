@@ -61,7 +61,7 @@ class ProductImport {
         $this->loadCategories();
         $this->loadTotal();
         $this->loadProducts();
-//        $this->loadOrders();
+        $this->loadOrders();
     }
 
     /**
@@ -250,24 +250,22 @@ class ProductImport {
      * @return null
      */
     public function loadOrdersCallback($response, $info, $request) {
-        if ($info['http_code'] !== 200) {
+        $data = json_decode($response);
+
+        if ($info['http_code'] !== 200 || !isset($data->orders)) {
+            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
+            $this->AC5->get($request->url);
             return;
         }
 
-        AngryCurl::add_debug_msg(
-                "->\t" . $request->options[CURLOPT_PROXY] . "\tOK\t" . $info['http_code'] .
-                "\t" . $info['total_time'] . "\t" . $info['url']
-        );
-
-        $data = json_decode($response);
-
-        if (isset($data->orders)) {
-            foreach ($data->orders as $item) {
-                $this->saveOrders($item);
+        $count = 0;
+        foreach ($data->orders as $item) {
+            if ($this->saveOrders($item)) {
+                $count++;
             }
-        } else {
-            $this->AC5->get($request->url);
         }
+        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
+        AngryCurl::add_debug_msg("->\tLoad\t" . count($data->orders) . "\tSave\t" . $count);
 
         return;
     }
@@ -503,6 +501,16 @@ class ProductImport {
         $order_number = $this->generateOrderNumber($user_id);
         $order_pass   = 'p_' . substr(md5((string) time() . rand(1, 1000) . $order_number), 0, 5);
 
+        $checkSql = "SELECT `virtuemart_order_id` "
+                . "FROM `#__virtuemart_orders` "
+                . "WHERE `virtuemart_order_id` = $order_id";
+        $db->setQuery($checkSql);
+        $check    = $db->loadResult();
+
+        if ($check) {
+            return false;
+        }
+
         $ordersSql = "INSERT INTO `#__virtuemart_orders` ("
                 . "`virtuemart_order_id`, `virtuemart_user_id`, `virtuemart_vendor_id`, `order_number`, "
                 . "`customer_number`, `order_pass`, `order_total`, `order_salesPrice`, `order_billTaxAmount`, "
@@ -629,6 +637,8 @@ class ProductImport {
             $db->setQuery($itemSql);
             $db->query();
         }
+
+        return true;
     }
 
     /**

@@ -199,7 +199,7 @@ class VirtuemartViewCategory extends VmView {
                         }
                     }
                 }
-
+//pr($this->products);
                 // Add feed links
                 if ($this->showproducts and $this->products && VmConfig::get('feed_cat_published', 0) == 1) {
                     $link    = '&format=feed&limitstart=';

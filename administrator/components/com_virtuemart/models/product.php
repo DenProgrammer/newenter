@@ -221,7 +221,11 @@ class VirtueMartModelProduct extends VmModel {
     function sortSearchListQuery($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $langFields = array(), $advanced_search = array()) {
         $app = JFactory::getApplication();
         $db  = JFactory::getDbo();
-
+        
+        $sql = 'SELECT * FROM #__virtuemart_currencies WHERE virtuemart_currency_id = 165';
+        $db->setQuery($sql);
+        $currency = $db->LoadObject();
+        
         //User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
         //So what was the reason for that we have it? TODO experiemental, find conditions for the need of group by
         $groupBy = ' group by p.`virtuemart_product_id` ';
@@ -389,9 +393,11 @@ class VirtueMartModelProduct extends VmModel {
                 $joinCategory    = TRUE;
                 break;
             case 'product_price':
-                $orderBy         = ' ORDER BY `product_price` ';
-                $ff_select_price = ' , IF(pp.override, pp.product_override_price, pp.product_price) as product_price ';
+                $orderBy         = ' ORDER BY `sort_price`, l.product_name ';
+                $ff_select_price = ' , IF (pp.override, pp.product_override_price, pp.product_price) as product_price, pp.product_currency, '
+                        . 'IF (product_currency = 202, product_price * '.$currency->currency_exchange_rate.', product_price) AS sort_price ';
                 $joinPrice       = TRUE;
+                $joinLang       = TRUE;
                 break;
             case 'created_on':
             case '`p`.created_on':
