@@ -15,7 +15,9 @@ $currency          = $viewData['currency'];
 $showRating        = $viewData['showRating'];
 $verticalseparator = " vertical-separator";
 
-$user = JFactory::getUser()->getAuthorisedGroups();
+$userGroup   = JFactory::getUser()->getAuthorisedGroups();
+$allowGroups = array(7, 8);
+$showSku     = array_intersect($allowGroups, $userGroup);
 
 foreach ($viewData['products'] as $type => $products) {
 
@@ -111,7 +113,13 @@ foreach ($viewData['products'] as $type => $products) {
                             </div>
                             <?php //echo $rowsHeight[$row]['customs']  ?>
                             <div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> 
-                                <?php echo preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $product->product_sku); ?>
+                                <?php
+                                if ($showSku) {
+                                    echo $product->product_sku;
+                                } else {
+                                    echo preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $product->product_sku);
+                                }
+                                ?>
                                 <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
                             </div>
 

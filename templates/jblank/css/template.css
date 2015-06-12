@@ -823,6 +823,13 @@ a.continue_link{
 div.moduletablesearch, div.total_products{
     margin-bottom: 10px;
 }
+div.moduletablelogin{
+    margin-bottom: 15px;
+}
+div.moduletablelogin input[type='text'], div.moduletablelogin input[type='password']{
+    width: 189px;
+    margin-bottom: 5px;
+}
 
 div.latest_products{
     padding: 0 10px;
