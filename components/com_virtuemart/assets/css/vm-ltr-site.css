@@ -28,15 +28,15 @@ input.custom-attribute{width:140px;}
 
 .addtocart-area{margin: 0 0 4.2em;}
 span.quantity-box{display: inline-block; vertical-align:middle;}
-input.quantity-input{height:2.4em!important;width:2.4em!important;text-align:center;font-weight:700;padding:0.1em;margin-bottom:0!important;}
+input.quantity-input{display:none; height:2.4em!important;width:2.4em!important;text-align:center;font-weight:700;padding:0.1em;margin-bottom:0!important;}
 span.quantity-controls{width:15px;display: inline-block;vertical-align:middle;margin:0 0 0 1px;display: none;}
 span.quantity-controls input.quantity-controls{height:15px;border:none;width:15px;cursor:pointer;}
 span.quantity-controls input.quantity-plus{background:url(../images/vmgeneral/quantity-controls.png) no-repeat;margin: 1px 0;}
 span.quantity-controls input.quantity-minus{background:url(../images/vmgeneral/quantity-controls.png) repeat-x;background-position:15px 0;margin: 1px 0;}
 
-.addtocart-bar{margin:0;padding:0;position:absolute; bottom: 4.2em; left: 0; right: 0; text-align: center;}
+.addtocart-bar{margin:0;padding:0;position:absolute; bottom: 0; left: 0; right: 0; text-align: center;}
 .productdetails-view .addtocart-bar{margin:1.5em 0 0;padding:0 0 0 0px;position:relative; bottom: 0.0em;text-align: left;}
-.vmgroup .addtocart-bar{bottom: 0.0em;position:relative;margin:2.0em 0 0 0;}
+.vmgroup .addtocart-bar{bottom: 0.0em;position:relative;margin:0em 0 0 0;}
 .vmgroup .addtocart-area{margin:0.5em 0 1em 0;}
 span.addtocart-button{display: inline-block;vertical-align:middle;margin:0 0 0 2px;}
 span.cart-images img {
