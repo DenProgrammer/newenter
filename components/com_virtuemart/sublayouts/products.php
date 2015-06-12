@@ -115,7 +115,7 @@ foreach ($viewData['products'] as $type => $products) {
                             <div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> 
                                 <?php
                                 if ($showSku) {
-                                    echo $product->product_sku;
+                                    echo str_replace('sklad-', '', $product->product_sku);
                                 } else {
                                     echo preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $product->product_sku);
                                 }

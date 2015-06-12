@@ -885,3 +885,6 @@ div.latest_products ul li a div.prod_price span:last-child{
     font-weight: bold;
     color: #f90000;
 }
+div.vm_cart_products a{
+    text-decoration: none;
+}
