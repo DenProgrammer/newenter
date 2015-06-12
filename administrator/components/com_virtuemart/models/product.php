@@ -768,11 +768,12 @@ class VirtueMartModelProduct extends VmModel {
             $child->orderable = TRUE;
         }
         //store the original parent id
-        $pId             = $child->virtuemart_product_id;
-        $ppId            = $child->product_parent_id;
-        $published       = $child->published;
-        if (!empty($pId))
+        $pId       = $child->virtuemart_product_id;
+        $ppId      = $child->product_parent_id;
+        $published = $child->published;
+        if (!empty($pId)) {
             $child->allIds[] = $pId;
+        }
 
         //$this->product_parent_id = $child->product_parent_id;
 
@@ -1442,9 +1443,8 @@ class VirtueMartModelProduct extends VmModel {
 
         $db        = JFactory::getDBO();
         $neighbors = array('previous' => '', 'next' => '');
-
+return $neighbors;
         $oldDir = $this->filter_order_Dir;
-
 
         if ($this->filter_order_Dir == 'ASC') {
             $direction = 'DESC';
@@ -1473,8 +1473,12 @@ class VirtueMartModelProduct extends VmModel {
                 }
             }
 
+            $sql = 'SELECT * FROM #__virtuemart_currencies WHERE virtuemart_currency_id = 165';
 
-            $selectLang = ' `l`.`product_name`';
+            $db->setQuery($sql);
+            $currency = $db->LoadObject();
+
+            $selectLang = ' `l`.`product_name`, IF (product_currency = 202, product_price * ' . $currency->currency_exchange_rate . ', product_price) AS sort_price ';
 
             $q = 'SELECT p.`virtuemart_product_id`,' . $selectLang . ' FROM `#__virtuemart_products` as p';
 
@@ -1486,7 +1490,7 @@ class VirtueMartModelProduct extends VmModel {
             $q .= $joinT . ' WHERE (' . implode(' AND ', $queryArray[2]) . ') AND p.`virtuemart_product_id`!="' . $product->virtuemart_product_id . '" ';
 
             $tableLangKeys = array('product_name', 'product_s_desc', 'product_desc');
-            if (isset($product->$orderByName)) {
+            if (isset($product->$orderByName) && !strpos($product->$orderByName, 'sort_price')) {
                 $orderByValue = $product->$orderByName;
                 if (isset($sp[0])) {
                     $orderByName = '`' . $sp[0] . '`.' . $orderByName;
@@ -1502,12 +1506,14 @@ class VirtueMartModelProduct extends VmModel {
             $alreadyFound = '';
             foreach ($neighbors as &$neighbor) {
 
-                if (!empty($alreadyFound))
+                if (!empty($alreadyFound)) {
                     $alreadyFound = 'AND p.`virtuemart_product_id`!="' . $alreadyFound . '"';
-                $qm           = $alreadyFound . ' AND ' . $orderByName . ' ' . $op . ' "' . $orderByValue . '"  ORDER BY ' . $orderByName . ' ' . $direction . ' LIMIT 1';
+                }
+                $qm = $alreadyFound . ' AND ' . $orderByName . ' ' . $op . ' "' . $orderByValue . '"  ORDER BY ' . $orderByName . ' ' . $direction . ' LIMIT 1';
+
                 $db->setQuery($q . $qm);
                 //vmdebug('getneighbors '.$q.$qm);
-                if ($result       = $db->loadAssocList()) {
+                if ($result = $db->loadAssocList()) {
                     $neighbor     = $result;
                     $alreadyFound = $result[0]['virtuemart_product_id'];
                 }
