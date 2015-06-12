@@ -43,7 +43,7 @@ class modLatestprodHelper {
      * @return array
      */
     public static function getProductNumbers($countProducts) {
-        $cookie = isset($_COOKIE['latestproducts']) ? explode(',', $_COOKIE['latestproducts']) : array();
+        $cookie = (isset($_COOKIE['latestproducts']) && trim($_COOKIE['latestproducts'])) ? explode(',', trim($_COOKIE['latestproducts'])) : array();
 
         $productId = vRequest::getInt('virtuemart_product_id');
 
