@@ -10,7 +10,11 @@ if (version_compare(PHP_VERSION, '5.3.10', '<'))
 {
 	die('Your host needs to use PHP 5.3.10 or higher to run this version of Joomla!');
 }
-
+function pr($var){
+    echo '<pre>';
+    print_r($var);
+    echo '</pre>';
+}
 /**
  * Constant that is checked in included files to prevent direct access.
  * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower

@@ -336,6 +336,17 @@ class VirtuemartViewProduct extends VmViewAdmin {
 
                 $this->addStandardDefaultViewLists($model, 'created_on');
 
+                if ($cI = vRequest::getInt('virtuemart_category_id', false)) {
+                    $app       = JFactory::getApplication();
+                    //$old_state = $app->getUserState('virtuemart_category_id');
+                    $old_state = $app->getUserState('virtuemart_category_id');
+                    if (empty($old_state) or $old_state != $cI) {
+                        vRequest::setVar('com_virtuemart.product.filter_order', 'pc.ordering');
+                        $model->filter_order = 'pc.ordering';
+                        $old_state           = $app->setUserState('virtuemart_category_id', $cI);
+                    }
+                }
+
                 /* Get the list of products */
                 $productlist = $model->getProductListing(false, false, false, false, true);
                 //vmdebug('my product listing',$productlist);

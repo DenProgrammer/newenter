@@ -39,10 +39,10 @@ $document->addScriptDeclaration($js);
             $path        = '0,2,5,4,10,2,5,8';
         }
 
-        $countProduct = $countProducts[$category->virtuemart_category_id];
+        $countProduct = isset($countProducts[$category->virtuemart_category_id]) ? $countProducts[$category->virtuemart_category_id] : 0;
         if ($category->childs) {
             foreach ($category->childs as $child) {
-                $countProduct += $countProducts[$child->virtuemart_category_id];
+                $countProduct += isset($countProducts[$child->virtuemart_category_id]) ? $countProducts[$child->virtuemart_category_id] : 0;
             }
         }
 

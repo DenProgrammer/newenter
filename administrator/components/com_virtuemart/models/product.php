@@ -221,11 +221,11 @@ class VirtueMartModelProduct extends VmModel {
     function sortSearchListQuery($onlyPublished = TRUE, $virtuemart_category_id = FALSE, $group = FALSE, $nbrReturnProducts = FALSE, $langFields = array(), $advanced_search = array()) {
         $app = JFactory::getApplication();
         $db  = JFactory::getDbo();
-        
-        $sql = 'SELECT * FROM #__virtuemart_currencies WHERE virtuemart_currency_id = 165';
+
+        $sql      = 'SELECT * FROM #__virtuemart_currencies WHERE virtuemart_currency_id = 165';
         $db->setQuery($sql);
         $currency = $db->LoadObject();
-        
+
         //User Q.Stanley said that removing group by is increasing the speed of product listing in a bigger shop (10k products) by factor 60
         //So what was the reason for that we have it? TODO experiemental, find conditions for the need of group by
         $groupBy = ' group by p.`virtuemart_product_id` ';
@@ -297,7 +297,7 @@ class VirtueMartModelProduct extends VmModel {
             }
         }
 
-        if ($virtuemart_category_id > 0 && !isset($advanced_search)) {
+        if ($virtuemart_category_id > 0 && (!isset($advanced_search) || count($advanced_search) == 0)) {
             $joinCategory = TRUE;
             $where[]      = ' `pc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
         } else if ($isSite and !VmConfig::get('show_uncat_child_products', TRUE)) {
@@ -395,9 +395,9 @@ class VirtueMartModelProduct extends VmModel {
             case 'product_price':
                 $orderBy         = ' ORDER BY `sort_price`, l.product_name ';
                 $ff_select_price = ' , IF (pp.override, pp.product_override_price, pp.product_price) as product_price, pp.product_currency, '
-                        . 'IF (product_currency = 202, product_price * '.$currency->currency_exchange_rate.', product_price) AS sort_price ';
+                        . 'IF (product_currency = 202, product_price * ' . $currency->currency_exchange_rate . ', product_price) AS sort_price ';
                 $joinPrice       = TRUE;
-                $joinLang       = TRUE;
+                $joinLang        = TRUE;
                 break;
             case 'created_on':
             case '`p`.created_on':
@@ -464,7 +464,7 @@ class VirtueMartModelProduct extends VmModel {
             $result = $db->LoadObject();
 
             $currency_id = $result->virtuemart_currency_id;
-            $usd_rate        = $result->currency_exchange_rate;
+            $usd_rate    = $result->currency_exchange_rate;
 
             $price_min = ($advanced_search['currency'] == 'USD') ? $advanced_search['price_min'] : $advanced_search['price_min'] / $usd_rate;
             $price_max = ($advanced_search['currency'] == 'USD') ? $advanced_search['price_max'] : $advanced_search['price_max'] / $usd_rate;
@@ -478,7 +478,7 @@ class VirtueMartModelProduct extends VmModel {
                 $where[] = ' pp.`product_price` <= ' . $price_max . ' ';
             }
         }
-        
+
         $joinedTables = array();
         $joinLang     = false;
         //This option switches between showing products without the selected language or only products with language.
@@ -1329,7 +1329,8 @@ class VirtueMartModelProduct extends VmModel {
             $user = JFactory::getUser();
             if (!($user->authorise('core.admin', 'com_virtuemart') or $user->authorise('core.manage', 'com_virtuemart'))) {
                 $onlyPublished = TRUE;
-                if ($show_prices   = VmConfig::get('show_prices', 1) == '0') {
+                $show_prices   = VmConfig::get('show_prices', 1);
+                if (empty($show_prices)) {
                     $withCalc = FALSE;
                 }
             }

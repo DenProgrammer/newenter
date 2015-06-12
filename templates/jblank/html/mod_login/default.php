@@ -26,7 +26,9 @@ JHtml::_('bootstrap.tooltip');
                     <div class="input-prepend">
                         <span class="add-on">
                             <span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>"></span>
-                            <label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+                            <label for="modlgn-username" class="element-invisible">
+                                <?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>
+                            </label>
                         </span>
                         <input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" />
                     </div>
@@ -43,7 +45,8 @@ JHtml::_('bootstrap.tooltip');
                         <span class="add-on">
                             <span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD') ?>">
                             </span>
-                            <label for="modlgn-passwd" class="element-invisible"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>
+                            <label for="modlgn-passwd" class="element-invisible">
+                                <?php echo JText::_('JGLOBAL_PASSWORD'); ?>
                             </label>
                         </span>
                         <input id="modlgn-passwd" type="password" name="password" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" />
@@ -62,7 +65,8 @@ JHtml::_('bootstrap.tooltip');
                             <span class="add-on">
                                 <span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>">
                                 </span>
-                                <label for="modlgn-secretkey" class="element-invisible"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
+                                <label for="modlgn-secretkey" class="element-invisible">
+                                    <?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
                                 </label>
                             </span>
                             <input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY') ?>" />
@@ -71,7 +75,9 @@ JHtml::_('bootstrap.tooltip');
                             </span>
                         </div>
                     <?php else: ?>
-                        <label for="modlgn-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY') ?></label>
+                        <label for="modlgn-secretkey">
+                            <?php echo JText::_('JGLOBAL_SECRETKEY') ?>
+                        </label>
                         <input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY') ?>" />
                         <span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
                             <span class="icon-help"></span>
@@ -83,7 +89,8 @@ JHtml::_('bootstrap.tooltip');
         <?php endif; ?>
         <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
             <div id="form-login-remember" class="control-group checkbox">
-                <label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME') ?></label> <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
+                <label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME') ?></label> 
+                <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
             </div>
         <?php endif; ?>
         <div id="form-login-submit" class="control-group">
