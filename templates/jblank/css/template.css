@@ -741,6 +741,7 @@ input.details-button,
 #wrapper #rightcol .vmCartModule .show_cart a,
 #wrapper #content #userForm .control-buttons .default,
 #checkoutFormSubmit,
+button.button-gloss, 
 input.button-gloss {
     position: relative;
     color: white;
@@ -772,6 +773,7 @@ input.details-button:active,
 #wrapper #rightcol .vmCartModule .show_cart a:active,
 #wrapper #content #userForm .control-buttons .default:active,
 #checkoutFormSubmit:active,
+button.button-gloss:active,
 input.button-gloss:active {
     top: 1px;
     box-shadow: none;
@@ -783,6 +785,7 @@ input.details-button:hover,
 #wrapper #rightcol .vmCartModule .show_cart a:hover,
 #wrapper #content #userForm .control-buttons .default:hover,
 #checkoutFormSubmit:hover,
+button.button-gloss:hover,
 input.button-gloss:hover {
     transition: .5s linear;
     background-position: -200% 0, 0 0;

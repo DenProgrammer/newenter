@@ -32,7 +32,7 @@ $currency = $viewData['currency'];
         <a class="ask-a-question bold" href="<?php echo $askquestion_url ?>" rel="nofollow" ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ASKPRICE') ?></a>
         <?php
     } else {
-        echo '<span class="PricebasePrice">$' . $product->prices['salesPrice']
+        echo '<span class="PricebasePrice">$' . round($product->prices['salesPrice'], 2)
         . ' / '
         . $currency->roundForDisplay($product->prices['salesPrice'], 165, 1, 0) . ' '
         . JText::_('COM_VIRTUEMART_CURRENCY_KGS')

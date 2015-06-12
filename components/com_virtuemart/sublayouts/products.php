@@ -15,6 +15,9 @@ $currency          = $viewData['currency'];
 $showRating        = $viewData['showRating'];
 $verticalseparator = " vertical-separator";
 
+$user = JFactory::getUser()->getAuthorisedGroups();
+pr($user);
+
 foreach ($viewData['products'] as $type => $products) {
 
     $rowsHeight = shopFunctionsF::calculateProductRowsHeights($products, $currency, $products_per_row);

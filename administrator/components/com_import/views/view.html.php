@@ -2416,6 +2416,15 @@ switch (JRequest::getVar('ajax')) {
 
             break;
         }
+    case 'setCurrency': {
+            $currency = JRequest::getVar('currency');
+            $price    = JRequest::getVar('price');
+
+            $db->setQuery("UPDATE #__import_sklads SET currency = '$currency' WHERE price_name = '$price'");
+            $db->query();
+
+            break;
+        }
     default: {
             deleteClearNadbavka();
 

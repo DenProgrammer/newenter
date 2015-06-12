@@ -28,8 +28,8 @@ input.custom-attribute{width:140px;}
 
 .addtocart-area{margin: 0 0 4.2em;}
 span.quantity-box{display: inline-block; vertical-align:middle;}
-input.quantity-input{height:2.2em!important;width:2.2em!important;text-align:center;font-weight:700;padding:0.1em;margin-bottom:0!important;}
-span.quantity-controls{width:15px;display: inline-block;vertical-align:middle;margin:0 0 0 1px;}
+input.quantity-input{height:2.4em!important;width:2.4em!important;text-align:center;font-weight:700;padding:0.1em;margin-bottom:0!important;}
+span.quantity-controls{width:15px;display: inline-block;vertical-align:middle;margin:0 0 0 1px;display: none;}
 span.quantity-controls input.quantity-controls{height:15px;border:none;width:15px;cursor:pointer;}
 span.quantity-controls input.quantity-plus{background:url(../images/vmgeneral/quantity-controls.png) no-repeat;margin: 1px 0;}
 span.quantity-controls input.quantity-minus{background:url(../images/vmgeneral/quantity-controls.png) repeat-x;background-position:15px 0;margin: 1px 0;}

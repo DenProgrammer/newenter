@@ -250,6 +250,19 @@ function changeCategory(value, filtr)
         jQuery("#doclisttable2 tbody").html(data);
     });
 }
+//изменение значения валюты
+function changeCurrency()
+{
+    var currency = jQuery("#currency").val();
+    var price = jQuery("#price").val();
+    var html = jQuery("#currency [value=" + currency + "]").html();
+    jQuery("#currency_top").html(html);
+
+    currencys[price] = currency;
+
+    var url = mainurl + '&ajax=setCurrency';
+    jQuery.get(url, {currency: currency, price: price});
+}
 //добавить еще одну строку для надбавок
 function addNadbavka()
 {
