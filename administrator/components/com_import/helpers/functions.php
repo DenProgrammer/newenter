@@ -1,11 +1,5 @@
 <?php
 
-function pr($var) {
-    echo '<pre>';
-    print_r($var);
-    echo '</pre>';
-}
-
 function create_small($name_big, $name_small, $max_x, $max_y) {
     list($x, $y, $t, $attr) = getimagesize($name_big);
 

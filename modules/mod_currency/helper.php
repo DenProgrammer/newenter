@@ -17,5 +17,19 @@ defined('_JEXEC') or die;
  * @since       1.5
  */
 class ModCurencyHelper {
-    
+
+    /**
+     * get currency
+     * 
+     * @return object
+     */
+    public static function getCurrency() {
+        $db = JFactory::getDbo();
+
+        $sql = 'SELECT * FROM #__virtuemart_currencies WHERE currency_code_3 = "KGS"';
+        $db->setQuery($sql);
+
+        return $db->loadObject();
+    }
+
 }

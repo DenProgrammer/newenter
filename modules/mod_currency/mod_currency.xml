@@ -27,23 +27,6 @@
     </languages>
     <config>
         <fields name="params">
-            <fieldset name="basic">
-                <field
-                    name="currency_value"
-                    type="text"
-                    required="true"
-                    default="0"
-                    label="MOD_CURRENCY_CURRENCY_VALUE"
-                    description="MOD_CURRENCY_CURRENCY_VALUE_DESC" />
-                <field
-                    name="delivery"
-                    type="text"
-                    required="true"
-                    default="0"
-                    label="MOD_CURRENCY_DELIVERY"
-                    description="MOD_CURRENCY_DELIVERY_DESC">
-                </field>
-            </fieldset>
             <fieldset
                 name="advanced">
                 <field

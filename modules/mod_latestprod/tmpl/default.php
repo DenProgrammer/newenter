@@ -6,6 +6,9 @@ defined('_JEXEC') or die('Restricted access');
     <ul>
         <?php
         foreach ($products as $product) {
+            if (!isset($product->virtuemart_product_id)){
+                continue;
+            }
             $image = $product->images[0];
             ?>
             <li>

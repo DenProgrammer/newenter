@@ -9,7 +9,12 @@
  */
 defined('_JEXEC') or die;
 
-$currencyValue = $params->get('currency_value', 0);
-$delivery  = $params->get('delivery', 0);
+// Include the syndicate functions only once
+require_once __DIR__ . '/helper.php';
+
+$currency = ModCurencyHelper::getCurrency();
+
+$currencyValue = round($currency->currency_exchange_rate, 2);
+$delivery      = round($currency->currency_delivery, 2);
 
 require JModuleHelper::getLayoutPath('mod_currency', $params->get('layout', 'default'));

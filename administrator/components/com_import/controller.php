@@ -256,8 +256,7 @@ class ImportController {
         $offset = JRequest::getInt('offset');
 
         //get options from current price
-        $options = getOptionsPrice($this->price_type);
-
+        $options                 = getOptionsPrice($this->price_type);
         $sklad                   = $options->sklad_name;
         $position_product_name   = $options->position_product_name;
         $position_product_price  = $options->position_product_price;
@@ -265,6 +264,7 @@ class ImportController {
         $clear_line              = $options->clear_line;
         $markup                  = $options->markup;
         $this->checkMetod        = $options->price_name;
+        $currency                = $options->currency == 'USD' ? 202 : 165;
 
         if (($sklad) and ($offset == 0)) {
             unpublishSklad($sklad);
@@ -285,6 +285,7 @@ class ImportController {
                 $product_desc = trim(htmlentities($item['product_desk'], ENT_QUOTES, 'UTF-8'));
 
                 $product_price = preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $item['product_price']));
+
                 if ($markup == 1) {
                     $product_price = $this->getMarkupSumm($product_price);
                 }
@@ -295,7 +296,7 @@ class ImportController {
                 $category_id = getCategoryById($product_id);
 
                 $data = $this->getProductTemplate(
-                        $product_id, $sklad . $product_name, $product_name, $product_price, $category_id, $product_desc, $hash
+                        $product_id, $sklad . $product_name, $product_name, $product_price, $category_id, $product_desc, $hash, $currency
                 );
 
                 vRequest::setVar(JSession::getFormToken(), 1);
@@ -358,7 +359,7 @@ class ImportController {
      * @param string  $desc
      * @return array
      */
-    public function getProductTemplate($product_id, $sku, $name, $price, $category_id, $desc, $hash) {
+    public function getProductTemplate($product_id, $sku, $name, $price, $category_id, $desc, $hash, $currency = 202) {
         $db   = JFactory::getDbo();
         $lang = JFactory::getLanguage();
         $slug = $lang->transliterate($name);
@@ -389,7 +390,7 @@ class ImportController {
             'mprices'                => array(
                 'product_price'               => array($price),
                 'virtuemart_product_price_id' => array($virtuemart_product_price_id),
-                'product_currency'            => array(202),
+                'product_currency'            => array($currency),
                 'virtuemart_shoppergroup_id'  => array(),
                 'basePrice'                   => array(0),
                 'product_tax_id'              => array(-1),

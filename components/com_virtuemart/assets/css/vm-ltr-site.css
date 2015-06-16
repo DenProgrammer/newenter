@@ -118,7 +118,7 @@ textarea#customer_note_field {margin: 10px 0 10px 0px;width:98%;}
 div.terms-of-service{ margin:10px 0 0;padding:10px 0 15px; display : inline;}
 .terms-of-service h5{background:#7C1E21;color:rgba(255, 255, 255, 0.9);font-size:14px;text-align:center;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;font-weight:400;margin:0;padding:15px;}
 .terms-of-service h5 a,.terms-of-service h5 a:visited{color:#fff;text-transform:uppercase;}
-.VmArrowdown{background:top right no-repeat url(../images/vmgeneral/arrow_down.png);cursor:pointer;float:right;width:16px;height:16px;padding:0 12px;}
+.VmArrowdown{cursor:pointer;float:right;width:16px;height:16px;padding:0;}
 ul.VMmenu,.VMmenu ul,.VMmenu li{list-style-type:none!important;background-image:none!important;padding:2px;}
 #com-form-login .width30.floatleft {display: inline-block;margin: 0 20px 0 0;}
 #com-form-login label{display:inline-block;}

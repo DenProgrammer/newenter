@@ -1443,8 +1443,8 @@ class VirtueMartModelProduct extends VmModel {
 
         $db        = JFactory::getDBO();
         $neighbors = array('previous' => '', 'next' => '');
-return $neighbors;
-        $oldDir = $this->filter_order_Dir;
+        return $neighbors;
+        $oldDir    = $this->filter_order_Dir;
 
         if ($this->filter_order_Dir == 'ASC') {
             $direction = 'DESC';
@@ -1691,16 +1691,16 @@ return $neighbors;
                 $pricesToStore['virtuemart_product_price_id'] = (int) $data['mprices']['virtuemart_product_price_id'][$k];
 
                 if (!$isChild) {
-                    $pricesToStore['product_override_price']     = $data['mprices']['product_override_price'][$k];
-                    $pricesToStore['override']                   = (int) $data['mprices']['override'][$k];
-                    $pricesToStore['virtuemart_shoppergroup_id'] = (int) $data['mprices']['virtuemart_shoppergroup_id'][$k];
-                    $pricesToStore['product_tax_id']             = (int) $data['mprices']['product_tax_id'][$k];
-                    $pricesToStore['product_discount_id']        = (int) $data['mprices']['product_discount_id'][$k];
-                    $pricesToStore['product_currency']           = (int) $data['mprices']['product_currency'][$k];
-                    $pricesToStore['product_price_publish_up']   = $data['mprices']['product_price_publish_up'][$k];
-                    $pricesToStore['product_price_publish_down'] = $data['mprices']['product_price_publish_down'][$k];
-                    $pricesToStore['price_quantity_start']       = (int) $data['mprices']['price_quantity_start'][$k];
-                    $pricesToStore['price_quantity_end']         = (int) $data['mprices']['price_quantity_end'][$k];
+                    $pricesToStore['product_override_price']     = isset($data['mprices']['product_override_price'][$k]) ? $data['mprices']['product_override_price'][$k] : 0;
+                    $pricesToStore['override']                   = isset($data['mprices']['override'][$k]) ? (int) $data['mprices']['override'][$k] : 0;
+                    $pricesToStore['virtuemart_shoppergroup_id'] = isset($data['mprices']['virtuemart_shoppergroup_id'][$k]) ? (int) $data['mprices']['virtuemart_shoppergroup_id'][$k] : 0;
+                    $pricesToStore['product_tax_id']             = isset($data['mprices']['product_tax_id'][$k]) ? (int) $data['mprices']['product_tax_id'][$k] : 0;
+                    $pricesToStore['product_discount_id']        = isset($data['mprices']['product_discount_id'][$k]) ? (int) $data['mprices']['product_discount_id'][$k] : 0;
+                    $pricesToStore['product_currency']           = isset($data['mprices']['product_currency'][$k]) ? (int) $data['mprices']['product_currency'][$k] : 0;
+                    $pricesToStore['product_price_publish_up']   = isset($data['mprices']['product_price_publish_up'][$k]) ? $data['mprices']['product_price_publish_up'][$k] : 0;
+                    $pricesToStore['product_price_publish_down'] = isset($data['mprices']['product_price_publish_down'][$k]) ? $data['mprices']['product_price_publish_down'][$k] : 0;
+                    $pricesToStore['price_quantity_start']       = isset($data['mprices']['price_quantity_start'][$k]) ? (int) $data['mprices']['price_quantity_start'][$k] : 0;
+                    $pricesToStore['price_quantity_end']         = isset($data['mprices']['price_quantity_end'][$k]) ? (int) $data['mprices']['price_quantity_end'][$k] : 0;
                 }
 
                 if (!$isChild and isset($data['mprices']['use_desired_price'][$k]) and $data['mprices']['use_desired_price'][$k] == "1") {

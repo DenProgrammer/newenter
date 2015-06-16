@@ -119,13 +119,14 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #leftcol h3{
-    background: url("../images/partners.png") repeat-x center top;
+    /*background: url("../images/partners.png") repeat-x center top;*/
+    background: rgb(204, 16, 19);
     color: #ffffff;
     font-family: Verdana;
     font-size: 13px;
     font-weight: bold;
     line-height: 28px;
-    padding-bottom: 10px;
+    margin-bottom: 10px;
     text-align: center;
     width: 100%;
 }
@@ -135,7 +136,8 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #leftcol .VMmenu li a{
-    background:linear-gradient(#c30101 0%, #e50101 20%, #e50101 80%, #c30101 100%);
+    /*background:linear-gradient(#c30101 0%, #e50101 20%, #e50101 80%, #c30101 100%);*/
+    background:rgb(204, 16, 19);
     display:block;
     color: #fff;
     font-size: 13px;
@@ -193,13 +195,14 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #rightcol h3{
-    background: url("../images/partners.png") repeat-x center top;
+    /*background: url("../images/partners.png") repeat-x center top;*/
+    background: rgb(204, 16, 19);
     color: #ffffff;
     font-family: Verdana;
     font-size: 13px;
     font-weight: bold;
     line-height: 28px;
-    padding-bottom: 10px;
+    margin-bottom: 10px;
     text-align: center;
     width: 100%;
 }
@@ -225,7 +228,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
     margin-top:10px;
     width:193px;
     height:28px;
-    background:url(../images/partners.png) repeat-x center top;
+    background: rgb(204, 16, 19);
     text-align:center;
     color:#fff;
     font: normal 14px Arial;
@@ -658,7 +661,7 @@ ul.VMmenu li div{
 .VmArrowdown{
     background: none;
     position: absolute;
-    right: 5px;
+    right: 0px;
     top: 8px;
     z-index: 1;
     padding: 0px;

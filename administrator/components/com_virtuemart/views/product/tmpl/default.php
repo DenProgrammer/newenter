@@ -76,37 +76,37 @@ else
                 <tr>
                     <th class="admin-checkbox"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
 
-                    <th width="20%"><?php echo $this->sort('product_name', $col_product_name) ?> </th>
-                    <th style="min-width:<?php echo $imgWidth ?>px;width:5%;"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_MEDIA'); ?></th>
-                    <th><?php echo $this->sort('product_sku') ?></th>
-                    <th width="90px" ><?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?></th>
-                    <?php /* 		<th><?php echo JHtml::_('grid.sort', 'COM_VIRTUEMART_CATEGORY', 'c.category_name', $this->lists['filter_order_Dir'], $this->lists['filter_order'] ); ?></th> */ ?>
-                    <th width="15%"><?php echo vmText::_('COM_VIRTUEMART_CATEGORY'); ?></th>
-                    <!-- Only show reordering fields when a category ID is selected! -->
-                    <?php
-                    $num_rows = 0;
-                    if ($this->virtuemart_category_id) {
-                        ?>
-                        <th style="min-width:100px;width:5%;">
-                            <?php echo $this->sort('pc.ordering', 'COM_VIRTUEMART_FIELDMANAGER_REORDER'); ?>
-                            <?php echo JHtml::_('grid.order', $this->productlist); //vmCommonHTML::getSaveOrderButton( $num_rows, 'changeordering' );  ?>
-                        </th>
-                    <?php } ?>
-                    <th width="40px" ><?php echo $this->sort('published'); ?></th>
-                    <th><?php echo $this->sort('p.virtuemart_product_id', 'COM_VIRTUEMART_ID') ?></th>
+                    <th>
+                        <?php echo $this->sort('product_name', $col_product_name) ?> 
+                    </th>
+                    <th width="90px">
+                        <?php echo $this->sort('product_sku') ?>
+                    </th>
+                    <th width="70px" >
+                        <?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?>
+                    </th>
+                    <th width="15%">
+                        <?php echo vmText::_('COM_VIRTUEMART_CATEGORY'); ?>
+                    </th>
+                    <th width="40px" >
+                        <?php echo $this->sort('published'); ?>
+                    </th>
+                    <th>
+                        <?php echo $this->sort('p.virtuemart_product_id', 'COM_VIRTUEMART_ID') ?>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $total = $this->pagination->total;
+                $total     = $this->pagination->total;
+                $totalList = count($this->productlist);
 
-                if ($totalList = count($this->productlist)) {
+                if ($totalList) {
                     $i       = 0;
                     $k       = 0;
                     $keyword = vRequest::getCmd('keyword');
                     foreach ($this->productlist as $key => $product) {
                         $checked   = JHtml::_('grid.id', $i, $product->virtuemart_product_id, null, 'virtuemart_product_id');
-                        $published = JHtml::_('grid.published', $product, $i);
                         $published = $this->gridPublished($product, $i);
 
                         $is_featured = $this->toggle($product->product_special, $i, 'toggle.product_special');
@@ -124,62 +124,30 @@ else
                                 echo JHtml::_('link', JRoute::_($link), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . htmlentities($product->product_name)));
                                 ?>
                             </td>
-                            <!-- Media -->
-                            <?php
-                            // Create URL
-                            $link       = JRoute::_('index.php?view=media&virtuemart_product_id=' . $product->virtuemart_product_id . '&option=com_virtuemart');
-                            ?>
-                            <td align="center">
-                                <?php
-                                // We show the images only when less than 21 products are displayeed -->
-                                $mediaLimit = (int) VmConfig::get('mediaLimit', 20);
-                                if ($this->pagination->limit <= $mediaLimit or $totalList <= $mediaLimit) {
-                                    // Product list should be ordered
-                                    $this->model->addImages($product, 1);
-                                    $img = '<span >(' . $product->mediaitems . ')</span>' . $product->images[0]->displayMediaThumb('class="vm_mini_image"', false);
-                                    //echo JHtml::_('link', $link, $img,  array('title' => vmText::_('COM_VIRTUEMART_MEDIA_MANAGER').' '.$product->product_name));
-                                } else {
-                                    //echo JHtml::_('link', $link, '<span class="icon-nofloat vmicon vmicon-16-media"></span> ('.$product->mediaitems.')', array('title' => vmText::_('COM_VIRTUEMART_MEDIA_MANAGER').' '.$product->product_name) );
-                                    $img = '<span class="icon-nofloat vmicon vmicon-16-media"></span> (' . $product->mediaitems . ')';
-                                }
-                                echo JHtml::_('link', $link, $img, array('title' => vmText::_('COM_VIRTUEMART_MEDIA_MANAGER') . ' ' . htmlentities($product->product_name)));
-                                ?>
-                            </td>
+                            
                             <!-- Product SKU -->
                             <td><?php echo $product->product_sku; ?></td>
+                            
                             <!-- Product price -->
                             <td align="right" ><?php
                                 if (isset($product->product_price_display)) {
                                     echo $product->product_price_display;
                                 }
-                                ?></td>
-                            <!-- Category name -->
-                            <td><?php
-                                echo $product->categoriesList;
-                                ?></td>
-                            <!-- Reorder only when category ID is present -->
-                            <?php if ($this->virtuemart_category_id) { ?>
-                                <td class="order" >
-                                    <span class="vmicon vmicon-16-move"></span>
-                                    <span><?php echo $this->pagination->vmOrderUpIcon($i, $product->ordering, 'orderup', vmText::_('COM_VIRTUEMART_MOVE_UP')); ?></span>
-                                    <span><?php echo $this->pagination->vmOrderDownIcon($i, $product->ordering, $total, true, 'orderdown', vmText::_('COM_VIRTUEMART_MOVE_DOWN')); ?></span>
-                                    <input class="ordering" type="text" name="order[<?php echo $product->id ?>]" id="order[<?php echo $i ?>]" size="5" value="<?php echo $product->ordering; ?>" style="text-align: center" />
-
-                                    <?php // echo vmCommonHTML::getOrderingField( $product->ordering ); ?>
-                                </td>
-                            <?php } ?>
-                            <td align="center" >
-                                <?php
-                                echo $is_featured;
                                 ?>
                             </td>
+                            
+                            <!-- Category name -->
+                            <td>
+                                <?php echo $product->categoriesList; ?>
+                            </td>                                
                             <!-- published -->
                             <td align="center" ><?php echo $published; ?></td>
+                            
                             <!-- Vendor name -->
-                            <td align="right"><?php echo $product->virtuemart_product_id; // echo $product->vendor_name;    ?></td>
+                            <td align="right"><?php echo $product->virtuemart_product_id; // echo $product->vendor_name;     ?></td>
                         </tr>
                         <?php
-                        $k    = 1 - $k;
+                        $k = 1 - $k;
                         $i++;
                     }
                 }
