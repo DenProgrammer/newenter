@@ -38,10 +38,10 @@ class VirtuemartViewInvoice extends VmViewAdmin {
         $orderId = vRequest::getInt('order_id', 0);
 
         // Load helpers
-        if (!class_exists('NumberAnaliz')){
+        if (!class_exists('NumberAnaliz')) {
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'string.php');
         }
-        
+
         if (is_file(VMPATH_ADMIN . DS . 'views/invoice/tmpl/default_' . $task . '.php')) {
             $tpl  = $task;
             $data = $this->prepareData($task, $orderId);
@@ -72,8 +72,21 @@ class VirtuemartViewInvoice extends VmViewAdmin {
 
                     break;
                 }
+            case 'waybill': {
+                    $orderModel     = VmModel::getModel('orders');
+                    $NumberAnalyser = new NumberAnaliz();
+
+                    $data->order = $orderModel->getOrder($orderId);
+
+                    $total = round($data->order['details']['BT']->order_total);
+
+                    $data->document_id  = rand(1, 1000);
+                    $data->total_string = $NumberAnalyser->CurrencyToText($total, "USD");
+
+                    break;
+                }
         }
-//echo '<pre>';print_r($data);exit;
+
         return $data;
     }
 

@@ -67,9 +67,9 @@ class VirtuemartControllerInvoice extends VmController {
         switch ($data['action']) {
             case 'saveVendor': {
                     $vendor_info_id = (int) $data['vendor_info_id'];
-                    $shopper_info   = $data['shopper_info'];
+                    $shopper_info   = isset($data['shopper_info']) ? $data['shopper_info'] : null;
                     $order_id       = (int) $data['order_id'];
-                    $nrt            = (float) $data['nrt'];
+                    $nrt            = isset($data['nrt']) ? (float) $data['nrt'] : 0;
 
                     $sql = "UPDATE `#__virtuemart_orders` 
                     SET `vendor_info_id`='$vendor_info_id', `shoper_info`='$shopper_info', `nrt`='$nrt'
@@ -83,14 +83,12 @@ class VirtuemartControllerInvoice extends VmController {
                     $order_id      = (int) $data['order_id'];
                     $itemcount     = (float) $data['itemcount'];
                     $itemprice     = (float) $data['itemprice'];
-                    $itemname      = (string) $data['itemname'];
-                    $itemsku       = (string) $data['itemsku'];
-                    $shopper_info  = (string) $data['shopper_info'];
-                    $nrt           = (float) $data['nrt'];
+                    $itemname      = str_replace('*AMPERSAND*', '&', $data['itemname']);
+                    $itemsku       = isset($data['itemsku']) ? $data['itemsku'] : null;
+                    $shopper_info  = isset($data['shopper_info']) ? $data['shopper_info'] : null;
+                    $nrt           = isset($data['nrt']) ? (float) $data['nrt'] : 0;
                     $realprice     = ($nrt > 0) ? round($itemprice / (1 + $nrt / 100)) : $itemprice;
                     $totalPrice    = $realprice * $itemcount;
-
-                    $itemname = str_replace('*AMPERSAND*', '&', $itemname);
 
                     $sql = "UPDATE `#__virtuemart_order_items` 
                     SET `order_item_name`='$itemname', `product_quantity`='$itemcount', 
@@ -275,9 +273,9 @@ class VirtuemartControllerInvoice extends VmController {
                                 header('Content-Disposition: attachment;filename="file.xls"');
                                 header('Cache-Control: max-age=0');
                                 $objWriter->save('php://output');
-                                
+
                                 exit;
-                                
+
                                 break;
                             }
                         case 'nakladnaya': {
