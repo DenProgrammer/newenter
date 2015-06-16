@@ -20,24 +20,15 @@ defined('_JEXEC') or die('Restricted access');
 $product  = $viewData['product'];
 $currency = $viewData['currency'];
 ?>
-<div class="product-price" id="productPrice<?php echo $product->virtuemart_product_id ?>">
-    <?php
-    if (!empty($product->prices['salesPrice'])) {
-        //echo '<div class="vm-cart-price">' . vmText::_ ('COM_VIRTUEMART_CART_PRICE') . '</div>';
-    }
-
-    if ($product->prices['salesPrice'] <= 0 and VmConfig::get('askprice', 1) and isset($product->images[0]) and !$product->images[0]->file_is_downloadable) {
-        $askquestion_url = JRoute::_('index.php?option=com_virtuemart&view=productdetails&task=askquestion&virtuemart_product_id=' . $product->virtuemart_product_id . '&virtuemart_category_id=' . $product->virtuemart_category_id . '&tmpl=component', FALSE);
-        ?>
-        <a class="ask-a-question bold" href="<?php echo $askquestion_url ?>" rel="nofollow" ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ASKPRICE') ?></a>
-        <?php
-    } else {
-        echo '<span class="PricebasePrice">$' . round($product->prices['salesPrice'], 2)
-        . ' / '
-        . $currency->roundForDisplay($product->prices['salesPrice'], 165, 1, 0) . ' '
-        . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
-        . '</span>';
-    }
+<?php
+if ($product->prices['salesPrice'] <= 0 and VmConfig::get('askprice', 1) and isset($product->images[0]) and !$product->images[0]->file_is_downloadable) {
+    $askquestion_url = JRoute::_('index.php?option=com_virtuemart&view=productdetails&task=askquestion&virtuemart_product_id=' . $product->virtuemart_product_id . '&virtuemart_category_id=' . $product->virtuemart_category_id . '&tmpl=component', FALSE);
     ?>
-</div>
-<div class="clear"></div>
+    <a class="ask-a-question bold" href="<?php echo $askquestion_url ?>" rel="nofollow" ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ASKPRICE') ?></a>
+    <?php
+} else {
+    echo $currency->roundForDisplay($product->prices['salesPrice'], 165, 1, 0) . ' '
+    . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
+    . ' / '
+    . '$' . round($product->prices['salesPrice'], 2);
+}

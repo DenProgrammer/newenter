@@ -64,74 +64,43 @@ foreach ($viewData['products'] as $type => $products) {
                     $show_vertical_separator = $verticalseparator;
                 }
 
+                if ($showSku) {
+                    $sku = str_replace('sklad-', '', $product->product_sku);
+                } else {
+                    $sku = preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $product->product_sku);
+                }
+
                 // Show Products 
                 ?>
                 <div class="product vm-col<?php echo ' vm-col-' . $products_per_row . $show_vertical_separator ?>">
-                    <div class="spacer">
-                        <div class="vm-product-media-container">
-
-                            <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
-                                <?php
-                                echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
-                                ?>
-                            </a>
-
-                        </div>
-                        <div class="desc_block">
-                            <div class="vm-product-rating-container">
-                                <?php
-                                echo shopFunctionsF::renderVmSubLayout('rating', array('showRating' => $showRating, 'product' => $product));
-                                if (VmConfig::get('display_stock', 1)) {
-                                    ?>
-                                    <span class="vmicon vm2-<?php echo $product->stock->stock_level ?>" title="<?php echo $product->stock->stock_tip ?>"></span>
+                    <table width="100%">
+                        <tr>
+                            <td width="140">
+                                <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
                                     <?php
-                                }
-                                echo shopFunctionsF::renderVmSubLayout('stockhandle', array('product' => $product));
-                                ?>
-                            </div>
-
-
-                            <div class="vm-product-descr-container-<?php echo $rowsHeight[$row]['product_s_desc'] ?>">
-                                <h2><?php echo JHtml::link($product->link, $product->product_name); ?></h2>
-                                <?php if (!empty($rowsHeight[$row]['product_s_desc'])) {
+                                    echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
                                     ?>
-                                    <p class="product_s_desc">
-                                        <?php
-                                        // Product Short Description
-                                        if (!empty($product->product_s_desc)) {
-                                            echo shopFunctionsF::limitStringByWord($product->product_s_desc, 60, ' ...')
-                                            ?>
-                                        <?php } ?>
-                                    </p>
-                                <?php } ?>
-                            </div>
-
-
-                            <?php //echo $rowsHeight[$row]['price']  ?>
-                            <div class="vm3pr-<?php echo $rowsHeight[$row]['price'] ?>"> 
-                                <?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?>
-                            </div>
-                            <?php //echo $rowsHeight[$row]['customs']  ?>
-                            <div class="vm3pr-<?php echo $rowsHeight[$row]['customfields'] ?>"> 
-                                <?php
-                                if ($showSku) {
-                                    echo str_replace('sklad-', '', $product->product_sku);
-                                } else {
-                                    echo preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $product->product_sku);
-                                }
-                                ?>
+                                </a>
+                            </td>
+                            <td>
+                                <div class="rows">
+                                    <label>Наименование: </label>
+                                    <span><?php echo JHtml::link($product->link, $product->product_name); ?></span>
+                                </div>
+                                <div class="rows">
+                                    <label>Цена: </label>
+                                    <span><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
+                                </div>
+                                <div class="rows">
+                                    <label>Артикул: </label>
+                                    <span><?php echo $sku; ?></span>
+                                </div>
+                            </td>
+                            <td width="100">
                                 <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
-                            </div>
-
-                            <div class="vm-details-button">
-                                <?php
-                                // Product Details Button
-                                $link = empty($product->link) ? $product->canonical : $product->link;
-                                echo JHtml::link($link, vmText::_('COM_VIRTUEMART_PRODUCT_DETAILS'), array('title' => $product->product_name, 'class' => 'product-details'));
-                                ?>
-                            </div>
-
-                        </div></div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
                 <?php

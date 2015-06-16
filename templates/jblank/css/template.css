@@ -216,12 +216,8 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #rightcol .moduletablecall input[type=submit]{
-    display:block;
-    height:30px;
     margin:5px 0;
     width:193px;
-    border:none;
-    color:#ffffff;
 }
 
 #wrapper #rightcol #mod_currency{
@@ -260,13 +256,9 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #rightcol .right_col_but{
-    border: medium none;
-    color: #ffffff;
     display: block;
-    height: 30px;
     margin: 5px 0;
     width: 193px;
-    cursor: pointer;
 }
 
 #fancybox-content a.continue_link,
@@ -443,7 +435,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 
 #wrapper #content .browse-view div.product{
     border:none;
-    border-bottom:dashed 1px #e5e5e5;
+    border-bottom:dashed 1px #999999;
     margin-bottom: 20px;
 } 
 
@@ -747,28 +739,46 @@ input.details-button,
 #checkoutFormSubmit,
 button.button-gloss, 
 input.button-gloss {
-    position: relative;
-    color: white;
+    /*    position: relative;
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        text-shadow: -1px -1px #000;
+        padding: 0 15px;
+        outline: none;
+        background-color: #000;
+        background-image: linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%), radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
+        background-repeat: no-repeat;
+        background-size: 200% 100%, auto;
+        background-position: 200% 0, 0 0;
+        box-shadow: rgba(0,0,0,.3) 0 2px 5px;
+        border-radius: 0px;
+        cursor: pointer;
+        border: none;
+        height: 32px;
+        display: inline-block;
+        text-align: center;
+        font-size: 14px;
+        font-family: 'MS Shell Dlg', Arial, Tahoma;
+        line-height: 28px;*/
+
+    display: inline-block;
     font-weight: bold;
+    color: #fff;
     text-decoration: none;
-    text-shadow: -1px -1px #000;
-    padding: 0 15px;
+    text-shadow: 0 -1px rgba(0,0,0,.5);
+    padding: 8px 15px;
+    border: 1px solid rgb(50,50,50);
+    border-radius: 8px;
     outline: none;
     background-color: #000;
-    background-image: linear-gradient(45deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.8), rgba(255,255,255,.0) 70%), radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
-    background-repeat: no-repeat;
-    background-size: 200% 100%, auto;
-    background-position: 200% 0, 0 0;
-    box-shadow: rgba(0,0,0,.3) 0 2px 5px;
-    border-radius: 0px;
+        background-image: radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
+    box-shadow:
+        0 4px rgb(50,50,50),
+        inset 0 1px rgba(255,255,255,.3),
+        inset 0 0 3px rgba(255,255,255,.5);
+    transition: .2s;
     cursor: pointer;
-    border: none;
-    height: 32px;
-    display: inline-block;
-    text-align: center;
-    font-size: 14px;
-    font-family: 'MS Shell Dlg', Arial, Tahoma;
-    line-height: 28px;
 } 
 #fancybox-content a.continue_link:active,
 #fancybox-content a.showcart:active,
@@ -779,8 +789,16 @@ input.details-button:active,
 #checkoutFormSubmit:active,
 button.button-gloss:active,
 input.button-gloss:active {
-    top: 1px;
-    box-shadow: none;
+    /*    top: 1px;
+        box-shadow: none;*/
+/*    background: rgb(255,255,255) linear-gradient(rgb(255,255,255) 20%, rgb(0,0,0));
+    box-shadow:
+        0 2px rgb(255,255,255),
+        0 1px 6px rgba(0,0,0,.4),
+        inset 0 1px rgba(255,255,255,.3),
+        inset 0 0 3px rgba(255,255,255,.5);
+    -webkit-transform: translate(0, 4px);
+    transform: translate(0, 4px);*/
 }
 #fancybox-content a.continue_link:hover,
 #fancybox-content a.showcart:hover,
@@ -791,8 +809,9 @@ input.details-button:hover,
 #checkoutFormSubmit:hover,
 button.button-gloss:hover,
 input.button-gloss:hover {
-    transition: .5s linear;
-    background-position: -200% 0, 0 0;
+    /*    transition: .5s linear;
+        background-position: -200% 0, 0 0;*/
+    background: radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%), linear-gradient(rgb(50,50,50), rgb(0,0,0) 80%);
 }
 
 #mainmenu_block ul.menu li{
@@ -891,4 +910,18 @@ div.latest_products ul li a div.prod_price span:last-child{
 }
 div.vm_cart_products a{
     text-decoration: none;
+}
+
+div.addtocart-area{
+    height: 100px;
+}
+div.rows{
+    padding: 5px 0;
+}
+div.rows label{
+    display: inline-block;
+    width: 100px;
+}
+div.addtocart-bar{
+    padding-top: 20px;
 }
