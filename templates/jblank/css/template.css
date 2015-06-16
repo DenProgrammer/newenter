@@ -917,10 +917,11 @@ div.addtocart-area{
 }
 div.rows{
     padding: 5px 0;
+    font-size: 14px;
 }
 div.rows label{
     display: inline-block;
-    width: 100px;
+    width: 110px;
 }
 div.addtocart-bar{
     padding-top: 20px;
