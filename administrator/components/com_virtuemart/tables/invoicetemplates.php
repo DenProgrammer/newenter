@@ -41,6 +41,10 @@ class TableInvoicetemplates extends VmTable {
 
     /** @var char Order status Code */
     var $content   = null;
+    /** @var boolean */
+
+    /** @var char Order status Code */
+    var $footer   = null;
 
     /** @var string Order status name */
     var $nrt       = 0;

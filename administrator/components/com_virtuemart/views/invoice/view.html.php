@@ -59,20 +59,11 @@ class VirtuemartViewInvoice extends VmViewAdmin {
         $data->invoicetemplates = $invoice->getTemplates();
 
         switch ($type) {
-            case 'commercial_invoice': {
-                    $orderModel     = VmModel::getModel('orders');
-                    $NumberAnalyser = new NumberAnaliz();
-
-                    $data->order = $orderModel->getOrder($orderId);
-
-                    $total = round($data->order['details']['BT']->order_total);
-
-                    $data->document_id  = rand(1, 1000);
-                    $data->total_string = $NumberAnalyser->CurrencyToText($total, "USD");
-
-                    break;
-                }
-            case 'waybill': {
+            case 'commercial_invoice': 
+            case 'invoice_payment': 
+            case 'waybill': 
+            case 'guaranty': 
+            case 'commercial_offer': {
                     $orderModel     = VmModel::getModel('orders');
                     $NumberAnalyser = new NumberAnaliz();
 

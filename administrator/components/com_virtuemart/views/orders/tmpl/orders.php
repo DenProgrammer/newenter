@@ -42,7 +42,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                     <th class="admin-checkbox"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)"/></th>
                     <th><?php echo $this->sort('virtuemart_order_id', 'COM_VIRTUEMART_ORDER_LIST_ID') ?></th>
                     <th><?php echo $this->sort('order_name', 'COM_VIRTUEMART_ORDER_PRINT_NAME') ?></th>
-                    <th><?php echo JText::_('COM_VIRTUEMART_ORDER_INVOICES') ?></th>
+                    <th colspan="2"><?php echo JText::_('COM_VIRTUEMART_ORDER_INVOICES') ?></th>
                     <th style="min-width:110px;"><?php echo vmText::_('COM_VIRTUEMART_PRINT_VIEW'); ?></th>
                     <th class="admin-dates"><?php echo $this->sort('created_on', 'COM_VIRTUEMART_ORDER_CDATE') ?></th>
                     <th class="admin-dates"><?php echo $this->sort('modified_on', 'COM_VIRTUEMART_ORDER_LIST_MDATE') ?></th>
@@ -81,7 +81,14 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                             </td>
                             <!-- Payment method -->
                             <td>
-                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=commercial_invoice&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет-фактура</a>
+                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=commercial_invoice&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет-фактура</a><br />
+                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=waybill&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Накладная</a><br />
+                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=commercial_offer&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Комм. предл.</a>
+                            </td>
+                            <td>
+                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=invoice_payment&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет на оплату</a><br />
+                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=commercial_invoice&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Приложение</a><br />
+                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=guaranty&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Гарантия</a>
                             </td>
                             <!-- Print view -->
                             <?php
@@ -144,13 +151,13 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 <script type="text/javascript">
 <!--
 
-        jQuery('.show_comment').click(function() {
-    jQuery(this).prev('.element-hidden').show();
+    jQuery('.show_comment').click(function() {
+        jQuery(this).prev('.element-hidden').show();
         return false
     });
 
     jQuery('.element-hidden').mouseleave(function() {
-    jQuery(this).hide();
+        jQuery(this).hide();
     });
     jQuery('.element-hidden').mouseout(function() {
         jQuery(this).hide();
@@ -159,12 +166,12 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 </script>
 
 <script>
-        jQuery(document).ready(function() {
-            jQuery('.orderstatus_select').change(function() {
+    jQuery(document).ready(function() {
+        jQuery('.orderstatus_select').change(function() {
 
             var name = jQuery(this).attr('name');
             var brindex = name.indexOf("orders[");
-                if (brindex >= 0) {
+            if (brindex >= 0) {
                 //yeh, yeh, maybe not the most elegant way, but it does, what it should
                 var s = name.indexOf("[") + 1;
                 var e = name.indexOf("]");
@@ -176,17 +183,18 @@ if (!is_array($orderstatusForShopperEmail))
     $orderstatusForShopperEmail = array($orderstatusForShopperEmail);
 $jsOrderStatusShopperEmail  = json_encode($orderstatusForShopperEmail);
 ?>
-                                var orderstatus = <?php echo $jsOrderStatusShopperEmail ?>;                 var selected = jQuery(this).val();
-                                var selStr = '[name="orders[' + id + '][customer_notified]"]';
-                                var elem = jQuery(selStr);
+                var orderstatus = <?php echo $jsOrderStatusShopperEmail ?>;
+                var selected = jQuery(this).val();
+                var selStr = '[name="orders[' + id + '][customer_notified]"]';
+                var elem = jQuery(selStr);
 
-                                    if (jQuery.inArray(selected, orderstatus) != -1) {
-                                    elem.attr("checked", true);
-                                    // for the checkbox    
-                                    jQuery(this).parent().parent().find('input[name="cid[]"]').attr("checked", true);
+                if (jQuery.inArray(selected, orderstatus) != -1) {
+                    elem.attr("checked", true);
+                    // for the checkbox    
+                    jQuery(this).parent().parent().find('input[name="cid[]"]').attr("checked", true);
                 } else {
-                            elem.attr("checked", false);
-                    }
+                    elem.attr("checked", false);
+                }
 
             }
 

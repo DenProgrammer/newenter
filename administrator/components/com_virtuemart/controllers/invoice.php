@@ -65,7 +65,7 @@ class VirtuemartControllerInvoice extends VmController {
         $db = JFactory::getDBO();
 
         switch ($data['action']) {
-            case 'saveVendor': {
+            case 'saveOrder': {
                     $vendor_info_id = (int) $data['vendor_info_id'];
                     $shopper_info   = isset($data['shopper_info']) ? $data['shopper_info'] : null;
                     $order_id       = (int) $data['order_id'];
@@ -78,23 +78,38 @@ class VirtuemartControllerInvoice extends VmController {
                     $db->query();
                     break;
                 }
-            case 'saveChange': {
+            case 'saveItem': {
                     $order_item_id = (int) $data['order_item_id'];
                     $order_id      = (int) $data['order_id'];
                     $itemcount     = (float) $data['itemcount'];
                     $itemprice     = (float) $data['itemprice'];
                     $itemname      = str_replace('*AMPERSAND*', '&', $data['itemname']);
                     $itemsku       = isset($data['itemsku']) ? $data['itemsku'] : null;
+                    $itemsn        = isset($data['itemsn']) ? $data['itemsn'] : null;
+                    $itemguaranty  = isset($data['itemguaranty']) ? $data['itemguaranty'] : null;
                     $shopper_info  = isset($data['shopper_info']) ? $data['shopper_info'] : null;
                     $nrt           = isset($data['nrt']) ? (float) $data['nrt'] : 0;
-                    $realprice     = ($nrt > 0) ? round($itemprice / (1 + $nrt / 100)) : $itemprice;
+                    $realprice     = round($itemprice / (1 + $nrt / 100));
                     $totalPrice    = $realprice * $itemcount;
+
+                    $sql  = "SELECT product_attribute "
+                            . "FROM `#__virtuemart_order_items` "
+                            . "WHERE `virtuemart_order_item_id`=$order_item_id "
+                            . "LIMIT 1";
+                    $db->setQuery($sql);
+                    $attr = json_decode($db->loadResult());
+
+                    $attr->guaranty = $itemguaranty;
+                    if ($itemsn) {
+                        $attr->sn = $itemsn;
+                    }
+                    $attribute = json_encode($attr);
 
                     $sql = "UPDATE `#__virtuemart_order_items` 
                     SET `order_item_name`='$itemname', `product_quantity`='$itemcount', 
                     `product_item_price`='$realprice', `product_priceWithoutTax`='$realprice', 
                     `product_discountedPriceWithoutTax`='$realprice', `product_final_price`='$realprice', 
-                    `product_subtotal_with_tax`='$totalPrice' ";
+                    `product_subtotal_with_tax`='$totalPrice', product_attribute = '$attribute' ";
                     if ($itemsku) {
                         $sql .= ", `order_item_sku`='$itemsku'";
                     }
@@ -104,6 +119,53 @@ class VirtuemartControllerInvoice extends VmController {
 
                     $this->updateTotalPrice($order_id);
 
+                    break;
+                }
+            case 'saveItems': {
+                    $items    = $data['items'];
+                    $order_id = $data['order_id'];
+                    $nrt      = isset($data['nrt']) ? (float) $data['nrt'] : 0;
+
+                    foreach ($items as $data) {
+                        $order_item_id = (int) $data['order_item_id'];
+                        $itemquantity  = (float) $data['itemquantity'];
+                        $itemprice     = (float) $data['itemprice'];
+                        $itemname      = str_replace('*AMPERSAND*', '&', $data['itemname']);
+                        $itemsku       = isset($data['itemsku']) ? $data['itemsku'] : null;
+                        $itemguaranty  = isset($data['itemguaranty']) ? $data['itemguaranty'] : null;
+                        $itemsn        = isset($data['itemsn']) ? $data['itemsn'] : null;
+                        $shopper_info  = isset($data['shopper_info']) ? $data['shopper_info'] : null;
+                        $realprice     = round($itemprice / (1 + $nrt / 100));
+                        $totalPrice    = $realprice * $itemquantity;
+
+                        $sql  = "SELECT product_attribute "
+                                . "FROM `#__virtuemart_order_items` "
+                                . "WHERE `virtuemart_order_item_id`=$order_item_id "
+                                . "LIMIT 1";
+                        $db->setQuery($sql);
+                        $attr = json_decode($db->loadResult());
+
+                        $attr->guaranty = $itemguaranty;
+                        if ($itemsn) {
+                            $attr->sn = $itemsn;
+                        }
+                        $attribute = json_encode($attr);
+
+                        $sql = "UPDATE `#__virtuemart_order_items` "
+                                . "SET `order_item_name`='$itemname', `product_quantity`='$itemquantity', "
+                                . "`product_item_price`='$realprice', `product_priceWithoutTax`='$realprice', "
+                                . "`product_discountedPriceWithoutTax`='$realprice', "
+                                . "`product_final_price`='$realprice', `product_subtotal_with_tax`='$totalPrice', "
+                                . "product_attribute = '$attribute' ";
+                        if ($itemsku) {
+                            $sql .= ", `order_item_sku`='$itemsku' ";
+                        }
+                        $sql .= "WHERE `virtuemart_order_item_id`=$order_item_id";
+                        $db->setQuery($sql);
+                        $db->query();
+
+                        $this->updateTotalPrice($order_id);
+                    }
                     break;
                 }
             case 'getsumstring': {
@@ -353,14 +415,14 @@ class VirtuemartControllerInvoice extends VmController {
                                                 $attr[$k] = $v;
                                         }
 
-                                    $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
+                                    $guaranty = ($attr['guaranty']) ? $attr['guaranty'] : '12 мес.';
 
                                     $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
                                     $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
                                     $objPHPExcel->getActiveSheet()->setCellValue('C' . $z, $itemsku);
                                     $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
                                     $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
-                                    $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $garantiya);
+                                    $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $guaranty);
 
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
@@ -547,14 +609,14 @@ class VirtuemartControllerInvoice extends VmController {
                                                 $attr[$k] = $v;
                                         }
 
-                                    $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
+                                    $guaranty = ($attr['guaranty']) ? $attr['guaranty'] : '12 мес.';
 
                                     $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
                                     $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
                                     $objPHPExcel->getActiveSheet()->setCellValue('C' . $z, $itemsku);
                                     $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
                                     $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
-                                    $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $garantiya);
+                                    $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $guaranty);
 
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
@@ -727,14 +789,14 @@ class VirtuemartControllerInvoice extends VmController {
                                                 $attr[$k] = $v;
                                         }
 
-                                    $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
+                                    $guaranty = ($attr['guaranty']) ? $attr['guaranty'] : '12 мес.';
 
                                     $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
                                     $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
                                     $objPHPExcel->getActiveSheet()->setCellValue('C' . $z, $itemsku);
                                     $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
                                     $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
-                                    $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $garantiya);
+                                    $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $guaranty);
 
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
@@ -833,7 +895,7 @@ class VirtuemartControllerInvoice extends VmController {
 
                                 break;
                             }
-                        case 'garantiya': {
+                        case 'guaranty': {
                                 $vendor   = (int) JRequest::getInt('vendor');
                                 $order_id = $_GET['id'];
 
@@ -908,8 +970,8 @@ class VirtuemartControllerInvoice extends VmController {
                                                 $attr[$k] = $v;
                                         }
 
-                                    $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
-                                    $sn        = str_replace('<br>', chr(10), $attr['sn']);
+                                    $guaranty = ($attr['guaranty']) ? $attr['guaranty'] : '12 мес.';
+                                    $sn       = str_replace('<br>', chr(10), $attr['sn']);
 
                                     $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
                                     $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
@@ -917,7 +979,7 @@ class VirtuemartControllerInvoice extends VmController {
                                     $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
                                     $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
                                     $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $sn)->getStyle('B' . $z)->getAlignment()->setWrapText(true);
-                                    $objPHPExcel->getActiveSheet()->setCellValue('G' . $z, $garantiya);
+                                    $objPHPExcel->getActiveSheet()->setCellValue('G' . $z, $guaranty);
 
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                                     $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
@@ -1013,8 +1075,8 @@ class VirtuemartControllerInvoice extends VmController {
 
                                 // Save Excel 2007 file
                                 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-                                $objWriter->save('../images/docs/garantiya_' . $order->order_id . '.xlsx');
-                                echo 'http://enter.kg/images/docs/garantiya_' . $order->order_id . '.xlsx';
+                                $objWriter->save('../images/docs/guaranty_' . $order->order_id . '.xlsx');
+                                echo 'http://enter.kg/images/docs/guaranty_' . $order->order_id . '.xlsx';
 
 
                                 break;

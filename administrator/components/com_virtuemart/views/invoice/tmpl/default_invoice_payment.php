@@ -7,8 +7,8 @@ $details        = $this->data->order['details']['BT'];
 ?>
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Накладная</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+        <title>Счет на оплату № <?php echo $details->virtuemart_order_id; ?></title>
 
         <link rel="stylesheet" href="components/com_import/assets/css/jquery.ui.all.css" type="text/css" />
         <link rel="stylesheet" href="components/com_import/assets/css/jquery.ui.base.css" type="text/css" />
@@ -32,6 +32,7 @@ $details        = $this->data->order['details']['BT'];
                     $("div.cond").css("display", "none");
                     $("div.cond" + id).css("display", "block");
                 });
+
                 $("#vendorselect").change();
                 $("input.orderdatetext").datepicker();
             });
@@ -43,12 +44,14 @@ $details        = $this->data->order['details']['BT'];
                 {
                     $(".editelement").css("display", "none");
                     $(".changeelement").css("display", "block");
+
                     var vendor_info_id = $('#vendorselect').val();
                     $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=saveOrder', {
                         order_id: '<?php echo $details->virtuemart_order_id; ?>',
                         vendor_info_id: vendor_info_id, nrt: nrt
                     }, function(data) {
                     });
+
                     $("#client").html($("#clienttext").val());
 
                     var items = new Object;
@@ -58,16 +61,18 @@ $details        = $this->data->order['details']['BT'];
                         var itemname = $("#" + id + " td input.itemnametext").val();
                         var itemquantity = $("#" + id + " td input.itemquantitytext").val();
                         var itemprice = $("#" + id + " td input.itempricetext").val();
+                        var itemguaranty = $("#" + id + " td input.itemguarantytext").val();
                         var itemsku = $("#" + id + " td input.itemskutext").val();
                         var itemsn = $("#" + id + " td input.itemsntext").val();
-                        var itemguaranty = $("#" + id + " td input.itemguarantytext").val();
                         var orderdate = $("input.orderdatetext").val();
                         $("#" + id + " td div.itemname").html(itemname);
                         $("#" + id + " td div.itemquantity").html(itemquantity);
                         $("#" + id + " td div.itemprice").html(itemprice);
-                        $("#" + id + " td div.itemsku").html(itemsku);
                         $("#" + id + " td div.itemguaranty").html(itemguaranty);
+                        $("#" + id + " td div.itemsku").html(itemsku);
                         $("span.orderdate").html(orderdate);
+
+//                        itemname = $.base64.encode(itemname);
 
                         items[id] = {
                             'order_item_id': order_item_id,
@@ -78,16 +83,18 @@ $details        = $this->data->order['details']['BT'];
                             'itemprice': itemprice,
                             'itemsku': itemsku
                         };
-
-                        $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=saveItems',
-                                {order_id: '<?php echo $details->virtuemart_order_id; ?>', items: items, nrt: nrt});
                     });
+
+                    $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=saveItems',
+                            {order_id: '<?php echo $details->virtuemart_order_id; ?>', items: items, nrt: nrt});
+
                     editregim = false;
                 }
                 else
                 {
                     $(".editelement").css("display", "block");
                     $(".changeelement").css("display", "none");
+
                     $("#clienttext").val($("#client").html());
                     $("tr.itemrow").each(function(i, el) {
                         var id = this.id;
@@ -110,10 +117,11 @@ $details        = $this->data->order['details']['BT'];
                 price = price - 1 + 1;
                 var itog = count * price;
                 $("#itemitogo" + id).html(itog.toFixed(0));
+
                 var total = 0;
                 $("div.itemitogo").each(function(i, el) {
                     total += parseFloat($(this).html());
-                })
+                });
 
                 $("td.total").html(total.toFixed(0));
             }
@@ -131,20 +139,21 @@ $details        = $this->data->order['details']['BT'];
                 $("tr.itemrow").each(function(i, el) {
                     var itemprice = parseFloat($(this).find("td input.itempricetext").attr("value"));
                     var itemquantity = parseFloat($(this).find("td div.itemquantity").html());
+
                     var realprice = parseFloat(itemprice / (1 + oldnrt / 100));
                     var newprice = Math.round(realprice * (1 + nrt / 100));
                     var itemitogo = Math.round(newprice * itemquantity);
                     $(this).find("td input.itempricetext").attr("value", newprice);
                     $(this).find("td div.itemitogo").html(itemitogo);
                     total += itemitogo;
-                })
+                });
 
                 $("td.total").html(Math.round(total));
             }
             function getExcelLink()
             {
                 var vendor = $('#vendorselect').val();
-                $.get('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&id=<?php echo $details->virtuemart_order_id; ?>&type=nakladnaya&ajax=showExcelDocument', {vendor: vendor}, function(data) {
+                $.get('index.php?option=com_import_2&id=<?php echo $details->virtuemart_order_id; ?>&type=schnaopl&ajax=showExcelDocument', {vendor: vendor}, function(data) {
                     document.location = data;
                 });
             }
@@ -199,6 +208,9 @@ $details        = $this->data->order['details']['BT'];
             td,p{
                 font-size:12px;
             }
+            .editelement{
+                display:none;
+            }
             #ui-datepicker-div{
                 width:240px;
             }
@@ -208,16 +220,16 @@ $details        = $this->data->order['details']['BT'];
     <body lang=RU style='tab-interval:35.4pt;text-justify-trim:punctuation'>
         <div class="Section1" style="width:780px;position:relative;">
             <div style="position:absolute;right:0px;cursor:pointer;width:48px;height:48px;display:inline-block;background:url(http://enter.kg/images/M_images/excel_icon.png) no-repeat;" title="Скачать в формате EXCEL" onclick="getExcelLink()"></div>
+            <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
+                <span style='font-family:"Times New Roman CYR"'></span></p>
 
             <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;
                mso-layout-grid-align:none;text-autospace:none'><b><span style='font-size:20.0pt;
-                       font-family:"Bookman Old Style";
-                       mso-bidi-font-family:"Bookman Old Style"' onclick="edit()">Накладная</span></b></p>
+                       font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"' onclick="edit()">Счет на оплату № <?php echo $details->virtuemart_order_id; ?></span></b></p>
 
             <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;
                mso-layout-grid-align:none;text-autospace:none'><span style='font-size:9.0pt;
                     font-family:"Times New Roman CYR"'></span></p>
-
             <select id="vendorselect" class="editelement">
                 <?php
                 $vendor_info_id = 0;
@@ -233,7 +245,7 @@ $details        = $this->data->order['details']['BT'];
             </select>
             <?php echo $vendorinfo; ?>
             <div class="editelement">НРТ <input onkeyup="changeNRT()" type="text" id="nrt" value="<?php echo $details->nrt; ?>"/></div>
-            <table class="MsoNormalTable" border=0 cellspacing=0 cellpadding=0 style='margin-left:4.8pt;border-collapse:collapse;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>	
+            <table class="MsoNormalTable" border=0 cellspacing=0 cellpadding=0 style='margin-left:4.8pt;border-collapse:collapse;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
                 <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:15.0pt'>
                     <td width=51 valign=bottom style='width:38.0pt;border:solid windowtext 1.0pt; mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
                         <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
@@ -282,6 +294,7 @@ $details        = $this->data->order['details']['BT'];
                     $total += $totalprice;
 
                     $guaranty = isset($attribute->guaranty) ? $attribute->guaranty : null;
+                    $sn       = isset($attribute->sn) ? $attribute->sn : null;
                     ?>
                     <tr id='row<?php echo $num; ?>' rel='<?php echo $item_id; ?>' class='itemrow' style='mso-yfti-irow:1;height:15.0pt'>
                         <td width=51 valign=bottom style='width:38.0pt;border:solid windowtext 1.0pt;border-top:none;mso-border-left-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
@@ -300,12 +313,13 @@ $details        = $this->data->order['details']['BT'];
                             <div class='itemprice changeelement'><?php echo $price; ?></div>
                             <input onkeyup='resumm(<?php echo $num; ?>)' size='2'id='itempricetext<?php echo $num; ?>' class='itempricetext editelement' type='text'/>
                         </td>
-                        <td style='border:solid 1px black;text-align:right;'>
+                        <td width=71 style='border:solid 1px black;text-align:right;'>
                             <div id='itemitogo<?php echo $num; ?>' class='itemitogo'><?php echo $totalprice; ?></div>
                         </td>
                         <td style='border:solid 1px black;text-align:right;'>
                             <div class='itemguaranty changeelement'><?php echo $guaranty; ?></div>
                             <input size='5' id='itemguarantytext<?php echo $num; ?>' class='itemguarantytext editelement' type='text'/>
+                            <input type="hidden" id='itemsntext<?php echo $num; ?>' class='itemsntext editelement' value="<?php echo $sn; ?>" />
                         </td>
                     </tr>
                 <?php } ?>
@@ -330,7 +344,7 @@ $details        = $this->data->order['details']['BT'];
                             <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>&nbsp;</span>
                         </p>
                     </td>
-                    <td width=71 class="total" valign=bottom style='width:53.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+                    <td class="total" width=71 valign=bottom style='width:53.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
                         <?php echo $total; ?>
                     </td>
                     <td valign=bottom style='width:53.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
@@ -338,28 +352,6 @@ $details        = $this->data->order['details']['BT'];
                     </td>
                 </tr>
             </table>
-
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <b>
-                    <i>
-                        <span style='font-size:10.0pt;font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"'>
-                            Отпустил_______________<span style='mso-spacerun:yes'>                             </span>Принял________________</span>
-                    </i>
-                </b>
-            </p>
-
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
             <table width="100%">
                 <tr>
                     <td align="left" width="580">
@@ -370,9 +362,7 @@ $details        = $this->data->order['details']['BT'];
                         <p class=MsoNormal align=right style='text-align:right;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
                             <b>
                                 <i>
-                                    <span class="orderdate changeelement" 
-                                          style='font-size:10.0pt;font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"'
-                                          ><?php echo date("d.m.Y", strtotime($details->created_on)); ?></span>
+                                    <span class="orderdate changeelement" style='font-size:10.0pt;font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"'><?php echo date("d.m.Y", strtotime($details->created_on)); ?></span>
                                     <input type="text" class="orderdatetext editelement" value="<?php echo date("d.m.Y", strtotime($details->created_on)); ?>"/>
                                 </i>
                             </b>
@@ -382,14 +372,11 @@ $details        = $this->data->order['details']['BT'];
                     </td>
                 </tr>
             </table>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
+
+            <?php echo $condinfo; ?>
+
         </div>
-        <?php echo $condinfo; ?>
+
     </body>
 
 </html>

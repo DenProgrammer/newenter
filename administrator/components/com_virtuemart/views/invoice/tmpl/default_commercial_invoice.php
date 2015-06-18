@@ -1,6 +1,6 @@
 <?php
 //echo '<pre>';
-//print_r($this->data);
+//pr($this->data);
 //exit;
 $items          = $this->data->order['items'];
 $details        = $this->data->order['details']['BT'];
@@ -44,29 +44,38 @@ $details        = $this->data->order['details']['BT'];
                     $("#client").html(clienttext);
                     var vendor_info_id = $('#vendorselect').val();
                     var shopper_info = $("#client").html();
-                    $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&document=schetfactura&action=saveVendor', {
+                    $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=saveOrder', {
                         order_id: <?php echo $details->virtuemart_order_id; ?>, vendor_info_id: vendor_info_id,
                         shopper_info: shopper_info, nrt: nrt
                     }, function() {
                     });
+
+                    var items = new Object;
                     $("tr.itemrow").each(function(i, el) {
                         var id = this.id;
                         var order_item_id = $(this).attr('rel');
                         var itemname = $("#" + id + " td input.itemnametext").val().replace(/["']+/g, '').replace('&amp;', '*AMPERSAND*').replace('&', '*AMPERSAND*');
-                        var itemcount = $("#" + id + " td input.itemcounttext").val();
+                        var itemquantity = $("#" + id + " td input.itemquantitytext").val();
                         var itemprice = $("#" + id + " td input.itempricetext").val();
+                        var itemsn = $("#" + id + " td input.itemsntext").val();
                         var orderdate = $("input.orderdatetext").val();
                         shopper_info = shopper_info.replace("'", '');
                         shopper_info = shopper_info.replace('"', '');
                         $("#" + id + " td div.itemname").html(itemname);
-                        $("#" + id + " td div.itemcount").html(itemcount);
+                        $("#" + id + " td div.itemquantity").html(itemquantity);
                         $("#" + id + " td div.itemprice").html(itemprice);
                         $("span.orderdate").html(orderdate);
-                        $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&document=schetfactura&action=saveChange', {
-                            order_id: <?php echo $details->virtuemart_order_id; ?>, order_item_id: order_item_id, itemname: itemname, itemcount: itemcount,
-                            itemprice: itemprice
-                        }, function(data) {
-                        });
+
+                        items[id] = {
+                            'order_item_id': order_item_id,
+                            'itemname': itemname,
+                            'itemsn': itemsn,
+                            'itemquantity': itemquantity,
+                            'itemprice': itemprice
+                        };
+
+                        $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=saveItems',
+                                {order_id: '<?php echo $details->virtuemart_order_id; ?>', items: items, nrt: nrt});
                     });
                     editregim = false;
                 }
@@ -80,7 +89,7 @@ $details        = $this->data->order['details']['BT'];
                     $("tr.itemrow").each(function(i, el) {
                         var id = this.id;
                         $("#" + id + " td input.itemnametext").val($("#" + id + " td div.itemname").html());
-                        $("#" + id + " td input.itemcounttext").val($("#" + id + " td div.itemcount").html());
+                        $("#" + id + " td input.itemquantitytext").val($("#" + id + " td div.itemquantity").html());
                         $("#" + id + " td input.itempricetext").val($("#" + id + " td div.itemprice").html());
                         $("input.orderdatetext").val($("span.orderdate").html());
                     });
@@ -89,7 +98,7 @@ $details        = $this->data->order['details']['BT'];
             }
             function resumm(id)
             {
-                var count = $("#itemcounttext" + id).attr("value");
+                var count = $("#itemquantitytext" + id).attr("value");
                 var price = $("#itempricetext" + id).val();
                 price = price.replace(',', '.');
                 count = count - 1 + 1;
@@ -112,27 +121,25 @@ $details        = $this->data->order['details']['BT'];
                 var tempnrt = parseFloat($("#nrt").attr("value"));
                 if (tempnrt >= 0)
                 {
+                    nrt = tempnrt;
+                    var total = 0;
+                    $("tr.itemrow").each(function(i, el) {
+
+                        var itemprice = parseFloat($(this).find("td input.itempricetext").attr("value"));
+                        var itemquantity = parseFloat($(this).find("td div.itemquantity").html());
+                        var realprice = parseFloat(itemprice / (1 + oldnrt / 100));
+                        var newprice = Math.round(realprice * (1 + nrt / 100));
+                        var itemitogo = Math.round(newprice * itemquantity);
+                        $(this).find("td input.itempricetext").attr("value", newprice);
+                        $(this).find("td div.itemitogo").html(itemitogo);
+                        total += itemitogo;
+                    });
+
+                    $("td.total").html(Math.round(total));
+                    $.get('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=getsumstring', {summa: total}, function(data) {
+                        $(".totalstr").html(data);
+                    });
                 }
-                else
-                    return;
-                nrt = tempnrt;
-                var total = 0;
-                $("tr.itemrow").each(function(i, el) {
-
-                    var itemprice = parseFloat($(this).find("td input.itempricetext").attr("value"));
-                    var itemcount = parseFloat($(this).find("td div.itemcount").html());
-                    var realprice = parseFloat(itemprice / (1 + oldnrt / 100));
-                    var newprice = Math.round(realprice * (1 + nrt / 100));
-                    var itemitogo = Math.round(newprice * itemcount);
-                    $(this).find("td input.itempricetext").attr("value", newprice);
-                    $(this).find("td div.itemitogo").html(itemitogo);
-                    total += itemitogo;
-                });
-
-                $("td.total").html(Math.round(total));
-                $.get('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=getsumstring', {summa: total}, function(data) {
-                    $(".totalstr").html(data);
-                });
             }
             function getExcelLink()
             {
@@ -435,6 +442,7 @@ $details        = $this->data->order['details']['BT'];
                             $sel = ($vendor_info_id == $row->id) ? 'selected' : '';
                             $vendorlist .= '<option ' . $sel . ' value="' . $row->id . '">' . $row->title . '</option>';
                             $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . html_entity_decode($row->content) . '</div>';
+                            $condinfo .= '<div class="cond cond' . $row->id . '">' . html_entity_decode($row->footer) . '</div>';
                         }
 
                         echo $vendorlist;
@@ -467,14 +475,17 @@ $details        = $this->data->order['details']['BT'];
                 <td class=xl70 style='border:solid 1px black;'>Всего</td>
             </tr>
             <?php
-            $num = 0;
+            $num   = 0;
+            $total = 0;
             foreach ($items as $item) {
                 $num++;
                 $item_id    = $item->virtuemart_order_item_id;
                 $itemname   = $item->order_item_name;
                 $quantity   = $item->product_quantity;
-                $price      = round($item->product_final_price, 2);
-                $totalprice = round($item->product_subtotal_with_tax, 2);
+                $price      = round($item->product_final_price * (1 + $details->nrt / 100), 2);
+                $totalprice = $price * $quantity;
+
+                $total += $totalprice;
                 ?>
                 <tr id='row<?php echo $item_id; ?>' rel='<?php echo $item_id; ?>' class='itemrow' height=20 style='height:15.0pt'>
                     <td height=20 class=xl68 align=right style='height:15.0pt;border:solid 1px black;text-align:center;' x:num><?php echo $num; ?></td>
@@ -483,8 +494,8 @@ $details        = $this->data->order['details']['BT'];
                         <input size='67' id='itemnametext<?php echo $item_id; ?>' class='itemnametext editelement' type='text'/>
                     </td>
                     <td class=xl68 style='border:solid 1px black;text-align:right;'>
-                        <div class='itemcount changeelement'><?php echo $quantity; ?></div>
-                        <input onkeyup='resumm(<?php echo $item_id; ?>)' size='2' id='itemcounttext<?php echo $item_id; ?>' class='itemcounttext editelement' type='text'/>
+                        <div class='itemquantity changeelement'><?php echo $quantity; ?></div>
+                        <input onkeyup='resumm(<?php echo $item_id; ?>)' size='2' id='itemquantitytext<?php echo $item_id; ?>' class='itemquantitytext editelement' type='text'/>
                     </td>
                     <td class=xl68 style='border:solid 1px black;text-align:right;'>
                         <div class='itemprice changeelement'><?php echo $price; ?></div>
@@ -498,7 +509,9 @@ $details        = $this->data->order['details']['BT'];
                 <td class=xl68 style='border:none'>&nbsp;</td>
                 <td class=xl68 style='border:none'>&nbsp;</td>
                 <td class=xl68 style='border:none'>&nbsp;</td>
-                <td class="xl68 total" style='border:none;text-align:right;'><?php echo round($details->order_total, 2); ?></td>
+                <td class="xl68 total" style='border:none;text-align:right;'>
+                    <?php echo $total; ?>
+                </td>
             </tr>
             <tr height=20 style='height:15.0pt'>
                 <td height=20 style='height:15.0pt'></td>
@@ -551,7 +564,7 @@ $details        = $this->data->order['details']['BT'];
                 <td colspan=7 style='mso-ignore:colspan'></td>
             </tr>
         </table>
-
+        <?php echo $condinfo; ?>
     </body>
 
 </html>

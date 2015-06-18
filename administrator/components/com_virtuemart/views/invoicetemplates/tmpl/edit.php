@@ -29,8 +29,9 @@ AdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_ORDERSTATUS_DETAILS');
             <table class="admintable">
                 <?php
                 echo VmHTML::row('input', 'COM_VIRTUEMART_ORDER_STATUS_NAME', 'title', $this->invoicetemplates->title, 'class="inputbox"', '', 10, 50);
-                echo VmHTML::row('input', 'COM_VIRTUEMART_ORDER_STATUS_CODE', 'nrt', $this->invoicetemplates->nrt, 'class="inputbox ' . $readonly . '" ' . $readonly . '', '', 3, 10);
-                echo VmHTML::row('editor', 'COM_VIRTUEMART_DESCRIPTION', 'content', $this->invoicetemplates->content, '100%;', '250', array('image', 'pagebreak', 'readmore'));
+                echo VmHTML::row('input', 'COM_VIRTUEMART_ORDER_STATUS_CODE', 'nrt', $this->invoicetemplates->nrt, 'class="inputbox" ', '', 3, 10);
+                echo VmHTML::row('editor', 'COM_VIRTUEMART_HEAD', 'content', $this->invoicetemplates->content, '100%;', '250', array('image', 'pagebreak', 'readmore'));
+                echo VmHTML::row('editor', 'COM_VIRTUEMART_FOOTER', 'footer', $this->invoicetemplates->footer, '100%;', '250', array('image', 'pagebreak', 'readmore'));
                 ?>
             </table>
         </fieldset>

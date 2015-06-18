@@ -7,8 +7,8 @@ $details        = $this->data->order['details']['BT'];
 ?>
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <title>Накладная</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+        <title>Коммерческое предложение</title>
 
         <link rel="stylesheet" href="components/com_import/assets/css/jquery.ui.all.css" type="text/css" />
         <link rel="stylesheet" href="components/com_import/assets/css/jquery.ui.base.css" type="text/css" />
@@ -22,6 +22,7 @@ $details        = $this->data->order['details']['BT'];
         <script type="text/javascript" src="components/com_import/assets/js/jquery.ui.datepicker.js"></script>
         <script type="text/javascript" src="components/com_import/assets/js/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="components/com_import/assets/js/jquery.base64.js"></script>
+
         <script>
             $('document').ready(function() {
                 $.base64.utf8encode = true;
@@ -32,7 +33,11 @@ $details        = $this->data->order['details']['BT'];
                     $("div.cond").css("display", "none");
                     $("div.cond" + id).css("display", "block");
                 });
+
                 $("#vendorselect").change();
+
+                $("#condselect").change();
+
                 $("input.orderdatetext").datepicker();
             });
             var editregim = false;
@@ -43,12 +48,13 @@ $details        = $this->data->order['details']['BT'];
                 {
                     $(".editelement").css("display", "none");
                     $(".changeelement").css("display", "block");
+
                     var vendor_info_id = $('#vendorselect').val();
                     $.post('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&action=saveOrder', {
-                        order_id: '<?php echo $details->virtuemart_order_id; ?>',
-                        vendor_info_id: vendor_info_id, nrt: nrt
+                        order_id: '<?php echo $details->virtuemart_order_id; ?>', vendor_info_id: vendor_info_id, nrt: nrt
                     }, function(data) {
                     });
+
                     $("#client").html($("#clienttext").val());
 
                     var items = new Object;
@@ -64,8 +70,8 @@ $details        = $this->data->order['details']['BT'];
                         var orderdate = $("input.orderdatetext").val();
                         $("#" + id + " td div.itemname").html(itemname);
                         $("#" + id + " td div.itemquantity").html(itemquantity);
-                        $("#" + id + " td div.itemprice").html(itemprice);
                         $("#" + id + " td div.itemsku").html(itemsku);
+                        $("#" + id + " td div.itemprice").html(itemprice);
                         $("#" + id + " td div.itemguaranty").html(itemguaranty);
                         $("span.orderdate").html(orderdate);
 
@@ -88,6 +94,7 @@ $details        = $this->data->order['details']['BT'];
                 {
                     $(".editelement").css("display", "block");
                     $(".changeelement").css("display", "none");
+
                     $("#clienttext").val($("#client").html());
                     $("tr.itemrow").each(function(i, el) {
                         var id = this.id;
@@ -110,10 +117,11 @@ $details        = $this->data->order['details']['BT'];
                 price = price - 1 + 1;
                 var itog = count * price;
                 $("#itemitogo" + id).html(itog.toFixed(0));
+
                 var total = 0;
                 $("div.itemitogo").each(function(i, el) {
                     total += parseFloat($(this).html());
-                })
+                });
 
                 $("td.total").html(total.toFixed(0));
             }
@@ -131,6 +139,7 @@ $details        = $this->data->order['details']['BT'];
                 $("tr.itemrow").each(function(i, el) {
                     var itemprice = parseFloat($(this).find("td input.itempricetext").attr("value"));
                     var itemquantity = parseFloat($(this).find("td div.itemquantity").html());
+
                     var realprice = parseFloat(itemprice / (1 + oldnrt / 100));
                     var newprice = Math.round(realprice * (1 + nrt / 100));
                     var itemitogo = Math.round(newprice * itemquantity);
@@ -144,7 +153,7 @@ $details        = $this->data->order['details']['BT'];
             function getExcelLink()
             {
                 var vendor = $('#vendorselect').val();
-                $.get('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&id=<?php echo $details->virtuemart_order_id; ?>&type=nakladnaya&ajax=showExcelDocument', {vendor: vendor}, function(data) {
+                $.get('index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&id=<?php echo $details->virtuemart_order_id; ?>&type=compred&ajax=showExcelDocument', {vendor: vendor}, function(data) {
                     document.location = data;
                 });
             }
@@ -189,15 +198,15 @@ $details        = $this->data->order['details']['BT'];
             {page:Section1;}
             div.vendor{display:none}
             div.vendor:first-child{display:block}
-            .editelement{
-                display:none;
-            }
             p{
                 margin-top:3px;
                 margin-bottom:3px;
             }
             td,p{
                 font-size:12px;
+            }
+            .editelement{
+                display:none;
             }
             #ui-datepicker-div{
                 width:240px;
@@ -208,11 +217,12 @@ $details        = $this->data->order['details']['BT'];
     <body lang=RU style='tab-interval:35.4pt;text-justify-trim:punctuation'>
         <div class="Section1" style="width:780px;position:relative;">
             <div style="position:absolute;right:0px;cursor:pointer;width:48px;height:48px;display:inline-block;background:url(http://enter.kg/images/M_images/excel_icon.png) no-repeat;" title="Скачать в формате EXCEL" onclick="getExcelLink()"></div>
+            <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
+                <span style='font-family:"Times New Roman CYR"'></span></p>
 
             <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;
                mso-layout-grid-align:none;text-autospace:none'><b><span style='font-size:20.0pt;
-                       font-family:"Bookman Old Style";
-                       mso-bidi-font-family:"Bookman Old Style"' onclick="edit()">Накладная</span></b></p>
+                       font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"' onclick="edit()">Коммерческое предложение</span></b></p>
 
             <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;
                mso-layout-grid-align:none;text-autospace:none'><span style='font-size:9.0pt;
@@ -233,7 +243,7 @@ $details        = $this->data->order['details']['BT'];
             </select>
             <?php echo $vendorinfo; ?>
             <div class="editelement">НРТ <input onkeyup="changeNRT()" type="text" id="nrt" value="<?php echo $details->nrt; ?>"/></div>
-            <table class="MsoNormalTable" border=0 cellspacing=0 cellpadding=0 style='margin-left:4.8pt;border-collapse:collapse;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>	
+            <table class="MsoNormalTable" border=0 cellspacing=0 cellpadding=0 style='margin-left:4.8pt;border-collapse:collapse;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
                 <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:15.0pt'>
                     <td width=51 valign=bottom style='width:38.0pt;border:solid windowtext 1.0pt; mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
                         <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
@@ -300,9 +310,7 @@ $details        = $this->data->order['details']['BT'];
                             <div class='itemprice changeelement'><?php echo $price; ?></div>
                             <input onkeyup='resumm(<?php echo $num; ?>)' size='2'id='itempricetext<?php echo $num; ?>' class='itempricetext editelement' type='text'/>
                         </td>
-                        <td style='border:solid 1px black;text-align:right;'>
-                            <div id='itemitogo<?php echo $num; ?>' class='itemitogo'><?php echo $totalprice; ?></div>
-                        </td>
+                        <td width=71 style='border:solid 1px black;text-align:right;'><div id='itemitogo<?php echo $num; ?>' class='itemitogo'><?php echo $totalprice; ?></div></td>
                         <td style='border:solid 1px black;text-align:right;'>
                             <div class='itemguaranty changeelement'><?php echo $guaranty; ?></div>
                             <input size='5' id='itemguarantytext<?php echo $num; ?>' class='itemguarantytext editelement' type='text'/>
@@ -339,27 +347,6 @@ $details        = $this->data->order['details']['BT'];
                 </tr>
             </table>
 
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <b>
-                    <i>
-                        <span style='font-size:10.0pt;font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"'>
-                            Отпустил_______________<span style='mso-spacerun:yes'>                             </span>Принял________________</span>
-                    </i>
-                </b>
-            </p>
-
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
             <table width="100%">
                 <tr>
                     <td align="left" width="580">
@@ -370,9 +357,7 @@ $details        = $this->data->order['details']['BT'];
                         <p class=MsoNormal align=right style='text-align:right;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
                             <b>
                                 <i>
-                                    <span class="orderdate changeelement" 
-                                          style='font-size:10.0pt;font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"'
-                                          ><?php echo date("d.m.Y", strtotime($details->created_on)); ?></span>
+                                    <span class="orderdate changeelement" style='font-size:10.0pt;font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"'><?php echo date("d.m.Y", strtotime($details->created_on)); ?></span>
                                     <input type="text" class="orderdatetext editelement" value="<?php echo date("d.m.Y", strtotime($details->created_on)); ?>"/>
                                 </i>
                             </b>
@@ -382,14 +367,7 @@ $details        = $this->data->order['details']['BT'];
                     </td>
                 </tr>
             </table>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;tab-stops:225.2pt;mso-layout-grid-align:none;text-autospace:none'>
-                <span style='mso-spacerun:yes'> </span>
-            </p>
+            <?php echo $condinfo; ?>
         </div>
-        <?php echo $condinfo; ?>
     </body>
-
 </html>
