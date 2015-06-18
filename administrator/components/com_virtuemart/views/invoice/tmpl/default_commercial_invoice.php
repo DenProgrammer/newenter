@@ -564,7 +564,6 @@ $details        = $this->data->order['details']['BT'];
                 <td colspan=7 style='mso-ignore:colspan'></td>
             </tr>
         </table>
-        <?php echo $condinfo; ?>
     </body>
 
 </html>

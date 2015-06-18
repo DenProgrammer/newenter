@@ -59,10 +59,10 @@ class VirtuemartViewInvoice extends VmViewAdmin {
         $data->invoicetemplates = $invoice->getTemplates();
 
         switch ($type) {
-            case 'commercial_invoice': 
-            case 'invoice_payment': 
-            case 'waybill': 
-            case 'guaranty': 
+            case 'commercial_invoice':
+            case 'invoice_payment':
+            case 'waybill':
+            case 'guaranty':
             case 'commercial_offer': {
                     $orderModel     = VmModel::getModel('orders');
                     $NumberAnalyser = new NumberAnaliz();
@@ -73,6 +73,15 @@ class VirtuemartViewInvoice extends VmViewAdmin {
 
                     $data->document_id  = rand(1, 1000);
                     $data->total_string = $NumberAnalyser->CurrencyToText($total, "USD");
+
+                    break;
+                }
+            case 'app': {
+                    $db = JFactory::getDBO();
+                    $sql = 'SELECT `fulltext` FROM `#__content` WHERE `id`=10';
+
+                    $db->setQuery($sql);
+                    $data = str_replace('src="', 'src="../', $db->LoadResult());
 
                     break;
                 }
