@@ -265,7 +265,7 @@ echo $this->loadTemplate('reviews');
 
 	// Open print and manufacturer link to Modal window
 	  <?php if(VmConfig::get('usefancy',1)) : 
-	  $manulink = JRoute::_('index.php?option=com_virtuemart&view=manufacturer&virtuemart_manufacturer_id=' . $this->product->virtuemart_manufacturer_id[0] . '&tmpl=component', FALSE);
+	  $manulink = JRoute::_('index.php?option=com_virtuemart&view=manufacturer&virtuemart_manufacturer_id=0&tmpl=component', FALSE);
 	  ?>
 	  jQuery('a.printModal').click(function(e){
 		  jQuery.fancybox({
@@ -285,7 +285,7 @@ echo $this->loadTemplate('reviews');
 	  });
 	  
 	  <?php else : 
-	  $manulink = JRoute::_('index.php?option=com_virtuemart&view=manufacturer&virtuemart_manufacturer_id=' . $this->product->virtuemart_manufacturer_id[0] . '&tmpl=component', FALSE);
+	  $manulink = JRoute::_('index.php?option=com_virtuemart&view=manufacturer&virtuemart_manufacturer_id=0&tmpl=component', FALSE);
 	  ?>
 
 	  jQuery('a.printModal').click(function(e){

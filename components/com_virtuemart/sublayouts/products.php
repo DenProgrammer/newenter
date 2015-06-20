@@ -84,20 +84,19 @@ foreach ($viewData['products'] as $type => $products) {
                             </td>
                             <td>
                                 <div class="rows">
-                                    <label>Наименование: </label>
-                                    <span><?php echo JHtml::link($product->link, $product->product_name); ?></span>
+                                    <span class="prouct_name"><?php echo JHtml::link($product->link, $product->product_name); ?></span>
                                 </div>
                                 <div class="rows">
-                                    <label>Цена: </label>
-                                    <span><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
+                                    <label class="pricelbl">Цена: </label>
+                                    <span class="price"><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
+                                    <span class="cart">
+                                        <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
+                                    </span>
+                                    <span class="sku">
+                                        <label>Артикул: </label>
+                                        <span><?php echo $sku; ?></span>
+                                    </span>
                                 </div>
-                                <div class="rows">
-                                    <label>Артикул: </label>
-                                    <span><?php echo $sku; ?></span>
-                                </div>
-                            </td>
-                            <td width="100">
-                                <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
                             </td>
                         </tr>
                     </table>

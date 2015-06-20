@@ -30,6 +30,32 @@ jQuery(document).ready(function () {
 ";
 
 vmJsApi::addJScript('vm.hover', $js);
+
+$imageJS = '
+	jQuery(document).ready(function() {
+		Virtuemart.updateImageEventListeners()
+	});
+	Virtuemart.updateImageEventListeners = function() {
+		jQuery("a[rel=vm-additional-images]").fancybox({
+			"titlePosition" 	: "inside",
+			"transitionIn"	:	"elastic",
+			"transitionOut"	:	"elastic"
+		});
+		jQuery(".additional-images a.product-image.image-0").removeAttr("rel");
+		jQuery(".additional-images img.product-image").click(function() {
+			jQuery(".additional-images a.product-image").attr("rel","vm-additional-images" );
+			jQuery(this).parent().children("a.product-image").removeAttr("rel");
+			var src = jQuery(this).parent().children("a.product-image").attr("href");
+			jQuery(".main-image img").attr("src",src);
+			jQuery(".main-image img").attr("alt",this.alt );
+			jQuery(".main-image a").attr("href",src );
+			jQuery(".main-image a").attr("title",this.alt );
+			jQuery(".main-image .vm-img-desc").html(this.alt);
+		}); 
+	}
+	';
+
+vmJsApi::addJScript('imagepopup', $imageJS);
 ?>
 <h1><?php echo $this->category->category_name; ?></h1>
 <?php if (empty($this->keyword) and !empty($this->category)) {
@@ -108,4 +134,5 @@ if ($this->showproducts) {
         ?>
     </div>
 
-<?php } 
+<?php
+} 

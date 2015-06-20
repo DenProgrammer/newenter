@@ -27,8 +27,8 @@ if ($product->prices['salesPrice'] <= 0 and VmConfig::get('askprice', 1) and iss
     <a class="ask-a-question bold" href="<?php echo $askquestion_url ?>" rel="nofollow" ><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_ASKPRICE') ?></a>
     <?php
 } else {
-    echo $currency->roundForDisplay($product->prices['salesPrice'], 165, 1, 0) . ' '
+    echo round($currency->roundForDisplay($product->prices['salesPrice'], 165, 1, 0)) . ' '
     . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
     . ' / '
-    . '$' . round($product->prices['salesPrice'], 2);
+    . round($product->prices['salesPrice'], 2). ' $' ;
 }

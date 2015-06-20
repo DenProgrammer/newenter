@@ -115,7 +115,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
 /******************leftcol********************************************/
 
 #wrapper #leftcol{
-    float:left;
     width:235px;
 }
 
@@ -130,6 +129,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
     margin-bottom: 10px;
     text-align: center;
     width: 100%;
+    border-radius: 5px;
 }
 
 #wrapper #leftcol .VMmenu ul, #wrapper #leftcol .VMmenu li, #wrapper #leftcol ul.VMmenu {
@@ -148,6 +148,8 @@ h1, h2, h3, h4, h5, h6, .site-title{
     text-align: center;
     text-decoration: none;
     width: 235px;
+    font-weight: bold;
+    border-radius: 5px;
 }
 #wrapper #leftcol .VMmenu li a:hover{
     box-shadow: 0 0 10px 3px rgba(5,5,5,0.3) inset;
@@ -191,7 +193,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
 /******************rightcol*******************************************/
 
 #wrapper #rightcol{
-    float:right;
     width:194px;
 }
 
@@ -206,6 +207,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
     margin-bottom: 10px;
     text-align: center;
     width: 100%;
+    border-radius: 5px;
 }
 
 #wrapper #rightcol #mod_virtuemart_search{
@@ -224,14 +226,17 @@ h1, h2, h3, h4, h5, h6, .site-title{
 #wrapper #rightcol #mod_currency{
     margin-top:10px;
     width:193px;
-    height:28px;
+    height:35px;
     background: rgb(204, 16, 19);
     text-align:center;
     color:#fff;
     font: normal 14px Arial;
     margin:10px 0;
     font-size:12px;
+    font-weight: bold;
     line-height:13px;
+    border-radius: 5px;
+    line-height: 18px;
 }
 
 #wrapper #rightcol #mod_currency select[name=product_currency]{
@@ -278,7 +283,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 /******************content********************************************/
 
 #wrapper #content{
-    padding:0 220px 0 250px;
+    padding:0 10px 0 10px;
 }
 
 #wrapper #content .moduletabletopinfo{
@@ -773,13 +778,14 @@ input.button-gloss {
     border-radius: 8px;
     outline: none;
     background-color: #000;
-        background-image: radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
+    background-image: radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
     box-shadow:
         0 4px rgb(50,50,50),
         inset 0 1px rgba(255,255,255,.3),
         inset 0 0 3px rgba(255,255,255,.5);
     transition: .2s;
     cursor: pointer;
+    text-align: center;
 } 
 #fancybox-content a.continue_link:active,
 #fancybox-content a.showcart:active,
@@ -792,14 +798,14 @@ button.button-gloss:active,
 input.button-gloss:active {
     /*    top: 1px;
         box-shadow: none;*/
-/*    background: rgb(255,255,255) linear-gradient(rgb(255,255,255) 20%, rgb(0,0,0));
-    box-shadow:
-        0 2px rgb(255,255,255),
-        0 1px 6px rgba(0,0,0,.4),
-        inset 0 1px rgba(255,255,255,.3),
-        inset 0 0 3px rgba(255,255,255,.5);
-    -webkit-transform: translate(0, 4px);
-    transform: translate(0, 4px);*/
+    /*    background: rgb(255,255,255) linear-gradient(rgb(255,255,255) 20%, rgb(0,0,0));
+        box-shadow:
+            0 2px rgb(255,255,255),
+            0 1px 6px rgba(0,0,0,.4),
+            inset 0 1px rgba(255,255,255,.3),
+            inset 0 0 3px rgba(255,255,255,.5);
+        -webkit-transform: translate(0, 4px);
+        transform: translate(0, 4px);*/
 }
 #fancybox-content a.continue_link:hover,
 #fancybox-content a.showcart:hover,
@@ -913,17 +919,56 @@ div.vm_cart_products a{
     text-decoration: none;
 }
 
-div.addtocart-area{
-    height: 100px;
-}
 div.rows{
     padding: 5px 0;
     font-size: 14px;
+    text-align: center;
 }
 div.rows label{
     display: inline-block;
-    width: 110px;
+    width: 50px;
 }
-div.addtocart-bar{
-    padding-top: 20px;
+
+.addtocart-button{
+    width: 70px;
+    height: 20px;
+    line-height: 0px;
+}
+span.price{
+    color: #f90000;
+    margin-right: 20px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 18px;
+    height: 25px;
+}
+div.addtocart-area{
+    height: 25px;
+}
+span.sku{
+    font-size: 12px;
+}
+span.prouct_name a{
+    text-decoration: none;
+    font-weight: bold;
+}
+label.pricelbl{
+    font-weight: bold;
+}
+span.cart{
+    display: inline-block;
+    width: 100px;
+    height: 25px;
+}
+div.danger{
+    border: 1px solid red;
+    border-radius: 10px;
+    margin: 5px 0px 10px 0px;
+    padding: 10px;
+}
+div.total_products{
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    height: 12px;
 }
