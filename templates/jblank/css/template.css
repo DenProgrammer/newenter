@@ -115,6 +115,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 /******************leftcol********************************************/
 
 #wrapper #leftcol{
+    float:left;
     width:235px;
 }
 
@@ -193,6 +194,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 /******************rightcol*******************************************/
 
 #wrapper #rightcol{
+    float:right;
     width:194px;
 }
 
@@ -283,7 +285,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 /******************content********************************************/
 
 #wrapper #content{
-    padding:0 10px 0 10px;
+    padding:0 220px 0 250px;
 }
 
 #wrapper #content .moduletabletopinfo{

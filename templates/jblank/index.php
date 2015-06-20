@@ -125,28 +125,18 @@ if ($this->params->get('logoFile')) {
                 </div>
             </div>
             <div id="wrapper">
-                <table style="table-layout: fixed; width:100%">
-                    <tr>
-                        <td width="235" valign="top">
-                            <div id="leftcol">
-                                <jdoc:include type="modules" name="position-3" style="xhtml" />
-                            </div>
-                        </td>
-                        <td valign="top">
-                            <div id="content">
-                                <jdoc:include type="modules" name="position-4" style="xhtml" />
-                                <jdoc:include type="message" />
-                                <jdoc:include type="component" />
-                                <jdoc:include type="modules" name="position-5" style="xhtml" />
-                            </div>
-                        </td>
-                        <td width="194" valign="top">
-                            <div id="rightcol">
-                                <jdoc:include type="modules" name="position-6" style="xhtml" />
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                <div id="leftcol">
+                    <jdoc:include type="modules" name="position-3" style="xhtml" />
+                </div>
+                <div id="rightcol">
+                    <jdoc:include type="modules" name="position-6" style="xhtml" />
+                </div>
+                <div id="content">
+                    <jdoc:include type="modules" name="position-4" style="xhtml" />
+                    <jdoc:include type="message" />
+                    <jdoc:include type="component" />
+                    <jdoc:include type="modules" name="position-5" style="xhtml" />
+                </div>
             </div>
             <div style="clear:both;">&nbsp;</div>
         </div>
