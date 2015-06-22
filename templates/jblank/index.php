@@ -133,7 +133,6 @@ if ($this->params->get('logoFile')) {
                 </div>
                 <div id="content">
                     <jdoc:include type="modules" name="position-4" style="xhtml" />
-                    <jdoc:include type="message" />
                     <jdoc:include type="component" />
                     <jdoc:include type="modules" name="position-5" style="xhtml" />
                 </div>
