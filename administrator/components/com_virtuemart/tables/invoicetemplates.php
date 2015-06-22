@@ -33,24 +33,29 @@ if (!class_exists('VmTable'))
 class TableInvoicetemplates extends VmTable {
 
     /** @var int Primary key */
-    var $id        = 0;
+    var $id = 0;
 
     /** @var int Vendor ID if the status is vendor specific */
-    var $title     = null;
+    var $title = null;
     /** @var boolean */
 
-    /** @var char Order status Code */
-    var $content   = null;
-    /** @var boolean */
-
-    /** @var char Order status Code */
-    var $footer   = null;
+    /** @var text content for vendors */
+    var $content_commercial_invoice = null;
+    var $footer_commercial_invoice  = null;
+    var $content_commercial_offer   = null;
+    var $footer_commercial_offer    = null;
+    var $content_guaranty           = null;
+    var $footer_guaranty            = null;
+    var $content_invoice_payment    = null;
+    var $footer_invoice_payment     = null;
+    var $content_waybill            = null;
+    var $footer_waybill             = null;
 
     /** @var string Order status name */
-    var $nrt       = 0;
+    var $nrt = 0;
 
     /** @var int Order in which the order status is listed */
-    var $ordering  = 0;
+    var $ordering = 0;
 
     /** @var int published or unpublished */
     var $published = 1;

@@ -81,7 +81,7 @@ $document->addScriptDeclaration($js);
                             $active_child_menu = 'class="VmOpen"';
                         }
 
-                        $countSubProduct = $countProducts[$child->virtuemart_category_id];
+                        $countSubProduct = isset($countProducts[$child->virtuemart_category_id]) ? $countProducts[$child->virtuemart_category_id] : 0;
 
                         if ($countSubProduct > 0) {
                             $cattext .= ' (' . $countSubProduct . ')';

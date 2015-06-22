@@ -1,7 +1,4 @@
 <?php
-//echo '<pre>';
-//pr($this->data);
-//exit;
 $items   = $this->data->order['items'];
 $details = $this->data->order['details']['BT'];
 ?><html>
@@ -309,5 +306,6 @@ $details = $this->data->order['details']['BT'];
                 </tr>
             </table>
         </div>
+        <?php echo $this->data->guaranty; ?>
     </body>
 </html>

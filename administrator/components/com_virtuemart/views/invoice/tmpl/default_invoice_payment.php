@@ -1,7 +1,4 @@
 <?php
-//echo '<pre>';
-//pr($this->data);
-//exit;
 $items          = $this->data->order['items'];
 $details        = $this->data->order['details']['BT'];
 ?>
@@ -232,12 +229,11 @@ $details        = $this->data->order['details']['BT'];
                     font-family:"Times New Roman CYR"'></span></p>
             <select id="vendorselect" class="editelement">
                 <?php
-                $vendor_info_id = 0;
                 foreach ($this->data->invoicetemplates as $row) {
-                    $sel = ($vendor_info_id == $row->id) ? 'selected' : '';
+                    $sel = ($details->vendor_info_id == $row->id) ? 'selected' : '';
                     $vendorlist .= '<option ' . $sel . ' value="' . $row->id . '">' . $row->title . '</option>';
-                    $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . html_entity_decode($row->content) . '</div>';
-                    $condinfo .= '<div class="cond cond' . $row->id . '">' . html_entity_decode($row->footer) . '</div>';
+                    $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . html_entity_decode($row->content_invoice_payment) . '</div>';
+                    $condinfo .= '<div class="cond cond' . $row->id . '">' . html_entity_decode($row->footer_invoice_payment) . '</div>';
                 }
 
                 echo $vendorlist;

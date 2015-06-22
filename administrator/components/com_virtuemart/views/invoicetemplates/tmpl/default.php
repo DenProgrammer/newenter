@@ -30,10 +30,7 @@ AdminUIHelper::startAdminArea($this);
                     </th>
 
                     <th>
-                        <?php echo vmText::_('COM_VIRTUEMART_INVOICETEMPLATES_TITLE') ?>
-                    </th>
-                    <th>
-                        <?php echo vmText::_('COM_VIRTUEMART_DESCRIPTION'); ?>
+                        <?php echo vmText::_('COM_VIRTUEMART_VENDOR_NAME') ?>
                     </th>
                     <th width="20">
                         <?php echo vmText::_('COM_VIRTUEMART_PUBLISHED'); ?>
@@ -58,9 +55,6 @@ AdminUIHelper::startAdminArea($this);
                     </td>
                     <td align="left">
                         <a href="<?php echo $editlink; ?>"><?php echo vmText::_($row->title); ?></a>
-                    </td>
-                    <td align="left">
-                        <?php echo vmText::_($row->content); ?>
                     </td>
                     <td align="center"><?php echo $published; ?></td>
                     <td width="10">

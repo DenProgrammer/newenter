@@ -55,6 +55,7 @@ class VirtuemartViewInvoice extends VmViewAdmin {
     protected function prepareData($type, $orderId) {
         $data    = new stdClass();
         $invoice = VmModel::getModel('invoice');
+        $db      = JFactory::getDBO();
 
         $data->invoicetemplates = $invoice->getTemplates();
 
@@ -62,7 +63,6 @@ class VirtuemartViewInvoice extends VmViewAdmin {
             case 'commercial_invoice':
             case 'invoice_payment':
             case 'waybill':
-            case 'guaranty':
             case 'commercial_offer': {
                     $orderModel     = VmModel::getModel('orders');
                     $NumberAnalyser = new NumberAnaliz();
@@ -76,8 +76,28 @@ class VirtuemartViewInvoice extends VmViewAdmin {
 
                     break;
                 }
+            case 'guaranty': {
+                    $orderModel     = VmModel::getModel('orders');
+                    $NumberAnalyser = new NumberAnaliz();
+
+                    $data->order = $orderModel->getOrder($orderId);
+
+                    $total = round($data->order['details']['BT']->order_total);
+
+                    $data->document_id  = rand(1, 1000);
+                    $data->total_string = $NumberAnalyser->CurrencyToText($total, "USD");
+
+                    $data->guaranty = null;
+                    if (count($data->order['items']) == 1) {
+                        $sql = 'SELECT `fulltext` FROM `#__content` WHERE `id`=10';
+
+                        $db->setQuery($sql);
+                        $data->guaranty = str_replace('src="', 'src="../', $db->LoadResult());
+                    }
+                    
+                    break;
+                }
             case 'app': {
-                    $db = JFactory::getDBO();
                     $sql = 'SELECT `fulltext` FROM `#__content` WHERE `id`=10';
 
                     $db->setQuery($sql);
