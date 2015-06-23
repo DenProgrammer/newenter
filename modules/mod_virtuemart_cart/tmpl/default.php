@@ -31,7 +31,8 @@ defined('_JEXEC') or die('Restricted access');
                     <?php
                     foreach ($data->products as $product) {
                         ?><div class="product_row">
-                            <span class="quantity"><?php echo $product['quantity'] ?></span>&nbsp;x&nbsp;<span class="product_name"><?php echo $product['product_name'] ?></span>
+                            <span class="quantity"><?php echo $product['quantity'] ?></span>&nbsp;x&nbsp;
+                            <span class="product_name"><?php echo html_entity_decode($product['product_name']); ?></span>
                             <?php if ($show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) { ?>
                                 <div class="subtotal_with_tax" style="float: right;"><?php echo $product['subtotal_with_tax'] ?></div>
                             <?php } ?>

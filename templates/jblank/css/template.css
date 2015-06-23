@@ -52,6 +52,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 #header_block{
     border:2px solid #4a4a4a;
     margin:0 21px;
+    text-align: center;
 }
 
 #header_block .moduletablelogo{
@@ -897,8 +898,8 @@ div.latest_products ul li a div.prod_img{
     vertical-align: middle;
     overflow: hidden;
 }
-div.latest_products ul li a div.prod_img img{
-    margin-top: 20px;
+div.latest_products ul li div.prod_img a img{
+    max-width: 140px;
 }
 div.latest_products ul li a div.prod_price{
     line-height: 30px;
@@ -916,6 +917,9 @@ div.latest_products ul li a div.prod_price span:last-child{
     float: right;
     font-weight: bold;
     color: #f90000;
+}
+div.moduletable-latest h3{
+    text-align: center;
 }
 div.vm_cart_products a{
     text-decoration: none;
@@ -973,4 +977,7 @@ div.total_products{
     text-align: center;
     margin-top: 10px;
     height: 12px;
+}
+#header_block_div{
+    display:inline-block;
 }

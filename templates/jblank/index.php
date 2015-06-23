@@ -118,7 +118,10 @@ if ($this->params->get('logoFile')) {
                 <jdoc:include type="modules" name="position-0" style="xhtml" />
             </div>
             <div id="header_block">
+                <div id="header_block_div">
                 <jdoc:include type="modules" name="position-1" style="xhtml" />
+                    
+                </div>
                 <div style="clear:both"></div>
                 <div id="mainmenu_block">
                     <jdoc:include type="modules" name="position-2" style="xhtml" />

@@ -238,9 +238,9 @@ $details = $this->data->order['details']['BT'];
                                 <?php echo $totalprice; ?>
                             </div>
                         </td>
-                        <td class='itemsn' valign=bottom style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                            <?php echo $sn; ?>
-                        </td>
+                        <td class='itemsn' valign=bottom 
+                            style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'
+                            ><?php echo $sn; ?></td>
                         <td style='border:solid 1px black;text-align:right;'>
                             <div class='itemguaranty changeelement'><?php echo $guaranty; ?></div>
                             <input size='5' id='itemguarantytext<?php echo $num; ?>' class='itemguarantytext editelement' type='text'/>

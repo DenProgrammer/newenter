@@ -77,7 +77,7 @@ if(vRequest::getInt('print',false)){ ?>
 	</div>
 
     <?php // Product Title   ?>
-    <h1><?php echo $this->product->product_name ?></h1>
+    <h1><?php echo html_entity_decode($this->product->product_name) ?></h1>
     <?php // Product Title END   ?>
 
     <?php // afterDisplayTitle Event
@@ -146,16 +146,16 @@ echo $this->loadTemplate('images');
 		<?php
 		echo shopFunctionsF::renderVmSubLayout('rating',array('showRating'=>$this->showRating,'product'=>$this->product));
 
-		if (is_array($this->productDisplayShipments)) {
-		    foreach ($this->productDisplayShipments as $productDisplayShipment) {
-			echo $productDisplayShipment . '<br />';
-		    }
-		}
-		if (is_array($this->productDisplayPayments)) {
-		    foreach ($this->productDisplayPayments as $productDisplayPayment) {
-			echo $productDisplayPayment . '<br />';
-		    }
-		}
+//		if (is_array($this->productDisplayShipments)) {
+//		    foreach ($this->productDisplayShipments as $productDisplayShipment) {
+//			echo $productDisplayShipment . '<br />';
+//		    }
+//		}
+//		if (is_array($this->productDisplayPayments)) {
+//		    foreach ($this->productDisplayPayments as $productDisplayPayment) {
+//			echo $productDisplayPayment . '<br />';
+//		    }
+//		}
 
 		//In case you are not happy using everywhere the same price display fromat, just create your own layout
 		//in override /html/fields and use as first parameter the name of your file

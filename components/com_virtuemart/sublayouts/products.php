@@ -70,32 +70,50 @@ foreach ($viewData['products'] as $type => $products) {
                     $sku = preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $product->product_sku);
                 }
 
+                $product->product_name = html_entity_decode($product->product_name);
+
                 // Show Products 
                 ?>
                 <div class="product vm-col<?php echo ' vm-col-' . $products_per_row . $show_vertical_separator ?>">
                     <table width="100%">
                         <tr>
                             <td width="140">
-                                <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
-                                    <?php
-                                    echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
-                                    ?>
-                                </a>
+                                <?php if ($product->images[0]->virtuemart_media_id > 0) { ?>
+                                    <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
+                                    <?php } else { ?>
+                                        <a title="Найти в Google" target="blank" href="http://www.google.kg/search?q=<?php echo $product->product_name; ?>">
+                                        <?php } ?>
+                                        <?php
+                                        echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
+                                        ?>
+                                    </a>
                             </td>
                             <td>
                                 <div class="rows">
                                     <span class="prouct_name"><?php echo JHtml::link($product->link, $product->product_name); ?></span>
                                 </div>
                                 <div class="rows">
-                                    <label class="pricelbl">Цена: </label>
-                                    <span class="price"><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
-                                    <span class="cart">
-                                        <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
-                                    </span>
-                                    <span class="sku">
-                                        <label>Артикул: </label>
-                                        <span><?php echo $sku; ?></span>
-                                    </span>
+                                    <table width='100%'>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td width='260'>
+                                                <label class="pricelbl">Цена: </label>
+                                                <span class="price"><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
+                                            </td>
+                                            <td width='110'>
+                                                <span class="sku">
+                                                    <label>Артикул: </label>
+                                                    <span><?php echo $sku; ?></span>
+                                                </span>
+                                            </td>
+                                            <td width='100'>
+                                                <span class="cart">
+                                                    <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
+                                                </span>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </td>
                         </tr>

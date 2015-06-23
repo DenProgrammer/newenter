@@ -92,6 +92,10 @@ function getOptionsPrice($price_type) {
     return $db->LoadObject();
 }
 
+function createSlug($productName){
+    return $productName;
+}
+
 /**
  * update product
  * 
@@ -104,52 +108,83 @@ function getOptionsPrice($price_type) {
  * @param integer $newProduct
  * @return integer
  */
-function updateProduct($product_id, $product_name, $product_hash, $sklad, $product_desk, $product_s_desk, &$newProduct) {
+function updateProduct($product_id, $product_name, $product_hash, $sklad, $product_desk, $price) {
     $db = JFactory::getDbo();
 
     $product_name   = mysql_real_escape_string($product_name);
     $product_desk   = mysql_real_escape_string($product_desk);
     $product_s_desk = mysql_real_escape_string($product_s_desk);
+    $product_slug = createSlug($product_s_desk);
 
     $num_category = 109;
 
     if ($product_id > 0) {
-        $sql = 'UPDATE `#__vm_product` '
-                . 'SET `product_name`=\'' . $product_name . '\',`product_publish`=\'Y\' '
-                . 'WHERE `product_id`=' . $product_id;
-        $db->setQuery($sql);
+        $sqlProduct = "UPDATE `#__virtuemart_products` "
+                . "SET `published` = 1 "
+                . "WHERE `virtuemart_product_id` = $product_id";
+        $db->setQuery($sqlProduct);
+        $db->query();
+        
+        $sqlProdRu = "UPDATE `#__virtuemart_products_ru_ru` "
+                . "SET `product_name` = '$product_name', `slug` = '$product_slug', `hash` = '$product_hash'"
+                . "WHERE `virtuemart_product_id` = $product_id";
+        $db->setQuery($sqlProdRu);
         $db->query();
     } else {
-        $newProduct++;
-        $sql = "INSERT INTO `jos_vm_product` 
-                (`vendor_id`, `product_sku`, `product_publish`, `product_s_desc`, `product_desc`, `hash`, 			
-                `product_available_date`, `product_special`, `cdate`, `mdate`, `product_name`,
-                `product_unit`, `child_options`, `quantity_options`, `product_order_levels`) 
-                VALUES 
-                ('1', '" . $sklad . rand(1000, 9999) . "', 'Y', '$product_s_desk', '$product_desk', '$product_hash',
-                '" . time() . "', 'N', '" . time() . "', '" . time() . "', '$product_name',
-                'шт.', 'N,N,N,N,N,N,20%,10%,', 'none,0,0,1', '0,0')";
-        $db->setQuery($sql);
+        $sqlProduct = "INSERT INTO `#__virtuemart_products` ("
+                . "`virtuemart_product_id`, `virtuemart_vendor_id`, `product_parent_id`, `product_sku`, "
+                . "`product_gtin`, `product_mpn`, `product_weight`, `product_weight_uom`, "
+                . "`product_length`, `product_width`, `product_height`, `product_lwh_uom`, "
+                . "`product_url`, `product_in_stock`, `product_ordered`, `low_stock_notification`, "
+                . "`product_available_date`, `product_availability`, `product_special`, `product_sales`, "
+                . "`product_unit`, `product_packaging`, `product_params`, `hits`, "
+                . "`intnotes`, `metarobot`, `metaauthor`, `layout`, "
+                . "`published`, `pordering`, `created_on`, `created_by`, "
+                . "`modified_on`, `modified_by`, `locked_on`, `locked_by`"
+                . ") VALUES ("
+                . "NULL, 1, 0, '$sklad', "
+                . "NULL, NULL, NULL, 'KG', "
+                . "NULL, NULL, NULL, 'M', "
+                . "'', 1, 3, 0, "
+                . "'2015-2-8 00:00:00', NULL, 0, 0, "
+                . "'KG', NULL, 'min_order_level=null|max_order_level=null|step_order_level=null|product_box=null|', NULL, "
+                . "'', '', '', '0', "
+                . "1, 0, '2015-6-22 17:59:03', 436, "
+                . "'2015-6-22 17:59:03', 436, '0000-0-0 00:00:00', 0)";
+        $db->setQuery($sqlProduct);
         $db->query();
 
         $product_id = $db->insertid();
 
-        $product_sku = $sklad . $product_id;
-        $sql2        = "UPDATE `#__vm_product` SET `product_sku`='$product_sku' "
-                . "WHERE `product_id`='$product_id'";
-        $db->setQuery($sql2);
-        $db->query();
-
-        $sql3 = "INSERT INTO `jos_vm_product_category_xref` (`category_id`, `product_id`) "
-                . "VALUES ('$num_category', '$product_id')";
-        $db->setQuery($sql3);
-        $db->query();
-
-        $sql4 = "INSERT INTO `jos_vm_product_mf_xref` (`product_id`, `manufacturer_id`) "
-                . "VALUES ('$product_id', '1')";
-        $db->setQuery($sql4);
+        $sqlProdRu = "INSERT INTO `#__virtuemart_products_ru_ru` ("
+                . "`virtuemart_product_id`, `product_s_desc`, `product_desc`, `product_name`, "
+                . "`metadesc`, `metakey`, `customtitle`, `slug`, `hash`"
+                . ") VALUES ("
+                . "$product_id, '', '$product_desk', '$product_name', "
+                . "'', '', '', '$product_slug', '$product_hash')";
+        $db->setQuery($sqlProdRu);
         $db->query();
     }
+
+    $sqlCategory = "INSERT INTO `#__virtuemart_product_categories` ("
+            . "`virtuemart_product_id`, `virtuemart_category_id`, `ordering`"
+            . ") VALUES ("
+            . "$product_id, $num_category, 0)";
+        $db->setQuery($sqlCategory);
+        $db->query();
+
+    $sqlPrices = "INSERT INTO `#__virtuemart_product_prices` ("
+            . "`virtuemart_product_id`, `virtuemart_shoppergroup_id`, `product_price`, `override`, "
+            . "`product_override_price`, `product_tax_id`, `product_discount_id`, `product_currency`, "
+            . "`product_price_publish_up`, `product_price_publish_down`, `price_quantity_start`, `price_quantity_end`, "
+            . "`created_on`, `created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`"
+            . ") VALUES ("
+            . "$product_id, 0, $price, 0, "
+            . "0.00000, -1, 0, 202, "
+            . "'0000-0-0 00:00:00', '0000-0-0 00:00:00', 0, 0, "
+            . "'2015-6-22 17:59:03', 436, '2015-6-22 17:59:03', 436, '0000-0-0 00:00:00', 0)";
+        $db->setQuery($sqlPrices);
+        $db->query();
 
     return $product_id;
 }

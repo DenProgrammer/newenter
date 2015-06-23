@@ -127,13 +127,14 @@ class VirtuemartControllerInvoice extends VmController {
                     $nrt      = isset($data['nrt']) ? (float) $data['nrt'] : 0;
 
                     foreach ($items as $data) {
+                        pr($data);
                         $order_item_id = (int) $data['order_item_id'];
                         $itemquantity  = (float) $data['itemquantity'];
                         $itemprice     = (float) $data['itemprice'];
                         $itemname      = str_replace('*AMPERSAND*', '&', $data['itemname']);
                         $itemsku       = isset($data['itemsku']) ? $data['itemsku'] : null;
                         $itemguaranty  = isset($data['itemguaranty']) ? $data['itemguaranty'] : null;
-                        $itemsn        = isset($data['itemsn']) ? $data['itemsn'] : null;
+                        $itemsn        = isset($data['itemsn']) ? str_replace('&#60;br&#62;', '<br>', $data['itemsn']) : null;
                         $shopper_info  = isset($data['shopper_info']) ? $data['shopper_info'] : null;
                         $realprice     = round($itemprice / (1 + $nrt / 100));
                         $totalPrice    = $realprice * $itemquantity;
@@ -144,11 +145,14 @@ class VirtuemartControllerInvoice extends VmController {
                                 . "LIMIT 1";
                         $db->setQuery($sql);
                         $attr = json_decode($db->loadResult());
-
+                        pr($attr);
+                        if (!$attr) {
+                            $attr = new stdClass();
+                        }
                         $attr->guaranty = $itemguaranty;
                         if ($itemsn) {
                             $attr->sn = $itemsn;
-                        }
+                        }pr($attr);
                         $attribute = json_encode($attr);
 
                         $sql = "UPDATE `#__virtuemart_order_items` "

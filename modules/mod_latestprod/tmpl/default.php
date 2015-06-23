@@ -6,7 +6,7 @@ defined('_JEXEC') or die('Restricted access');
     <ul>
         <?php
         foreach ($products as $product) {
-            if (!isset($product->virtuemart_product_id)){
+            if (!isset($product->virtuemart_product_id)) {
                 continue;
             }
             $image = $product->images[0];
@@ -14,15 +14,17 @@ defined('_JEXEC') or die('Restricted access');
             <li>
                 <div class="prod_title">
                     <a href ="<?php echo $product->link; ?>">
-                        <?php echo $product->product_name; ?>
+                        <?php echo html_entity_decode($product->product_name); ?>
                     </a>
                 </div>
                 <div class="prod_img">
-                    <?php echo $image->displayMediaThumb("", true, "rel='vm-additional-images'"); ?>
+                    <a href ="<?php echo $product->link; ?>">
+                        <?php echo $image->displayMediaThumb("", false, ""); ?>
+                    </a>
                 </div>
                 <div class="prod_price">
-                    <span><?php echo JText::_('MOD_LATESTPROD_PRICE') ?></span>
-                    <span><?php echo round($product->prices['salesPrice'], 2); ?> USD / <?php echo round($product->prices['salesPrice'] * $kurs); ?> Сом</span>
+                    <!--<label class="pricelbl"><?php echo JText::_('MOD_LATESTPROD_PRICE') ?>: </label>-->
+                    <span class="price" style="margin-right: 0px;"><?php echo round($product->prices['salesPrice'] * $kurs); ?> Сом / <?php echo round($product->prices['salesPrice'], 2); ?> $</span>
                 </div>
             </li>
             <?php

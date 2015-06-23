@@ -253,10 +253,13 @@ class ImportController {
 
     //parsing csv files for update sklads
     function parceCSV() {
+        $start  = microtime(1);
+        echo round(microtime(1) - $start, 2) . '<br>';
         $offset = JRequest::getInt('offset');
 
         //get options from current price
         $options                 = getOptionsPrice($this->price_type);
+        echo round(microtime(1) - $start, 2) . '<br>';
         $sklad                   = $options->sklad_name;
         $position_product_name   = $options->position_product_name;
         $position_product_price  = $options->position_product_price;
@@ -269,9 +272,11 @@ class ImportController {
         if (($sklad) and ($offset == 0)) {
             unpublishSklad($sklad);
         }
+        echo round(microtime(1) - $start, 2) . '<br>';
 
         if ((file_exists($this->filepath)) and (trim($this->file) != '')) {
             $data = $this->readFile($options, $clear_line);
+            echo round(microtime(1) - $start, 2) . '<br>';
 
             $newProduct    = 0;
             $updateProduct = 0;
@@ -312,17 +317,21 @@ class ImportController {
                     $updateProduct++;
                 }
             }
+            echo round(microtime(1) - $start, 2) . '<br>';
         }
 
         $data = array(
             'count'  => $record,
             'new'    => $newProduct,
             'update' => $updateProduct,
+            'time'   => round(microtime(1) - $start, 2),
         );
 
         echo json_encode($data);
         exit;
     }
+    
+    
 
     function moveFile() {
         if (!file_exists($this->filepath)) {
