@@ -409,6 +409,10 @@ h1, h2, h3, h4, h5, h6, .site-title{
     text-align: left;
 }
 
+div.prod_price span.price{
+    font-size: 16px;
+}
+
 #wrapper #content div.customlatest_products ul li a div.prod_price span:last-child{
     float: right;
     font-weight: bold;
