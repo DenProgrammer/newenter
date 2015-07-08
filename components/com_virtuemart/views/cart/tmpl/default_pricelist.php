@@ -76,7 +76,11 @@
                            onclick="Virtuemart.checkQuantity(this,<?php echo $step ?>, '<?php echo vmText::_('COM_VIRTUEMART_WRONG_AMOUNT_ADDED') ?>');"
                            onchange="Virtuemart.checkQuantity(this,<?php echo $step ?>, '<?php echo vmText::_('COM_VIRTUEMART_WRONG_AMOUNT_ADDED') ?>');"
                            onsubmit="Virtuemart.checkQuantity(this,<?php echo $step ?>, '<?php echo vmText::_('COM_VIRTUEMART_WRONG_AMOUNT_ADDED') ?>');"
-                           title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" class="quantity-input js-recalculate" size="3" maxlength="4" name="quantity[<?php echo $pkey; ?>]" value="<?php echo $prow->quantity ?>" />
+                           title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" 
+                           class="quantity-input js-recalculate" size="3" maxlength="4" 
+                           name="quantity[<?php echo $pkey; ?>]" 
+                           value="<?php echo $prow->quantity ?>"
+                           style="display: inline;"/>
 
                     <button type="submit" class="vmicon vm2-add_quantity_cart" name="updatecart.<?php echo $pkey ?>" title="<?php echo vmText::_('COM_VIRTUEMART_CART_UPDATE') ?>" />
 

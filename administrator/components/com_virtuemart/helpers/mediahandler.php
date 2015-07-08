@@ -83,7 +83,7 @@ class VmMediaHandler {
         if ($type == 'product' || $type == 'products') {
             $relUrl  = VmConfig::get('media_product_path');
             $choosed = true;
-        } else if ($type == 'category' || $type == 'categories') {
+        } else if ($type == 'category' || $type == 'categories' || $type == 'assembly') {
             $relUrl  = VmConfig::get('media_category_path');
             $choosed = true;
         } else if ($type == 'shop') {

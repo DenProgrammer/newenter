@@ -53,7 +53,7 @@ foreach ($viewData['products'] as $type => $products) {
             // this is an indicator wether a row needs to be opened or not
             if ($col == 1) {
                 ?>
-                <div class="row">
+                <div class="">
                     <?php
                 }
 
@@ -108,7 +108,7 @@ foreach ($viewData['products'] as $type => $products) {
                                             </td>
                                             <td width='100'>
                                                 <span class="cart">
-                                                    <?php echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
+                                                    <?php // echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
                                                 </span>
                                             </td>
                                             <td>&nbsp;</td>
@@ -126,7 +126,6 @@ foreach ($viewData['products'] as $type => $products) {
                 // Do we need to close the current row now?
                 if ($col == $products_per_row || $nb > $BrowseTotalProducts) {
                     ?>
-                    <div class="clear"></div>
                 </div>
                 <?php
                 $col = 1;
@@ -140,7 +139,6 @@ foreach ($viewData['products'] as $type => $products) {
             // Do we need a final closing row tag?
             //if ($col != 1) {
             ?>
-            <div class="clear"></div>
         </div>
         <?php
         // }

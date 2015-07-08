@@ -939,10 +939,11 @@ div.rows label{
     width: 50px;
 }
 
-.addtocart-button{
+input.addtocart-button{
     width: 70px;
     height: 20px;
     line-height: 0px;
+    padding: 4px 5px;
 }
 span.price{
     color: #f90000;
@@ -984,4 +985,14 @@ div.total_products{
 }
 #header_block_div{
     display:inline-block;
+}
+
+#fancybox-wrap{
+    width: 600px !important;
+}
+#fancybox-content{
+    width: auto !important;
+}
+div.assembly{
+    text-align: center;
 }

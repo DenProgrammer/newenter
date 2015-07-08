@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_VIRTUEMART_ASSEMBLY_LIST_VIEW_DEFAULT_TITLE">
+        <message><![CDATA[COM_VIRTUEMART_ASSEMBLY_LIST_VIEW_DEFAULT_DESC]]></message>
+    </layout>
+    <fields name="request">
+        <fieldset 
+            name="request"
+            addfieldpath="/administrator/components/com_virtuemart/fields">
+        </fieldset>
+    </fields>
+</metadata>
+
