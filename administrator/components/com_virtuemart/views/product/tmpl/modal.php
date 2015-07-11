@@ -17,7 +17,7 @@
  */
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
-AdminUIHelper::startAdminArea($this);
+AdminUIHelper::startAdminArea($this,null,false);
 
 /* Load some variables */
 $search_date  = vRequest::getVar('search_date', null); // Changed search by date
@@ -33,7 +33,7 @@ if ($product_parent_id) {
     $col_product_name = 'COM_VIRTUEMART_PRODUCT_NAME';
 }
 ?>
-<form action="index.php" method="post" name="adminForm" id="adminForm">
+<form action="" method="post" name="adminForm" id="adminForm">
     <div id="header">
         <div id="filterbox">
             <table class="">
@@ -56,7 +56,7 @@ if ($product_parent_id) {
                         <button  class="btn btn-small" onclick="this.form.submit();"><?php echo vmText::_('COM_VIRTUEMART_GO'); ?></button>
                         <button  class="btn btn-small" onclick="document.adminForm.filter_product.value = '';
                                 document.adminForm.search_type.options[0].selected = true;">
-                                     <?php echo vmText::_('COM_VIRTUEMART_RESET'); ?>
+                                    <?php echo vmText::_('COM_VIRTUEMART_RESET'); ?>
                         </button>
                     </td>
 
@@ -71,27 +71,19 @@ if ($product_parent_id) {
         <?php
 // $this->productlist
 
-        $imgWidth = VmConfig::get('img_width');
-        if (empty($imgWidth)) {
-            $imgWidth = 80;
+        $imgWidth  = VmConfig::get('img_width');
+        if (empty($imgWidth)){
+            $imgWidth  = 80;
         }
         ?>
         <table class="adminlist table table-striped" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <th class="admin-checkbox"><input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" /></th>
-
                     <th>
                         <?php echo $this->sort('product_name', $col_product_name) ?> 
                     </th>
-                    <th width="90px">
-                        <?php echo $this->sort('product_sku') ?>
-                    </th>
                     <th width="70px" >
                         <?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?>
-                    </th>
-                    <th width="15%">
-                        <?php echo vmText::_('COM_VIRTUEMART_CATEGORY'); ?>
                     </th>
                     <th width="40px" >
                         <?php echo $this->sort('published'); ?>
@@ -115,25 +107,24 @@ if ($product_parent_id) {
                         $published = $this->gridPublished($product, $i);
 
                         $is_featured = $this->toggle($product->product_special, $i, 'toggle.product_special');
-                        $link        = 'index.php?option=com_virtuemart&view=product&task=edit'
-                                . '&virtuemart_product_id=' . $product->virtuemart_product_id
-                                . '&fieldId=' . $i;
+                        $link        = 'index.php?option=com_virtuemart&view=product&task=edit&virtuemart_product_id=' . $product->virtuemart_product_id;
                         ?>
                         <tr class="row<?php echo $k; ?>">
-                            <!-- Checkbox -->
-                            <td class="admin-checkbox"><?php echo $checked; ?></td>
 
                             <td align ="left>">
                                 <?php
                                 if (empty($product->product_name)) {
                                     $product->product_name = 'Language Missing id ' . $product->virtuemart_product_id;
                                 }
-                                echo JHtml::_('link', JRoute::_($link), $product->product_name, array('title' => vmText::_('COM_VIRTUEMART_EDIT') . ' ' . htmlentities($product->product_name)));
                                 ?>
+                                <a  
+                                    href="javascript:void(0)" 
+                                    onclick="window.parent.selectProduct('<?php echo $this->fieldId; ?>', '<?php echo $product->virtuemart_product_id; ?>', '<?php echo $product->product_name; ?>');"
+                                    title="<?php echo $product->product_name; ?>"
+                                    >
+                                <?php echo $product->product_name; ?>
+                                </a>
                             </td>
-
-                            <!-- Product SKU -->
-                            <td><?php echo $product->product_sku; ?></td>
 
                             <!-- Product price -->
                             <td align="right" ><?php
@@ -141,17 +132,12 @@ if ($product_parent_id) {
                                     echo $product->product_price_display;
                                 }
                                 ?>
-                            </td>
-
-                            <!-- Category name -->
-                            <td>
-                                <?php echo $product->categoriesList; ?>
-                            </td>                                
+                            </td>                               
                             <!-- published -->
                             <td align="center" ><?php echo $published; ?></td>
 
                             <!-- Vendor name -->
-                            <td align="right"><?php echo $product->virtuemart_product_id; // echo $product->vendor_name;         ?></td>
+                            <td align="right"><?php echo $product->virtuemart_product_id; // echo $product->vendor_name;        ?></td>
                         </tr>
                         <?php
                         $k = 1 - $k;

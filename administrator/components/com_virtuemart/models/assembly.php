@@ -54,8 +54,11 @@ class VirtueMartModelAssembly extends VmModel {
         if (!$assembly_id > 0) {
             return array();
         }
-        $db->setQuery('SELECT * FROM #__virtuemart_assembly_products '
-                . 'WHERE assembly_id = ' . $assembly_id);
+        $db->setQuery('SELECT ap.*, ('
+                . '     SELECT product_name FROM #__virtuemart_products_ru_ru '
+                . '     WHERE virtuemart_product_id = ap.product_id'
+                . ') AS product_name FROM #__virtuemart_assembly_products ap '
+                . 'WHERE ap.assembly_id = ' . $assembly_id);
         $rows = $db->loadObjectList();
 
         $assembly = array();

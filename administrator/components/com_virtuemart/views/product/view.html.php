@@ -36,6 +36,8 @@ class VirtuemartViewProduct extends VmViewAdmin {
         $task = vRequest::getCmd('task', $this->getLayout());
         $this->assignRef('task', $task);
 
+        $this->fieldId = JRequest::getInt('fieldId', -1);
+
         // Load helpers
         if (!class_exists('CurrencyDisplay'))
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');

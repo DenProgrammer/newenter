@@ -24,34 +24,79 @@ vmJsApi::addJScript('assembly', "
 		jQuery( function($) {
 
 			$('#addItem').click(function() {
-				var newRow   = $('table#items tr:nth-child(2)').clone();
+				var newRow   = '<tr style=\"display:none;\" id=\"row_ID\">';
+                                newRow   += '<td valign=\"top\">';
+                                newRow   += '   <input ';
+                                newRow   += '       type=\"hidden\" ';
+                                newRow   += '       value=\"1\" ';
+                                newRow   += '       name=\"products[ID][id]\" ';
+                                newRow   += '       id=\"products_ID_id\" ';
+                                newRow   += '       class=\"inputbox\" ';
+                                newRow   += '   />';
+                                newRow   += '   <input ';
+                                newRow   += '       type=\"text\" ';
+                                newRow   += '       value=\"\" ';
+                                newRow   += '       name=\"products[ID][name]\" ';
+                                newRow   += '       id=\"products_ID_name\" ';
+                                newRow   += '       class=\"inputbox\" ';
+                                newRow   += '   />';
+                                newRow   += '</td>';
+                                newRow   += '<td valign=\"top\">';
+                                newRow   += '    <a ';
+                                newRow   += '       rel=\"{handler: \'iframe\', size: {x: 700, y: 400}}\" ';
+                                newRow   += '       href=\"index.php?option=com_virtuemart&view=product&layout=modal&tmpl=component&fieldId=ID\" ';
+                                newRow   += '       title=\"Выбрать продукт\" ';
+                                newRow   += '       class=\"btn modal-button\"';
+                                newRow   += '       >';
+                                newRow   += '       <span class=\"icon-file-add\"></span>';
+                                newRow   += '       Продукт	';
+                                newRow   += '   </a>';
+                                newRow   += '</td>';
+                                newRow   += '<td valign=\"top\">';
+                                newRow   += '   <input ';
+                                newRow   += '      type=\"text\" ';
+                                newRow   += '      value=\"1\" ';
+                                newRow   += '      name=\"products[ID][count]\" ';
+                                newRow   += '      id=\"products[ID][count]\" ';
+                                newRow   += '      class=\"inputbox\" ';
+                                newRow   += '      />';
+                                newRow   += '</td>';
+                                newRow   += '<td valign=\"top\">';
+                                newRow   += '    <input ';
+                                newRow   += '        type=\"button\" ';
+                                newRow   += '        value=\"Удалить продукт\" ';
+                                newRow   += '        onclick=\"deleteRow(ID)\" ';
+                                newRow   += '        class=\"delete btn modal-button\"';
+                                newRow   += '        />';
+                                newRow   += '</td>';
+                                newRow   += '</tr>';
+        
 				var countRow = $('table#items tr').length;
                                 
-                                newRow.find('td:nth-child(1) input')
-                                    .attr('value', 0)
-                                    .attr('id', 'products['+countRow+'][id]')
-                                    .attr('name', 'products['+countRow+'][id]');
-                                    
-                                newRow.find('td:nth-child(2) input')
-                                    .attr('value', 0)
-                                    .attr('id', 'products['+countRow+'][count]')
-                                    .attr('name', 'products['+countRow+'][count]');
+                                newRow = newRow.replace(/ID/g,countRow);
                                     
                                 $('table#items').append(newRow);
-			});
-
-			$('input.delete').click(function() {
-				$(this).parent().parent().remove();
-			});
+                                
+                                $('.btn-success').click();
+                        });
 
 		});
 
+                function selectProduct(fieldId, productId, productName) {
+                    jQuery('#products_' + fieldId + '_id').attr('value', productId);
+                    jQuery('#products_' + fieldId + '_name').attr('value', productName);
+                    jQuery('#sbox-window').modal('hide');
+                    jQuery('#sbox-overlay').modal('hide');
+                }
+                
+                function deleteRow(id){
+                    jQuery('#row_' + id).remove();
+                }
 		");
 
 AdminUIHelper::startAdminArea($this);
 $editor = JFactory::getEditor();
 ?>
-
 <form action="index.php" method="post" id="adminForm" name="adminForm" enctype="multipart/form-data">
     <?php
 // Loading Templates in Tabs

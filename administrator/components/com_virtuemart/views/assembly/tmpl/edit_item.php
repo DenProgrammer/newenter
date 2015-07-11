@@ -19,21 +19,38 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (count($this->assembly->items) > 0) {
-    $i = 0;
+    $i = 1;
     foreach ($this->assembly->items as $items) {
         ?>
-        <tr>
-            <td>
+        <tr id="row_<?php echo $i; ?>">
+            <td valign="top">
+                <input 
+                    type="hidden" 
+                    value="<?php echo $items->product_id; ?>" 
+                    name="products[<?php echo $i; ?>][id]" 
+                    id="products_<?php echo $i; ?>_id" 
+                    class="inputbox" 
+                    />
                 <input 
                     type="text" 
-                    value="<?php echo $items->product_id; ?>" 
-                    size="10" 
-                    name="products[<?php echo $i; ?>][id]" 
-                    id="products[<?php echo $i; ?>][id]" 
+                    value="<?php echo $items->product_name; ?>" 
+                    name="products[<?php echo $i; ?>][name]" 
+                    id="products_<?php echo $i; ?>_name" 
                     class="inputbox" 
                     />
             </td>
-            <td>
+            <td valign="top">
+                <a 
+                    rel="{handler: 'iframe', size: {x: 700, y: 400}}" 
+                    href="index.php?option=com_virtuemart&view=product&layout=modal&tmpl=component&fieldId=<?php echo $i; ?>" 
+                    title="Выбрать продукт" 
+                    class="btn modal-button"
+                    >
+                    <span class="icon-file-add"></span>
+                    Продукт	
+                </a>
+            </td>
+            <td valign="top">
                 <input 
                     type="text" 
                     value="<?php echo $items->product_count; ?>" 
@@ -47,7 +64,7 @@ if (count($this->assembly->items) > 0) {
                 <input 
                     type="button" 
                     value="<?php echo vmText::_('COM_VIRTUEMART_ASSEMBLY_DEL_PRODUCTS'); ?>" 
-                    id="del_<?php echo $i; ?>" 
+                    onclick="deleteRow(<?php echo $i; ?>)" 
                     class="delete btn modal-button"
                     />
             </td>
@@ -55,37 +72,4 @@ if (count($this->assembly->items) > 0) {
         <?php
         $i++;
     }
-} else {
-    ?>
-    <tr>
-        <td>
-            <input 
-                type="text" 
-                value="" 
-                size="10" 
-                name="products[0][id]" 
-                id="products[0][id]" 
-                class="inputbox" 
-                />
-        </td>
-        <td>
-            <input 
-                type="text" 
-                value="1" 
-                size="2" 
-                name="products[0][count]" 
-                id="products[0][count]" 
-                class="inputbox" 
-                />
-        </td>
-            <td valign="top">
-                <input 
-                    type="button" 
-                    value="<?php echo vmText::_('COM_VIRTUEMART_ASSEMBLY_DEL_PRODUCTS'); ?>" 
-                    id="del_0" 
-                    class="delete btn modal-button"
-                    />
-            </td>
-    </tr>
-<?php
 }

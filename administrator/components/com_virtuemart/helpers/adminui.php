@@ -25,7 +25,7 @@ class AdminUIHelper {
      * in the left column and the content in the right column.  This function sets up the table and
      * displays the admin menu in the left column.
      */
-    static function startAdminArea($vmView, $selectText = 'COM_VIRTUEMART_DRDOWN_AVA2ALL') {
+    static function startAdminArea($vmView, $selectText = 'COM_VIRTUEMART_DRDOWN_AVA2ALL', $showMenu = true) {
 
         if (vRequest::getCmd('format') == 'pdf')
             return;
@@ -100,28 +100,30 @@ class AdminUIHelper {
         ?>
 
         <div class="virtuemart-admin-area">
-            <div class="toggler vmicon-show"></div>
-            <div class="menu-wrapper" id="menu-wrapper">
-                <?php if (!empty($vmView->langList)) { ?>
-                    <div class="vm-lang-list-container">
-                    <?php echo $vmView->langList; ?>
-                    </div>
-                <?php
-                } else {
-                    echo '<a href="index.php?option=com_virtuemart&view=virtuemart" ><img src="' . JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_logo.png"></a>';
-                }
-                ?>
-                    <?php AdminUIHelper::showAdminMenu($vmView);
+            <?php if ($showMenu) { ?>
+                <div class="toggler vmicon-show"></div>
+                <div class="menu-wrapper" id="menu-wrapper">
+                    <?php if (!empty($vmView->langList)) { ?>
+                        <div class="vm-lang-list-container">
+                            <?php echo $vmView->langList; ?>
+                        </div>
+                        <?php
+                    } else {
+                        echo '<a href="index.php?option=com_virtuemart&view=virtuemart" ><img src="' . JURI::root(true) . '/administrator/components/com_virtuemart/assets/images/vm_logo.png"></a>';
+                    }
+
+                    AdminUIHelper::showAdminMenu($vmView);
                     ?>
 
-                <div class="vm-installed-version">
-                <?php
-                echo "VirtueMart " . VmConfig::getInstalledVersion();
-                ?>
+                    <div class="vm-installed-version">
+                        <?php
+                        echo "VirtueMart " . VmConfig::getInstalledVersion();
+                        ?>
+                    </div>
                 </div>
-            </div>
+            <?php } ?>
             <div id="admin-content" class="admin-content">
-            <?php
+                <?php
             }
 
             /**
@@ -287,20 +289,20 @@ class AdminUIHelper {
                 if (!empty($html)) {
                     ?>
                     <h3 class="menu-title">
-                <?php echo vmText::_($item ['title']) ?>
+                        <?php echo vmText::_($item ['title']) ?>
                     </h3>
 
                     <div class="menu-list">
                         <ul>
-                    <?php echo $html ?>
+                            <?php echo $html ?>
                         </ul>
                     </div>
 
-                <?php
-                $modCount ++;
+                    <?php
+                    $modCount ++;
+                }
             }
-        }
-        ?>
+            ?>
             <div class="menu-notice"></div>
         </div>
         <?php
