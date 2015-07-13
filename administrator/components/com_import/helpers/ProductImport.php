@@ -116,14 +116,17 @@ class ProductImport {
      */
     public function loadOrders() {
         $count = ceil($this->totalOrd / $this->limitOrd);
-
-        for ($i = 0; $i < $count; $i++) {
-            $offset = $i * $this->limitOrd;
-            $url    = $this->pageOrd . '?limit=' . $this->limitOrd . '&offset=' . $offset . '&passw=' . $this->passw;
-            $this->AC5->get($url);
+        try {
+            for ($i = 0; $i < $count; $i++) {
+                $offset = $i * $this->limitOrd;
+                $url    = $this->pageOrd . '?limit=' . $this->limitOrd . '&offset=' . $offset . '&passw=' . $this->passw;
+                $this->AC5->get($url);
+            }
+            AngryCurl::add_debug_msg('Load orders');
+            $this->AC5->execute(10);
+        } catch (\Exception $ex) {
+            echo $ex->getMessage() . ', ' . $ex->getFile() . ', ' . $ex->getLine();
         }
-        AngryCurl::add_debug_msg('Load orders');
-        $this->AC5->execute(10);
     }
 
     /**
@@ -486,13 +489,13 @@ class ProductImport {
 
         $order_id = $order->order_id;
         $user_id  = 0; //$order->user_id;
-        $total    = $order->order_total;
-        $currency = ($order->order_currency == 'USD') ? 202 : 165;
+        $currency = 202;
+        $delivery = $order->delivery;
+        $total    = ($order->order_currency == 'USD') ? $order->order_total : $order->order_total / $delivery;
         $cdate    = date('Y-m-d H:i:s', $order->cdate);
         $note     = $order->customer_note;
         $ip       = $order->ip_address;
         $exchange = $order->exchange_usd;
-        $delivery = $order->delivery;
         $nrt      = $order->nrt;
         $name     = $order->first_name;
         $phone    = $order->phone_1;
@@ -616,9 +619,9 @@ class ProductImport {
             $item_sku    = $item->order_item_sku;
             $item_name   = $item->order_item_name;
             $quantity    = $item->product_quantity;
-            $item_price  = $item->product_item_price;
-            $final_price = $item->product_final_price;
             $currency    = $item->order_item_currency;
+            $item_price  = $currency == 'USD' ? $item->product_item_price : $item->product_item_price / $delivery;
+            $final_price = $currency == 'USD' ? $item->product_final_price : $item->product_final_price / $delivery;
 
             $itemSql = "INSERT INTO `#__virtuemart_order_items` ("
                     . "`virtuemart_order_id`, `virtuemart_vendor_id`, `virtuemart_product_id`, "

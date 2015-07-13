@@ -59,6 +59,13 @@ class VirtuemartViewInvoice extends VmViewAdmin {
 
         $data->invoicetemplates = $invoice->getTemplates();
 
+        $sql = 'SELECT currency_exchange_rate '
+                . 'FROM #__virtuemart_currencies '
+                . 'WHERE virtuemart_currency_id = 165';
+
+        $db->setQuery($sql);
+        $this->exchange = $db->LoadResult();
+
         switch ($type) {
             case 'commercial_invoice':
             case 'invoice_payment':
@@ -94,7 +101,7 @@ class VirtuemartViewInvoice extends VmViewAdmin {
                         $db->setQuery($sql);
                         $data->guaranty = str_replace('src="', 'src="../', $db->LoadResult());
                     }
-                    
+
                     break;
                 }
             case 'app': {

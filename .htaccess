@@ -59,6 +59,10 @@ RewriteRule .* index.php [F]
 
 # RewriteBase /
 
+# Redirect 301 /upravlen /administrator/index.php?upravlen
+RewriteCond %{REQUEST_URI} /upravlen
+RewriteRule .* /administrator/index.php?admin=upravlen [R=301,L]
+
 ## Begin - Joomla! core SEF Section.
 #
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

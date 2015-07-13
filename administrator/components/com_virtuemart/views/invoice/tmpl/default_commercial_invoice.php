@@ -1,6 +1,6 @@
 <?php
-$items          = $this->data->order['items'];
-$details        = $this->data->order['details']['BT'];
+$items   = $this->data->order['items'];
+$details = $this->data->order['details']['BT'];
 ?><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
     <head>
         <meta http-equiv=Content-Type content="text/html; charset=utf8"/>
@@ -467,7 +467,7 @@ $details        = $this->data->order['details']['BT'];
                 <td height=40 class=xl79 style='border:solid 1px black;height:30.0pt'>№</td>
                 <td colspan=7 class=xl81 style='border:solid 1px black;'>Наименование</td>
                 <td class=xl79 style='border:solid 1px black;'>Кол-во</td>
-                <td class=xl79 style='border:solid 1px black;'>Цена</td>
+                <td class=xl79 style='border:solid 1px black;'>Цена сом</td>
                 <td class=xl70 style='border:solid 1px black;'>Всего</td>
             </tr>
             <?php
@@ -475,11 +475,12 @@ $details        = $this->data->order['details']['BT'];
             $total = 0;
             foreach ($items as $item) {
                 $num++;
-                $item_id    = $item->virtuemart_order_item_id;
-                $itemname   = $item->order_item_name;
-                $quantity   = $item->product_quantity;
-                $price      = round($item->product_final_price * (1 + $details->nrt / 100), 2);
-                $totalprice = $price * $quantity;
+                $item_id                 = $item->virtuemart_order_item_id;
+                $itemname                = $item->order_item_name;
+                $quantity                = $item->product_quantity;
+                $final_price             = $details->order_currency = 202 ? $item->product_final_price * $this->exchange : $item->product_final_price;
+                $price                   = round($final_price * (1 + $details->nrt / 100));
+                $totalprice              = $price * $quantity;
 
                 $total += $totalprice;
                 ?>

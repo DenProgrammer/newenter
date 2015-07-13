@@ -1,6 +1,6 @@
 <?php
-$items          = $this->data->order['items'];
-$details        = $this->data->order['details']['BT'];
+$items   = $this->data->order['items'];
+$details = $this->data->order['details']['BT'];
 ?>
 <html>
     <head>
@@ -281,7 +281,7 @@ $details        = $this->data->order['details']['BT'];
                     $num++;
                     $item_id    = $item->virtuemart_order_item_id;
                     $itemname   = $item->order_item_name;
-                    $itemsku    = $item->order_item_sku;
+                    $itemsku    = str_replace('sklad-', '', $item->order_item_sku);
                     $quantity   = $item->product_quantity;
                     $price      = round($item->product_final_price * (1 + $details->nrt / 100), 2);
                     $totalprice = $price * $quantity;
