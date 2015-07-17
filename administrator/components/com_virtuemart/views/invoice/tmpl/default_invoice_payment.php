@@ -279,17 +279,18 @@ $details = $this->data->order['details']['BT'];
                 $total = 0;
                 foreach ($items as $item) {
                     $num++;
-                    $item_id    = $item->virtuemart_order_item_id;
-                    $itemname   = $item->order_item_name;
-                    $itemsku    = str_replace('sklad-', '', $item->order_item_sku);
-                    $quantity   = $item->product_quantity;
-                    $price      = round($item->product_final_price * (1 + $details->nrt / 100), 2);
-                    $totalprice = $price * $quantity;
-                    $attribute  = json_decode($item->product_attribute);
+                    $item_id                 = $item->virtuemart_order_item_id;
+                    $itemname                = $item->order_item_name;
+                    $itemsku                 = str_replace('sklad-', '', $item->order_item_sku);
+                    $quantity                = $item->product_quantity;
+                    $final_price             = $details->order_currency = 202 ? $item->product_final_price * $this->exchange : $item->product_final_price;
+                    $price                   = round($final_price * (1 + $details->nrt / 100));
+                    $totalprice              = $price * $quantity;
+                    $attribute               = json_decode($item->product_attribute);
 
                     $total += $totalprice;
 
-                    $guaranty = isset($attribute->guaranty) ? $attribute->guaranty : null;
+                    $guaranty = isset($attribute->guaranty) ? $attribute->guaranty : '12 мес.';
                     $sn       = isset($attribute->sn) ? $attribute->sn : null;
                     ?>
                     <tr id='row<?php echo $num; ?>' rel='<?php echo $item_id; ?>' class='itemrow' style='mso-yfti-irow:1;height:15.0pt'>

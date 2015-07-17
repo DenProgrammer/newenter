@@ -34,22 +34,40 @@ class VirtuemartViewInvoice extends VmViewAdmin {
     function display($tpl = null) {
 
         // Get the task
-        $task    = vRequest::getCmd('task', $this->getLayout());
+        $task    = vRequest::getCmd('task');
+        $layout  = vRequest::getCmd('layout', $this->getLayout());
         $orderId = vRequest::getInt('order_id', 0);
-
         // Load helpers
         if (!class_exists('NumberAnaliz')) {
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'string.php');
         }
-
-        if (is_file(VMPATH_ADMIN . DS . 'views/invoice/tmpl/default_' . $task . '.php')) {
-            $tpl  = $task;
-            $data = $this->prepareData($task, $orderId);
-            $this->assignRef('data', $data);
+        if (!class_exists('PHPExcel')) {
+            require(VMPATH_ADMIN . DS . 'helpers' . DS . 'PHPExcel.php');
+        }
+        if (!class_exists('IOFactory')) {
+            require(VMPATH_ADMIN . DS . 'helpers' . DS . 'PHPExcel/IOFactory.php');
         }
 
+        $tpl  = $task;
+        $data = $this->prepareData($task, $orderId);
+        $this->assignRef('data', $data);
 
-        parent::display($tpl);
+        if (JRequest::getVar('type') == 'excel') {
+            $html = $this->loadTemplate($task);
+
+            $inputFileType  = 'HTML';
+            $inputFileName  = 'test.html';
+            $outputFileType = 'Excel2007';
+            $outputFileName = 'myExcelFile.xlsx';
+
+            $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel       = $objPHPExcelReader->load($inputFileName);
+
+            $objPHPExcelWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $outputFileType);
+            $objPHPExcel       = $objPHPExcelWriter->save($outputFileName);
+            echo $html;
+        }
+//        parent::display($tpl);
     }
 
     protected function prepareData($type, $orderId) {
@@ -58,13 +76,6 @@ class VirtuemartViewInvoice extends VmViewAdmin {
         $db      = JFactory::getDBO();
 
         $data->invoicetemplates = $invoice->getTemplates();
-
-        $sql = 'SELECT currency_exchange_rate '
-                . 'FROM #__virtuemart_currencies '
-                . 'WHERE virtuemart_currency_id = 165';
-
-        $db->setQuery($sql);
-        $this->exchange = $db->LoadResult();
 
         switch ($type) {
             case 'commercial_invoice':
@@ -76,10 +87,15 @@ class VirtuemartViewInvoice extends VmViewAdmin {
 
                     $data->order = $orderModel->getOrder($orderId);
 
-                    $total = round($data->order['details']['BT']->order_total);
+                    $this->exchange = $data->order['details']['BT']->exchange_usd;
 
+                    if ($data->order['details']['BT']->order_currency == 165) {
+                        $total = round($data->order['details']['BT']->order_total);
+                    } else {
+                        $total = round($data->order['details']['BT']->order_total * $this->exchange);
+                    }
                     $data->document_id  = rand(1, 1000);
-                    $data->total_string = $NumberAnalyser->CurrencyToText($total, "USD");
+                    $data->total_string = $NumberAnalyser->CurrencyToText($total, "KGS");
 
                     break;
                 }
@@ -89,10 +105,15 @@ class VirtuemartViewInvoice extends VmViewAdmin {
 
                     $data->order = $orderModel->getOrder($orderId);
 
-                    $total = round($data->order['details']['BT']->order_total);
+                    $this->exchange = $data->order['details']['BT']->exchange_usd;
 
+                    if ($data->order['details']['BT']->order_currency == 165) {
+                        $total = round($data->order['details']['BT']->order_total);
+                    } else {
+                        $total = round($data->order['details']['BT']->order_total * $this->exchange);
+                    }
                     $data->document_id  = rand(1, 1000);
-                    $data->total_string = $NumberAnalyser->CurrencyToText($total, "USD");
+                    $data->total_string = $NumberAnalyser->CurrencyToText($total, "KGS");
 
                     $data->guaranty = null;
                     if (count($data->order['items']) == 1) {

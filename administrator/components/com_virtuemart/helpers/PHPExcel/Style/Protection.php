@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2009 PHPExcel
+ * Copyright (c) 2006 - 2014 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,22 +20,10 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Style
- * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.4.5, 2007-08-23
  */
-
-
-/** PHPExcel root directory */
-if (!defined('PHPEXCEL_ROOT')) {
-	/**
-	 * @ignore
-	 */
-	define('PHPEXCEL_ROOT', dirname(__FILE__) . '/../../');
-}
-
-/** PHPExcel_IComparable */
-require_once PHPEXCEL_ROOT . 'PHPExcel/IComparable.php';
 
 
 /**
@@ -43,9 +31,9 @@ require_once PHPEXCEL_ROOT . 'PHPExcel/IComparable.php';
  *
  * @category   PHPExcel
  * @package    PHPExcel_Style
- * @copyright  Copyright (c) 2006 - 2009 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2014 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel_Style_Protection implements PHPExcel_IComparable
+class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHPExcel_IComparable
 {
 	/** Protection styles */
 	const PROTECTION_INHERIT		= 'inherit';
@@ -57,70 +45,36 @@ class PHPExcel_Style_Protection implements PHPExcel_IComparable
 	 *
 	 * @var string
 	 */
-	private $_locked;
+	protected $_locked;
 
 	/**
 	 * Hidden
 	 *
 	 * @var string
 	 */
-	private $_hidden;
+	protected $_hidden;
 
 	/**
-	 * Parent Borders
-	 *
-	 * @var _parentPropertyName string
-	 */
-	private $_parentPropertyName;
-
-	/**
-	 * Supervisor?
-	 *
-	 * @var boolean
-	 */
-	private $_isSupervisor;
-
-	/**
-	 * Parent. Only used for supervisor
-	 *
-	 * @var PHPExcel_Style
-	 */
-	private $_parent;
-
-    /**
      * Create a new PHPExcel_Style_Protection
+	 *
+	 * @param	boolean	$isSupervisor	Flag indicating if this is a supervisor or not
+	 *									Leave this value at default unless you understand exactly what
+	 *										its ramifications are
+	 * @param	boolean	$isConditional	Flag indicating if this is a conditional style or not
+	 *									Leave this value at default unless you understand exactly what
+	 *										its ramifications are
      */
-    public function __construct($isSupervisor = false)
+    public function __construct($isSupervisor = FALSE, $isConditional = FALSE)
     {
     	// Supervisor?
-		$this->_isSupervisor = $isSupervisor;
+		parent::__construct($isSupervisor);
 
     	// Initialise values
-    	$this->_locked			= self::PROTECTION_INHERIT;
-    	$this->_hidden			= self::PROTECTION_INHERIT;
+		if (!$isConditional) {
+	    	$this->_locked			= self::PROTECTION_INHERIT;
+	    	$this->_hidden			= self::PROTECTION_INHERIT;
+		}
     }
-
-	/**
-	 * Bind parent. Only used for supervisor
-	 *
-	 * @param PHPExcel_Style $parent
-	 * @return PHPExcel_Style_Protection
-	 */
-	public function bindParent($parent)
-	{
-		$this->_parent = $parent;
-		return $this;
-	}
-
-	/**
-	 * Is this a supervisor or a real style component?
-	 *
-	 * @return boolean
-	 */
-	public function getIsSupervisor()
-	{
-		return $this->_isSupervisor;
-	}
 
 	/**
 	 * Get the shared style component for the currently active cell in currently active sheet.
@@ -131,38 +85,6 @@ class PHPExcel_Style_Protection implements PHPExcel_IComparable
 	public function getSharedComponent()
 	{
 		return $this->_parent->getSharedComponent()->getProtection();
-	}
-
-	/**
-	 * Get the currently active sheet. Only used for supervisor
-	 *
-	 * @return PHPExcel_Worksheet
-	 */
-	public function getActiveSheet()
-	{
-		return $this->_parent->getActiveSheet();
-	}
-
-	/**
-	 * Get the currently active cell coordinate in currently active sheet.
-	 * Only used for supervisor
-	 *
-	 * @return string E.g. 'A1'
-	 */
-	public function getXSelectedCells()
-	{
-		return $this->getActiveSheet()->getXSelectedCells();
-	}
-
-	/**
-	 * Get the currently active cell coordinate in currently active sheet.
-	 * Only used for supervisor
-	 *
-	 * @return string E.g. 'A1'
-	 */
-	public function getXActiveCell()
-	{
-		return $this->getActiveSheet()->getXActiveCell();
 	}
 
 	/**
@@ -180,27 +102,32 @@ class PHPExcel_Style_Protection implements PHPExcel_IComparable
      * Apply styles from array
      *
      * <code>
-     * $objPHPExcel->getActiveSheet()->getStyle('B2')->getLocked()->applyFromArray( array('locked' => true, 'hidden' => false) );
+     * $objPHPExcel->getActiveSheet()->getStyle('B2')->getLocked()->applyFromArray(
+     *		array(
+     *			'locked' => TRUE,
+     *			'hidden' => FALSE
+     *		)
+     * );
      * </code>
      *
      * @param	array	$pStyles	Array containing style information
-     * @throws	Exception
+     * @throws	PHPExcel_Exception
      * @return PHPExcel_Style_Protection
      */
-	public function applyFromArray($pStyles = null) {
+	public function applyFromArray($pStyles = NULL) {
 		if (is_array($pStyles)) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getXSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
 			} else {
-				if (array_key_exists('locked', $pStyles)) {
+				if (isset($pStyles['locked'])) {
 					$this->setLocked($pStyles['locked']);
 				}
-				if (array_key_exists('hidden', $pStyles)) {
+				if (isset($pStyles['hidden'])) {
 					$this->setHidden($pStyles['hidden']);
 				}
 			}
 		} else {
-			throw new Exception("Invalid style array passed.");
+			throw new PHPExcel_Exception("Invalid style array passed.");
 		}
 		return $this;
 	}
@@ -226,7 +153,7 @@ class PHPExcel_Style_Protection implements PHPExcel_IComparable
     public function setLocked($pValue = self::PROTECTION_INHERIT) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('locked' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getXSelectedCells())->applyFromArray($styleArray);
+			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_locked = $pValue;
 		}
@@ -254,7 +181,7 @@ class PHPExcel_Style_Protection implements PHPExcel_IComparable
     public function setHidden($pValue = self::PROTECTION_INHERIT) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('hidden' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getXSelectedCells())->applyFromArray($styleArray);
+			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_hidden = $pValue;
 		}
@@ -276,49 +203,5 @@ class PHPExcel_Style_Protection implements PHPExcel_IComparable
     		. __CLASS__
     	);
     }
-    
-    /**
-     * Hash index
-     *
-     * @var string
-     */
-    private $_hashIndex;
-    
-	/**
-	 * Get hash index
-	 * 
-	 * Note that this index may vary during script execution! Only reliable moment is
-	 * while doing a write of a workbook and when changes are not allowed.
-	 *
-	 * @return string	Hash index
-	 */
-	public function getHashIndex() {
-		return $this->_hashIndex;
-	}
-	
-	/**
-	 * Set hash index
-	 * 
-	 * Note that this index may vary during script execution! Only reliable moment is
-	 * while doing a write of a workbook and when changes are not allowed.
-	 *
-	 * @param string	$value	Hash index
-	 */
-	public function setHashIndex($value) {
-		$this->_hashIndex = $value;
-	}
 
-	/**
-	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
-	 */
-	public function __clone() {
-		$vars = get_object_vars($this);
-		foreach ($vars as $key => $value) {
-			if (is_object($value)) {
-				$this->$key = clone $value;
-			} else {
-				$this->$key = $value;
-			}
-		}
-	}
 }

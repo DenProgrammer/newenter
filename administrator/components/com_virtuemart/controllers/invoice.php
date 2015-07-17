@@ -81,16 +81,23 @@ class VirtuemartControllerInvoice extends VmController {
             case 'saveItem': {
                     $order_item_id = (int) $data['order_item_id'];
                     $order_id      = (int) $data['order_id'];
-                    $itemcount     = (float) $data['itemcount'];
-                    $itemprice     = (float) $data['itemprice'];
-                    $itemname      = str_replace('*AMPERSAND*', '&', $data['itemname']);
-                    $itemsku       = isset($data['itemsku']) ? $data['itemsku'] : null;
-                    $itemsn        = isset($data['itemsn']) ? $data['itemsn'] : null;
-                    $itemguaranty  = isset($data['itemguaranty']) ? $data['itemguaranty'] : null;
-                    $shopper_info  = isset($data['shopper_info']) ? $data['shopper_info'] : null;
-                    $nrt           = isset($data['nrt']) ? (float) $data['nrt'] : 0;
-                    $realprice     = round($itemprice / (1 + $nrt / 100));
-                    $totalPrice    = $realprice * $itemcount;
+
+                    $sql          = "SELECT exchange_usd "
+                            . "FROM `#__virtuemart_orders` "
+                            . "WHERE `virtuemart_order_id`=$order_id ";
+                    $db->setQuery($sql);
+                    $exchange_usd = floatval($db->loadResult());
+
+                    $itemcount    = (float) $data['itemcount'];
+                    $itemprice    = (float) $data['itemprice'] / $exchange_usd;
+                    $itemname     = str_replace('*AMPERSAND*', '&', $data['itemname']);
+                    $itemsku      = isset($data['itemsku']) ? $data['itemsku'] : null;
+                    $itemsn       = isset($data['itemsn']) ? $data['itemsn'] : null;
+                    $itemguaranty = isset($data['itemguaranty']) ? $data['itemguaranty'] : null;
+                    $shopper_info = isset($data['shopper_info']) ? $data['shopper_info'] : null;
+                    $nrt          = isset($data['nrt']) ? (float) $data['nrt'] : 0;
+                    $realprice    = round($itemprice / (1 + $nrt / 100));
+                    $totalPrice   = $realprice * $itemcount;
 
                     $sql  = "SELECT product_attribute "
                             . "FROM `#__virtuemart_order_items` "
@@ -126,17 +133,22 @@ class VirtuemartControllerInvoice extends VmController {
                     $order_id = $data['order_id'];
                     $nrt      = isset($data['nrt']) ? (float) $data['nrt'] : 0;
 
+                    $sql          = "SELECT exchange_usd "
+                            . "FROM `#__virtuemart_orders` "
+                            . "WHERE `virtuemart_order_id`=$order_id ";
+                    $db->setQuery($sql);
+                    $exchange_usd = floatval($db->loadResult());
+
                     foreach ($items as $data) {
-                        pr($data);
                         $order_item_id = (int) $data['order_item_id'];
                         $itemquantity  = (float) $data['itemquantity'];
-                        $itemprice     = (float) $data['itemprice'];
+                        $itemprice     = (float) $data['itemprice'] / $exchange_usd;
                         $itemname      = str_replace('*AMPERSAND*', '&', $data['itemname']);
                         $itemsku       = isset($data['itemsku']) ? $data['itemsku'] : null;
                         $itemguaranty  = isset($data['itemguaranty']) ? $data['itemguaranty'] : null;
                         $itemsn        = isset($data['itemsn']) ? str_replace('&#60;br&#62;', '<br>', $data['itemsn']) : null;
                         $shopper_info  = isset($data['shopper_info']) ? $data['shopper_info'] : null;
-                        $realprice     = round($itemprice / (1 + $nrt / 100));
+                        $realprice     = $itemprice / (1 + $nrt / 100);
                         $totalPrice    = $realprice * $itemquantity;
 
                         $sql  = "SELECT product_attribute "
@@ -145,14 +157,14 @@ class VirtuemartControllerInvoice extends VmController {
                                 . "LIMIT 1";
                         $db->setQuery($sql);
                         $attr = json_decode($db->loadResult());
-                        pr($attr);
+
                         if (!$attr) {
                             $attr = new stdClass();
                         }
                         $attr->guaranty = $itemguaranty;
                         if ($itemsn) {
                             $attr->sn = $itemsn;
-                        }pr($attr);
+                        }
                         $attribute = json_encode($attr);
 
                         $sql = "UPDATE `#__virtuemart_order_items` "
@@ -175,7 +187,7 @@ class VirtuemartControllerInvoice extends VmController {
             case 'getsumstring': {
                     $summa          = round($data['summa']);
                     $NumberAnalyser = new NumberAnaliz();
-                    $totalstr       = $NumberAnalyser->CurrencyToText($summa, "USD");
+                    $totalstr       = $NumberAnalyser->CurrencyToText($summa, "KGS");
                     echo $totalstr;
                     break;
                 }
