@@ -52,22 +52,22 @@ class VirtuemartViewInvoice extends VmViewAdmin {
         $data = $this->prepareData($task, $orderId);
         $this->assignRef('data', $data);
 
-        if (JRequest::getVar('type') == 'excel') {
-            $html = $this->loadTemplate($task);
-
-            $inputFileType  = 'HTML';
-            $inputFileName  = 'test.html';
-            $outputFileType = 'Excel2007';
-            $outputFileName = 'myExcelFile.xlsx';
-
-            $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel       = $objPHPExcelReader->load($inputFileName);
-
-            $objPHPExcelWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $outputFileType);
-            $objPHPExcel       = $objPHPExcelWriter->save($outputFileName);
-            echo $html;
-        }
-//        parent::display($tpl);
+//        if (JRequest::getVar('type') == 'excel') {
+//            $html = $this->loadTemplate($task);
+//
+//            $inputFileType  = 'HTML';
+//            $inputFileName  = 'test.html';
+//            $outputFileType = 'Excel2007';
+//            $outputFileName = 'myExcelFile.xlsx';
+//
+//            $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
+//            $objPHPExcel       = $objPHPExcelReader->load($inputFileName);
+//
+//            $objPHPExcelWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $outputFileType);
+//            $objPHPExcel       = $objPHPExcelWriter->save($outputFileName);
+//            echo $html;
+//        }
+        parent::display($tpl);
     }
 
     protected function prepareData($type, $orderId) {
