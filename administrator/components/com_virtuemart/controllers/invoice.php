@@ -52,7 +52,7 @@ class VirtuemartControllerInvoice extends VmController {
         /* Load the data */
         $data = vRequest::getRequest();
 
-//        print_r($data);
+        print_r($data);
         // Load helpers
         if (!class_exists('NumberAnaliz')) {
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'string.php');
@@ -165,7 +165,7 @@ class VirtuemartControllerInvoice extends VmController {
                         if ($itemsn) {
                             $attr->sn = $itemsn;
                         }
-                        $attribute = json_encode($attr);
+                        $attribute = json_encode($attr, JSON_UNESCAPED_UNICODE);
 
                         $sql = "UPDATE `#__virtuemart_order_items` "
                                 . "SET `order_item_name`='$itemname', `product_quantity`='$itemquantity', "
@@ -177,7 +177,7 @@ class VirtuemartControllerInvoice extends VmController {
                             $sql .= ", `order_item_sku`='$itemsku' ";
                         }
                         $sql .= "WHERE `virtuemart_order_item_id`=$order_item_id";
-                        $db->setQuery($sql);
+                        $db->setQuery($sql);echo $sql;
                         $db->query();
 
                         $this->updateTotalPrice($order_id);

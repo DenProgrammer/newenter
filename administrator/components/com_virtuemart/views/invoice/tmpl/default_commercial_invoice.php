@@ -140,7 +140,7 @@ $details = $this->data->order['details']['BT'];
             }
             function getExcelLink()
             {
-                var url = 'index.php?option=com_virtuemart&view=invoice&task=save&tmpl=ajax&id=<?php echo $details->virtuemart_order_id; ?>&type=schetfactura&action=showExcelDocument';
+                var url = 'index.php?option=com_virtuemart&view=invoice&task=commercial_invoice&tmpl=ajax&type=excel&order_id=<?php echo $details->virtuemart_order_id; ?>';
                 document.location = url;
             }
         </script>
@@ -561,7 +561,6 @@ $details = $this->data->order['details']['BT'];
                 <td colspan=7 style='mso-ignore:colspan'></td>
             </tr>
         </table>
-        <?php echo $condinfo; ?>
     </body>
 
 </html>

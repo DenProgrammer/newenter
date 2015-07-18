@@ -149,10 +149,8 @@ $details = $this->data->order['details']['BT'];
             }
             function getExcelLink()
             {
-                var vendor = $('#vendorselect').val();
-                $.get('index.php?option=com_import_2&id=<?php echo $details->virtuemart_order_id; ?>&type=schnaopl&ajax=showExcelDocument', {vendor: vendor}, function(data) {
-                    document.location = data;
-                });
+                var url = 'index.php?option=com_virtuemart&view=invoice&task=invoice_payment&tmpl=ajax&type=excel&order_id=<?php echo $details->virtuemart_order_id; ?>';
+                document.location = url;
             }
         </script>
         <style>

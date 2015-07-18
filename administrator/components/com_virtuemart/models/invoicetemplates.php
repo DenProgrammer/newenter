@@ -49,13 +49,18 @@ class VirtueMartModelInvoicetemplates extends VmModel {
      * @return object List of order status objects
      */
     function getInvoicetemplates($where = '') {
+        $db = JFactory::getDbo();
 
-        $ordering = $this->_getOrdering();
-        
-        $this->_noLimit = true;
-        $this->_data    = $this->exeSortSearchListQuery(0, '*', ' FROM `#__virtuemart_invoicetemplates`', '', $where, $ordering);
+        $sql    = 'SELECT * FROM `#__virtuemart_invoicetemplates` ' . $where;
+        $db->setQuery($sql);
+        $result = $db->loadObjectList();
 
-        return $this->_data;
+        $data = array();
+        foreach ($result as $item) {
+            $data[$item->id] = $item;
+        }
+
+        return $data;
     }
 
 }

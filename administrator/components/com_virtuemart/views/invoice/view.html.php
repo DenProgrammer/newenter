@@ -47,26 +47,42 @@ class VirtuemartViewInvoice extends VmViewAdmin {
         if (!class_exists('IOFactory')) {
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'PHPExcel/IOFactory.php');
         }
+        if (!class_exists('VMExcel')) {
+            require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmexcel.php');
+        }
 
         $tpl  = $task;
         $data = $this->prepareData($task, $orderId);
         $this->assignRef('data', $data);
 
-//        if (JRequest::getVar('type') == 'excel') {
-//            $html = $this->loadTemplate($task);
-//
-//            $inputFileType  = 'HTML';
-//            $inputFileName  = 'test.html';
-//            $outputFileType = 'Excel2007';
-//            $outputFileName = 'myExcelFile.xlsx';
-//
-//            $objPHPExcelReader = PHPExcel_IOFactory::createReader($inputFileType);
-//            $objPHPExcel       = $objPHPExcelReader->load($inputFileName);
-//
-//            $objPHPExcelWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, $outputFileType);
-//            $objPHPExcel       = $objPHPExcelWriter->save($outputFileName);
-//            echo $html;
-//        }
+        if (JRequest::getVar('type') == 'excel') {
+            $excel = new VMExcel();
+
+            switch ($task) {
+                case 'commercial_invoice': {
+                        $excel->showCommercialInvoice($orderId, $data, $task);
+                        break;
+                    }
+                case 'waybill': {
+                        $excel->showWaybill($orderId, $data, $task);
+                        break;
+                    }
+                case 'commercial_offer': {
+                        $excel->showCommercialOffer($orderId, $data, $task);
+                        break;
+                    }
+                case 'invoice_payment': {
+                        $excel->showInvoicePayment($orderId, $data, $task);
+                        break;
+                    }
+                case 'guaranty': {
+                        $excel->showGuaranty($orderId, $data, $task);
+                        break;
+                    }
+            }
+
+            exit;
+        }
         parent::display($tpl);
     }
 
@@ -141,3 +157,5 @@ class VirtuemartViewInvoice extends VmViewAdmin {
 }
 
 //pure php no closing tag
+
+        
