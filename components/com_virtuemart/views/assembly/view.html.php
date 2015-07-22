@@ -65,10 +65,10 @@ class VirtuemartViewAssembly extends VmView {
         if (vRequest::getCmd('layout', 'default') == 'list') {
             $this->setLayout('list');
 
-            $assemblyIds = $assemblyModel->getAllAssemblies();
+            $assemblyIds = vRequest::getInt('assembly_ids', -1);
             $assembly    = array();
             foreach ($assemblyIds as $item) {
-                $assemblyItem = $assemblyModel->getAssembly($item->id);
+                $assemblyItem = $assemblyModel->getAssembly($item);
                 $this->getAssemblyData($assemblyItem);
                 $assembly[]   = $assemblyItem;
                 unset($assemblyItem);

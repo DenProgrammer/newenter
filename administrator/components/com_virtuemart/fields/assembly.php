@@ -44,11 +44,11 @@ class JFormFieldAssembly extends JFormField {
 
         $db->setQuery('SELECT * FROM #__virtuemart_assembly');
         $assemblylist = $db->loadObjectList();
-
-        $html = '<select class="inputbox"   name="' . $this->name . '" >';
+        
+        $html         = '<select class="inputbox" multiple="multiple" name="' . $this->name . '[]" >';
         $html .= '<option value="0">' . vmText::_('COM_VIRTUEMART_ASSEMBLY') . '</option>';
         foreach ($assemblylist as $item) {
-            $selected = $item->id == $this->value ? ' selected ' : '';
+            $selected = in_array($item->id, $this->value) ? ' selected ' : '';
             $html .= '<option ' . $selected . ' value="' . $item->id . '">' . $item->title . '</option>';
         }
         $html .="</select>";
