@@ -59,7 +59,9 @@ vmJsApi::addJScript('imagepopup', $imageJS);
 ?>
 <div class="assembly">
     <?php
-    echo $this->assembly->images[0]->displayMediaThumb('class="browseProductImage"', false);
+    if ($this->assembly->showimage == 1) {
+        echo $this->assembly->images[0]->displayMediaThumb('class="browseProductImage"', false);
+    }
     ?>
     <h1><?php echo $this->assembly->title; ?></h1>
     <?php if (!empty($this->assembly->description)) {
@@ -73,14 +75,11 @@ vmJsApi::addJScript('imagepopup', $imageJS);
     <div class="browse-view">
         <?php
         if (!empty($this->assembly->products)) {
-            $products    = array();
-            $products[0] = $this->assembly->products;
+            $products = array($this->assembly->products);
             echo shopFunctionsF::renderVmSubLayout('products_assembly', array('products' => $products, 'currency' => $this->assembly->currency, 'products_per_row' => $this->perRow, 'showRating' => 0));
         } elseif (!empty($this->keyword)) {
             echo vmText::_('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
         }
-
-
 
         $allPrices = array('usd' => 0, 'kgs' => 0);
         foreach ($this->assembly->products as $product) {
@@ -105,7 +104,6 @@ vmJsApi::addJScript('imagepopup', $imageJS);
                             value="Купить" 
                             class="addtocart-button button-gloss" 
                             name="addtocart" 
-                            style="width: 200px; height: 40px;"
                             />                        
                     </span>
                 </div>        

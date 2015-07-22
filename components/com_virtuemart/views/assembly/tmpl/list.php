@@ -60,7 +60,9 @@ vmJsApi::addJScript('imagepopup', $imageJS);
 <div class="assembly">
     <?php
     foreach ($this->assembly as $assembly) {
-        echo $assembly->images[0]->displayMediaThumb('class="browseProductImage"', false);
+        if ($assembly->showimage == 1) {
+            echo $assembly->images[0]->displayMediaThumb('class="browseProductImage"', false);
+        }
         ?>
         <h1><?php echo $assembly->title; ?></h1>
         <?php if (!empty($assembly->description)) {
@@ -106,7 +108,6 @@ vmJsApi::addJScript('imagepopup', $imageJS);
                                 value="Купить" 
                                 class="addtocart-button button-gloss" 
                                 name="addtocart" 
-                                style="width: 200px; height: 40px;"
                                 />                        
                         </span>
                     </div>        

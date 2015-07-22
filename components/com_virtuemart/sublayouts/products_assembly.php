@@ -29,7 +29,6 @@ foreach ($viewData['products'] as $type => $products) {
         <div class="<?php echo $type ?>-view">
             <h4><?php echo $productTitle ?></h4>
             <?php
-            // Start the Output
         }
 
         // Calculating Products Per Row
@@ -96,6 +95,7 @@ foreach ($viewData['products'] as $type => $products) {
                                     <table width='100%'>
                                         <tr>
                                             <td>&nbsp;</td>
+                                            <?php if($product->published){ ?>
                                             <td width='260'>
                                                 <label class="pricelbl">Цена: </label>
                                                 <span class="price"><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
@@ -106,6 +106,11 @@ foreach ($viewData['products'] as $type => $products) {
                                                     <span><?php echo $sku; ?></span>
                                                 </span>
                                             </td>
+                                            <?php }else{?>
+                                            <td width='370'>
+                                                <span class="price">Товар закончился, нужно заменить</span>
+                                            </td>
+                                            <?php }?>
                                             <td width='100'>
                                                 <span class="cart">
                                                     <?php // echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>

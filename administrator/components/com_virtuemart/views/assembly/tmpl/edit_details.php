@@ -28,6 +28,7 @@ defined('_JEXEC') or die('Restricted access');
                     <?php
                     echo VmHTML::row('input', 'COM_VIRTUEMART_ASSEMBLY_TITLE', 'title', $this->assembly->title, 'class="inputbox"', '', 100, 50);
                     echo VmHTML::row('booleanlist', 'COM_VIRTUEMART_PUBLISHED', 'published', $this->assembly->published);
+                    echo VmHTML::row('booleanlist', 'COM_VIRTUEMART_ASSEMBLY_SHOWIMAGE', 'showimage', $this->assembly->showimage);
                     echo VmHTML::row('editor', 'COM_VIRTUEMART_ASSEMBLY_DESCRIPTION', 'description', $this->assembly->description);
                     ?>
                 </table>

@@ -109,7 +109,7 @@ class VirtuemartViewAssembly extends VmView {
             $assembly->assemblyProducts = $assemblyModel->getAssemblyProducts($assembly->id);
 
             $this->perRow       = 1;
-            $assembly->products = $productModel->getProducts($ids);
+            $assembly->products = $productModel->getProducts($ids, 1, 1, false);
 
             $productModel->addImages($assembly->products, 1);
 

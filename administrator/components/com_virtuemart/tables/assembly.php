@@ -36,6 +36,7 @@ class TableAssembly extends VmTable {
     /** @var int Primary key */
     var $id          = 0;
     var $title       = null;
+    var $showimage   = null;
     var $description = null;
     var $alias       = null;
 
