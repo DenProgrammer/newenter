@@ -254,12 +254,12 @@ class ImportController {
     //parsing csv files for update sklads
     function parceCSV() {
         $start  = microtime(1);
-        echo round(microtime(1) - $start, 2) . '<br>';
+//        echo round(microtime(1) - $start, 2) . '<br>';
         $offset = JRequest::getInt('offset');
 
         //get options from current price
         $options                 = getOptionsPrice($this->price_type);
-        echo round(microtime(1) - $start, 2) . '<br>';
+//        echo round(microtime(1) - $start, 2) . '<br>';
         $sklad                   = $options->sklad_name;
         $position_product_name   = $options->position_product_name;
         $position_product_price  = $options->position_product_price;
@@ -272,11 +272,23 @@ class ImportController {
         if (($sklad) and ($offset == 0)) {
             unpublishSklad($sklad);
         }
-        echo round(microtime(1) - $start, 2) . '<br>';
+//        echo round(microtime(1) - $start, 2) . '<br>';
+
+        $db   = JFactory::getDbo();
+
+        $db->setQuery('SELECT virtuemart_product_id, hash FROM #__virtuemart_products_ru_ru');
+        $items = $db->loadObjectList();
+
+        $productHash = array();
+        foreach ($items as $item) {
+            $productHash[$item->hash] = $item->virtuemart_product_id;
+        }
+
+//        echo round(microtime(1) - $start, 2) . '<br>';
 
         if ((file_exists($this->filepath)) and (trim($this->file) != '')) {
             $data = $this->readFile($options, $clear_line);
-            echo round(microtime(1) - $start, 2) . '<br>';
+//            echo round(microtime(1) - $start, 2) . '<br>';
 
             $newProduct    = 0;
             $updateProduct = 0;
@@ -286,7 +298,7 @@ class ImportController {
                 $record++;
                 $product_name = str_replace('\\', '&#92;', htmlentities($item['product_name'], ENT_QUOTES, 'UTF-8'));
                 $hash         = preg_replace(getPattern(), '', $item['product_name']);
-                $product_id   = checkIssetProductByHash($item['product_name']);
+                $product_id   = isset($productHash[$hash]) ? $productHash[$hash] : 0;
                 $product_desc = trim(htmlentities($item['product_desk'], ENT_QUOTES, 'UTF-8'));
 
                 $product_price = preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $item['product_price']));
@@ -305,19 +317,17 @@ class ImportController {
                 );
 
                 vRequest::setVar(JSession::getFormToken(), 1);
-
                 $model = VmModel::getModel('product');
                 $id    = $model->store($data);
 
                 $this->setProductSku($id, $sklad . $id);
-
                 if ($product_id == 0) {
                     $newProduct++;
                 } else {
                     $updateProduct++;
                 }
             }
-            echo round(microtime(1) - $start, 2) . '<br>';
+//            echo round(microtime(1) - $start, 2) . '<br>';
         }
 
         $data = array(
@@ -330,8 +340,6 @@ class ImportController {
         echo json_encode($data);
         exit;
     }
-    
-    
 
     function moveFile() {
         if (!file_exists($this->filepath)) {

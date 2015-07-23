@@ -73,7 +73,9 @@ foreach ($viewData['products'] as $type => $products) {
 
                 // Show Products 
                 ?>
-                <div class="product vm-col<?php echo ' vm-col-' . $products_per_row . $show_vertical_separator ?>">
+                <div class="product 
+                     published-<?php echo $product->published ?>
+                     vm-col<?php echo ' vm-col-' . $products_per_row . $show_vertical_separator ?>">
                     <table width="100%">
                         <tr>
                             <td width="140">
