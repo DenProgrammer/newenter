@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 $products_per_row  = $viewData['products_per_row'];
 $currency          = $viewData['currency'];
 $showRating        = $viewData['showRating'];
+$assemblyProducts  = $viewData['assemblyProducts'];
 $verticalseparator = " vertical-separator";
 
 $userGroup   = JFactory::getUser()->getAuthorisedGroups();
@@ -97,25 +98,30 @@ foreach ($viewData['products'] as $type => $products) {
                                     <table width='100%'>
                                         <tr>
                                             <td>&nbsp;</td>
-                                            <?php if($product->published){ ?>
-                                            <td width='260'>
-                                                <label class="pricelbl">Цена: </label>
-                                                <span class="price"><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
-                                            </td>
-                                            <td width='110'>
-                                                <span class="sku">
-                                                    <label>Артикул: </label>
-                                                    <span><?php echo $sku; ?></span>
-                                                </span>
-                                            </td>
-                                            <?php }else{?>
-                                            <td width='370'>
-                                                <span class="price">Товар закончился, нужно заменить</span>
-                                            </td>
-                                            <?php }?>
+                                            <?php if ($product->published) { ?>
+                                                <td width='240'>
+                                                    <label class="pricelbl">Цена: </label>
+                                                    <span class="price"><?php echo shopFunctionsF::renderVmSubLayout('prices', array('product' => $product, 'currency' => $currency)); ?></span>
+                                                </td>
+                                                <td width='40'>
+                                                    <?php if ($assemblyProducts[$product->virtuemart_product_id]->product_count > 1) { ?>
+                                                        <span><?php echo $assemblyProducts[$product->virtuemart_product_id]->product_count; ?> шт.</span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td width='100'>
+                                                    <span class="sku">
+                                                        <label>Артикул: </label>
+                                                        <span><?php echo $sku; ?></span>
+                                                    </span>
+                                                </td>
+                                            <?php } else { ?>
+                                                <td width='370'>
+                                                    <span class="price">Товар закончился, нужно заменить</span>
+                                                </td>
+                                            <?php } ?>
                                             <td width='100'>
                                                 <span class="cart">
-                                                    <?php // echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row])); ?>
+                                                    <?php // echo shopFunctionsF::renderVmSubLayout('addtocart', array('product' => $product, 'rowHeights' => $rowsHeight[$row]));  ?>
                                                 </span>
                                             </td>
                                             <td>&nbsp;</td>

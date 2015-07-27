@@ -76,7 +76,7 @@ vmJsApi::addJScript('imagepopup', $imageJS);
         <?php
         if (!empty($this->assembly->products)) {
             $products = array($this->assembly->products);
-            echo shopFunctionsF::renderVmSubLayout('products_assembly', array('products' => $products, 'currency' => $this->assembly->currency, 'products_per_row' => $this->perRow, 'showRating' => 0));
+            echo shopFunctionsF::renderVmSubLayout('products_assembly', array('products' => $products, 'assemblyProducts' => $this->assembly->assemblyProducts, 'currency' => $this->assembly->currency, 'products_per_row' => $this->perRow, 'showRating' => 0));
         } elseif (!empty($this->keyword)) {
             echo vmText::_('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
         }

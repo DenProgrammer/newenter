@@ -77,7 +77,7 @@ class VirtuemartViewAssembly extends VmView {
             $assembly = $assemblyModel->getAssembly($this->assemblyId);
             $this->getAssemblyData($assembly);
         }
-
+//pr($assembly);exit;
 
         $this->assignRef('assembly', $assembly);
 
