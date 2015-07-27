@@ -946,6 +946,7 @@ span.prouct_name a{
 }
 label.pricelbl{
     font-weight: bold;
+    line-height: 23px;
 }
 span.cart{
     display: inline-block;

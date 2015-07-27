@@ -19,6 +19,8 @@
 defined('_JEXEC') or die('Restricted access');
 $product  = $viewData['product'];
 $currency = $viewData['currency'];
+
+$prodCount = isset($viewData['product_count']) ? $viewData['product_count'] : 0;
 ?>
 <?php
 if ($product->prices['salesPrice'] <= 0 and VmConfig::get('askprice', 1) and isset($product->images[0]) and !$product->images[0]->file_is_downloadable) {
@@ -30,5 +32,12 @@ if ($product->prices['salesPrice'] <= 0 and VmConfig::get('askprice', 1) and iss
     echo round($currency->roundForDisplay($product->prices['salesPrice'], 165, 1, 0)) . ' '
     . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
     . ' / '
-    . round($product->prices['salesPrice'], 2). ' $' ;
+    . round($product->prices['salesPrice'], 2) . ' $';
+
+    if ($prodCount) {
+        echo '<br />' . $currency->roundForDisplay($prodCount * $product->prices['salesPrice'], 165, 1, 0, 0) . ' '
+        . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
+        . ' / '
+        . round($prodCount * $product->prices['salesPrice'], 2) . ' $';
+    }
 }
