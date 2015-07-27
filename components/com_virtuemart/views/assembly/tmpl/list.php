@@ -78,7 +78,7 @@ vmJsApi::addJScript('imagepopup', $imageJS);
             if (!empty($assembly->products)) {
                 $products    = array();
                 $products[0] = $assembly->products;
-                echo shopFunctionsF::renderVmSubLayout('products_assembly', array('products' => $products, 'assemblyProducts' => $this->assembly->assemblyProducts, 'currency' => $assembly->currency, 'products_per_row' => $this->perRow, 'showRating' => 0));
+                echo shopFunctionsF::renderVmSubLayout('products_assembly', array('products' => $products, 'assemblyProducts' => $assembly->assemblyProducts, 'currency' => $assembly->currency, 'products_per_row' => $this->perRow, 'showRating' => 0));
             } elseif (!empty($this->keyword)) {
                 echo vmText::_('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
             }
