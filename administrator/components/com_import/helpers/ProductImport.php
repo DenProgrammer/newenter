@@ -379,6 +379,7 @@ class ProductImport {
         $category_id         = $product->category_id;
         $product_sku         = $product->product_sku;
         $product_desc        = str_replace('\\', '&#92;', htmlentities($product->product_desc, ENT_QUOTES, 'UTF-8'));
+        $product_s_desc        = str_replace('\\', '&#92;', htmlentities($product->product_s_desc, ENT_QUOTES, 'UTF-8'));
         $product_name        = str_replace('\\', '&#92;', htmlentities($product->product_name, ENT_QUOTES, 'UTF-8'));
         $product_price       = $product->product_price;
         $product_publish     = ($product->product_publish === 'Y') ? 1 : 0;
@@ -422,7 +423,7 @@ class ProductImport {
                 `virtuemart_product_id`, `product_s_desc`, `product_desc`, `product_name`, `metadesc`, 
                 `metakey`, `customtitle`, `slug`, `hash`
                 ) VALUES (
-                $product_id, '', '$product_desc', '$product_name', '', 
+                $product_id, '$product_s_desc', '$product_desc', '$product_name', '', 
                 '', '', '$slug', '$hash')";
         $db->setQuery($productRuSql);
         $db->query();

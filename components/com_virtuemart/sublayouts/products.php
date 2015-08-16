@@ -79,7 +79,7 @@ foreach ($viewData['products'] as $type => $products) {
                         <tr>
                             <td width="140">
                                 <?php if ($product->images[0]->virtuemart_media_id > 0) { ?>
-                                    <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
+                                <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
                                     <?php } else { ?>
                                         <a title="Найти в Google" target="blank" href="http://www.google.kg/search?q=<?php echo $product->product_name; ?>&tbm=isch">
                                         <?php } ?>
@@ -90,7 +90,7 @@ foreach ($viewData['products'] as $type => $products) {
                             </td>
                             <td>
                                 <div class="rows">
-                                    <span class="prouct_name"><?php echo JHtml::link($product->link, $product->product_name); ?></span>
+                                    <span rel="tooltip" title="<?php echo $product->product_s_desc; ?>" class="prouct_name"><?php echo JHtml::link($product->link, $product->product_name); ?></span>
                                 </div>
                                 <div class="rows">
                                     <table width='100%'>
