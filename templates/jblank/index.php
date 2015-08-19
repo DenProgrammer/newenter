@@ -103,6 +103,20 @@ if ($this->params->get('logoFile')) {
         <!--[if lt IE 9]>
                 <script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
         <![endif]-->
+
+        <script type="text/javascript" src="templates/jblank/js/jquery.myplugins.js"></script>
+        <script type="text/javascript">
+            jQuery(function($) {
+                $('body').scrollBtn(options = $.extend({"posH": "right", "btnText2": "Вниз", "btnText": "Вверх"}));
+
+                $('input[name=delcoocie]').click(function() {
+                    jQuery.get('index.php?option=com_virtuemart&nosef=1&view=cart&task=delete&format=json', {}, function() {
+                        document.location = "index.php";
+                    });
+                });
+            });
+
+        </script>
     </head>
 
     <body class="site <?php
@@ -119,8 +133,8 @@ if ($this->params->get('logoFile')) {
             </div>
             <div id="header_block">
                 <div id="header_block_div">
-                <jdoc:include type="modules" name="position-1" style="xhtml" />
-                    
+                    <jdoc:include type="modules" name="position-1" style="xhtml" />
+
                 </div>
                 <div style="clear:both"></div>
                 <div id="mainmenu_block">

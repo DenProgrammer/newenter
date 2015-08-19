@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
                     </a>
                 </div>
                 <div class="prod_price">
-                    <!--<label class="pricelbl"><?php echo JText::_('MOD_LATESTPROD_PRICE') ?>: </label>-->
+                    <label class="pricelbl"><?php echo JText::_('MOD_LATESTPROD_PRICE') ?>: </label>
                     <span class="price" style="margin-right: 0px;"><?php echo round($product->prices['salesPrice'] * $kurs); ?> Сом / <?php echo round($product->prices['salesPrice'], 2); ?> $</span>
                 </div>
             </li>

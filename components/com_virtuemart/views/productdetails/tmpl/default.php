@@ -204,7 +204,7 @@ echo $this->loadTemplate('images');
         <div class="product-description">
 	<?php /** @todo Test if content plugins modify the product description */ ?>
     	<span class="title"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_DESC_TITLE') ?></span>
-	<?php echo $this->product->product_desc; ?>
+	<?php echo html_entity_decode($this->product->product_desc); ?>
         </div>
 	<?php
     } // Product Description END

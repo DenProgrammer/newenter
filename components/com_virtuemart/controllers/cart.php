@@ -31,7 +31,8 @@ jimport('joomla.application.component.controller');
  * @author RolandD
  * @author Max Milbers
  */
-class VirtueMartControllerCart extends JControllerLegacy {
+class VirtueMartControllerCart extends JControllerLegacy
+{
 
     /**
      * Construct the cart
@@ -39,7 +40,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * @access public
      * @author Max Milbers
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         if (VmConfig::get('use_as_catalog', 0)) {
             $app = JFactory::getApplication();
@@ -61,7 +63,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      *
      * @since   11.1
      */
-    public function display($cachable = false, $urlparams = false) {
+    public function display($cachable = false, $urlparams = false)
+    {
 
         if (VmConfig::get('use_as_catalog', 0)) {
             // Get a continue link
@@ -113,7 +116,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
         return $this;
     }
 
-    public function updatecart($html = true) {
+    public function updatecart($html = true)
+    {
 
         $cart = VirtueMartCart::getCart();
 
@@ -160,7 +164,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
         }
     }
 
-    public function updatecartJS() {
+    public function updatecartJS()
+    {
 
         $this->updatecart(false);
     }
@@ -169,15 +174,18 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * legacy
      * @deprecated
      */
-    public function confirm() {
+    public function confirm()
+    {
         $this->updatecart();
     }
 
-    public function setshipment() {
+    public function setshipment()
+    {
         $this->updatecart();
     }
 
-    public function setpayment() {
+    public function setpayment()
+    {
         $this->updatecart();
     }
 
@@ -188,7 +196,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * @author Max Milbers
      * @access public
      */
-    public function add() {
+    public function add()
+    {
         $mainframe = JFactory::getApplication();
         if (VmConfig::get('use_as_catalog', 0)) {
             $msg  = vmText::_('COM_VIRTUEMART_PRODUCT_NOT_ADDED_SUCCESSFULLY');
@@ -220,7 +229,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * @author Max Milbers
      * @access public
      */
-    public function addJS() {
+    public function addJS()
+    {
 
         $this->json = new stdClass();
         $cart       = VirtueMartCart::getCart(false);
@@ -270,7 +280,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * @author Max Milbers
      * @access public
      */
-    public function viewJS() {
+    public function viewJS()
+    {
 
         if (!class_exists('VirtueMartCart'))
             require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
@@ -287,7 +298,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      *
      * @author Max Milbers
      */
-    public function edit_coupon() {
+    public function edit_coupon()
+    {
 
         $view = $this->getView('cart', 'html');
         $view->setLayout('edit_coupon');
@@ -300,7 +312,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * Store the coupon code in the cart
      * @author Max Milbers
      */
-    public function setcoupon() {
+    public function setcoupon()
+    {
 
         /* Get the coupon_code of the cart */
         $coupon_code = vRequest::getString('coupon_code', '');
@@ -329,7 +342,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      *
      * @author Max Milbers
      */
-    public function edit_shipment() {
+    public function edit_shipment()
+    {
 
 
         $view = $this->getView('cart', 'html');
@@ -344,7 +358,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      *
      * @author Max Milbers
      */
-    public function editpayment() {
+    public function editpayment()
+    {
 
         $view = $this->getView('cart', 'html');
         $view->setLayout('select_payment');
@@ -359,14 +374,16 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * @author RolandD
      * @access public
      */
-    public function delete() {
+    public function delete()
+    {
         $mainframe = JFactory::getApplication();
         /* Load the cart helper */
         $cart      = VirtueMartCart::getCart();
-        if ($cart->removeProductCart())
+        if ($cart->removeProductCart()) {
             $mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_REMOVED_SUCCESSFULLY'));
-        else
+        } else {
             $mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_NOT_REMOVED_SUCCESSFULLY'), 'error');
+        }
 
         $this->display();
         //$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE));
@@ -378,7 +395,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
      * @author Maik Künnemann
      *
      */
-    public function changeShopper() {
+    public function changeShopper()
+    {
         JSession::checkToken() or jexit('Invalid Token');
 
         //get data of current and new user
@@ -417,7 +435,8 @@ class VirtueMartControllerCart extends JControllerLegacy {
         $mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart'));
     }
 
-    function cancel() {
+    function cancel()
+    {
 
         $cart = VirtueMartCart::getCart();
         if ($cart) {

@@ -410,7 +410,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 div.prod_price span.price{
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #wrapper #content div.customlatest_products ul li a div.prod_price span:last-child{
@@ -422,6 +422,12 @@ div.prod_price span.price{
 #wrapper #content .row{
     width:100%;
     float:left;
+    text-align: center;
+} 
+
+#wrapper #content .row .category{
+    display: inline-block;
+    height: 200px;
 } 
 
 #wrapper #content .horizontal-separator{
@@ -891,7 +897,7 @@ div.latest_products ul li a div.prod_price{
     text-align: left;
 }
 div.latest_products ul li div.prod_title{
-    max-height: 30px;
+    height: 30px;
     overflow: hidden;
 }
 div.latest_products ul li div.prod_img{
@@ -945,8 +951,8 @@ span.prouct_name a{
     font-weight: bold;
 }
 label.pricelbl{
-    font-weight: bold;
-    line-height: 23px;
+    font-weight: normal;
+    font-size: 11px;
 }
 span.cart{
     display: inline-block;

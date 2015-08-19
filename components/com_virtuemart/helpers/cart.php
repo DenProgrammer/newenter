@@ -678,10 +678,20 @@ class VirtueMartCart {
      */
     public function removeProductCart($prod_id = 0) {
         // Check for cart IDs
-        if (empty($prod_id))
+        if (empty($prod_id)){
             $prod_id = vRequest::getInt('cart_virtuemart_product_id');
+        }
+        
         unset($this->products[$prod_id]);
-        if (isset($this->cartProductsData[$prod_id])) {
+        $user = JFactory::getUser();
+        if (!$prod_id){
+            foreach ($this->products as $key=>$val){
+                $this->removeProductCart($key);
+            }
+            unset($_SESSION['__vm']['vmcart']);
+            $this->setCartIntoSession(true);
+            exit;
+        }elseif (isset($this->cartProductsData[$prod_id])) {
             // hook for plugin action "remove from cart"
             if (!class_exists('vmCustomPlugin'))
                 require(JPATH_VM_PLUGINS . DS . 'vmcustomplugin.php');
