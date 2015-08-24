@@ -181,6 +181,9 @@ div#element-box div.m {
 div.select_top_options{
     background: url("../images/select_fon.png") no-repeat scroll center center transparent;
 }
+div.select_top_options_input{
+    background: url("../images/select_fon_input.png") no-repeat scroll center center transparent;
+}
 div.select_long{
     background: url("../images/select_fon_long.png") no-repeat scroll center center transparent;
 }
@@ -570,6 +573,19 @@ div.select_top_addprice{
     z-index: 100;
 }
 
+#markup_fix_value{
+    width: 100px;
+    height: 11px;
+    background: none;
+    border: none;
+}
+
+select#currency{
+    margin-bottom: 0px;
+}
+tr#show_fix_markup{
+    display: none;
+}
 
 
 

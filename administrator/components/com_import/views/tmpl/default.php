@@ -94,7 +94,7 @@ $category = getCategoryList();
                                 <td class="opt_update_text">
                                     Укажите склад 
                                 </td>
-                                <td rowspan="5" width="10">&nbsp;</td>
+                                <td rowspan="6" width="10">&nbsp;</td>
                                 <td>
                                     <div class="select_conteyner">
                                         <div id="price_top" class="select_top select_top_options">
@@ -212,11 +212,28 @@ foreach ($currencys as $key => $val) {
                                 <td>
                                     <div class="select_conteyner">
                                         <div id="markup_top" class="select_top select_top_options">
-                                            <?php echo ($markups[$dataPriceType[0]] == 1) ? 'Да' : 'Нет'; ?>
+                                            <?php
+                                            switch ($markups[$dataPriceType[0]]) {
+                                                case 1: {
+                                                        $value = 'Да';
+                                                        break;
+                                                    }
+                                                case 2: {
+                                                        $value = 'Фикс. %';
+                                                        break;
+                                                    }
+                                                default: {
+                                                        $value = 'Нет';
+                                                    }
+                                            }
+
+                                            echo $value;
+                                            ?>
                                         </div>
                                         <select id="markup" onchange="changeMarkup()">
                                             <option <?php if ($markups[$dataPriceType[0]] == 1) { ?>selected<?php } ?> value='1'>Да</option>
                                             <option <?php if ($markups[$dataPriceType[0]] == 0) { ?>selected<?php } ?> value='0'>Нет</option>
+                                            <option <?php if ($markups[$dataPriceType[0]] == 2) { ?>selected<?php } ?> value='2'>Фикс. %</option>
                                         </select>
                                         <script type="text/javascript">
                                             var markups = new Array();
@@ -226,6 +243,16 @@ foreach ($markups as $key => $val) {
 }
 ?>
                                         </script>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="show_fix_markup">
+                                <td class="opt_update_text">&nbsp;</td>
+                                <td>
+                                    <div class="select_conteyner">
+                                        <div id="markup_top" class="select_top select_top_options_input">
+                                            <input type="text" id="markup_fix_value" value="0" />
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

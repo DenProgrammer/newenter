@@ -185,7 +185,13 @@ function changePrice()
     jQuery("#price_top").html(html);
 
     var markup = markups[value];
-    var markupStr = (markup === 1) ? 'Да' : 'Нет';
+    var markupStr = (markup === 2) ? 'Фикс. %' : (markup === 1) ? 'Да' : 'Нет';
+
+    if (markup === 2) {
+        jQuery('#show_fix_markup').css('display', 'table-row');
+    } else {
+        jQuery('#show_fix_markup').css('display', 'none');
+    }
 
     jQuery('#markup_top').html(markupStr);
     jQuery('#markup').val(markup);
@@ -233,6 +239,12 @@ function changeMarkup()
 
     var markup = jQuery("#markup").val();
     var price = jQuery("#price").val();
+
+    if (markup === '2') {
+        jQuery('#show_fix_markup').css('display', 'table-row');
+    } else {
+        jQuery('#show_fix_markup').css('display', 'none');
+    }
 
     markups[price] = markup;
 
@@ -283,12 +295,14 @@ function addNadbavka()
  */
 function startUpdate()
 {
-    var url = mainurl + '&ajax=startUpdate';
+    var markup_fix_value = jQuery('#markup_fix_value').val();
+
+    var url = mainurl + '&ajax=startUpdate&markup_fix_value=' + markup_fix_value;
     jQuery('#import_loading').show();
 
     jQuery.get(url, {}, function(data) {
         jQuery('#import_loading').hide();
-        
+
         data = jQuery.parseJSON(data);
         var message = "Обновление завершено.\n";
         message += 'Обновлено ' + data.count + " товаров.\n";

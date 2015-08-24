@@ -2,7 +2,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-class ImportController {
+class ImportController
+{
 
     var $file_directory           = '';
     var $file_directory_arhiv     = '';
@@ -31,7 +32,8 @@ class ImportController {
     var $currency                 = 'KGS';
     var $start_prod               = 0;
 
-    function __construct($file) {
+    function __construct($file)
+    {
 
         $config = getConfig($_SESSION['import']['component_id']);
 
@@ -51,20 +53,24 @@ class ImportController {
         $this->access = true;
     }
 
-    function getExtension2($filename, $exe, $bigexe) {
+    function getExtension2($filename, $exe, $bigexe)
+    {
         $path_info = pathinfo($filename);
         return (($path_info['extension'] == $exe) or ($path_info['extension'] == $bigexe)) ? true : false;
     }
 
-    function setVar($varname, $value) {
+    function setVar($varname, $value)
+    {
         $this->$varname = $value;
     }
 
-    function getVar($var) {
+    function getVar($var)
+    {
         return $this->$var;
     }
 
-    public function getData() {
+    public function getData()
+    {
         if ($this->debbuger == 1) {
             echo 'getData<br>';
         }
@@ -76,7 +82,8 @@ class ImportController {
      * 
      * @return array
      */
-    public function getTax() {
+    public function getTax()
+    {
         $db = JFactory::getDbo();
 
         $db->setQuery('SELECT sum, sum_tax, tax FROM `#__import_xref`');
@@ -90,7 +97,8 @@ class ImportController {
      * @param float $summa
      * @return float
      */
-    protected function getMarkupSumm($summa) {
+    protected function getMarkupSumm($summa)
+    {
         $db      = JFactory::getDbo();
         $sum     = 0;
         $sum_tax = 0;
@@ -128,7 +136,8 @@ class ImportController {
         return $markupSumma;
     }
 
-    function getPercent($s) {
+    function getPercent($s)
+    {
         $db = JFactory::getDbo();
 
         $sum     = 0;
@@ -179,7 +188,8 @@ class ImportController {
         return $summa;
     }
 
-    public function winToUtf8($s) {
+    public function winToUtf8($s)
+    {
         static $table = array
             (
             "\xC0" => "\xD0\x90", "\xC1" => "\xD0\x91", "\xC2" => "\xD0\x92", "\xC3" => "\xD0\x93", "\xC4" => "\xD0\x94",
@@ -210,7 +220,8 @@ class ImportController {
      * @param integer $posPrice
      * @return string
      */
-    protected function checkType($data, $posName, $posPrice) {
+    protected function checkType($data, $posName, $posPrice)
+    {
         return (trim($data[$posName]) != '' && floatval($data[$posPrice]) > 0) ? 'PRODUCT' : '';
     }
 
@@ -220,7 +231,8 @@ class ImportController {
      * @param integer $clear_line
      * @return array file
      */
-    protected function readFile($options, $clear_line = 0) {
+    protected function readFile($options, $clear_line = 0)
+    {
         $excel = PHPExcel_IOFactory::load($this->filepath);
 
         $data = array();
@@ -252,10 +264,13 @@ class ImportController {
     }
 
     //parsing csv files for update sklads
-    function parceCSV() {
+    function parceCSV()
+    {
         $start  = microtime(1);
 //        echo round(microtime(1) - $start, 2) . '<br>';
         $offset = JRequest::getInt('offset');
+
+        $markup_fix_value = JRequest::getVar('markup_fix_value');
 
         //get options from current price
         $options                 = getOptionsPrice($this->price_type);
@@ -274,7 +289,7 @@ class ImportController {
         }
 //        echo round(microtime(1) - $start, 2) . '<br>';
 
-        $db   = JFactory::getDbo();
+        $db = JFactory::getDbo();
 
         $db->setQuery('SELECT virtuemart_product_id, hash FROM #__virtuemart_products_ru_ru');
         $items = $db->loadObjectList();
@@ -305,6 +320,9 @@ class ImportController {
 
                 if ($markup == 1) {
                     $product_price = $this->getMarkupSumm($product_price);
+                }
+                if ($markup == 2 && $markup_fix_value > 0) {
+                    $product_price = $product_price * (1 + $markup_fix_value / 100);
                 }
                 if (strlen($product_desc) < 6) {
                     $product_desc = '';
@@ -341,7 +359,8 @@ class ImportController {
         exit;
     }
 
-    function moveFile() {
+    function moveFile()
+    {
         if (!file_exists($this->filepath)) {
             return;
         }
@@ -357,7 +376,8 @@ class ImportController {
         }
     }
 
-    public function setProductSku($product_id, $product_sku) {
+    public function setProductSku($product_id, $product_sku)
+    {
         $db = JFactory::getDbo();
         $db->setQuery("UPDATE #__virtuemart_products "
                 . "SET product_sku = '$product_sku' "
@@ -376,7 +396,8 @@ class ImportController {
      * @param string  $desc
      * @return array
      */
-    public function getProductTemplate($product_id, $sku, $name, $price, $category_id, $desc, $hash, $currency = 202) {
+    public function getProductTemplate($product_id, $sku, $name, $price, $category_id, $desc, $hash, $currency = 202)
+    {
         $db   = JFactory::getDbo();
         $lang = JFactory::getLanguage();
         $slug = $lang->transliterate($name);
