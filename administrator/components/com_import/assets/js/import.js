@@ -191,6 +191,12 @@ function changePrice()
     jQuery('#markup_top').html(markupStr);
     jQuery('#markup').val(markup);
     jQuery('#markup_fix_value').val(fixMarkup);
+    
+    if (markup === 2) {
+        jQuery('#show_fix_markup').css('display', 'table-row');
+    } else {
+        jQuery('#show_fix_markup').css('display', 'none');
+    }
 
     var currency = currencys[value];
     var currencyStr = (currency === 'USD') ? 'Доллар США' : 'Сом';
@@ -237,6 +243,12 @@ function changeMarkup()
     var price = jQuery("#price").val();
 
     markups[price] = markup;
+    
+    if (markup === 2) {
+        jQuery('#show_fix_markup').css('display', 'table-row');
+    } else {
+        jQuery('#show_fix_markup').css('display', 'none');
+    }
 
     var url = mainurl + '&ajax=setMarkup';
     jQuery.get(url, {markup: markup, price: price});

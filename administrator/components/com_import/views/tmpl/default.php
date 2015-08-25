@@ -253,7 +253,12 @@ foreach ($fix_markups as $key => $val) {
                                     </div>
                                 </td>
                             </tr>
-                            <tr id="show_fix_markup">
+                            <tr 
+                                id="show_fix_markup" 
+                                <?php if ($markups['brand'] != 2) { ?>
+                                    style="display: none;" 
+                                <?php } ?>
+                                >
                                 <td class="opt_update_text">&nbsp;</td>
                                 <td>
                                     <div class="select_conteyner">
