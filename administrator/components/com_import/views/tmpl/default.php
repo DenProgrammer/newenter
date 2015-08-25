@@ -242,6 +242,13 @@ foreach ($markups as $key => $val) {
     echo 'markups["' . $key . '"] = ' . $val . ";\n";
 }
 ?>
+    
+                                            var fix_markups = new Array();
+<?php
+foreach ($fix_markups as $key => $val) {
+    echo 'fix_markups["' . $key . '"] = ' . $val . ";\n";
+}
+?>
                                         </script>
                                     </div>
                                 </td>
@@ -251,7 +258,7 @@ foreach ($markups as $key => $val) {
                                 <td>
                                     <div class="select_conteyner">
                                         <div id="markup_top" class="select_top select_top_options_input">
-                                            <input type="text" id="markup_fix_value" value="0" />
+                                            <input type="text" id="markup_fix_value" onkeyup="changeMarkupFix(this.value)" value="<?php echo $fix_markups['brand']; ?>" />
                                         </div>
                                     </div>
                                 </td>

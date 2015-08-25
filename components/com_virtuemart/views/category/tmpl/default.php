@@ -125,7 +125,10 @@ if ($this->showproducts) {
             echo shopFunctionsF::renderVmSubLayout($this->productsLayout, array('products' => $products, 'currency' => $this->currency, 'products_per_row' => $this->perRow, 'showRating' => $this->showRating));
             ?>
 
-            <div class="vm-pagination vm-pagination-bottom"><?php echo $this->vmPagination->getPagesLinks(); ?><span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span></div>
+            <div class="vm-pagination vm-pagination-bottom">
+                <?php echo $this->vmPagination->getPagesLinks(); ?>
+                <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
+            </div>
 
             <?php
         } elseif (!empty($this->keyword)) {
@@ -134,5 +137,5 @@ if ($this->showproducts) {
         ?>
     </div>
 
-<?php
+    <?php
 } 

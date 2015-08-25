@@ -186,15 +186,11 @@ function changePrice()
 
     var markup = markups[value];
     var markupStr = (markup === 2) ? 'Фикс. %' : (markup === 1) ? 'Да' : 'Нет';
-
-    if (markup === 2) {
-        jQuery('#show_fix_markup').css('display', 'table-row');
-    } else {
-        jQuery('#show_fix_markup').css('display', 'none');
-    }
+    var fixMarkup = fix_markups[value];
 
     jQuery('#markup_top').html(markupStr);
     jQuery('#markup').val(markup);
+    jQuery('#markup_fix_value').val(fixMarkup);
 
     var currency = currencys[value];
     var currencyStr = (currency === 'USD') ? 'Доллар США' : 'Сом';
@@ -240,16 +236,19 @@ function changeMarkup()
     var markup = jQuery("#markup").val();
     var price = jQuery("#price").val();
 
-    if (markup === '2') {
-        jQuery('#show_fix_markup').css('display', 'table-row');
-    } else {
-        jQuery('#show_fix_markup').css('display', 'none');
-    }
-
     markups[price] = markup;
 
     var url = mainurl + '&ajax=setMarkup';
     jQuery.get(url, {markup: markup, price: price});
+}
+
+function changeMarkupFix(value) {
+    var price = jQuery("#price").val();
+
+    fix_markups[price] = value;
+
+    var url = mainurl + '&ajax=setFixMarkup';
+    jQuery.get(url, {fix_markup: value, price: price});
 }
 //изменение значения селекта
 function changeCategory(value, filtr)

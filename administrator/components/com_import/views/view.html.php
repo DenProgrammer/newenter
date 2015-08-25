@@ -2175,6 +2175,15 @@ switch (JRequest::getVar('ajax')) {
 
             break;
         }
+    case 'setFixMarkup': {
+            $markup = JRequest::getInt('fix_markup');
+            $price  = JRequest::getVar('price');
+
+            $db->setQuery('UPDATE #__import_sklads SET fix_markup = ' . $markup . ' WHERE price_name = "' . $price . '"');
+            $db->query();
+
+            break;
+        }
     case 'get_active_document': {
             $id = $_SESSION['import']['active_document'];
 
@@ -2438,8 +2447,9 @@ switch (JRequest::getVar('ajax')) {
             foreach ($rows as $row) {
                 $dataPriceType[] = $row->price_name;
 
-                $markups[$row->price_name]   = $row->markup;
-                $currencys[$row->price_name] = $row->currency;
+                $markups[$row->price_name]     = $row->markup;
+                $fix_markups[$row->price_name] = $row->fix_markup;
+                $currencys[$row->price_name]   = $row->currency;
             }
         }
 }
