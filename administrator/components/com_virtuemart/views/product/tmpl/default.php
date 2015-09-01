@@ -33,6 +33,12 @@ if ($product_parent_id) {
     $col_product_name = 'COM_VIRTUEMART_PRODUCT_NAME';
 }
 ?>
+<style>
+    
+.table th, .table td {
+    padding: 2px;
+}
+</style>
 <form action="index.php" method="post" name="adminForm" id="adminForm">
     <div id="header">
         <div id="filterbox">

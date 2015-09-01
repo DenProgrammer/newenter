@@ -6,6 +6,7 @@
 .product-neighbours a.previous-page{background:url(../images/vmgeneral/previous_16x16.png) no-repeat left;padding-left:30px;line-height:20px;float:left;}
 .productdetails-view .product-short-description{margin:0 0 1.0em;padding:0;}
 .productdetails-view .product-description,.product-fields{margin: 0 0 0;}
+.productdetails-view{margin-bottom: 20px;}
 .product-packaging{margin:1.2em 0 0;}
 .additional-images img{margin-right:8px;width:50px;height:auto;}
 .product-price{margin:0 0 6px;text-align: right;float:left;}
@@ -33,7 +34,7 @@ span.quantity-controls input.quantity-controls{height:15px;border:none;width:15p
 span.quantity-controls input.quantity-plus{background:url(../images/vmgeneral/quantity-controls.png) no-repeat;margin: 1px 0;}
 span.quantity-controls input.quantity-minus{background:url(../images/vmgeneral/quantity-controls.png) repeat-x;background-position:15px 0;margin: 1px 0;}
 
-.productdetails-view .addtocart-bar{margin:1.5em 0 0;padding:0 0 0 0px;position:relative; bottom: 0.0em;text-align: left;}
+.productdetails-view .addtocart-bar{padding:0 0 0 0px;position:relative; bottom: 0.0em;text-align: left;}
 span.addtocart-button{display: inline-block;vertical-align:middle;margin:0 0 0 2px;}
 span.cart-images img {
     float: left;
@@ -139,12 +140,7 @@ ul.VMmenu,.VMmenu ul,.VMmenu li{list-style-type:none!important;background-image:
 .vm-product-media-rating h2 {border: 0;margin: 6px 0;}
 .vm-rating-header {float:right;margin: 0 6px 0 0;}
 .vm-product-media-container {text-align:center;max-width: 100%;margin-bottom:15px;}
-.vm-product-container .vm-product-media-container {
-  float: left;
-  width: 55%;
-}
 .vm-product-descr-container {float:left;width:100%;text-align:center;width: 100%;}
-.vm-product-details-container {float:right;width:45%;}
 
 .valign-wrapper {position: relative;}
 .valign-content-wrapper {position: absolute; height: 100%; top: 50%; width: 100%;}
