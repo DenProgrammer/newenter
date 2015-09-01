@@ -10,6 +10,8 @@ jQuery(document).ready(function($)
 {
     $('*[rel=tooltip]').tooltip();
     
+    $('div.vm-pagination ul li a').removeClass('hasTooltip');
+    
     // Turn radios into btn-group
     $('.radio.btn-group label').addClass('btn');
     $(".btn-group label:not(.active)").click(function()
