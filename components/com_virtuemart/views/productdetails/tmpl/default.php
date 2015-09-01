@@ -229,7 +229,7 @@ if (vRequest::getInt('print', false)) {
         <?php
         // Show child categories
         if (VmConfig::get('showCategory', 1)) {
-            echo $this->loadTemplate('showcategory');
+//            echo $this->loadTemplate('showcategory');
         }
         ?>
         <?php
