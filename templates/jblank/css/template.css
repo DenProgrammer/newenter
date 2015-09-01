@@ -1031,3 +1031,7 @@ div.pathway a{
     height: 23px;
     padding: 0px 30px;
 }
+span.pagenav{
+    color: #f90000;
+    font-weight: bold;
+}
