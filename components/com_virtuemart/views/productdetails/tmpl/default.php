@@ -109,22 +109,6 @@ if (vRequest::getInt('print', false)) {
         <?php } // PDF - Print - Email Icon END
         ?>
 
-        <?php
-        // Product Short Description
-        if (!empty($this->product->product_s_desc)) {
-            ?>
-            <div class="product-short-description">
-                <?php
-                /** @todo Test if content plugins modify the product description */
-                echo nl2br($this->product->product_s_desc);
-                ?>
-            </div>
-            <?php
-        } // Product Short Description END
-
-        echo shopFunctionsF::renderVmSubLayout('customfields', array('product' => $this->product, 'position' => 'ontop'));
-        ?>
-
         <div class="vm-product-container">
             <table style="width: 100%">
                 <tr>
@@ -143,6 +127,19 @@ if (vRequest::getInt('print', false)) {
                                     <?php echo html_entity_decode($this->product->product_name); ?>
                                 </span>
                             </div>
+                            <?php
+                            // Product Short Description
+                            if (!empty($this->product->product_s_desc)) {
+                                ?>
+                                <div class="product-short-description">
+                                    <?php
+                                    /** @todo Test if content plugins modify the product description */
+                                    echo $this->product->product_s_desc;
+                                    ?>
+                                </div>
+                                <?php
+                            } // Product Short Description END
+                            ?>
                             <div class="rows">
                                 <table width='100%'>
                                     <tr>
@@ -181,7 +178,7 @@ if (vRequest::getInt('print', false)) {
             echo $this->loadTemplate('images_additional');
         }
 
-        // event onContentBeforeDisplay
+// event onContentBeforeDisplay
         echo $this->product->event->beforeDisplayContent;
         ?>
 
@@ -208,7 +205,7 @@ if (vRequest::getInt('print', false)) {
                 echo vmText::_('COM_VIRTUEMART_PRODUCT_UNITS_IN_BOX') . $this->product->product_box;
                 ?>
             </div>
-        <?php } // Product Packaging END  ?>
+        <?php } // Product Packaging END   ?>
 
         <?php
         echo shopFunctionsF::renderVmSubLayout('customfields', array('product' => $this->product, 'position' => 'onbot'));

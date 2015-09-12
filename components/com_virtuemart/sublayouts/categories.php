@@ -21,7 +21,6 @@ defined('_JEXEC') or die('Restricted access');
 $categories         = $viewData['categories'];
 $categories_per_row = VmConfig::get('categories_per_row', 3);
 
-
 if ($categories) {
 
 // Category and Columns Counter
@@ -71,13 +70,12 @@ if ($categories) {
                     <div class="spacer">
                         <h2>
                             <a href="<?php echo $caturl ?>" title="<?php echo $category->category_name ?>">
-                                <?php echo $category->category_name ?>
-                                <br />
-                                <?php
-                                // if ($category->ids) {
-                                echo $category->images[0]->displayMediaThumb("", false);
-                                //} 
-                                ?>
+                                <div class="category-image">
+                                    <?php echo $category->images[0]->displayMediaThumb("", false); ?>
+                                </div>
+                                <div class="category-product-count">
+                                    <?php echo $category->category_name ?>(<?php echo $category->countproducts; ?>)
+                                </div>
                             </a>
                         </h2>
                     </div>
@@ -103,4 +101,5 @@ if ($categories) {
         </div>
         <?php
     }
-    ?></div><?php }
+    ?></div><?php
+}

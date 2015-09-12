@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+    <name>Chat</name>
+    <author>Joomla! Project</author>
+    <creationDate>October 2004</creationDate>
+    <copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>1.5.0</version>
+    <description>chat</description>
+    <files>
+        <filename module="mod_chat">mod_chat.php</filename>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <folder>tmpl</folder>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="widget_id"
+                    type="text"
+                    class="btn-group"
+                    default=""
+                    label="widget ID"
+                    description="widget ID" />
+                <field type="spacer" label="Budny" />
+                <field
+                    name="weekdays_start_hour"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="START_HOUR"
+                    description="START_HOUR">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </field>
+                <field
+                    name="weekdays_start"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="START_MINUT"
+                    description="START_MINUT">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                </field>
+                <field
+                    name="weekdays_finish_hour"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="FINISH_HOUR"
+                    description="FINISH_HOUR">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </field>
+                <field
+                    name="weekdays_finish"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="FINISH_MINUT"
+                    description="FINISH_MINUT">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                </field>
+                <field type="spacer" label="Subbota" />
+                <field
+                    name="weekend_start_hour"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="START_HOUR"
+                    description="START_HOUR">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </field>
+                <field
+                    name="weekend_start"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="START_MINUT"
+                    description="START_MINUT">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                </field>
+                <field
+                    name="weekend_finish_hour"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="FINISH_HOUR"
+                    description="FINISH_HOUR">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </field>
+                <field
+                    name="weekend_finish"
+                    type="list"
+                    class="btn-group"
+                    default="0"
+                    label="FINISH_MINUT"
+                    description="FINISH_MINUT">
+                    <option value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

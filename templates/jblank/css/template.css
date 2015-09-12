@@ -431,6 +431,8 @@ div.prod_price span.price{
 #wrapper #content .row .category{
     display: inline-block;
     height: 200px;
+    vertical-align: top;
+    vertical-align: top;
 } 
 
 #wrapper #content .horizontal-separator{
@@ -777,6 +779,7 @@ input.button-gloss {
     transition: .2s;
     cursor: pointer;
     text-align: center;
+    font-family: 'MS Shell Dlg \32', Tahoma,Arial;
 } 
 #fancybox-content a.continue_link:active,
 #fancybox-content a.showcart:active,
@@ -1034,4 +1037,21 @@ div.pathway a{
 span.pagenav{
     color: #f90000;
     font-weight: bold;
+}
+
+.vm_cart_products div.danger{
+    overflow: hidden;
+}
+.product-short-description{
+    font-weight: bold;
+}
+.category-image{
+    height: 160px;
+}
+.category-view .row .category .spacer h2 a img{
+    height: 150px;
+}
+.category-product-count{
+    font-weight: normal;
+    text-decoration: none;
 }
