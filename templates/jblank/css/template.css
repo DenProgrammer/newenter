@@ -1039,7 +1039,7 @@ span.pagenav{
     font-weight: bold;
 }
 
-.vm_cart_products div.danger{
+div.danger div.vm_cart_products{
     overflow: hidden;
 }
 .product-short-description{
