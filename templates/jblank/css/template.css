@@ -1056,8 +1056,7 @@ div.danger div.vm_cart_products{
 }
 
 #fancybox-content{
-    border: solid 2px red !important;
-    padding: 15px;
+    padding: 10px;
 }
 #fancybox-content h4{
     margin: 0 0 10px 0;

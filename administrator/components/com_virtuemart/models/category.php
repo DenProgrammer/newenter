@@ -170,7 +170,7 @@ class VirtueMartModelCategory extends VmModel
         }
 
         if (!in_array($selectedOrdering, self::$_validOrderingFields)) {
-            $selectedOrdering = 'category_name';
+            $selectedOrdering = 'ordering';
         }
 
         if ($orderDir === null) {
