@@ -283,7 +283,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 #fancybox-content hr{
     border: none;
     border-bottom: dashed 1px #e5e5e5;
-    margin: 10px 0px 5px 0px;
+    margin: 0px;
 }
 
 /******************content********************************************/
@@ -1031,7 +1031,6 @@ div.pathway a{
     text-decoration: none;
 }
 #fancybox-outer #fancybox-content div a{
-    height: 23px;
     padding: 0px 30px;
 }
 span.pagenav{
@@ -1054,4 +1053,26 @@ div.danger div.vm_cart_products{
 .category-product-count{
     font-weight: normal;
     text-decoration: none;
+}
+
+#fancybox-content{
+    border: solid 2px red !important;
+    padding: 15px;
+}
+#fancybox-content h4{
+    margin: 0 0 10px 0;
+}
+#fancybox-content div{
+    overflow: visible !important;
+}
+#fancybox-content div.links{
+    margin-top: 10px;
+}
+#fancybox-content div.links a{
+    display: block;
+    width: 200px;
+    margin: 0px auto;
+}
+#fancybox-content div.links a.continue_link{
+    margin-bottom: 10px;
 }
