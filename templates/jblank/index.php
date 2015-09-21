@@ -53,7 +53,7 @@ if ($this->countModules('position-7') && $this->countModules('position-8')) {
 }
 
 $client = new JWebClient();
-pr($client);
+
 // Logo file or site title param
 if ($this->params->get('logoFile')) {
     $logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '" />';
