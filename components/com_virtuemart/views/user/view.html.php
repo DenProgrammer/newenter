@@ -178,7 +178,7 @@ class VirtuemartViewUser extends VmView {
 		} else {
 			//$pathway->addItem(vmText::_('COM_VIRTUEMART_YOUR_ACCOUNT_DETAILS'), JRoute::_('index.php?option=com_virtuemart&view=user&&layout=edit'));
 		}
-		$pathway_text = vmText::_('COM_VIRTUEMART_YOUR_ACCOUNT_DETAILS');
+		$pathway_text = 'Оформить заказ';
 		if (!$this->userDetails->JUser->get('id')) {
 			if ($this->cart->_fromCart or $this->cart->getInCheckOut()) {
 			if ($this->address_type == 'BT') {

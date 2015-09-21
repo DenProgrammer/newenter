@@ -74,15 +74,6 @@ vmJsApi::addJScript('vm.checkoutFormSubmit', '
             echo '<div class="checkoutStep" id="checkoutStep4">' . vmText::_('COM_VIRTUEMART_USER_FORM_CART_STEP4') . '</div>';
         }
         ?>
-        <div class="width50 floatleft right vm-continue-shopping">
-            <?php
-            // Continue Shopping Button
-            if (!empty($this->continue_link_html)) {
-                echo $this->continue_link_html;
-            }
-            ?>
-        </div>
-        <div class="clear"></div>
     </div>
 
     <?php
@@ -98,7 +89,7 @@ vmJsApi::addJScript('vm.checkoutFormSubmit', '
     ?><form method="post" id="checkoutForm" name="checkoutForm" action="<?php echo JRoute::_('index.php?option=com_virtuemart&view=cart' . $taskRoute, $this->useXHTML, $this->useSSL); ?>">
     <?php
     if (VmConfig::get('multixcart') == 'byselection') {
-        if (!class_exists('ShopFunctions')){
+        if (!class_exists('ShopFunctions')) {
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'shopfunctions.php');
         }
         echo shopFunctions::renderVendorFullVendorList($this->cart->vendorId);
@@ -121,9 +112,13 @@ vmJsApi::addJScript('vm.checkoutFormSubmit', '
         }
 
         echo $this->loadTemplate('cartfields');
-        ?> <div class="checkout-button-top"> <?php
-            echo $this->checkout_link_html;
-            ?></div>
+        ?> 
+        <div>
+            <div class="checkout-button-top"> 
+                <?php echo $this->continue_link_html; ?>
+                <?php echo $this->checkout_link_html; ?>
+            </div>
+        </div>
 
         <?php // Continue and Checkout Button END  ?>
         <input type='hidden' name='order_language' value='<?php echo $this->order_language; ?>'/>

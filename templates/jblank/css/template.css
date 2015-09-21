@@ -565,7 +565,18 @@ div.prod_price span.price{
     text-decoration:none;
 }
 
+#wrapper #content .cart-view .sectiontableentry2 a{
+    color:#3a3a3a;
+    text-decoration:none;
+}
+
 #wrapper #content .cart-view .sectiontableentry1 input.quantity-input{
+    padding:0;
+    height:auto;
+    font-weight:bold;
+}
+
+#wrapper #content .cart-view .sectiontableentry2 input.quantity-input{
     padding:0;
     height:auto;
     font-weight:bold;
@@ -573,7 +584,7 @@ div.prod_price span.price{
 
 #wrapper #content a.vm-button-correct{
     width:200px;
-    height:20px;
+    margin: 10px 0 20px 0;
 }
 
 #wrapper #content .cart-view .vm2-add_quantity_cart{
@@ -1056,7 +1067,7 @@ div.danger div.vm_cart_products{
 }
 
 #fancybox-content{
-    padding: 10px;
+    padding: 5px;
 }
 #fancybox-content h4{
     margin: 0 0 10px 0;
@@ -1074,4 +1085,10 @@ div.danger div.vm_cart_products{
 }
 #fancybox-content div.links a.continue_link{
     margin-bottom: 10px;
+}
+
+#checkoutFormSubmit{
+    height: 34px;
+    margin-left: 10px;
+    vertical-align: top;
 }

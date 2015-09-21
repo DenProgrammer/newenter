@@ -49,15 +49,6 @@ $this->vmValidator();
 
 <form method="post" id="userForm" name="userForm" class="form-validate" action="<?php echo JRoute::_('index.php?option=com_virtuemart&view=user', $this->useXHTML, $this->useSSL) ?>" >
     <fieldset>
-        <h2>
-            <?php
-            if ($this->address_type == 'BT') {
-                echo vmText::_('COM_VIRTUEMART_USER_FORM_EDIT_BILLTO_LBL');
-            } else {
-                echo vmText::_('COM_VIRTUEMART_USER_FORM_ADD_SHIPTO_LBL');
-            }
-            ?>
-        </h2>
 
         <hr class="userFormSeparate" />
 

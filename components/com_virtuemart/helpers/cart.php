@@ -673,6 +673,20 @@ class VirtueMartCart {
      * Remove a product from the cart
      *
      * @author RolandD
+     * @access public
+     */
+    public function removeAllProductCart() {
+        unset($this->products);
+        unset($this->cartProductsData);
+        $this->setCartIntoSession(true);
+        
+        exit;
+    }
+
+    /**
+     * Remove a product from the cart
+     *
+     * @author RolandD
      * @param array $cart_id the cart IDs to remove from the cart
      * @access public
      */

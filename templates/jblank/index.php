@@ -52,6 +52,8 @@ if ($this->countModules('position-7') && $this->countModules('position-8')) {
     $span = "span12";
 }
 
+$client = new JWebClient();
+pr($client);
 // Logo file or site title param
 if ($this->params->get('logoFile')) {
     $logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '" />';
@@ -110,8 +112,9 @@ if ($this->params->get('logoFile')) {
                 $('body').scrollBtn(options = $.extend({"posH": "right", "btnText2": "Вниз", "btnText": "Вверх"}));
 
                 $('input[name=delcoocie]').click(function() {
-                    jQuery.get('index.php?option=com_virtuemart&nosef=1&view=cart&task=delete&format=json', {}, function() {
-                        document.location = "index.php";
+                    jQuery.get('index.php?option=com_virtuemart&nosef=1&view=cart&task=deleteAll&format=json', {}, function() {
+                        jQuery('div.vm_cart_products div.vmcontainer').html('');
+                        jQuery('div.total_products').html('Корзина пуста');
                     });
                 });
             });
@@ -133,8 +136,12 @@ if ($this->params->get('logoFile')) {
             </div>
             <div id="header_block">
                 <div id="header_block_div">
-                    <jdoc:include type="modules" name="position-1" style="xhtml" />
-
+                    <?php if ($client->mobile === false) { ?>
+                        <jdoc:include type="modules" name="position-1" style="xhtml" />
+                    <?php } else { ?>
+                        <jdoc:include type="modules" name="position-11" style="xhtml" />
+                    <?php } ?>
+                    <jdoc:include type="modules" name="position-10" style="xhtml" />
                 </div>
                 <div style="clear:both"></div>
                 <div id="mainmenu_block">

@@ -33,10 +33,10 @@ if ($this->products) {
 ?>
 <hr />
 <div class="links">
-    <a class="continue_link" href="' . $this->continue_link . '" >
+    <a class="continue_link" href="<?php echo $this->continue_link; ?>" >
         <?php echo vmText::_('COM_VIRTUEMART_CONTINUE_SHOPPING'); ?>
     </a>
-    <a class="showcart" href="' . $this->cart_link . '">
+    <a class="showcart" href="<?php echo $this->cart_link; ?>">
         <?php echo vmText::_('COM_VIRTUEMART_CART_SHOW'); ?>
     </a>
 </div>

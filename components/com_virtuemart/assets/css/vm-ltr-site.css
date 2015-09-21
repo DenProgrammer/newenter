@@ -98,7 +98,7 @@ table.user-details input[type="checkbox"] , table.user-details input[type="radio
 td.key{padding:0 6px; width: 150px;}
 .cart-view h1{font-size:20px;margin:0;padding:0 0 10px;}
 .cart-view h2{font-size:12px;margin:0;padding:0;}
-.checkout-button-top{text-align:right;border-top:solid #E9E8E8 1px;padding:10px 0 0;}
+.checkout-button-top{text-align:center;border-top:solid #E9E8E8 1px;padding:10px 0 0;}
 .checkout-button-top input.terms-of-service{margin-right:10px;display:inline-block;}
 span.tos{display:inline-block;margin-right:15px;}
 .billto-shipto{border-top:solid #E9E8E8 1px;border-bottom:solid #E9E8E8 1px;margin:10px 0 0;padding:10px 0 25px;}

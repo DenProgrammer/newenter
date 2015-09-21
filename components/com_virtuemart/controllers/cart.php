@@ -246,7 +246,6 @@ class VirtueMartControllerCart extends JControllerLegacy
 
             $virtuemart_product_ids = vRequest::getInt('virtuemart_product_id');
 
-            $view     = $this->getView('cart', 'json');
             $errorMsg = 0; //vmText::_('COM_VIRTUEMART_CART_PRODUCT_ADDED');
 
             $products = $cart->add($virtuemart_product_ids, $errorMsg);
@@ -380,6 +379,27 @@ class VirtueMartControllerCart extends JControllerLegacy
         /* Load the cart helper */
         $cart      = VirtueMartCart::getCart();
         if ($cart->removeProductCart()) {
+            $mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_REMOVED_SUCCESSFULLY'));
+        } else {
+            $mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_NOT_REMOVED_SUCCESSFULLY'), 'error');
+        }
+
+        $this->display();
+        //$mainframe->redirect(JRoute::_('index.php?option=com_virtuemart&view=cart', FALSE));
+    }
+
+    /**
+     * Delete a product from the cart
+     *
+     * @author RolandD
+     * @access public
+     */
+    public function deleteAll()
+    {
+        $mainframe = JFactory::getApplication();
+        /* Load the cart helper */
+        $cart      = VirtueMartCart::getCart();
+        if ($cart->removeAllProductCart()) {
             $mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_REMOVED_SUCCESSFULLY'));
         } else {
             $mainframe->enqueueMessage(vmText::_('COM_VIRTUEMART_PRODUCT_NOT_REMOVED_SUCCESSFULLY'), 'error');
