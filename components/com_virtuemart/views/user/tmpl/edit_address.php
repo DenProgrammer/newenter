@@ -83,10 +83,6 @@ $this->vmValidator();
         }
 
         echo $this->loadTemplate('userfields');
-
-        if ($this->userDetails->JUser->get('id')) {
-            echo $this->loadTemplate('addshipto');
-        }
         ?>
         <input type="hidden" name="option" value="com_virtuemart"/>
         <input type="hidden" name="view" value="user"/>

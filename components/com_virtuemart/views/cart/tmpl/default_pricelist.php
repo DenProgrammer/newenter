@@ -20,7 +20,7 @@
 
         foreach ($this->cart->products as $pkey => $prow) {
             ?>
-            <tr valign="top" class="sectiontableentry<?php echo $i ?>">
+            <tr valign="top" class="sectiontableentry sectiontableentry<?php echo $i ?>">
                 <td align="left">
                     <?php if ($prow->virtuemart_media_id) { ?>
                         <span class="cart-images">
@@ -91,16 +91,19 @@
         }
         ?>
 
-        <tr>
-            <td colspan="4">&nbsp;</td>
-            <td colspan="<?php echo $colspan ?>">
-                <hr/>
-            </td>
-        </tr>
         <tr class="sectiontableentry2">
             <td colspan="4" align="right"><?php echo vmText::_('COM_VIRTUEMART_CART_TOTAL') ?>:</td>
 
-            <td align="right"><strong><?php echo $this->currencyDisplay->createPriceDiv('billTotal', '', $this->cart->cartPrices['billTotal'], FALSE); ?></strong></td>
+            <td align="right">
+                <strong>
+                    <?php
+                    echo round($this->currency->roundForDisplay($this->cart->cartPrices['billTotal'], 165, 1, 0)) . ' ';
+                    echo JText::_('COM_VIRTUEMART_CURRENCY_KGS');
+                    echo ' / ';
+                    echo round($this->cart->cartPrices['billTotal'], 2), ' $';
+                    ?>
+                </strong>
+            </td>
         </tr>
         <?php
         if ($this->totalInPaymentCurrency) {

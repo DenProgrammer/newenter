@@ -30,14 +30,16 @@ if (!class_exists('VmModel'))
  * WHY $this->db is never used in the model ?
  * @package VirtueMart
  */
-class VirtueMartModelOrders extends VmModel {
+class VirtueMartModelOrders extends VmModel
+{
 
     /**
      * constructs a VmModel
      * setMainTable defines the maintable of the model
      * @author Max Milbers
      */
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $this->setMainTable('orders');
         $this->addvalidOrderingFieldName(array('order_name', 'order_email', 'payment_method', 'virtuemart_order_id'));
@@ -47,7 +49,8 @@ class VirtueMartModelOrders extends VmModel {
      * This function gets the orderId, for anonymous users
      * @author Max Milbers
      */
-    public function getOrderIdByOrderPass($orderNumber, $orderPass) {
+    public function getOrderIdByOrderPass($orderNumber, $orderPass)
+    {
 
         $db      = JFactory::getDBO();
         $q       = 'SELECT `virtuemart_order_id` FROM `#__virtuemart_orders` WHERE `order_pass`="' . $db->escape($orderPass) . '" AND `order_number`="' . $db->escape($orderNumber) . '"';
@@ -62,7 +65,8 @@ class VirtueMartModelOrders extends VmModel {
      * This function gets the orderId, for payment response
      * author Valerie Isaksen
      */
-    public static function getOrderIdByOrderNumber($orderNumber) {
+    public static function getOrderIdByOrderNumber($orderNumber)
+    {
 
         $db      = JFactory::getDBO();
         $q       = 'SELECT `virtuemart_order_id` FROM `#__virtuemart_orders` WHERE `order_number`="' . $db->escape($orderNumber) . '"';
@@ -76,7 +80,8 @@ class VirtueMartModelOrders extends VmModel {
      * This function gets the secured order Number, to send with paiement
      *
      */
-    public function getOrderNumber($virtuemart_order_id) {
+    public function getOrderNumber($virtuemart_order_id)
+    {
 
         $db          = JFactory::getDBO();
         $q           = 'SELECT `order_number` FROM `#__virtuemart_orders` WHERE virtuemart_order_id="' . (int) $virtuemart_order_id . '"  ';
@@ -91,7 +96,8 @@ class VirtueMartModelOrders extends VmModel {
      * get next/previous order id
      *
      */
-    public function getOrderId($order_id, $direction = 'DESC') {
+    public function getOrderId($order_id, $direction = 'DESC')
+    {
 
         if ($direction == 'ASC') {
             $arrow = '>';
@@ -118,7 +124,8 @@ class VirtueMartModelOrders extends VmModel {
      *
      * @return array
      */
-    public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false) {
+    public function getMyOrderDetails($orderID = 0, $orderNumber = false, $orderPass = false)
+    {
 
         $_currentUser = JFactory::getUser();
         $cuid         = $_currentUser->get('id');
@@ -166,7 +173,8 @@ class VirtueMartModelOrders extends VmModel {
      * Load a single order, Attention, this function is not protected! Do the right manangment before, to be certain
      * we suggest to use getMyOrderDetails
      */
-    public function getOrder($virtuemart_order_id) {
+    public function getOrder($virtuemart_order_id)
+    {
 
         //sanitize id
         $virtuemart_order_id = (int) $virtuemart_order_id;
@@ -260,7 +268,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param $uid integer Optional user ID to get the orders of a single user
      * @param $_ignorePagination boolean If true, ignore the Joomla pagination (for embedded use, default false)
      */
-    public function getOrdersList($uid = 0, $noLimit = false) {
+    public function getOrdersList($uid = 0, $noLimit = false)
+    {
 // 		vmdebug('getOrdersList');
         $this->_noLimit = $noLimit;
         $select         = " o.*, CONCAT_WS(' ',u.first_name,u.middle_name,u.last_name) AS order_name "
@@ -345,7 +354,8 @@ class VirtueMartModelOrders extends VmModel {
     /**
      * List of tables to include for the product query
      */
-    private function getOrdersListQuery() {
+    private function getOrdersListQuery()
+    {
         return ' FROM #__virtuemart_orders as o
 			LEFT JOIN #__virtuemart_order_userinfos as u
 			ON u.virtuemart_order_id = o.virtuemart_order_id AND u.address_type="BT"
@@ -359,7 +369,8 @@ class VirtueMartModelOrders extends VmModel {
      * @author Ondřej Spilka - used for item edit also
      * @author Maik Künnemann
      */
-    public function updateSingleItem($virtuemart_order_item_id, &$orderdata, $orderUpdate = false) {
+    public function updateSingleItem($virtuemart_order_item_id, &$orderdata, $orderUpdate = false)
+    {
         //vmdebug('updateSingleItem',$virtuemart_order_item_id,$orderdata);
         $table          = $this->getTable('order_items');
         $table->load($virtuemart_order_item_id);
@@ -413,6 +424,7 @@ class VirtueMartModelOrders extends VmModel {
 
                 if (empty($data['product_subtotal_discount']))
                     $data['product_subtotal_discount'] = 0.0; // "",null,0,NULL, FALSE => 0.0
+
 
 
 
@@ -581,7 +593,8 @@ class VirtueMartModelOrders extends VmModel {
      */
     var $useDefaultEmailOrderStatus = true;
 
-    public function updateOrderStatus($orders = 0, $order_id = 0, $order_status = 0) {
+    public function updateOrderStatus($orders = 0, $order_id = 0, $order_status = 0)
+    {
 
         //General change of orderstatus
         $total = 1;
@@ -635,7 +648,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param bool $useTriggers
      * @return bool
      */
-    function updateStatusForOneOrder($virtuemart_order_id, $inputOrder, $useTriggers = true) {
+    function updateStatusForOneOrder($virtuemart_order_id, $inputOrder, $useTriggers = true)
+    {
 
 // 		vmdebug('updateStatusForOneOrder', $inputOrder);
         /* Update the order */
@@ -773,7 +787,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param object $_cart The cart data
      * @return mixed The new ordernumber, false on errors
      */
-    public function createOrderFromCart($cart) {
+    public function createOrderFromCart($cart)
+    {
 
         if ($cart === null) {
             vmError('createOrderFromCart() called without a cart - that\'s a programming bug', 'Can\'t create order, sorry.');
@@ -812,7 +827,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param array $_prices Price data
      * @return integer The new ordernumber
      */
-    private function _createOrder($_cart, $_usr) {
+    private function _createOrder($_cart, $_usr)
+    {
         $db = JFactory::getDbo();
 
         $_orderData = new stdClass();
@@ -822,6 +838,7 @@ class VirtueMartModelOrders extends VmModel {
         $_orderData->virtuemart_vendor_id     = $_cart->vendorId;
         $_orderData->customer_number          = $_cart->customer_number;
         $_prices                              = $_cart->cartPrices;
+        $_orderData->note                     = $_cart->note;
         //Note as long we do not have an extra table only storing addresses, the virtuemart_userinfo_id is not needed.
         //The virtuemart_userinfo_id is just the id of a stored address and is only necessary in the user maintance view or for choosing addresses.
         //the saved order should be an snapshot with plain data written in it.
@@ -923,7 +940,7 @@ class VirtueMartModelOrders extends VmModel {
         JPluginHelper::importPlugin('vmshopper');
         $dispatcher = JDispatcher::getInstance();
         $plg_datas  = $dispatcher->trigger('plgVmOnUserOrder', array(&$_orderData));
-        
+
         if (empty($_orderData->order_number)) {
             $_orderData->order_number = $this->generateOrderNumber($_usr->get('id'), 4, $_orderData->virtuemart_vendor_id);
         }
@@ -961,7 +978,8 @@ class VirtueMartModelOrders extends VmModel {
         return $orderTable->virtuemart_order_id;
     }
 
-    private function getVendorCurrencyId($vendorId) {
+    private function getVendorCurrencyId($vendorId)
+    {
         $q              = 'SELECT `vendor_currency` FROM `#__virtuemart_vendors` WHERE `virtuemart_vendor_id`="' . $vendorId . '" ';
         $db             = JFactory::getDBO();
         $db->setQuery($q);
@@ -970,7 +988,8 @@ class VirtueMartModelOrders extends VmModel {
 // 		return $this->getCurrencyIsoCode($vendorCurrency);
     }
 
-    private function getCurrencyIsoCode($vmCode) {
+    private function getCurrencyIsoCode($vmCode)
+    {
         $q  = 'SELECT `currency_numeric_code` FROM  `#__virtuemart_currencies` WHERE `virtuemart_currency_id`="' . $vmCode . '" ';
         $db = JFactory::getDBO();
         $db->setQuery($q);
@@ -986,7 +1005,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param object $_cart Cart object
      * @return boolean True on success
      */
-    private function _writeUserInfo($_id, &$_usr, $_cart) {
+    private function _writeUserInfo($_id, &$_usr, $_cart)
+    {
         $_userInfoData = array();
 
         if (!class_exists('VirtueMartModelUserfields'))
@@ -1071,7 +1091,8 @@ class VirtueMartModelOrders extends VmModel {
         return true;
     }
 
-    function handleStockAfterStatusChangedPerProduct($newState, $oldState, $tableOrderItems, $quantity) {
+    function handleStockAfterStatusChangedPerProduct($newState, $oldState, $tableOrderItems, $quantity)
+    {
 
         if ($newState == $oldState)
             return;
@@ -1195,7 +1216,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param object $_cart array The cart data
      * @return boolean True on success
      */
-    private function _createOrderLines($virtuemart_order_id, $cart) {
+    private function _createOrderLines($virtuemart_order_id, $cart)
+    {
         $_orderItems = $this->getTable('order_items');
 
         foreach ($cart->products as $priceKey => $product) {
@@ -1250,7 +1272,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param object $_cart array The cart data
      * @return boolean True on success
      */
-    private function _createOrderCalcRules($order_id, $_cart) {
+    private function _createOrderCalcRules($order_id, $_cart)
+    {
 
         $productKeys = array_keys($_cart->products);
 
@@ -1409,7 +1432,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param $_notified 1 (default) if the customer was notified, 0 otherwise
      * @param $_comment (Customer) comment, default empty
      */
-    public function _updateOrderHist($_id, $_status = 'P', $_notified = 0, $_comment = '') {
+    public function _updateOrderHist($_id, $_status = 'P', $_notified = 0, $_comment = '')
+    {
         $_orderHist                      = $this->getTable('order_histories');
         $_orderHist->virtuemart_order_id = $_id;
         $_orderHist->order_status_code   = $_status;
@@ -1428,7 +1452,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param $_notified 1 (default) if the customer was notified, 0 otherwise
      * @param $_comment (Customer) comment, default empty
      */
-    private function _updateOrderItemHist($_id, $status = 'P', $notified = 1, $comment = '') {
+    private function _updateOrderItemHist($_id, $status = 'P', $notified = 1, $comment = '')
+    {
         $_orderHist                           = $this->getTable('order_item_histories');
         $_orderHist->virtuemart_order_item_id = $_id;
         $_orderHist->order_status_code        = $status;
@@ -1445,7 +1470,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param integer $uid The user ID. Defaults to 0 for guests
      * @return string A unique ordernumber
      */
-    static public function generateOrderNumber($uid = 0, $length = 10, $virtuemart_vendor_id = 1) {
+    static public function generateOrderNumber($uid = 0, $length = 10, $virtuemart_vendor_id = 1)
+    {
 
         $db = JFactory::getDBO();
 
@@ -1470,7 +1496,8 @@ class VirtueMartModelOrders extends VmModel {
      * returns false if an invoice number has not been created  due to some configuration parameters
      */
 
-    function createInvoiceNumber($orderDetails, &$invoiceNumber) {
+    function createInvoiceNumber($orderDetails, &$invoiceNumber)
+    {
 
         $orderDetails = (array) $orderDetails;
         $db           = JFactory::getDBO();
@@ -1544,7 +1571,8 @@ class VirtueMartModelOrders extends VmModel {
      * @author Valérie Isaksen
      */
 
-    function getInvoiceNumber($virtuemart_order_id) {
+    function getInvoiceNumber($virtuemart_order_id)
+    {
 
         $db = JFactory::getDBO();
         $q  = 'SELECT `invoice_number` FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "' . $virtuemart_order_id . '" ';
@@ -1558,7 +1586,8 @@ class VirtueMartModelOrders extends VmModel {
      * @author Christopher Roussel, Valérie Isaksen, Max Milbers
      *
      */
-    public function notifyCustomer($virtuemart_order_id, $newOrderData = 0) {
+    public function notifyCustomer($virtuemart_order_id, $newOrderData = 0)
+    {
 
 // 		vmdebug('notifyCustomer', $newOrderData);
         if (isset($newOrderData['customer_notified']) && $newOrderData['customer_notified'] == 0) {
@@ -1661,7 +1690,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param string $orderLineId Order line item number
      * @return object Object containing the order item details.
      */
-    function getOrderLineDetails($orderId, $orderLineId) {
+    function getOrderLineDetails($orderId, $orderLineId)
+    {
         $table = $this->getTable('order_items');
         if ($table->load((int) $orderLineId)) {
             return $table;
@@ -1678,7 +1708,8 @@ class VirtueMartModelOrders extends VmModel {
      * @author RickG
      * @return boolean True of remove was successful, false otherwise
      */
-    function saveOrderLineItem($data) {
+    function saveOrderLineItem($data)
+    {
         $table = $this->getTable('order_items');
 
         //Done in the table already
@@ -1718,7 +1749,8 @@ class VirtueMartModelOrders extends VmModel {
      * @var $virtuemart_order_id Order to clear
      */
 
-    function removeOrderItems($virtuemart_order_id) {
+    function removeOrderItems($virtuemart_order_id)
+    {
         $q  = 'DELETE from `#__virtuemart_order_items` WHERE `virtuemart_order_id` = ' . (int) $virtuemart_order_id;
         $db = JFactory::getDBO();
         $db->setQuery($q);
@@ -1737,7 +1769,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param string $orderLineId Order line item number
      * @return boolean True of remove was successful, false otherwise
      */
-    function removeOrderLineItem($orderLineId) {
+    function removeOrderLineItem($orderLineId)
+    {
 
         $item = $this->getTable('order_items');
         if (!$item->load($orderLineId)) {
@@ -1761,7 +1794,8 @@ class VirtueMartModelOrders extends VmModel {
      * @author Patrick Kohl
      * @return boolean True is the delete was successful, false otherwise.
      */
-    public function remove($ids) {
+    public function remove($ids)
+    {
 
         $table = $this->getTable($this->_maintablename);
 
@@ -1797,7 +1831,8 @@ class VirtueMartModelOrders extends VmModel {
      * @author Maik Künnemann
      * @return boolean True is the update was successful, otherwise false.
      */
-    public function UpdateOrderHead($virtuemart_order_id, $_orderData) {
+    public function UpdateOrderHead($virtuemart_order_id, $_orderData)
+    {
 
         $orderTable = $this->getTable('orders');
         $orderTable->load($virtuemart_order_id);
@@ -1938,7 +1973,8 @@ class VirtueMartModelOrders extends VmModel {
      * @author Ondřej Spilka
      * @return ID of the newly created order
      */
-    public function CreateOrderHead() {
+    public function CreateOrderHead()
+    {
         // TODO 
         // multivendor
         //usrid
@@ -2015,7 +2051,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param $order_id Id of the order
      * @return boolean true if deleted successful, false if there was a problem
      */
-    function renameInvoice($order_id) {
+    function renameInvoice($order_id)
+    {
         $db = JFactory::getDBO();
 
         $q = 'SELECT * FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "' . $order_id . '" ';
@@ -2058,7 +2095,8 @@ class VirtueMartModelOrders extends VmModel {
      * @param $order_id Id of the order
      * @return boolean true if deleted successful, false if there was a problem
      */
-    function deleteInvoice($order_id) {
+    function deleteInvoice($order_id)
+    {
         $db = JFactory::getDBO();
 
         $q = 'SELECT * FROM `#__virtuemart_invoices` WHERE `virtuemart_order_id`= "' . $order_id . '" ';

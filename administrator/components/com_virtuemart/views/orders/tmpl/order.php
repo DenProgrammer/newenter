@@ -183,6 +183,10 @@ vmJsApi::addJScript( 'orderedit',"
 				<td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_IPADDRESS') ?></strong></td>
 				<td><?php echo $this->orderbt->ip_address; ?></td>
 			</tr>
+			<tr>
+				<td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_CUSTOMER_NOTE') ?></strong></td>
+				<td><?php echo $this->orderbt->note; ?></td>
+			</tr>
 			<?php
 			if ($this->orderbt->coupon_code) { ?>
 			<tr>

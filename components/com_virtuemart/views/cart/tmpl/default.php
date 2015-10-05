@@ -80,10 +80,11 @@ vmJsApi::addJScript('vm.checkoutFormSubmit', '
     echo shopFunctionsF::getLoginForm($this->cart, FALSE);
 
     // This displays the form to change the current shopper
-    $adminID = JFactory::getSession()->get('vmAdminID');
-    if ((JFactory::getUser()->authorise('core.admin', 'com_virtuemart') || JFactory::getUser($adminID)->authorise('core.admin', 'com_virtuemart')) && (VmConfig::get('oncheckout_change_shopper', 0))) {
-        echo $this->loadTemplate('shopperform');
-    }
+//    $adminID = JFactory::getSession()->get('vmAdminID');
+//    var_dump($adminID);
+//    if ((JFactory::getUser()->authorise('core.admin', 'com_virtuemart') || JFactory::getUser($adminID)->authorise('core.admin', 'com_virtuemart')) && (VmConfig::get('oncheckout_change_shopper', 0))) {
+//        echo $this->loadTemplate('shopperform');
+//    }
 
     $taskRoute = '';
     ?><form method="post" id="checkoutForm" name="checkoutForm" action="<?php echo JRoute::_('index.php?option=com_virtuemart&view=cart' . $taskRoute, $this->useXHTML, $this->useSSL); ?>">
@@ -113,6 +114,12 @@ vmJsApi::addJScript('vm.checkoutFormSubmit', '
 
         echo $this->loadTemplate('cartfields');
         ?> 
+        <?php if ($this->show_note) { ?>
+            <div class="order-note">
+                <label for="note">При желании, Вы можете оставить комментарий к заказу:</label><br />
+                <textarea name="note"></textarea>
+            </div>
+        <?php } ?>
         <div>
             <div class="checkout-button-top"> 
                 <?php echo $this->continue_link_html; ?>

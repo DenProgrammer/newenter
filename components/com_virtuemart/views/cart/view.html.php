@@ -22,8 +22,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if (!class_exists('VmView'))
+if (!class_exists('VmView')){
     require(VMPATH_SITE . DS . 'helpers' . DS . 'vmview.php');
+}
 
 /**
  * View for the shopping cart
@@ -39,6 +40,8 @@ class VirtueMartViewCart extends VmView
 
         $app = JFactory::getApplication();
 
+        $this->show_note = false;
+
         $this->prepareContinueLink();
         if (VmConfig::get('use_as_catalog', 0)) {
             vmInfo('This is a catalogue, you cannot access the cart');
@@ -51,16 +54,16 @@ class VirtueMartViewCart extends VmView
 
         $layoutName = $this->getLayout();
 
-        if (!$layoutName){
+        if (!$layoutName) {
             $layoutName = vRequest::getCmd('layout', 'default');
         }
         $this->assignRef('layoutName', $layoutName);
-        $format     = vRequest::getCmd('format');
+        $format = vRequest::getCmd('format');
 
-        if (!class_exists('VirtueMartCart')){
+        if (!class_exists('VirtueMartCart')) {
             require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
         }
-        
+
         $this->cart = VirtueMartCart::getCart();
         //$this->assignRef('cart', $cart);
 
@@ -151,6 +154,7 @@ class VirtueMartViewCart extends VmView
                     $document->setTitle(vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU'));
                     $text                = vmText::_('COM_VIRTUEMART_ORDER_CONFIRM_MNU');
                     $this->checkout_task = 'confirm';
+                    $this->show_note     = true;
                 }
             } else {
                 $pathway->addItem(vmText::_('COM_VIRTUEMART_CART_OVERVIEW'));
@@ -159,13 +163,15 @@ class VirtueMartViewCart extends VmView
                 $this->checkout_task = 'checkout';
             }
             $this->checkout_link_html = '<button type="submit"  id="checkoutFormSubmit" name="' . $this->checkout_task . '" value="1" class="vm-button-correct" >'
-                    .  $text 
+                    . $text
                     . '</button>';
 
 
             if (VmConfig::get('oncheckout_opc', 1)) {
-                if (!class_exists('vmPSPlugin'))
+                if (!class_exists('vmPSPlugin')){
                     require(JPATH_VM_PLUGINS . DS . 'vmpsplugin.php');
+                }
+                
                 JPluginHelper::importPlugin('vmshipment');
                 JPluginHelper::importPlugin('vmpayment');
                 $this->lSelectShipment();
@@ -214,8 +220,10 @@ class VirtueMartViewCart extends VmView
         //We never want that the cart is indexed
         $document->setMetaData('robots', 'NOINDEX, NOFOLLOW, NOARCHIVE, NOSNIPPET');
 
-        if ($this->cart->_inConfirm)
+        if ($this->cart->_inConfirm){
             vmInfo('COM_VIRTUEMART_IN_CONFIRM');
+        }
+        
         if ($this->cart->layoutPath) {
             $this->addTemplatePath($this->cart->layoutPath);
         }

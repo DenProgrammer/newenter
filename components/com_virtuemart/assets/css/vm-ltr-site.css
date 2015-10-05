@@ -28,7 +28,7 @@ span.custom-variant-inputbox{width:152px;float:left;display:block;margin-bottom:
 input.custom-attribute{width:140px;}
 
 span.quantity-box{display: inline-block; vertical-align:middle;}
-input.quantity-input{display:none; height:2.4em!important;width:2.4em!important;text-align:center;font-weight:700;padding:0.1em;margin-bottom:0!important;}
+input.quantity-input{display:none; height:24px !important;width:24px !important;text-align:center;font-weight:700;padding:0.1em;margin-bottom:0!important;}
 span.quantity-controls{width:15px;display: inline-block;vertical-align:middle;margin:0 0 0 1px;display: none;}
 span.quantity-controls input.quantity-controls{height:15px;border:none;width:15px;cursor:pointer;}
 span.quantity-controls input.quantity-plus{background:url(../images/vmgeneral/quantity-controls.png) no-repeat;margin: 1px 0;}

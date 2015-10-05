@@ -1092,3 +1092,24 @@ div.danger div.vm_cart_products{
     margin-left: 10px;
     vertical-align: top;
 }
+
+table.cart-summary tr.sectiontableentry td{
+    border-bottom: dashed 1px #999;
+}
+table.cart-summary tr.sectiontableentry:last-child td{
+    border-bottom: none;
+}
+
+div.order-note{
+    margin: 10px;
+    text-align: center
+}
+
+div.order-note textarea{
+    width: 80%;
+    height: 100px;
+}
+div.order-note label{
+    color: red;
+    height: 100px;
+}

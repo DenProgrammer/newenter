@@ -121,6 +121,8 @@ class VirtueMartControllerCart extends JControllerLegacy
 
         $cart = VirtueMartCart::getCart();
 
+        $cart->note = JRequest::getVar('note');
+
         $cart->_fromCart   = true;
         $cart->_redirected = false;
         if (vRequest::get('cancel', 0)) {
@@ -136,10 +138,10 @@ class VirtueMartControllerCart extends JControllerLegacy
         if (!empty($coupon_code)) {
             $cart->prepareCartData();
             $msg = $cart->setCouponCode($coupon_code);
-            if ($msg)
+            if ($msg) {
                 vmInfo($msg);
+            }
         }
-
 
         $cart->selected_shipto = vRequest::getVar('shipto', -1);
         if (empty($cart->selected_shipto) or $cart->selected_shipto < 1) {

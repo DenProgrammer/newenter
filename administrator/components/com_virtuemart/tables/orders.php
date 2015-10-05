@@ -94,6 +94,7 @@ class TableOrders extends VmTableData {
 	var $nrt = 0;
 	var $exchange_usd = 0;
 	var $delivery = 0;
+	var $note = 0;
 
 
 	/**
