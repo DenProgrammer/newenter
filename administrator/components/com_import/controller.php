@@ -2,7 +2,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-class ImportController {
+class ImportController
+{
 
     var $file_directory           = '';
     var $file_directory_arhiv     = '';
@@ -40,14 +41,14 @@ class ImportController {
             $this->debbuger = 1;
         }
 
-        $this->file_directory       = $config->file_directory . '/';
-        $this->file_directory_arhiv = $config->file_directory_arhiv . '/';
+        $this->file_directory       = $config->file_directory.'/';
+        $this->file_directory_arhiv = $config->file_directory_arhiv.'/';
         $this->movefile             = $config->move_file;
         $this->show_error           = $config->show_error;
 
-        if (file_exists(($this->file_directory) . $file)) {
+        if (file_exists(($this->file_directory).$file)) {
             $this->file     = trim($file);
-            $this->filepath = ($this->file_directory) . trim($file);
+            $this->filepath = ($this->file_directory).trim($file);
         }
         $this->access = true;
     }
@@ -107,7 +108,7 @@ class ImportController {
             return 0;
         }
 
-        $sql = 'SELECT * FROM `#__import_xref` WHERE `sum`>=' . $summa . ' ORDER BY `sum` LIMIT 1';
+        $sql = 'SELECT * FROM `#__import_xref` WHERE `sum`>='.$summa.' ORDER BY `sum` LIMIT 1';
         $db->setQuery($sql);
         $row = $db->LoadObject();
         if ($row) {
@@ -146,9 +147,9 @@ class ImportController {
         if ($s) {
             $s = (float) str_replace(',', '.', $s);
 
-            $sql = 'SELECT * FROM `#__import_xref` WHERE `sum`>=' . $s . ' ORDER BY `sum` LIMIT 1';
+            $sql = 'SELECT * FROM `#__import_xref` WHERE `sum`>='.$s.' ORDER BY `sum` LIMIT 1';
             if ($this->debbuger == 1) {
-                echo $sql . '<br><br>';
+                echo $sql.'<br><br>';
             }
 
             $db->setQuery($sql);
@@ -174,7 +175,7 @@ class ImportController {
                     }
             }
             if ($this->debbuger == 1) {
-                echo $summa . '<br>';
+                echo $summa.'<br>';
             }
 
             if ($summa == 0) {
@@ -234,11 +235,14 @@ class ImportController {
     {
         $excel = PHPExcel_IOFactory::load($this->filepath);
 
-        $data = array();
+        $data  = array();
         foreach ($excel->getWorksheetIterator() as $worksheet) {
             $highestRow         = $worksheet->getHighestRow() + 1;
             $highestColumn      = $worksheet->getHighestColumn();
             $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
+
+
+
             for ($row = 1; $row <= $highestRow; ++$row) {
                 if ($clear_line > $row) {
                     continue;
@@ -246,7 +250,7 @@ class ImportController {
                 $arr = array();
                 for ($col = 0; $col < $highestColumnIndex; ++$col) {
                     $cell  = $worksheet->getCellByColumnAndRow($col, $row);
-                    $arr[] = trim(str_replace(array(chr(194) . chr(160)), ' ', $cell->getValue()));
+                    $arr[] = trim(str_replace(array(chr(194).chr(160)), ' ', $cell->getValue()));
                 }
 
                 if ($arr[$options->position_product_name] && $arr[$options->position_product_price] > 0) {
@@ -258,22 +262,22 @@ class ImportController {
                 }
             }
         }
+        
 
         return $data;
     }
 
-    //parsing csv files for update sklads
+//parsing csv files for update sklads
     function parceCSV()
     {
         $start  = microtime(1);
-//        echo round(microtime(1) - $start, 2) . '<br>';
         $offset = JRequest::getInt('offset');
 
         $markup_fix_value = JRequest::getVar('markup_fix_value');
 
-        //get options from current price
+//get options from current price
         $options                 = getOptionsPrice($this->price_type);
-//        echo round(microtime(1) - $start, 2) . '<br>';
+
         $sklad                   = $options->sklad_name;
         $position_product_name   = $options->position_product_name;
         $position_product_price  = $options->position_product_price;
@@ -286,7 +290,6 @@ class ImportController {
         if (($sklad) and ( $offset == 0)) {
             unpublishSklad($sklad);
         }
-//        echo round(microtime(1) - $start, 2) . '<br>';
 
         $db = JFactory::getDbo();
 
@@ -298,18 +301,8 @@ class ImportController {
             $productHash[$item->hash] = $item->virtuemart_product_id;
         }
 
-//        echo round(microtime(1) - $start, 2) . '<br>';
-
         if ((file_exists($this->filepath)) and ( trim($this->file) != '')) {
             $data = $this->readFile($options, $clear_line);
-            echo mb_detect_encoding(current($data)['product_name']) . "<br>\n";
-            echo current($data)['product_name'] . "<br>\n";
-            echo iconv('cp1251', 'utf-8',current($data)['product_name']) . "<br>\n";
-//            echo decode_utf8(current($data)['product_name']) . "<br>\n";
-            echo '<pre>';
-            print_r($data);
-            exit;
-//            echo round(microtime(1) - $start, 2) . '<br>';
 
             $newProduct    = 0;
             $updateProduct = 0;
@@ -338,25 +331,24 @@ class ImportController {
                 $category_id = getCategoryById($product_id);
 
                 $data = $this->getProductTemplate(
-                        $product_id, time() . rand(1000, 9999), $product_name, $product_price, $category_id, $product_desc, $hash, $currency
+                        $product_id, time().rand(1000, 9999), $product_name, $product_price, $category_id, $product_desc, $hash, $currency
                 );
 
                 vRequest::setVar(JSession::getFormToken(), 1);
                 $model = VmModel::getModel('product');
                 $id    = $model->store($data);
                 if (!$id > 0) {
-//    echo '<pre>';print_r($data);exit;
+
                     $errors++;
                     continue;
                 }
-                $this->setProductSku($id, $sklad . $id);
+                $this->setProductSku($id, $sklad.$id);
                 if ($product_id == 0) {
                     $newProduct++;
                 } else {
                     $updateProduct++;
                 }
             }
-//            echo round(microtime(1) - $start, 2) . '<br>';
         }
 
         $data = array(
@@ -379,7 +371,7 @@ class ImportController {
 
         $arhiv = $this->file_directory_arhiv;
         if (file_exists($arhiv)) {
-            $catalog = $arhiv . 'import_arhiv_' . date("Y");
+            $catalog = $arhiv.'import_arhiv_'.date("Y");
             if (!((file_exists($catalog)) and ( is_dir($catalog)))) {
                 mkdir($catalog);
             }
@@ -392,8 +384,8 @@ class ImportController {
     {
         $db = JFactory::getDbo();
         $db->setQuery("UPDATE #__virtuemart_products "
-                . "SET product_sku = '$product_sku' "
-                . "WHERE virtuemart_product_id = $product_id");
+                ."SET product_sku = '$product_sku' "
+                ."WHERE virtuemart_product_id = $product_id");
         $db->execute();
     }
 
@@ -416,8 +408,8 @@ class ImportController {
 
         if ($product_id > 0) {
             $sql = 'SELECT virtuemart_product_price_id '
-                    . 'FROM #__virtuemart_product_prices '
-                    . 'WHERE product_currency = 202 AND virtuemart_product_id = ' . $product_id;
+                    .'FROM #__virtuemart_product_prices '
+                    .'WHERE product_currency = 202 AND virtuemart_product_id = '.$product_id;
             $db->setQuery($sql);
 
             $virtuemart_product_price_id = $db->loadResult();
@@ -499,5 +491,4 @@ class ImportController {
 
         return $product;
     }
-
 }

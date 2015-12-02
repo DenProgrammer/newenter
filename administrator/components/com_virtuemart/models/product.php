@@ -300,6 +300,7 @@ class VirtueMartModelProduct extends VmModel {
         if ($virtuemart_category_id > 0 && (!isset($advanced_search) || count($advanced_search) == 0)) {
             $joinCategory = TRUE;
             $where[]      = ' `pc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
+            $where[]      = ' `cc`.`virtuemart_category_id` = ' . $virtuemart_category_id;
         } else if ($isSite and !VmConfig::get('show_uncat_child_products', TRUE)) {
             $joinCategory = TRUE;
             $where[]      = ' `pc`.`virtuemart_category_id` > 0 ';
@@ -447,7 +448,7 @@ class VirtueMartModelProduct extends VmModel {
         }
 
         if (!empty($onlyPublished) and $isSite) {
-            $where[] = ' p.`published`="1" ';
+            $where[] = ' p.`published`="1" AND cc.`published`="1" ';
         }
         if (!empty($this->virtuemart_vendor_id)) {
             $where[] = ' p.`virtuemart_vendor_id` = "' . $this->virtuemart_vendor_id . '" ';
@@ -533,6 +534,7 @@ class VirtueMartModelProduct extends VmModel {
             $joinedTables[] = ' LEFT JOIN `#__virtuemart_product_categories` as pc ON p.`virtuemart_product_id` = `pc`.`virtuemart_product_id` ';
             if ($joinCatLang) {
                 $joinedTables[] = ' LEFT JOIN `#__virtuemart_categories_' . VmConfig::$vmlang . '` as c ON c.`virtuemart_category_id` = `pc`.`virtuemart_category_id`';
+                $joinedTables[] = ' LEFT JOIN `#__virtuemart_categories` as cc ON cc.`virtuemart_category_id` = `pc`.`virtuemart_category_id`';
             }
         }
 
