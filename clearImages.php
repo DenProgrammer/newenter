@@ -40,15 +40,44 @@ $query = " SELECT * FROM #__virtuemart_medias";
 $db->setQuery($query);
 
 $medias = $db->loadObjectList();
+$count  = 0;
 
-foreach ($medias as $media){
-    if (!file_exists($media->file_url)){
-        echo $media->file_url.' - file not found<br>';
-        $query = 'DELETE FROM #__virtuemart_medias WHERE virtuemart_media_id = '.$media->virtuemart_media_id;
-        $db->setQuery($query);
-        $db->execute();
-        $query = 'DELETE FROM #__virtuemart_product_medias WHERE virtuemart_media_id = '.$media->virtuemart_media_id;
-        $db->setQuery($query);
-        $db->execute();
+$ids = array();
+foreach ($medias as $media) {
+    if (!file_exists($media->file_url)) {
+        echo $media->file_url . " - file not found<br>\n";
+        $ids[] = $media->virtuemart_media_id;
+//        $query = 'DELETE FROM #__virtuemart_medias WHERE virtuemart_media_id = ' . $media->virtuemart_media_id;
+//        $db->setQuery($query);
+//        $db->execute();
+//        $query = 'DELETE FROM #__virtuemart_product_medias WHERE virtuemart_media_id = ' . $media->virtuemart_media_id;
+//        $db->setQuery($query);
+//        $db->execute();
+
+        if (ciont($ids) > 1000) {echo "deleted 1000 images<br>\n";
+            $query = 'DELETE FROM #__virtuemart_medias WHERE virtuemart_media_id in (' . implode(',', $ids) . ')';
+//    echo $query."\n\n\n";
+//            $db->setQuery($query);
+//            $db->execute();
+            $query = 'DELETE FROM #__virtuemart_product_medias WHERE virtuemart_media_id (' . implode(',', $ids) . ')';
+//    echo $query."\n\n\n";
+//            $db->setQuery($query);
+//            $db->execute();
+//            $ids   = array();
+        }
+
+        $count++;
     }
 }
+
+if ($count > 0) {
+    $query = 'DELETE FROM #__virtuemart_medias WHERE virtuemart_media_id in (' . implode(',', $ids) . ')';
+//    echo $query."\n\n\n";
+//    $db->setQuery($query);
+//    $db->execute();
+    $query = 'DELETE FROM #__virtuemart_product_medias WHERE virtuemart_media_id (' . implode(',', $ids) . ')';
+//    echo $query."\n\n\n";
+//    $db->setQuery($query);
+//    $db->execute();
+}
+echo "deleted $count images<br>\n";

@@ -2,8 +2,7 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-class ImportController
-{
+class ImportController {
 
     var $file_directory           = '';
     var $file_directory_arhiv     = '';
@@ -56,7 +55,7 @@ class ImportController
     function getExtension2($filename, $exe, $bigexe)
     {
         $path_info = pathinfo($filename);
-        return (($path_info['extension'] == $exe) or ($path_info['extension'] == $bigexe)) ? true : false;
+        return (($path_info['extension'] == $exe) or ( $path_info['extension'] == $bigexe)) ? true : false;
     }
 
     function setVar($varname, $value)
@@ -284,7 +283,7 @@ class ImportController
         $this->checkMetod        = $options->price_name;
         $currency                = $options->currency == 'USD' ? 202 : 165;
 
-        if (($sklad) and ($offset == 0)) {
+        if (($sklad) and ( $offset == 0)) {
             unpublishSklad($sklad);
         }
 //        echo round(microtime(1) - $start, 2) . '<br>';
@@ -301,13 +300,21 @@ class ImportController
 
 //        echo round(microtime(1) - $start, 2) . '<br>';
 
-        if ((file_exists($this->filepath)) and (trim($this->file) != '')) {
+        if ((file_exists($this->filepath)) and ( trim($this->file) != '')) {
             $data = $this->readFile($options, $clear_line);
+            echo mb_detect_encoding(current($data)['product_name']) . "<br>\n";
+            echo current($data)['product_name'] . "<br>\n";
+            echo iconv('cp1251', 'utf-8',current($data)['product_name']) . "<br>\n";
+//            echo decode_utf8(current($data)['product_name']) . "<br>\n";
+            echo '<pre>';
+            print_r($data);
+            exit;
 //            echo round(microtime(1) - $start, 2) . '<br>';
 
             $newProduct    = 0;
             $updateProduct = 0;
             $record        = 0;
+            $errors        = 0;
 
             foreach ($data as $item) {
                 $record++;
@@ -331,13 +338,17 @@ class ImportController
                 $category_id = getCategoryById($product_id);
 
                 $data = $this->getProductTemplate(
-                        $product_id, $sklad . $product_name, $product_name, $product_price, $category_id, $product_desc, $hash, $currency
+                        $product_id, time() . rand(1000, 9999), $product_name, $product_price, $category_id, $product_desc, $hash, $currency
                 );
 
                 vRequest::setVar(JSession::getFormToken(), 1);
                 $model = VmModel::getModel('product');
                 $id    = $model->store($data);
-
+                if (!$id > 0) {
+//    echo '<pre>';print_r($data);exit;
+                    $errors++;
+                    continue;
+                }
                 $this->setProductSku($id, $sklad . $id);
                 if ($product_id == 0) {
                     $newProduct++;
@@ -352,6 +363,7 @@ class ImportController
             'count'  => $record,
             'new'    => $newProduct,
             'update' => $updateProduct,
+            'errors' => $errors,
             'time'   => round(microtime(1) - $start, 2),
         );
 
@@ -368,7 +380,7 @@ class ImportController
         $arhiv = $this->file_directory_arhiv;
         if (file_exists($arhiv)) {
             $catalog = $arhiv . 'import_arhiv_' . date("Y");
-            if (!((file_exists($catalog)) and (is_dir($catalog)))) {
+            if (!((file_exists($catalog)) and ( is_dir($catalog)))) {
                 mkdir($catalog);
             }
             $filepath = $this->filepath;

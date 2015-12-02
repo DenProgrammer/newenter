@@ -102,7 +102,7 @@ foreach ($viewData['products'] as $type => $products) {
                                                 <td width='260'>
                                                     <label class="pricelbl">
                                                         Цена: 
-                                                        <?php if ($assemblyProducts[$product->virtuemart_product_id]->product_count > 0) { ?>
+                                                        <?php if ($assemblyProducts[$product->virtuemart_product_id]->product_count > 1) { ?>
                                                             <span><?php echo $assemblyProducts[$product->virtuemart_product_id]->product_count; ?> шт.</span>
                                                         <?php } ?>
                                                     </label>

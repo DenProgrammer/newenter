@@ -65,38 +65,68 @@ $month = date('m',$time);
 $year = date('Y',$time);
 ?>
 
-Получен следующий заказ.<br>
-<br>
-Информация о заказе<br>
-------------------------------------------------------------------------<br>
-Номер заказа: <?php echo $order->virtuemart_order_id; ?><br>
-Дата заказа:   <?php echo $days[$daystr],', ',$day,' ',$months[$month],' ',$year; ?><br>
-<br>
-ФИО:    <?php echo $order->first_name; ?><br>
-Адрес доставки:    <?php echo $order->address_1; ?><br>
-Телефон:    <?php echo $order->phone_1; ?><br>
-IP-адрес:    <?php echo $order->ip_address; ?><br>
-<br>
-Содержание заказа<br>
------------<br>
-<br>
+Получен следующий заказ.
+
+
+
+Информация о заказе
+
+------------------------------------------------------------------------
+
+Номер заказа: <?php echo $order->virtuemart_order_id; ?>
+
+Дата заказа:   <?php echo $days[$daystr],', ',$day,' ',$months[$month],' ',$year; ?>
+
+
+
+ФИО:    <?php echo $order->first_name; ?>
+
+Адрес доставки:    <?php echo $order->address_1; ?>
+
+Телефон:    <?php echo $order->phone_1; ?>
+
+IP-адрес:    <?php echo $order->ip_address; ?>
+
+
+
+Содержание заказа
+
+-----------
+
+
+
 <?php foreach ($items as $item) { ?>
-    Товар&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <?php echo $item->order_item_name; ?> <br>
-    Количество&nbsp;= <?php echo $item->product_quantity; ?><br>
-    Артикул&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <?php echo $item->order_item_sku; ?><br>
-    Цена&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <?php echo round($item->product_item_price * $order->exchange_usd); ?> Сом / <?php echo round($item->product_item_price, 2); ?><br>
-    <br>
+    Товар = <?php echo $item->order_item_name; ?> 
+
+    Количество = <?php echo $item->product_quantity; ?>
+
+    Артикул = <?php echo $item->order_item_sku; ?>
+
+    Цена = <?php echo round($item->product_item_price * $order->exchange_usd); ?> Сом / <?php echo round($item->product_item_price, 2); ?> $
+
+    
+
 <?php } ?>
------------<br>
-Итого    = <?php echo round($order->order_total * $order->exchange_usd); ?> Сом / <?php echo round($order->order_total, 2); ?> $<br>
-<br>
-------------------------------------------------------------------------<br>
-Комментарий покупателя<br>
-<?php echo $order->note; ?> <br>
-------------------------------------------------------------------------<br>
-<br>
-<br>
-Чтобы просмотреть заказ, проследуйте по ссылке ниже.<br>
+-----------
+
+Итого    = <?php echo round($order->order_total * $order->exchange_usd); ?> Сом / <?php echo round($order->order_total, 2); ?> $
+
+
+
+------------------------------------------------------------------------
+
+Комментарий покупателя
+
+<?php echo $order->note; ?> 
+
+------------------------------------------------------------------------
+
+
+
+
+
+Чтобы просмотреть заказ, проследуйте по ссылке ниже.
+
 <?php
 echo vmText::_('COM_VIRTUEMART_MAIL_SHOPPER_YOUR_ORDER_LINK') . ' : ' . JURI::root()
  . 'index.php?option=com_virtuemart&view=orders&layout=details&order_number='

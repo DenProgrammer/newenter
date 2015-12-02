@@ -93,7 +93,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                             <!-- Print view -->
                             <?php
                             /* Print view URL */
-                            $print_url         = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass;
+                            $print_url         = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=raw&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass;
                             $print_link        = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
                             $print_link .= '<span class="hasTip print_32" title="' . vmText::_('COM_VIRTUEMART_PRINT') . '">&nbsp;</span></a>';
                             $invoice_link      = '';

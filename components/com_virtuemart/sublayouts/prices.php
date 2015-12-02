@@ -34,7 +34,7 @@ if ($product->prices['salesPrice'] <= 0 and VmConfig::get('askprice', 1) and iss
     . ' / '
     . round($product->prices['salesPrice'], 2) . ' $';
 
-    if ($prodCount) {
+    if ($prodCount > 1) {
         echo '<br />' . $currency->roundForDisplay($prodCount * $product->prices['salesPrice'], 165, 1, 0, 0) . ' '
         . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
         . ' / '

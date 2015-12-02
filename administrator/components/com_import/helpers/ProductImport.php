@@ -5,6 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+ini_set('display_error', true);
+error_reporting(E_ALL);
 
 class ProductImport {
 
@@ -13,44 +15,37 @@ class ProductImport {
     protected $AC3;
     protected $AC4;
     protected $AC5;
-    protected $limit    = 1000;
+    protected $limit = 1000;
     protected $limitOrd = 100;
     protected $total;
     protected $totalOrd;
-    protected $passw    = 'ofhwoephgepwohg';
-    protected $page     = 'http://enter.kg/exportProducts.php';
-    protected $pageCat  = 'http://enter.kg/exportCategories.php';
-    protected $pageOrd  = 'http://enter.kg/exportOrders.php';
-    protected $media    = 'images/stories/virtuemart/';
-    protected $user     = 436;
-    protected $catId    = null; //array(281, 282);
+    protected $passw = 'ofhwoephgepwohg';
+    protected $page = 'http://enter.kg/exportProducts.php';
+    protected $pageCat = 'http://enter.kg/exportCategories.php';
+    protected $pageOrd = 'http://enter.kg/exportOrders.php';
+    protected $media = 'images/stories/virtuemart/';
+    protected $user = 436;
+    protected $catId = null; //array(281, 282);
     protected $iterator = 0;
 
     /**
      * construct
      */
     public function __construct() {
-        $this->AC1 = new AngryCurl(array($this, 'loadCategoriesCallback'), 1);
-        $this->AC1->init_console();
-
-        $this->AC2 = new AngryCurl(array($this, 'loadTotalCallback'), 1);
-        $this->AC2->init_console();
-
-        $this->AC3 = new AngryCurl(array($this, 'loadProductsCallback'), 1);
-        $this->AC3->init_console();
-
-        $this->AC4 = new AngryCurl(array($this, 'loadTotalOrdersCallback'), 1);
-        $this->AC4->init_console();
-
-        $this->AC5 = new AngryCurl(array($this, 'loadOrdersCallback'), 1);
-        $this->AC5->init_console();
-    }
-
-    /**
-     * destruct
-     */
-    public function __destruct() {
-        unset($this->AC1, $this->AC2, $this->AC3);
+//        $this->AC1 = new AngryCurl(array($this, 'loadCategoriesCallback'), 1);
+//        $this->AC1->init_console();
+//
+//        $this->AC2 = new AngryCurl(array($this, 'loadTotalCallback'), 1);
+//        $this->AC2->init_console();
+//
+//        $this->AC3 = new AngryCurl(array($this, 'loadProductsCallback'), 1);
+//        $this->AC3->init_console();
+//
+//        $this->AC4 = new AngryCurl(array($this, 'loadTotalOrdersCallback'), 1);
+//        $this->AC4->init_console();
+//
+//        $this->AC5 = new AngryCurl(array($this, 'loadOrdersCallback'), 1);
+//        $this->AC5->init_console();
     }
 
     /**
@@ -58,9 +53,9 @@ class ProductImport {
      */
     public function execute() {
         $this->clearBase();
-        $this->loadCategories();
+//        $this->loadCategories();
         $this->loadTotal();
-        $this->loadProducts();
+//        $this->loadProducts();
         $this->loadOrders();
     }
 
@@ -68,47 +63,59 @@ class ProductImport {
      * load total count products
      */
     public function loadCategories() {
-        $this->AC1->get($this->pageCat . '?passw=' . $this->passw);
-
-        AngryCurl::add_debug_msg('Load categories');
-
-        $this->AC1->execute(2);
+//        $this->AC1->get($this->pageCat . '?passw=' . $this->passw);
+//
+//        AngryCurl::add_debug_msg('Load categories '.$this->pageCat . '?passw=' . $this->passw);
+//
+//        $this->AC1->execute(20);
+        echo "Load categories<br>\n";
+        $file = file_get_contents($this->pageCat . '?passw=' . $this->passw);
+        $this->loadCategoriesCallback($file, array('http_code' => 200));
     }
 
     /**
      * load total count products
      */
     public function loadTotal() {
-        $this->AC2->get($this->page . '?passw=' . $this->passw);
+//        $this->AC2->get($this->page . '?passw=' . $this->passw);
+//
+//        AngryCurl::add_debug_msg('Load product total');
+//
+//        $this->AC2->execute(2);
+        echo "Load product total<br>\n";
+        $file = file_get_contents($this->page . '?passw=' . $this->passw);
+        $this->loadTotalCallback($file, array('http_code' => 200));
 
-        AngryCurl::add_debug_msg('Load product total');
-
-        $this->AC2->execute(2);
-
-        $this->AC4->get($this->pageOrd . '?passw=' . $this->passw);
-
-        AngryCurl::add_debug_msg('Load orders total');
-
-        $this->AC4->execute(2);
+//        $this->AC4->get($this->pageOrd . '?passw=' . $this->passw);
+//
+//        AngryCurl::add_debug_msg('Load orders total');
+//
+//        $this->AC4->execute(2);
+        echo "Load orders total<br>\n";
+        $file = file_get_contents($this->page . '?passw=' . $this->passw);
+        $this->loadTotalOrdersCallback($file, array('http_code' => 200));
     }
 
     /**
      * load products
      */
     public function loadProducts() {
+        echo "Load products<br>\n";
 
         $count = ceil($this->total / $this->limit);
 
         for ($i = 0; $i < $count; $i++) {
             $offset = $i * $this->limit;
-            $url    = $this->page . '?limit=' . $this->limit . '&offset=' . $offset . '&passw=' . $this->passw;
+            $url = $this->page . '?limit=' . $this->limit . '&offset=' . $offset . '&passw=' . $this->passw;
             if ($this->catId) {
                 $url.='&catid=' . implode(',', $this->catId);
             }
-            $this->AC3->get($url);
+//            $this->AC3->get($url);
+            $file = file_get_contents($url);
+            $this->loadProductsCallback($file, array('http_code' => 200), $url);
         }
 
-        $this->AC3->execute(10);
+//        $this->AC3->execute(10);
     }
 
     /**
@@ -119,11 +126,13 @@ class ProductImport {
         try {
             for ($i = 0; $i < $count; $i++) {
                 $offset = $i * $this->limitOrd;
-                $url    = $this->pageOrd . '?limit=' . $this->limitOrd . '&offset=' . $offset . '&passw=' . $this->passw;
-                $this->AC5->get($url);
+                $url = $this->pageOrd . '?limit=' . $this->limitOrd . '&offset=' . $offset . '&passw=' . $this->passw;
+//                $this->AC5->get($url);
+                $file = file_get_contents($url);
+                $this->loadOrdersCallback($file, array('http_code' => 200), $url);
             }
-            AngryCurl::add_debug_msg('Load orders');
-            $this->AC5->execute(10);
+//            AngryCurl::add_debug_msg('Load orders');
+//            $this->AC5->execute(10);
         } catch (\Exception $ex) {
             echo $ex->getMessage() . ', ' . $ex->getFile() . ', ' . $ex->getLine();
         }
@@ -138,13 +147,13 @@ class ProductImport {
      * @return null
      */
     public function loadCategoriesCallback($response, $info, $request) {
-        if ($info['http_code'] !== 200) {
-            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
-            $this->AC1->get($request->url);
-            return;
-        }
-
-        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
+//        if ($info['http_code'] !== 200) {
+//            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
+//            $this->AC1->get($request->url);
+//            return;
+//        }
+//
+//        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
 
         $data = json_decode($response);
 
@@ -172,7 +181,8 @@ class ProductImport {
 
         $this->total = $data->total;
 
-        AngryCurl::add_debug_msg('Load complite, total ' . $this->total);
+//        AngryCurl::add_debug_msg('Load complite, total ' . $this->total);
+        echo 'Load complite, total ' . $this->total . "<br>\n";
 
         return;
     }
@@ -194,7 +204,8 @@ class ProductImport {
 
         $this->totalOrd = $data->total;
 
-        AngryCurl::add_debug_msg('Load complite, total orders ' . $this->total);
+//        AngryCurl::add_debug_msg('Load complite, total orders ' . $this->total);
+        echo 'Load complite, total orders ' . $this->total . "<br>\n";
 
         return;
     }
@@ -207,25 +218,34 @@ class ProductImport {
      * @param object $request
      * @return null
      */
-    public function loadProductsCallback($response, $info, $request) {
+    public function loadProductsCallback($response, $info, $url) {
         $this->iterator++;
 
         $data = json_decode($response);
 
         if ($info['http_code'] !== 200 || !isset($data->items)) {
 
-            $this->AC3->get($request->url);
-            AngryCurl::add_debug_msg(
-                    $this->iterator . "\t->\tFAIL\t" . $info['http_code'] .
-                    "\t" . $info['total_time'] . "\t" . $info['url']
-            );
+//            $this->AC3->get($request->url);
+//            AngryCurl::add_debug_msg(
+//                    $this->iterator . "\t->\tFAIL\t" . $info['http_code'] .
+//                    "\t" . $info['total_time'] . "\t" . $info['url']
+//            );
+
+            echo $this->iterator . "\t->\tFAIL\t" . $info['http_code'] .
+            "\t" . $url . "<br>\n";
+            $file = file_get_contents($url);
+            $this->loadProductsCallback($file, array('http_code' => 200), $url);
+
             return;
         }
 
-        AngryCurl::add_debug_msg(
-                $this->iterator . "\t->\tOK\t" . $info['http_code'] .
-                "\t" . round($info['total_time'], 2) . "\t" . $info['url']
-        );
+//        AngryCurl::add_debug_msg(
+//                $this->iterator . "\t->\tOK\t" . $info['http_code'] .
+//                "\t" . round($info['total_time'], 2) . "\t" . $info['url']
+//        );
+
+        echo $this->iterator . "\t->\tOK\t" . $info['http_code'] .
+        "\t" . $url . "<br>\n";
 
         $countSaved = 0;
         if (isset($data->items) && count($data->items)) {
@@ -236,10 +256,13 @@ class ProductImport {
             }
         }
 
-        AngryCurl::add_debug_msg(
-                $this->iterator . "\t->\tLoad\t" . count($data->items) .
-                "\tSaved\t" . $countSaved
-        );
+//        AngryCurl::add_debug_msg(
+//                $this->iterator . "\t->\tLoad\t" . count($data->items) .
+//                "\tSaved\t" . $countSaved
+//        );
+
+        echo $this->iterator . "\t->\tLoad\t" . count($data->items) .
+        "\tSaved\t" . $countSaved . "<br>\n";
 
         return;
     }
@@ -252,12 +275,15 @@ class ProductImport {
      * @param object $request
      * @return null
      */
-    public function loadOrdersCallback($response, $info, $request) {
+    public function loadOrdersCallback($response, $info, $url) {
         $data = json_decode($response);
 
         if ($info['http_code'] !== 200 || !isset($data->orders)) {
-            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
-            $this->AC5->get($request->url);
+//            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
+//            $this->AC5->get($request->url);
+
+            $file = file_get_contents($url);
+            $this->loadOrdersCallback($file, array('http_code' => 200), $url);
             return;
         }
 
@@ -267,8 +293,11 @@ class ProductImport {
                 $count++;
             }
         }
-        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
-        AngryCurl::add_debug_msg("->\tLoad\t" . count($data->orders) . "\tSave\t" . $count);
+//        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
+//        AngryCurl::add_debug_msg("->\tLoad\t" . count($data->orders) . "\tSave\t" . $count);
+
+        echo "->\tOK\t" . $info['http_code'] . "\t" . $url . "<br>\n";
+        echo "->\tLoad\t" . count($data->orders) . "\tSave\t" . $count . "<br>\n";
 
         return;
     }
@@ -281,16 +310,16 @@ class ProductImport {
     protected function saveCategory($category) {
         $db = JFactory::getDbo();
 
-        $media_path           = $this->media . 'category/';
-        $user_id              = $this->user;
-        $category_id          = $category->category_id;
-        $category_desc        = $category->category_description;
-        $category_name        = $category->category_name;
-        $slug                 = rand(1000, 9999) . $category_id;
-        $category_publish     = ($category->category_publish == 'Y') ? 1 : 0;
-        $list_order           = $category->list_order;
-        $category_parent_id   = $category->category_parent_id;
-        $category_full_image  = ($category->full_image) ? $media_path . $category->full_image : null;
+        $media_path = $this->media . 'category/';
+        $user_id = $this->user;
+        $category_id = $category->category_id;
+        $category_desc = $category->category_description;
+        $category_name = $category->category_name;
+        $slug = rand(1000, 9999) . $category_id;
+        $category_publish = ($category->category_publish == 'Y') ? 1 : 0;
+        $list_order = $category->list_order;
+        $category_parent_id = $category->category_parent_id;
+        $category_full_image = ($category->full_image) ? $media_path . $category->full_image : null;
         $category_thumb_image = ($category->thumb_image) ? $media_path . $category->thumb_image : null;
 
         if (!$category_full_image) {
@@ -330,7 +359,7 @@ class ProductImport {
 
         if ($category_full_image || $category_thumb_image) {
             $file_title = $this->getFileTitle($category);
-            $mime_type  = $this->getFileMimetype($category);
+            $mime_type = $this->getFileMimetype($category);
 
             $mediaSql = "INSERT INTO `#__virtuemart_medias` (
                     `virtuemart_vendor_id`, `file_title`, `file_description`, `file_meta`, 
@@ -371,20 +400,20 @@ class ProductImport {
             'USD' => 202,
         );
 
-        $media_path          = $this->media . 'product/';
-        $user_id             = $this->user;
-        $hash                = $product->hash;
-        $product_id          = $product->product_id;
-        $slug                = rand(1000, 9999) . $product_id;
-        $category_id         = $product->category_id;
-        $product_sku         = $product->product_sku;
-        $product_desc        = str_replace('\\', '&#92;', htmlentities($product->product_desc, ENT_QUOTES, 'UTF-8'));
-        $product_s_desc        = str_replace('\\', '&#92;', htmlentities($product->product_s_desc, ENT_QUOTES, 'UTF-8'));
-        $product_name        = str_replace('\\', '&#92;', htmlentities($product->product_name, ENT_QUOTES, 'UTF-8'));
-        $product_price       = $product->product_price;
-        $product_publish     = ($product->product_publish === 'Y') ? 1 : 0;
-        $product_currency    = $currencies[$product->product_currency];
-        $product_full_image  = ($product->full_image) ? $media_path . $product->full_image : null;
+        $media_path = $this->media . 'product/';
+        $user_id = $this->user;
+        $hash = $product->hash;
+        $product_id = $product->product_id;
+        $slug = rand(1000, 9999) . $product_id;
+        $category_id = $product->category_id;
+        $product_sku = $product->product_sku;
+        $product_desc = str_replace('\\', '&#92;', htmlentities($product->product_desc, ENT_QUOTES, 'UTF-8'));
+        $product_s_desc = str_replace('\\', '&#92;', htmlentities($product->product_s_desc, ENT_QUOTES, 'UTF-8'));
+        $product_name = str_replace('\\', '&#92;', htmlentities($product->product_name, ENT_QUOTES, 'UTF-8'));
+        $product_price = $product->product_price;
+        $product_publish = ($product->product_publish === 'Y') ? 1 : 0;
+        $product_currency = $currencies[$product->product_currency];
+        $product_full_image = ($product->full_image) ? $media_path . $product->full_image : null;
         $product_thumb_image = ($product->thumb_image) ? $media_path . $product->thumb_image : null;
 
         if (!$product_full_image) {
@@ -394,7 +423,7 @@ class ProductImport {
         $checkSql = "SELECT `virtuemart_product_id` FROM `#__virtuemart_products`
                 WHERE `virtuemart_product_id` = $product_id LIMIT 1";
         $db->setQuery($checkSql);
-        $check    = $db->loadResult();
+        $check = $db->loadResult();
 
         if ($check) {
             return false;
@@ -450,7 +479,7 @@ class ProductImport {
 
         if ($product_full_image || $product_thumb_image) {
             $file_title = $this->getFileTitle($product);
-            $mime_type  = $this->getFileMimetype($product);
+            $mime_type = $this->getFileMimetype($product);
 
             $mediaSql = "INSERT INTO `#__virtuemart_medias` (
                     `virtuemart_vendor_id`, `file_title`, `file_description`, `file_meta`, 
@@ -489,27 +518,27 @@ class ProductImport {
         $db = JFactory::getDbo();
 
         $order_id = $order->order_id;
-        $user_id  = 0; //$order->user_id;
+        $user_id = 0; //$order->user_id;
         $currency = 202;
         $delivery = $order->delivery;
-        $total    = ($order->order_currency == 'USD') ? $order->order_total : $order->order_total / $delivery;
-        $cdate    = date('Y-m-d H:i:s', $order->cdate);
-        $note     = $order->customer_note;
-        $ip       = $order->ip_address;
+        $total = ($order->order_currency == 'USD') ? $order->order_total : $order->order_total / $delivery;
+        $cdate = date('Y-m-d H:i:s', $order->cdate);
+        $note = $order->customer_note;
+        $ip = $order->ip_address;
         $exchange = $order->exchange_usd;
-        $nrt      = $order->nrt;
-        $name     = $order->first_name;
-        $phone    = $order->phone_1;
-        $address  = $order->address_1;
+        $nrt = $order->nrt;
+        $name = $order->first_name;
+        $phone = $order->phone_1;
+        $address = $order->address_1;
 
         $order_number = $this->generateOrderNumber($user_id);
-        $order_pass   = 'p_' . substr(md5((string) time() . rand(1, 1000) . $order_number), 0, 5);
+        $order_pass = 'p_' . substr(md5((string) time() . rand(1, 1000) . $order_number), 0, 5);
 
         $checkSql = "SELECT `virtuemart_order_id` "
                 . "FROM `#__virtuemart_orders` "
                 . "WHERE `virtuemart_order_id` = $order_id";
         $db->setQuery($checkSql);
-        $check    = $db->loadResult();
+        $check = $db->loadResult();
 
         if ($check) {
             return false;
@@ -616,12 +645,12 @@ class ProductImport {
         $db->query();
 
         foreach ($order->items as $item) {
-            $product_id  = $item->product_id;
-            $item_sku    = $item->order_item_sku;
-            $item_name   = $item->order_item_name;
-            $quantity    = $item->product_quantity;
-            $currency    = $item->order_item_currency;
-            $item_price  = $currency == 'USD' ? $item->product_item_price : $item->product_item_price / $delivery;
+            $product_id = $item->product_id;
+            $item_sku = $item->order_item_sku;
+            $item_name = $item->order_item_name;
+            $quantity = $item->product_quantity;
+            $currency = $item->order_item_currency;
+            $item_price = $currency == 'USD' ? $item->product_item_price : $item->product_item_price / $delivery;
             $final_price = $currency == 'USD' ? $item->product_final_price : $item->product_final_price / $delivery;
 
             $itemSql = "INSERT INTO `#__virtuemart_order_items` ("
@@ -666,30 +695,26 @@ class ProductImport {
     protected function clearBase() {
         $db = JFactory::getDbo();
 
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_products`');
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_products_ru_ru`');
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_prices`');
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_categories`');
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_medias`');
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_medias`');
-        $db->query();
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories`');
-        $db->query();
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories_ru_ru`');
-        $db->query();
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_categories`');
-        $db->query();
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_medias`');
-        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_products`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_products_ru_ru`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_prices`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_categories`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_medias`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_medias`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories_ru_ru`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_categories`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_medias`');
+//        $db->query();
         $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_items`');
         $db->query();
         $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_userinfos`');
@@ -709,7 +734,7 @@ class ProductImport {
      * @return string
      */
     protected function getFileTitle($product) {
-        $full  = $product->full_image;
+        $full = $product->full_image;
         $thumb = $product->thumb_image;
         if ($full) {
             $array = explode('.', $full);
@@ -734,7 +759,7 @@ class ProductImport {
         if ($product->full_image) {
             $image = $product->full_image;
             $array = explode('.', $image);
-            $ext   = end($array);
+            $ext = end($array);
 
             if (in_array($ext, array('png', 'jpg', 'gif'))) {
                 return 'image/' . $ext;
