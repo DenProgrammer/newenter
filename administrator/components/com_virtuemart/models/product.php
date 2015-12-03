@@ -534,8 +534,8 @@ class VirtueMartModelProduct extends VmModel {
             $joinedTables[] = ' LEFT JOIN `#__virtuemart_product_categories` as pc ON p.`virtuemart_product_id` = `pc`.`virtuemart_product_id` ';
             if ($joinCatLang) {
                 $joinedTables[] = ' LEFT JOIN `#__virtuemart_categories_' . VmConfig::$vmlang . '` as c ON c.`virtuemart_category_id` = `pc`.`virtuemart_category_id`';
-                $joinedTables[] = ' LEFT JOIN `#__virtuemart_categories` as cc ON cc.`virtuemart_category_id` = `pc`.`virtuemart_category_id`';
             }
+            $joinedTables[] = ' LEFT JOIN `#__virtuemart_categories` as cc ON cc.`virtuemart_category_id` = `pc`.`virtuemart_category_id`';
         }
 
         if ($joinMf == TRUE or $joinMfLang) {

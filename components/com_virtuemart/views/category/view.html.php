@@ -270,6 +270,10 @@ class VirtuemartViewCategory extends VmView {
             } else {
                 $category->children = false;
             }
+            
+            if (vRequest::getInt('advanced_search_categories')){
+                $category->children = false;
+            }
 
             if (VmConfig::get('enable_content_plugin', 0)) {
                 shopFunctionsF::triggerContentPlugin($category, 'category', 'category_description');
