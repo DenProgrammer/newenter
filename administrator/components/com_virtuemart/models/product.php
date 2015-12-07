@@ -394,11 +394,12 @@ class VirtueMartModelProduct extends VmModel {
                 $joinCategory    = TRUE;
                 break;
             case 'product_price':
-                $orderBy         = ' ORDER BY `sort_price`, l.product_name ';
+                $orderBy         = ' ORDER BY c.`category_name`, `sort_price`, l.product_name ';
                 $ff_select_price = ' , IF (pp.override, pp.product_override_price, pp.product_price) as product_price, pp.product_currency, '
                         . 'IF (product_currency = 202, product_price * ' . $currency->currency_exchange_rate . ', product_price) AS sort_price ';
                 $joinPrice       = TRUE;
                 $joinLang        = TRUE;
+                $joinCatLang     = true;
                 break;
             case 'created_on':
             case '`p`.created_on':
@@ -524,7 +525,7 @@ class VirtueMartModelProduct extends VmModel {
             }
         }
 
-        $select = ' p.`virtuemart_product_id`' . $advanced_price . $ff_select_price . $selectLang . ' FROM `#__virtuemart_products` as p ';
+        $select = ' p.`virtuemart_product_id` ' . $advanced_price . $ff_select_price . $selectLang . ' FROM `#__virtuemart_products` as p ';
 
         if ($joinShopper == TRUE) {
             $joinedTables[] = ' LEFT JOIN `#__virtuemart_product_shoppergroups` as ps ON p.`virtuemart_product_id` = `ps`.`virtuemart_product_id` ';
