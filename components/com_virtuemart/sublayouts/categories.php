@@ -74,7 +74,7 @@ if ($categories) {
                                     <?php echo $category->images[0]->displayMediaThumb("", false); ?>
                                 </div>
                                 <div class="category-product-count">
-                                    <?php echo $category->category_name ?>(<?php echo $category->allcount + $category->countproducts; ?>)
+                                    <?php echo $category->category_name ?>(<?php echo $category->count_products; ?>)
                                 </div>
                             </a>
                         </h2>

@@ -56,7 +56,6 @@ foreach ($categories as $category) {
 }
 
 $parentCategories = $categoryModel->getCategoryRecurse($active_category_id, 0);
-$countProducts    = $categoryModel->getCountAllProducts();
 
 /* Load tmpl default */
 require(JModuleHelper::getLayoutPath('mod_virtuemart_category', $layout));

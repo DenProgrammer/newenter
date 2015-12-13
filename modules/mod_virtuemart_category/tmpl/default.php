@@ -39,15 +39,8 @@ $document->addScriptDeclaration($js);
             $path        = '0,2,5,4,10,2,5,8';
         }
 
-        $countProduct = isset($countProducts[$category->virtuemart_category_id]) ? $countProducts[$category->virtuemart_category_id] : 0;
-        if ($category->childs) {
-            foreach ($category->childs as $child) {
-                $countProduct += isset($countProducts[$child->virtuemart_category_id]) ? $countProducts[$child->virtuemart_category_id] : 0;
-            }
-        }
-
-        if ($countProduct > 0) {
-            $cattext .= ' (' . $countProduct . ')';
+        if ($category->count_products > 0) {
+            $cattext .= ' (' . $category->count_products . ')';
         }
         ?>
         <li <?php echo $active_menu ?>>
@@ -81,10 +74,8 @@ $document->addScriptDeclaration($js);
                             $active_child_menu = 'class="VmOpen"';
                         }
 
-                        $countSubProduct = isset($countProducts[$child->virtuemart_category_id]) ? $countProducts[$child->virtuemart_category_id] : 0;
-
-                        if ($countSubProduct > 0) {
-                            $cattext .= ' (' . $countSubProduct . ')';
+                        if ($child->count_products > 0) {
+                            $cattext .= ' (' . $child->count_products . ')';
                         }
                         ?>
                         <li <?php echo $active_child_menu ?>>

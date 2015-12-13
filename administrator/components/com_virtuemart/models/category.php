@@ -232,21 +232,12 @@ class VirtueMartModelCategory extends VmModel
                             IFNULL(l.metakey,ld.metakey) as metakey,
                             IFNULL(l.customtitle,ld.customtitle) as customtitle,
                             IFNULL(l.slug,ld.slug) as slug,
-                            (SELECT count(*) 
-                                FROM #__virtuemart_product_categories 
-                                WHERE virtuemart_category_id = c.virtuemart_category_id
-                            ) as countproducts
+                            ld.count_products
                         FROM `#__virtuemart_categories` as c
                         INNER JOIN `#__virtuemart_categories_' . VmConfig::$defaultLang . '` as ld using (`virtuemart_category_id`)
                         LEFT JOIN `#__virtuemart_categories_' . $lang . '` as l using (`virtuemart_category_id`)';
         } else {
-            $query = 'SELECT L.*, (SELECT count(*) 
-                                FROM #__virtuemart_product_categories AS sqvpc 
-                                LEFT JOIN #__virtuemart_products AS sqvp 
-                                ON sqvpc.virtuemart_product_id = sqvp.virtuemart_product_id
-                                WHERE sqvpc.virtuemart_category_id = c.virtuemart_category_id
-                                AND sqvp.published = 1
-                            ) as countproducts
+            $query = 'SELECT L.*
                         FROM `#__virtuemart_categories_' . $lang . '` as L
                         INNER JOIN `#__virtuemart_categories` as c using (`virtuemart_category_id`)';
         }
@@ -275,26 +266,10 @@ class VirtueMartModelCategory extends VmModel
             foreach ($childList as $child) {
                 $xrefTable                  = new TableCategory_medias($db);
                 $child->virtuemart_media_id = $xrefTable->load($child->virtuemart_category_id);
-                $child->allcount = VirtueMartModelCategory::getSubCat($child->virtuemart_category_id);
             }
         }
 
         return $childList;
-    }
-
-    public function getSubCat($pid)
-    {
-        $db = JFactory::getDBO();
-
-        $db->setQuery("select count(vpc.virtuemart_product_id) 
-from #__virtuemart_product_categories vpc 
-left join #__virtuemart_products vp on vp.virtuemart_product_id = vpc.virtuemart_product_id
-where vp.published = 1 and vpc.virtuemart_category_id in (
-	select vcc.category_child_id 
-	from wy587_virtuemart_category_categories vcc
-	where vcc.category_parent_id = $pid
-)");
-        return $db->loadResult();
     }
 
     public function getCategoryTree($parentId = 0, $level = 0, $onlyPublished = true, $keyword = '')
