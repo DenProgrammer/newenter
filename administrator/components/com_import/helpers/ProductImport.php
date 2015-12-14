@@ -53,9 +53,9 @@ class ProductImport {
      */
     public function execute() {
         $this->clearBase();
-//        $this->loadCategories();
+        $this->loadCategories();
         $this->loadTotal();
-//        $this->loadProducts();
+        $this->loadProducts();
         $this->loadOrders();
     }
 
