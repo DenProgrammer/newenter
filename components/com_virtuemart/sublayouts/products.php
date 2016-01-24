@@ -47,7 +47,7 @@ foreach ($viewData['products'] as $type => $products) {
 
             if (!isset($categoryNames[$product->category_name])) {
                 $categoryNames[$product->category_name] = 1;
-                ?><h2><?php echo $product->category_name; ?></h2>
+                ?><div style="visibility: hidden; font-size: 1px;">1</div>
                 <div class="horizontal-separator vm-product-container"></div><?php
         }
 

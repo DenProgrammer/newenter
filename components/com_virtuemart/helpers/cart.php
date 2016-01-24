@@ -1729,9 +1729,10 @@ class VirtueMartCart
         $data->totalProduct = 0;
         //$i=0;
         //OSP when prices removed needed to format billTotal for AJAX
-        if (!class_exists('CurrencyDisplay'))
+        if (!class_exists('CurrencyDisplay')){
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-        $currencyDisplay    = CurrencyDisplay::getInstance();
+        }
+        $currencyDisplay    = CurrencyDisplay::getInstance(165);
 
         foreach ($this->products as $i => $product) {
 
@@ -1749,13 +1750,13 @@ class VirtueMartCart
 
             $data->products[$i]['product_sku'] = $product->product_sku;
 
-            $data->products[$i]['prices'] = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal']);
+            $data->products[$i]['prices'] = $currencyDisplay->priceDisplay($currencyDisplay->convertCurrencyTo(165, $product->allPrices[$product->selectedPrice]['subtotal'],false));
 
             // other possible option to use for display
-            $data->products[$i]['subtotal']            = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal']);
-            $data->products[$i]['subtotal_tax_amount'] = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal_tax_amount']);
-            $data->products[$i]['subtotal_discount']   = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal_discount']);
-            $data->products[$i]['subtotal_with_tax']   = $currencyDisplay->priceDisplay($product->allPrices[$product->selectedPrice]['subtotal_with_tax']);
+            $data->products[$i]['subtotal']            = $currencyDisplay->priceDisplay($currencyDisplay->convertCurrencyTo(165, $product->allPrices[$product->selectedPrice]['subtotal'],false));
+            $data->products[$i]['subtotal_tax_amount'] = $currencyDisplay->priceDisplay($currencyDisplay->convertCurrencyTo(165, $product->allPrices[$product->selectedPrice]['subtotal_tax_amount'],false));
+            $data->products[$i]['subtotal_discount']   = $currencyDisplay->priceDisplay($currencyDisplay->convertCurrencyTo(165, $product->allPrices[$product->selectedPrice]['subtotal_discount'],false));
+            $data->products[$i]['subtotal_with_tax']   = $currencyDisplay->priceDisplay($currencyDisplay->convertCurrencyTo(165, $product->allPrices[$product->selectedPrice]['subtotal_with_tax'],false));
 
             // UPDATE CART / DELETE FROM CART
             $data->products[$i]['quantity'] = $product->quantity;
@@ -1766,7 +1767,7 @@ class VirtueMartCart
             $this->cartPrices['billTotal'] = 0.0;
         }
 
-        $data->billTotal     = $currencyDisplay->priceDisplay($this->cartPrices['billTotal']);
+        $data->billTotal     = $currencyDisplay->priceDisplay($currencyDisplay->convertCurrencyTo(165, $this->cartPrices['billTotal'],false));
         $data->dataValidated = $this->_dataValidated;
 
         if ($data->totalProduct > 1)

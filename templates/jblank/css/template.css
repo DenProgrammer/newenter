@@ -152,6 +152,11 @@ h1, h2, h3, h4, h5, h6, .site-title{
     font-weight: bold;
     border-radius: 5px;
 }
+#wrapper #leftcol .VMmenu li:nth-child(2n+1) a{
+    background:rgb(255, 255, 255);
+    color: rgb(204, 16, 19);
+    border: solid 1px rgb(204, 16, 19);
+}
 #wrapper #leftcol .VMmenu li a:hover{
     box-shadow: 0 0 10px 3px rgba(5,5,5,0.3) inset;
     color: #eee;
@@ -214,6 +219,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 
 #wrapper #rightcol #mod_virtuemart_search{
     width: 189px;
+    text-align: center;
 }
 
 #wrapper #rightcol .moduletablecall{
@@ -442,8 +448,8 @@ div.prod_price span.price{
 }  
 
 #wrapper #content h1{
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 18px;
+    font-weight: bold;
     text-align: center;
 }  
 
@@ -734,7 +740,6 @@ hr.userFormSeparate{
     color:#ffffff;
     padding:9px;
     font-weight:bold;
-    font-style:italic;
     font-family:Arial,Helvetica,sans-serif;
     font-size:13px;
 }
@@ -1062,7 +1067,7 @@ div.danger div.vm_cart_products{
     height: 150px;
 }
 .category-product-count{
-    font-weight: normal;
+    font-weight: bold;
     text-decoration: none;
 }
 
@@ -1327,4 +1332,8 @@ div.order-note label{
 
 div.category-view div.row div.width33{
     width:235px;
+}
+
+span.prouct_name{
+    font-weight: bold;
 }
