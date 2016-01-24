@@ -235,7 +235,7 @@ class ImportController
     {
         $excel = PHPExcel_IOFactory::load($this->filepath);
 
-        $data  = array();
+        $data = array();
         foreach ($excel->getWorksheetIterator() as $worksheet) {
             $highestRow         = $worksheet->getHighestRow() + 1;
             $highestColumn      = $worksheet->getHighestColumn();
@@ -257,12 +257,12 @@ class ImportController
                     $data[$row] = array(
                         'product_name'  => $arr[$options->position_product_name],
                         'product_price' => $arr[$options->position_product_price],
-                        'product_desk'  => $arr[$options->position_product_s_desk],
+                        'product_desk'  => isset($arr[$options->position_product_s_desk]) ? $arr[$options->position_product_s_desk] : null,
                     );
                 }
             }
         }
-        
+
 
         return $data;
     }
@@ -276,7 +276,7 @@ class ImportController
         $markup_fix_value = JRequest::getVar('markup_fix_value');
 
 //get options from current price
-        $options                 = getOptionsPrice($this->price_type);
+        $options = getOptionsPrice($this->price_type);
 
         $sklad                   = $options->sklad_name;
         $position_product_name   = $options->position_product_name;
@@ -304,18 +304,28 @@ class ImportController
         if ((file_exists($this->filepath)) and ( trim($this->file) != '')) {
             $data = $this->readFile($options, $clear_line);
 
-            $newProduct    = 0;
-            $updateProduct = 0;
-            $record        = 0;
-            $errors        = 0;
+            $newProduct       = 0;
+            $updateProduct    = 0;
+            $duplicateProduct = array();
+            $record           = 0;
+            $errors           = 0;
 
+            $uploadProducts = array();
             foreach ($data as $item) {
                 $record++;
                 $product_name = str_replace('\\', '&#92;', htmlentities($item['product_name'], ENT_QUOTES, 'UTF-8'));
-                $hash         = preg_replace(getPattern(), '', $item['product_name']);
-                $product_id   = isset($productHash[$hash]) ? $productHash[$hash] : 0;
-                $product_desc = trim(htmlentities($item['product_desk'], ENT_QUOTES, 'UTF-8'));
 
+                if (in_array($product_name, $uploadProducts)) {
+                    $duplicateProduct[] = $product_name;
+
+                    continue;
+                }
+
+                $uploadProducts[] = $product_name;
+
+                $hash          = preg_replace(getPattern(), '', $item['product_name']);
+                $product_id    = isset($productHash[$hash]) ? $productHash[$hash] : 0;
+                $product_desc  = trim(htmlentities($item['product_desk'], ENT_QUOTES, 'UTF-8'));
                 $product_price = preg_replace('/[^0-9\.]/', '', str_replace(',', '.', $item['product_price']));
 
                 if ($markup == 1) {
@@ -352,11 +362,12 @@ class ImportController
         }
 
         $data = array(
-            'count'  => $record,
-            'new'    => $newProduct,
-            'update' => $updateProduct,
-            'errors' => $errors,
-            'time'   => round(microtime(1) - $start, 2),
+            'count'     => $record,
+            'new'       => $newProduct,
+            'update'    => $updateProduct,
+            'duplicate' => count($duplicateProduct),
+            'errors'    => $errors,
+            'time'      => round(microtime(1) - $start, 2),
         );
 
         echo json_encode($data);

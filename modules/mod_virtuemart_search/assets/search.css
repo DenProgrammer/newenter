@@ -1,0 +1,39 @@
+input.vm_search{
+    padding-top: 5px; 
+    width: 190px; 
+    height: 23px; 
+    background: #000000; 
+    color: white; 
+    border: 1px solid #585858;
+}
+#keyword{
+    width: 190px;
+}
+#search_categories{
+    width: 195px;
+}
+input.prices{
+    width: 50px;
+}
+option.level0{
+    font-weight: bold;
+    color: red;
+}
+option.level1{
+    padding-left: 10px;
+    font-size: 10px;
+}
+div.advanced_search p{
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+div.advanced_search{
+    /*height: 0px;*/
+}
+#advanced_search_btn{
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: inline-block;
+}

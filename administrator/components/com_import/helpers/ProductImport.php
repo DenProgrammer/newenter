@@ -10,11 +10,6 @@ error_reporting(E_ALL);
 
 class ProductImport {
 
-    protected $AC1;
-    protected $AC2;
-    protected $AC3;
-    protected $AC4;
-    protected $AC5;
     protected $limit = 1000;
     protected $limitOrd = 100;
     protected $total;
@@ -32,30 +27,17 @@ class ProductImport {
      * construct
      */
     public function __construct() {
-//        $this->AC1 = new AngryCurl(array($this, 'loadCategoriesCallback'), 1);
-//        $this->AC1->init_console();
-//
-//        $this->AC2 = new AngryCurl(array($this, 'loadTotalCallback'), 1);
-//        $this->AC2->init_console();
-//
-//        $this->AC3 = new AngryCurl(array($this, 'loadProductsCallback'), 1);
-//        $this->AC3->init_console();
-//
-//        $this->AC4 = new AngryCurl(array($this, 'loadTotalOrdersCallback'), 1);
-//        $this->AC4->init_console();
-//
-//        $this->AC5 = new AngryCurl(array($this, 'loadOrdersCallback'), 1);
-//        $this->AC5->init_console();
+        
     }
 
     /**
      * execute script
      */
     public function execute() {
-        $this->clearBase();
-        $this->loadCategories();
+//        $this->clearBase();
+//        $this->loadCategories();
         $this->loadTotal();
-        $this->loadProducts();
+//        $this->loadProducts();
         $this->loadOrders();
     }
 
@@ -63,37 +45,22 @@ class ProductImport {
      * load total count products
      */
     public function loadCategories() {
-//        $this->AC1->get($this->pageCat . '?passw=' . $this->passw);
-//
-//        AngryCurl::add_debug_msg('Load categories '.$this->pageCat . '?passw=' . $this->passw);
-//
-//        $this->AC1->execute(20);
         echo "Load categories<br>\n";
         $file = file_get_contents($this->pageCat . '?passw=' . $this->passw);
-        $this->loadCategoriesCallback($file, array('http_code' => 200));
+        $this->loadCategoriesCallback($file);
     }
 
     /**
      * load total count products
      */
     public function loadTotal() {
-//        $this->AC2->get($this->page . '?passw=' . $this->passw);
-//
-//        AngryCurl::add_debug_msg('Load product total');
-//
-//        $this->AC2->execute(2);
         echo "Load product total<br>\n";
         $file = file_get_contents($this->page . '?passw=' . $this->passw);
-        $this->loadTotalCallback($file, array('http_code' => 200));
+        $this->loadTotalCallback($file);
 
-//        $this->AC4->get($this->pageOrd . '?passw=' . $this->passw);
-//
-//        AngryCurl::add_debug_msg('Load orders total');
-//
-//        $this->AC4->execute(2);
         echo "Load orders total<br>\n";
         $file = file_get_contents($this->page . '?passw=' . $this->passw);
-        $this->loadTotalOrdersCallback($file, array('http_code' => 200));
+        $this->loadTotalOrdersCallback($file);
     }
 
     /**
@@ -110,12 +77,9 @@ class ProductImport {
             if ($this->catId) {
                 $url.='&catid=' . implode(',', $this->catId);
             }
-//            $this->AC3->get($url);
             $file = file_get_contents($url);
-            $this->loadProductsCallback($file, array('http_code' => 200), $url);
+            $this->loadProductsCallback($file, $url);
         }
-
-//        $this->AC3->execute(10);
     }
 
     /**
@@ -127,12 +91,9 @@ class ProductImport {
             for ($i = 0; $i < $count; $i++) {
                 $offset = $i * $this->limitOrd;
                 $url = $this->pageOrd . '?limit=' . $this->limitOrd . '&offset=' . $offset . '&passw=' . $this->passw;
-//                $this->AC5->get($url);
                 $file = file_get_contents($url);
-                $this->loadOrdersCallback($file, array('http_code' => 200), $url);
+                $this->loadOrdersCallback($file, $url);
             }
-//            AngryCurl::add_debug_msg('Load orders');
-//            $this->AC5->execute(10);
         } catch (\Exception $ex) {
             echo $ex->getMessage() . ', ' . $ex->getFile() . ', ' . $ex->getLine();
         }
@@ -142,19 +103,9 @@ class ProductImport {
      * load categories callback
      * 
      * @param string $response
-     * @param array  $info
-     * @param object $request
      * @return null
      */
-    public function loadCategoriesCallback($response, $info, $request) {
-//        if ($info['http_code'] !== 200) {
-//            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
-//            $this->AC1->get($request->url);
-//            return;
-//        }
-//
-//        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
-
+    public function loadCategoriesCallback($response) {
         $data = json_decode($response);
 
         foreach ($data->items as $item) {
@@ -168,20 +119,13 @@ class ProductImport {
      * load total callback
      * 
      * @param string $response
-     * @param array  $info
-     * @param object $request
      * @return null
      */
-    public function loadTotalCallback($response, $info, $request) {
-        if ($info['http_code'] !== 200) {
-            return;
-        }
-
+    public function loadTotalCallback($response) {
         $data = json_decode($response);
 
         $this->total = $data->total;
 
-//        AngryCurl::add_debug_msg('Load complite, total ' . $this->total);
         echo 'Load complite, total ' . $this->total . "<br>\n";
 
         return;
@@ -191,20 +135,13 @@ class ProductImport {
      * load total orders callback
      * 
      * @param string $response
-     * @param array  $info
-     * @param object $request
      * @return null
      */
-    public function loadTotalOrdersCallback($response, $info, $request) {
-        if ($info['http_code'] !== 200) {
-            return;
-        }
-
+    public function loadTotalOrdersCallback($response) {
         $data = json_decode($response);
 
         $this->totalOrd = $data->total;
 
-//        AngryCurl::add_debug_msg('Load complite, total orders ' . $this->total);
         echo 'Load complite, total orders ' . $this->total . "<br>\n";
 
         return;
@@ -214,23 +151,15 @@ class ProductImport {
      * load product callback
      * 
      * @param string $response
-     * @param array  $info
-     * @param object $request
+     * @param object $url
      * @return null
      */
-    public function loadProductsCallback($response, $info, $url) {
+    public function loadProductsCallback($response, $url) {
         $this->iterator++;
 
         $data = json_decode($response);
 
         if ($info['http_code'] !== 200 || !isset($data->items)) {
-
-//            $this->AC3->get($request->url);
-//            AngryCurl::add_debug_msg(
-//                    $this->iterator . "\t->\tFAIL\t" . $info['http_code'] .
-//                    "\t" . $info['total_time'] . "\t" . $info['url']
-//            );
-
             echo $this->iterator . "\t->\tFAIL\t" . $info['http_code'] .
             "\t" . $url . "<br>\n";
             $file = file_get_contents($url);
@@ -239,13 +168,7 @@ class ProductImport {
             return;
         }
 
-//        AngryCurl::add_debug_msg(
-//                $this->iterator . "\t->\tOK\t" . $info['http_code'] .
-//                "\t" . round($info['total_time'], 2) . "\t" . $info['url']
-//        );
-
-        echo $this->iterator . "\t->\tOK\t" . $info['http_code'] .
-        "\t" . $url . "<br>\n";
+        echo $this->iterator . "\t->\tOK\t" . $url . "<br>\n";
 
         $countSaved = 0;
         if (isset($data->items) && count($data->items)) {
@@ -255,11 +178,6 @@ class ProductImport {
                 }
             }
         }
-
-//        AngryCurl::add_debug_msg(
-//                $this->iterator . "\t->\tLoad\t" . count($data->items) .
-//                "\tSaved\t" . $countSaved
-//        );
 
         echo $this->iterator . "\t->\tLoad\t" . count($data->items) .
         "\tSaved\t" . $countSaved . "<br>\n";
@@ -271,17 +189,13 @@ class ProductImport {
      * load orders callback
      * 
      * @param string $response
-     * @param array  $info
-     * @param object $request
+     * @param object $url
      * @return null
      */
-    public function loadOrdersCallback($response, $info, $url) {
+    public function loadOrdersCallback($response, $url) {
         $data = json_decode($response);
 
-        if ($info['http_code'] !== 200 || !isset($data->orders)) {
-//            AngryCurl::add_debug_msg("->\tFAIL\t" . $info['http_code'] . "\t" . $info['url']);
-//            $this->AC5->get($request->url);
-
+        if (!isset($data->orders)) {
             $file = file_get_contents($url);
             $this->loadOrdersCallback($file, array('http_code' => 200), $url);
             return;
@@ -293,10 +207,7 @@ class ProductImport {
                 $count++;
             }
         }
-//        AngryCurl::add_debug_msg("->\tOK\t" . $info['http_code'] . "\t" . $info['url']);
-//        AngryCurl::add_debug_msg("->\tLoad\t" . count($data->orders) . "\tSave\t" . $count);
-
-        echo "->\tOK\t" . $info['http_code'] . "\t" . $url . "<br>\n";
+        echo "->\tOK\t" . $url . "<br>\n";
         echo "->\tLoad\t" . count($data->orders) . "\tSave\t" . $count . "<br>\n";
 
         return;
@@ -305,7 +216,7 @@ class ProductImport {
     /**
      * save category
      * 
-     * @param object $product
+     * @param object $category
      */
     protected function saveCategory($category) {
         $db = JFactory::getDbo();
@@ -544,6 +455,8 @@ class ProductImport {
             return false;
         }
 
+        $sqlDump = '';
+        
         $ordersSql = "INSERT INTO `#__virtuemart_orders` ("
                 . "`virtuemart_order_id`, `virtuemart_user_id`, `virtuemart_vendor_id`, `order_number`, "
                 . "`customer_number`, `order_pass`, `order_total`, `order_salesPrice`, `order_billTaxAmount`, "
@@ -565,9 +478,11 @@ class ProductImport {
                 . "1, 1, 'Такая же как и дата выписки счета', 'ru-RU', "
                 . "'$ip', '$cdate', 0, '$cdate', "
                 . "0, '0000-0-0 00:00:00', 0, '', "
-                . "NULL, $nrt, $exchange, $delivery)";
-        $db->setQuery($ordersSql);
-        $db->query();
+                . "NULL, $nrt, $exchange, $delivery);";
+        
+        $sqlDump .= $ordersSql."\n";
+//        $db->setQuery($ordersSql);
+//        $db->query();
 
         $userInfosSql = "INSERT INTO `#__virtuemart_order_userinfos` ("
                 . "`virtuemart_order_id`, `virtuemart_user_id`, `address_type`, "
@@ -585,8 +500,9 @@ class ProductImport {
                 . "0, 0, '', NULL, "
                 . "0, 0, '$note', '$cdate', "
                 . "0, '$cdate', 0, '0000-0-0 00:00:00', 0);";
-        $db->setQuery($userInfosSql);
-        $db->query();
+        $sqlDump .= $userInfosSql."\n";
+//        $db->setQuery($userInfosSql);
+//        $db->query();
 
         $orderHistoriesSql = "INSERT INTO `#__virtuemart_order_histories` ("
                 . "`virtuemart_order_id`, `order_status_code`, `customer_notified`, "
@@ -595,9 +511,10 @@ class ProductImport {
                 . ") VALUES ("
                 . "$order_id, 'P', 0, "
                 . "'', 1, '$cdate', 0, "
-                . "'$cdate', 0, '0000-0-0 00:00:00', 0)";
-        $db->setQuery($orderHistoriesSql);
-        $db->query();
+                . "'$cdate', 0, '0000-0-0 00:00:00', 0);";
+        $sqlDump .= $orderHistoriesSql."\n";
+//        $db->setQuery($orderHistoriesSql);
+//        $db->query();
 
         $orderHistoriesSql2 = "INSERT INTO `#__virtuemart_order_histories` ("
                 . "`virtuemart_order_id`, `order_status_code`, `customer_notified`, "
@@ -606,9 +523,10 @@ class ProductImport {
                 . ") VALUES ("
                 . "$order_id, 'U', 1, "
                 . "'', 1, '$cdate', 0, "
-                . "'$cdate', 0, '0000-0-0 00:00:00', 0)";
-        $db->setQuery($orderHistoriesSql2);
-        $db->query();
+                . "'$cdate', 0, '0000-0-0 00:00:00', 0);";
+        $sqlDump .= $orderHistoriesSql2."\n";
+//        $db->setQuery($orderHistoriesSql2);
+//        $db->query();
 
         $orderCalcRulesSql = "INSERT INTO `#__virtuemart_order_calc_rules` ("
                 . "`virtuemart_calc_id`, `virtuemart_order_id`, `virtuemart_vendor_id`, "
@@ -623,9 +541,10 @@ class ProductImport {
                 . "'', 0.00000, 0.00000, "
                 . "0.00000, 0, '', "
                 . "'$cdate', 0, '$cdate', "
-                . "0, '0000-0-0 00:00:00', 0)";
-        $db->setQuery($orderCalcRulesSql);
-        $db->query();
+                . "0, '0000-0-0 00:00:00', 0);";
+        $sqlDump .= $orderCalcRulesSql."\n";
+//        $db->setQuery($orderCalcRulesSql);
+//        $db->query();
 
         $orderCalcRulesSql2 = "INSERT INTO `#__virtuemart_order_calc_rules` ("
                 . "`virtuemart_calc_id`, `virtuemart_order_id`, `virtuemart_vendor_id`, "
@@ -640,9 +559,10 @@ class ProductImport {
                 . "'', 0.00000, 0.00000, "
                 . "0.00000, 0, '', "
                 . "'$cdate', 0, '$cdate', "
-                . "0, '0000-0-0 00:00:00', 0)";
-        $db->setQuery($orderCalcRulesSql2);
-        $db->query();
+                . "0, '0000-0-0 00:00:00', 0);";
+        $sqlDump .= $orderCalcRulesSql2."\n";
+//        $db->setQuery($orderCalcRulesSql2);
+//        $db->query();
 
         foreach ($order->items as $item) {
             $product_id = $item->product_id;
@@ -667,10 +587,13 @@ class ProductImport {
                     . "$item_price, 0.00000, $final_price, NULL, "
                     . "'U', '[]', NULL, '$cdate', "
                     . "0, '$cdate', 0, '0000-0-0 00:00:00', 0);";
-            $db->setQuery($itemSql);
-            $db->query();
+            $sqlDump .= $itemSql."\n";
+//            $db->setQuery($itemSql);
+//            $db->query();
         }
-
+        
+//        echo $sqlDump,"<br><br>\n\n";
+        file_put_contents('dump.sql', str_replace('#__','wy587_',$sqlDump), FILE_APPEND);
         return true;
     }
 

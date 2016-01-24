@@ -1779,7 +1779,7 @@ switch (JRequest::getVar('ajax')) {
                 $maxlist++;
                 $skladName = 'sklad-' . $maxlist . '-';
                 $sql2      = "INSERT INTO `#__import_sklads` (
-                            `price_name`, `sklad_name`, `curency`, `position_category_name`, 
+                            `price_name`, `sklad_name`, `currency`, `position_category_name`, 
                             `position_product_name`, `position_product_price`, `position_product_s_desk`, `clear_line`, `list`
                             ) VALUES (
                             '$priceName', '$skladName', '', '$categoryNamePosition', 
@@ -1844,7 +1844,7 @@ switch (JRequest::getVar('ajax')) {
                 $data[$row->id]->id         = $row->id;
                 $data[$row->id]->price_name = $row->price_name;
                 $data[$row->id]->sklad_name = $row->sklad_name;
-                $data[$row->id]->curency    = $row->curency;
+                $data[$row->id]->currency    = $row->currency;
             }
 
             break;
@@ -1862,7 +1862,7 @@ switch (JRequest::getVar('ajax')) {
                 foreach ($rows as $row) {
                     $price_name              = $row->price_name;
                     $sklad_name              = $row->sklad_name;
-                    $curency                 = $row->curency;
+                    $currency                 = $row->currency;
                     $position_category_name  = $row->position_category_name;
                     $position_product_name   = $row->position_product_name;
                     $position_product_price  = $row->position_product_price;

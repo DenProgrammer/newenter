@@ -33,11 +33,11 @@ if ($task == "edit" || $layout == "form") {
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScript('templates/' . $this->template . '/js/template.js');
-$doc->addScript('templates/' . $this->template . '/js/jquery.myplugins.js');
+$doc->addScript('/templates/'.$this->template.'/js/jquery.myplugins.js');
+$doc->addScript('/templates/'.$this->template.'/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheet('/templates/'.$this->template.'/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -57,30 +57,34 @@ $client = new JWebClient();
 
 // Logo file or site title param
 if ($this->params->get('logoFile')) {
-    $logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '" />';
+    $logo = '<img src="'.JUri::root().$this->params->get('logoFile').'" alt="'.$sitename.'" />';
 } elseif ($this->params->get('sitetitle')) {
-    $logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($this->params->get('sitetitle')) . '</span>';
+    $logo = '<span class="site-title" title="'.$sitename.'">'.htmlspecialchars($this->params->get('sitetitle')).'</span>';
 } else {
-    $logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
+    $logo = '<span class="site-title" title="'.$sitename.'">'.$sitename.'</span>';
 }
-
-
-echo '<pre>';print_r($doc->_scripts);exit;
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <jdoc:include type="head" />
+<!--            <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+            <meta name="generator" content="Joomla! - Open Source Content Management" />
+            <title><?php echo $doc->title; ?></title>
+            <link rel="stylesheet" href="/cache/style.css" type="text/css" />
+            <script src="/cache/script.js" type="text/javascript"></script>-->
+            
+            
+            <jdoc:include type="head" />
     </head>
 
     <body class="site <?php
     echo $option
-    . ' view-' . $view
-    . ($layout ? ' layout-' . $layout : ' no-layout')
-    . ($task ? ' task-' . $task : ' no-task')
-    . ($itemid ? ' itemid-' . $itemid : '')
-    . ($params->get('fluidContainer') ? ' fluid' : '');
+    .' view-'.$view
+    .($layout ? ' layout-'.$layout : ' no-layout')
+    .($task ? ' task-'.$task : ' no-task')
+    .($itemid ? ' itemid-'.$itemid : '')
+    .($params->get('fluidContainer') ? ' fluid' : '');
     ?>">
         <div id="main">
             <div id="header_top">

@@ -78,3 +78,64 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* index.php [L]
 #
 ## End - Joomla! core SEF Section.
+
+##включить модули mod_filter mod_deflate mod_expires
+#ExpiresActive On
+#
+#<FilesMatch \.css$>
+#        ExpiresDefault "access plus 10 years"
+#</FilesMatch>
+#ExpiresByType text/css A315360000
+#
+#<FilesMatch \.js$>
+#        ExpiresDefault "access plus 10 years"
+#</FilesMatch>
+#ExpiresByType text/javascript A315360000
+#ExpiresByType application/javascript A315360000
+#ExpiresByType application/x-javascript A315360000
+#ExpiresByType text/x-js A315360000
+#ExpiresByType text/ecmascript A315360000
+#ExpiresByType application/ecmascript A315360000
+#ExpiresByType text/vbscript A315360000
+#ExpiresByType text/fluffscript A315360000
+#
+#<FilesMatch \.(bmp|png|gif|jpe?g|ico)$>
+#        ExpiresDefault "access plus 10 years"
+#</FilesMatch>
+#ExpiresByType image/gif A315360000
+#ExpiresByType image/png A315360000
+#ExpiresByType image/jpeg A315360000
+#ExpiresByType image/x-icon A315360000
+#ExpiresByType image/bmp A315360000
+#
+#<FilesMatch \.(swf|pdf|doc|rtf|xls|ppt)$>
+#        ExpiresDefault "access plus 10 years"
+#</FilesMatch>
+#ExpiresByType application/x-shockwave-flash A315360000
+#ExpiresByType application/pdf A315360000
+#ExpiresByType application/msword A315360000
+#ExpiresByType application/rtf A315360000
+#ExpiresByType application/vnd.ms-excel A315360000
+#ExpiresByType application/vnd.ms-powerpoint A315360000
+#
+#
+#
+## gzip для HTML- и ICO-файлов (если включено архивирование для страницы)
+#AddOutputFilterByType DEFLATE text/html
+#AddOutputFilterByType DEFLATE text/xml
+#AddOutputFilterByType DEFLATE image/x-icon
+#
+##gzip для CSS-файлов
+#
+#AddOutputFilterByType DEFLATE text/css
+#
+##gzip для JavaScript-файлов
+#
+#AddOutputFilterByType DEFLATE text/javascript
+#AddOutputFilterByType DEFLATE application/javascript
+#AddOutputFilterByType DEFLATE application/x-javascript
+#AddOutputFilterByType DEFLATE text/x-js
+#AddOutputFilterByType DEFLATE text/ecmascript
+#AddOutputFilterByType DEFLATE application/ecmascript
+#AddOutputFilterByType DEFLATE text/vbscript
+#AddOutputFilterByType DEFLATE text/fluffscript

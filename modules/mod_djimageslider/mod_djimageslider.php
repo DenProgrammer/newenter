@@ -58,8 +58,8 @@ JHTML::_('behavior.framework',true);
 if($params->get('link_image',1)==2) {
 	JHTML::_('behavior.modal','a.djmodal');
 }
-$document->addScript('modules/mod_djimageslider/assets/powertools-1.2.0.js');
-$document->addScript('modules/mod_djimageslider/assets/slider.js');
+$document->addScript('/modules/mod_djimageslider/assets/powertools-1.2.0.js');
+$document->addScript('/modules/mod_djimageslider/assets/slider.js');
 
 if(!is_numeric($width = $params->get('image_width'))) $width = 240;
 if(!is_numeric($height = $params->get('image_height'))) $height = 180;
@@ -94,8 +94,7 @@ $js = "window.addEvent('domready',function(){this.Slider$mid = new DJImageSlider
 $js = "(function($){ ".$js." })(document.id);";
 $document->addScriptDeclaration($js);
 
-$css = JURI::base().'modules/mod_djimageslider/assets/style.css';
-$document->addStyleSheet($css);
+$document->addStyleSheet('/modules/mod_djimageslider/assets/style.css');
 
 $css = modDJImageSliderHelper::getStyleSheet($params,$mid);
 $document->addStyleDeclaration($css);

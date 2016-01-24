@@ -12,7 +12,8 @@ body{
     font-family:Arial,Helvetica,sans-serif;
     color: #000000;
     font-size: 12px;
-    background:#000000 url("../images/body-bg.png") repeat-x left top;
+    min-width: 1250px;
+    /*background:#000000 url("/templates/jblank/images/body-bg.png") repeat-x left top;*/
 }
 
 a{
@@ -68,7 +69,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 /**********************MAINMENU***************************************/
 
 #header_block #mainmenu_block{
-    background:url("../images/menu-bg.png") repeat-x bottom left;
+    background:url("/templates/jblank/images/menu-bg.png") repeat-x bottom left;
     height:30px;
 }
 
@@ -99,7 +100,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
     height: 17px;
 }
 
-#header_block #mainmenu_block ul li a:hover{
+#header_block #mainmenu_block ul li a:hover, #header_block #mainmenu_block ul li.active a{
     text-decoration:underline;
 }
 
@@ -121,7 +122,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #leftcol h3{
-    /*background: url("../images/partners.png") repeat-x center top;*/
     background: rgb(204, 16, 19);
     color: #ffffff;
     font-family: Verdana;
@@ -139,7 +139,6 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #leftcol .VMmenu li a{
-    /*background:linear-gradient(#c30101 0%, #e50101 20%, #e50101 80%, #c30101 100%);*/
     background:rgb(204, 16, 19);
     display:block;
     color: #fff;
@@ -163,7 +162,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #leftcol .VMmenu li.VmOpen a{
-    background:url("../images/submenu.png") repeat-x;
+    background:url("/templates/jblank/images/submenu.png") repeat-x;
 }
 
 #wrapper #leftcol .VMmenu li.VmOpen ul{
@@ -322,7 +321,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 #wrapper #content .moduletabletopinfo .customtopinfo .ban_contact .tel{
     font-size:18px;
     color:#e80101;
-    background:url('../images/ban_tel.png') left center no-repeat;
+    background:url('/templates/jblank/images/ban_tel.png') left center no-repeat;
     display:inline-block;
     padding:5px 0 5px 30px;
     white-space: nowrap;
@@ -340,12 +339,12 @@ h1, h2, h3, h4, h5, h6, .site-title{
 
 #wrapper #content .moduletabletopinfo .customtopinfo .imp_inf{
     padding-left:25px;
-    background:url('../images/imp_inf.png') left top no-repeat;
+    background:url('/templates/jblank/images/imp_inf.png') left top no-repeat;
 }
 
 #wrapper #content .moduletabletopinfo .customtopinfo .imp_inf .imp_inf_in{
     padding-right:25px;
-    background:url('../images/imp_inf.png') right top no-repeat;
+    background:url('/templates/jblank/images/imp_inf.png') right top no-repeat;
     color:#e80101;
     font-size:10px;
     text-transform:uppercase;
@@ -431,7 +430,6 @@ div.prod_price span.price{
 #wrapper #content .row .category{
     display: inline-block;
     height: 200px;
-    vertical-align: top;
     vertical-align: top;
 } 
 
@@ -590,12 +588,12 @@ div.prod_price span.price{
 }
 
 #wrapper #content .cart-view .vm2-add_quantity_cart{
-    background:url('../images/update_quantity_cart.png') no-repeat;
+    background:url('/templates/jblank/images/update_quantity_cart.png') no-repeat;
     vertical-align:middle;
 }
 
 #wrapper #content .cart-view .vm2-remove_from_cart{
-    background:url('../images/remove_from_cart.png') no-repeat;
+    background:url('/templates/jblank/images/remove_from_cart.png') no-repeat;
 }
 
 #wrapper #content .cart-view .checkout-button-top{
@@ -1114,4 +1112,219 @@ div.order-note textarea{
 div.order-note label{
     color: red;
     height: 100px;
+}
+
+
+
+
+/* Styles for DJ Image Slider with module id 105 */
+#djslider-loader105 {
+    margin: 0 auto;
+    position: relative;
+}
+#djslider105 {
+    margin: 0 auto;
+    position: relative;
+    height: 412px; 
+    width: 201px;
+    max-width: 201px;
+}
+#slider-container105 {
+    position: absolute;
+    overflow:hidden;
+    left: 0; 
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+#djslider105 ul#slider105 {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+#djslider105 ul#slider105 li {
+    list-style: none outside !important;
+    float: left;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 0px 10px 0 !important;
+    position: relative;
+    height: 201px;
+    width: 201px;
+    background: none;
+    overflow: hidden;
+}
+#slider105 li img {
+    width: auto;
+    height: 100%;
+    border: 0 !important;
+    margin: 0 !important;
+}
+#slider105 li a img, #slider105 li a:hover img {
+    border: 0 !important;
+}
+
+/* Navigation buttons */
+#navigation105 {
+    position: relative;
+    top: 7.28155339805825%; 
+    margin: 0 5px;
+    text-align: center !important;
+}
+
+#prev105 {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    left: 0;
+}
+#next105 {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 0;
+}
+
+
+
+/* Styles for DJ Image Slider with module id 109 */
+#djslider-loader109 {
+    margin: 0 auto;
+    position: relative;
+}
+#djslider109 {
+    margin: 0 auto;
+    position: relative;
+    height: 412px; 
+    width: 201px;
+    max-width: 201px;
+}
+#slider-container109 {
+    position: absolute;
+    overflow:hidden;
+    left: 0; 
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+#djslider109 ul#slider109 {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+#djslider109 ul#slider109 li {
+    list-style: none outside !important;
+    float: left;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 0px 10px 0 !important;
+    position: relative;
+    height: 201px;
+    width: 201px;
+    background: none;
+    overflow: hidden;
+}
+#slider109 li img {
+    width: auto;
+    height: 100%;
+    border: 0 !important;
+    margin: 0 !important;
+}
+#slider109 li a img, #slider109 li a:hover img {
+    border: 0 !important;
+}
+
+/* Navigation buttons */
+#navigation109 {
+    position: relative;
+    top: 7.28155339805825%; 
+    margin: 0 5px;
+    text-align: center !important;
+}
+
+#prev109 {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    left: 0;
+}
+#next109 {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 0;
+}
+
+
+
+/* Styles for DJ Image Slider with module id 101 */
+#djslider-loader101 {
+    margin: 0 auto;
+    position: relative;
+}
+#djslider101 {
+    margin: 0 auto;
+    position: relative;
+    height: 180px; 
+    width: 700px;
+    max-width: 700px;
+}
+#slider-container101 {
+    position: absolute;
+    overflow:hidden;
+    left: 0; 
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+#djslider101 ul#slider101 {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+#djslider101 ul#slider101 li {
+    list-style: none outside !important;
+    float: left;
+    margin: 0 !important;
+    border: 0 !important;
+    padding: 0 0px 0px 0 !important;
+    position: relative;
+    height: 180px;
+    width: 700px;
+    background: none;
+    overflow: hidden;
+}
+#slider101 li img {
+    width: 100%;
+    height: auto;
+    border: 0 !important;
+    margin: 0 !important;
+}
+#slider101 li a img, #slider101 li a:hover img {
+    border: 0 !important;
+}
+
+/* Navigation buttons */
+#navigation101 {
+    position: relative;
+    top: 16.6666666666667%; 
+    margin: 0 5px;
+    text-align: center !important;
+}
+
+#prev101 {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    left: 0;
+}
+#next101 {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 0;
+}
+
+div.category-view div.row div.width33{
+    width:235px;
 }

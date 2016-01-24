@@ -20,15 +20,13 @@ if (!defined('_JDEFINES'))
 require_once JPATH_BASE . '/includes/framework.php';
 
 // Mark afterLoad in the profiler.
-JDEBUG ? $_PROFILER->mark('afterLoad') : null;
+//JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
 // Instantiate the application.
-$app = JFactory::getApplication('site');
+//$app = JFactory::getApplication();
 
 
 define('AC_DIR', 'administrator/components/com_import');
-require_once( AC_DIR . '/helpers/RollingCurl.php');
-require_once( AC_DIR . '/helpers/AngryCurl.php');
 require_once( AC_DIR . '/helpers/ProductImport.php');
 
 $productImport = new ProductImport();

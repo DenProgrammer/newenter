@@ -2,78 +2,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 ?>
-<!--BEGIN Search Box -->
-<style>
-    input.vm_search{
-        padding-top: 5px; 
-        width: 190px; 
-        height: 23px; 
-        background: #000000; 
-        color: white; 
-        border: 1px solid #585858;
-    }
-    #keyword{
-        width: 190px;
-    }
-    #search_categories{
-        width: 195px;
-    }
-    input.prices{
-        width: 50px;
-    }
-    option.level0{
-        font-weight: bold;
-        color: red;
-    }
-    option.level1{
-        padding-left: 10px;
-        font-size: 10px;
-    }
-    div.advanced_search p{
-        margin-top: 8px;
-        margin-bottom: 4px;
-    }
-    div.advanced_search{
-        /*height: 0px;*/
-    }
-    #advanced_search_btn{
-        text-decoration: underline;
-        cursor: pointer;
-        margin-top: 10px;
-        margin-bottom: 5px;
-        display: inline-block;
-    }
-</style>
-<script>
-    jQuery('document').ready(function($) {
-        $('div.advanced_search').hide();
-
-        $('#keyword').focus(function() {
-            if ($(this).val() === 'Что ищем?') {
-                $(this).val('');
-            }
-        }).blur(function() {
-            if ($(this).val() === '') {
-                $(this).val('Что ищем?');
-            }
-        });
-
-        $('input.vm_search').click(function() {
-            if ($('#keyword').val() === 'Что ищем?') {
-                $('#keyword').val('');
-            }
-        });
-
-        $('#advanced_search_btn').click(function() {
-            if ($('div.advanced_search').css('display') === 'none') {
-                $('div.advanced_search').show();
-            } else {
-                $('div.advanced_search').hide();
-            }
-            return false;
-        });
-    });
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_virtuemart&view=category&search=true&limitstart=0&virtuemart_category_id=' . $category_id); ?>" method="get">
     <div class="search<?php echo $params->get('moduleclass_sfx'); ?>">
         <div>
@@ -146,5 +74,3 @@ defined('_JEXEC') or die('Restricted access');
     ?>
 
 </form>
-
-<!-- End Search Box -->

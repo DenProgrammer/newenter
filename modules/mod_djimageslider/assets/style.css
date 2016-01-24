@@ -20,7 +20,7 @@
 	outline: none;
 }
 .djslider-loader {
-	background: url(loader.gif) center center no-repeat;
+	background: url(/modules/mod_djimageslider/assets/loader.gif) center center no-repeat;
 }
 
 .djslider li {

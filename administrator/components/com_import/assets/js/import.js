@@ -318,6 +318,7 @@ function startUpdate()
         var message = "Обновление завершено.\n";
         message += 'Обновлено ' + data.count + " товаров.\n";
         message += 'Из них новых товаров ' + data.new + ".\n";
+        message += 'Дубликатов ' + data.duplicate + ".\n";
         message += 'Удалить файл?';
 
         if (confirm(message))
