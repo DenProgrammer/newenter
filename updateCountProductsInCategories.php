@@ -1,61 +1,56 @@
 <?php
 
-/**
- * @package    Joomla.Site
- *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
-if (version_compare(PHP_VERSION, '5.3.10', '<')) {
-    die('Your host needs to use PHP 5.3.10 or higher to run this version of Joomla!');
+require_once 'configuration.php';
+
+$config = new JConfig();
+
+$host = $config->host;
+$db   = $config->db;
+$user = $config->user;
+$pass = $config->password;
+$prfx = $config->dbprefix;
+
+$dsn = "mysql:host=$host;dbname=$db";
+$opt = array(
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+);
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $opt);
+} catch (PDOException $e) {
+    die('Connect error: '.$e->getMessage());
 }
 
-/**
- * Constant that is checked in included files to prevent direct access.
- * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
- */
-define('_JEXEC', 1);
+function getCountProducts($catId = 0)
+{
+    global $pdo, $prfx;
 
-if (file_exists(__DIR__ . '/defines.php')) {
-    include_once __DIR__ . '/defines.php';
-}
+    $query = "SELECT count(pc.virtuemart_product_id) AS ct "
+            ."FROM {$prfx}virtuemart_product_categories pc "
+            ."LEFT JOIN {$prfx}virtuemart_products p ON pc.virtuemart_product_id = p.virtuemart_product_id "
+            ."WHERE p.published = 1 AND pc.virtuemart_category_id = $catId";
+    $stmt  = $pdo->query($query);
 
-if (!defined('_JDEFINES')) {
-    define('JPATH_BASE', __DIR__);
-    require_once JPATH_BASE . '/includes/defines.php';
-}
+    $count = $stmt->fetchColumn();
 
-require_once JPATH_BASE . '/includes/framework.php';
+    $query2     = "SELECT cc.category_child_id "
+            ."FROM {$prfx}virtuemart_category_categories cc "
+            ."LEFT JOIN {$prfx}virtuemart_categories c ON cc.category_child_id = c.virtuemart_category_id "
+            ."WHERE c.published = 1 AND cc.category_parent_id = $catId";
+    $stmt2      = $pdo->query($query2);
+    $categories = $stmt2->fetchAll(PDO::FETCH_OBJ);
 
-
-function getCountProducts($catId = 0){
-    $db = JFactory::getDBO();
-    
-    $query = "SELECT count(pc.virtuemart_product_id) "
-            . "FROM #__virtuemart_product_categories pc "
-            . "LEFT JOIN #__virtuemart_products p ON pc.virtuemart_product_id = p.virtuemart_product_id "
-            . "WHERE p.published = 1 AND pc.virtuemart_category_id = $catId";
-    $db->setQuery($query);
-    $count = $db->loadResult();
-    
-    $query2 = "SELECT cc.category_child_id "
-            . "FROM #__virtuemart_category_categories cc "
-            . "LEFT JOIN #__virtuemart_categories c ON cc.category_child_id = c.virtuemart_category_id "
-            . "WHERE c.published = 1 AND cc.category_parent_id = $catId";
-    $db->setQuery($query2);
-    $categories = $db->loadObjectList();
-    
-    foreach ($categories as $category){
+    foreach ($categories as $category) {
         $count += getCountProducts($category->category_child_id);
     }
-    
-    $query3 = "UPDATE #__virtuemart_categories_ru_ru SET count_products = $count WHERE virtuemart_category_id = $catId";
-    $db->setQuery($query3);
-    $db->execute();
-    
+
+    $query3 = "UPDATE {$prfx}virtuemart_categories_ru_ru SET count_products = $count WHERE virtuemart_category_id = $catId";
+    $stmt3  = $pdo->query($query3);
+    $stmt3->execute();
+
     return $count;
 }
-
 getCountProducts();
 
 exit;

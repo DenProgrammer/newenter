@@ -12,6 +12,8 @@
 defined('_JEXEC') or die('Restricted access');
 $products_per_row  = $viewData['products_per_row'];
 $currency          = $viewData['currency'];
+$keyword           = $viewData['keyword'];
+$isSearch          = $viewData['isSearch'];
 $showRating        = $viewData['showRating'];
 $verticalseparator = " vertical-separator";
 
@@ -47,12 +49,17 @@ foreach ($viewData['products'] as $type => $products) {
 
             if (!isset($categoryNames[$product->category_name])) {
                 $categoryNames[$product->category_name] = 1;
-                ?><div style="visibility: hidden; font-size: 1px;">1</div>
+                ?>
+                <?php if ($isSearch) { ?>
+                    <h2><?php echo $product->category_name; ?></h2>
+                <?php } else { ?>
+                    <div style="visibility: hidden; font-size: 1px;">1</div>
+                <?php } ?>
                 <div class="horizontal-separator vm-product-container"></div><?php
-        }
+            }
 
-        // Show the horizontal seperator
-        if ($col == 1 && $nb > $products_per_row) {
+            // Show the horizontal seperator
+            if ($col == 1 && $nb > $products_per_row) {
                 ?>
                 <div class="horizontal-separator"></div>
                 <?php

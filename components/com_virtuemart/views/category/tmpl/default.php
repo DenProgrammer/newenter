@@ -58,7 +58,7 @@ $imageJS = '
 vmJsApi::addJScript('imagepopup', $imageJS);
 ?>
 <h1><?php echo $this->category->category_name; ?></h1>
-<?php if (empty($this->keyword) and !empty($this->category)) {
+<?php if (empty($this->keyword) and ! empty($this->category)) {
     ?>
     <div class="category_description">
         <?php echo $this->category->category_description; ?>
@@ -98,7 +98,15 @@ if ($this->showproducts) {
         if (!empty($this->products)) {
             $products    = array();
             $products[0] = $this->products;
-            echo shopFunctionsF::renderVmSubLayout($this->productsLayout, array('products' => $products, 'currency' => $this->currency, 'products_per_row' => $this->perRow, 'showRating' => $this->showRating));
+
+            $data = array(
+                'products'         => $products,
+                'currency'         => $this->currency,
+                'products_per_row' => $this->perRow,
+                'showRating'       => $this->showRating,
+                'isSearch'         => $this->isSearch,
+            );
+            echo shopFunctionsF::renderVmSubLayout($this->productsLayout, $data);
             ?>
 
             <div class="vm-pagination vm-pagination-bottom">
@@ -108,7 +116,12 @@ if ($this->showproducts) {
 
             <?php
         } elseif (!empty($this->keyword)) {
-            echo vmText::_('COM_VIRTUEMART_NO_RESULT') . ($this->keyword ? ' : (' . $this->keyword . ')' : '');
+            ?>
+
+            <div class="vm-no-result">
+                <?php echo vmText::_('COM_VIRTUEMART_NO_RESULT').($this->keyword ? ' : ('.$this->keyword.')' : ''); ?>
+            </div>
+            <?php
         }
         ?>
     </div>

@@ -139,7 +139,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #wrapper #leftcol .VMmenu li a{
-    background:rgb(204, 16, 19);
+    background:#B81619;
     display:block;
     color: #fff;
     font-size: 13px;
@@ -153,9 +153,9 @@ h1, h2, h3, h4, h5, h6, .site-title{
     border-radius: 5px;
 }
 #wrapper #leftcol .VMmenu li:nth-child(2n+1) a{
-    background:rgb(255, 255, 255);
-    color: rgb(204, 16, 19);
-    border: solid 1px rgb(204, 16, 19);
+    background:#E80101;
+    /*color: rgb(204, 16, 19);*/
+    /*border: solid 1px rgb(204, 16, 19);*/
 }
 #wrapper #leftcol .VMmenu li a:hover{
     box-shadow: 0 0 10px 3px rgba(5,5,5,0.3) inset;
@@ -279,10 +279,10 @@ h1, h2, h3, h4, h5, h6, .site-title{
 }
 
 #fancybox-content a.continue_link,
-#fancybox-content a.showcart{
+#fancybox-content a.showcart, div.show_cart a{
     display: inline-block;
-    height: 28px;
-    line-height: 28px;
+    height: 25px;
+    line-height: 25px;
 }
 
 #fancybox-content hr{
@@ -561,7 +561,17 @@ div.prod_price span.price{
 }
 
 #wrapper #content .cart-view .checkout-button-top #checkoutFormSubmit{
-    width: 200px;
+    width: 160px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 28px;
+}
+#wrapper #content .cart-view div.checkout-button-top a.continue_link{
+    width: 140px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 27px;
+    line-height: 27px;
 }
 
 #wrapper #content .cart-view .sectiontableentry1 a{
@@ -787,7 +797,7 @@ input.button-gloss {
     border-radius: 8px;
     outline: none;
     background-color: #000;
-    background-image: radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
+    background-image: linear-gradient(rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%);
     box-shadow:
         0 4px rgb(50,50,50),
         inset 0 1px rgba(255,255,255,.3),
@@ -830,7 +840,7 @@ a.vm-button-correct:hover,
 input.button-gloss:hover {
     /*    transition: .5s linear;
         background-position: -200% 0, 0 0;*/
-    background: radial-gradient(190% 100% at 50% 0%, rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%), linear-gradient(rgb(50,50,50), rgb(0,0,0) 80%);
+    background: linear-gradient(rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 50%, rgba(0,0,0,0) 50%), linear-gradient(rgb(50,50,50), rgb(0,0,0) 80%);
 }
 
 #mainmenu_block ul.menu li{
@@ -990,10 +1000,15 @@ div.total_products{
 }
 
 #fancybox-wrap{
-    width: 600px !important;
+    /*width: 600px !important;*/
+    position: fixed !important;
+    left: 50% !important;
+    margin-left: -300px !important;
+    top: 50% !important;
+    margin-top: -100px !important;
 }
 #fancybox-content{
-    width: auto !important;
+    /*width: auto !important;*/
 }
 div.assembly{
     text-align: center;
@@ -1047,7 +1062,7 @@ div.pathway a{
     text-decoration: none;
 }
 #fancybox-outer #fancybox-content div a{
-    padding: 0px 30px;
+    padding: 0px;
 }
 span.pagenav{
     color: #f90000;
@@ -1075,25 +1090,26 @@ div.danger div.vm_cart_products{
     padding: 5px;
 }
 #fancybox-content h4{
-    margin: 0 0 10px 0;
+    margin: 10px;
+    text-align: center;
 }
 #fancybox-content div{
-    overflow: visible !important;
+    /*overflow: visible !important;*/
 }
 #fancybox-content div.links{
-    margin-top: 10px;
+    margin-top: 20px;
+    text-align: center;
 }
 #fancybox-content div.links a{
-    display: block;
-    width: 200px;
-    margin: 0px auto;
+    width: 150px;
+    margin: 0 20px;
 }
 #fancybox-content div.links a.continue_link{
     margin-bottom: 10px;
 }
 
 #checkoutFormSubmit{
-    height: 34px;
+    height: 27px;
     margin-left: 10px;
     vertical-align: top;
 }
@@ -1336,4 +1352,29 @@ div.category-view div.row div.width33{
 
 span.prouct_name{
     font-weight: bold;
+}
+
+#wrapper #rightcol div.moduletablecart #vmCartModule div.show_cart a{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    height: 19px;
+    line-height: 19px;
+}
+
+a.jcepopup{
+    text-decoration: none;
+}
+
+div.moduletablecall{
+    text-align: center;
+}
+
+div.moduletablecall div{
+    margin-bottom: 10px;
+}
+.vm-no-result{
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 50px;
 }

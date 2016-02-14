@@ -57,7 +57,7 @@ switch (JRequest::getVar('ajax')) {
             $itemname = str_replace(' ', '+', $itemname);
             $itemname = base64_decode($itemname);
             $itemname = htmlentities($itemname);
-            $itemname = str_replace('\\', '&#' . ord('\\') . ';', $itemname);
+            $itemname = str_replace('\\', '&#'.ord('\\').';', $itemname);
 
             $sql = "UPDATE `#__vm_orders` 
                     SET `shopper_info`='$shopper_info', `nrt`='$nrt'
@@ -272,7 +272,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $vendor_info_id = (int) $order->vendor_info_id;
@@ -285,8 +285,8 @@ switch (JRequest::getVar('ajax')) {
                         $sql    = "SELECT * FROM `#__content` WHERE `catid`=$vendor_info_id AND `title`='schfactura' LIMIT 1"; //echo str_replace('#__','jos_',$sql).'<br>';
                         $db->setQuery($sql);
                         $vendor = $db->LoadObject();
-                        $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $vendor->introtext . '</div>';
-                        $vendorinfo2 .= '<div class="cond cond' . $row->id . '">' . $vendor->fulltext . '</div>';
+                        $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$vendor->introtext.'</div>';
+                        $vendorinfo2 .= '<div class="cond cond'.$row->id.'">'.$vendor->fulltext.'</div>';
 
                         $sh_br_count  = (int) substr_count($shopper_info, '<br>');
                         if (!$sh_br_count > 0)
@@ -316,7 +316,7 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->setCellValue('F5', "Всего");
 
                         //получение позиций в заказе
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -331,35 +331,35 @@ switch (JRequest::getVar('ajax')) {
                             $itemprice     = round($row->product_final_price * (1 + $nrt / 100));
                             $itemitogo     = round($itemprice * $itemcount);
 
-                            $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $i);
-                            $objPHPExcel->getActiveSheet()->mergeCells('B' . $z . ':C' . $z)->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('C' . $z)->getAlignment()->setWrapText(true);
-                            $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemcount);
-                            $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemprice);
-                            $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $itemitogo);
+                            $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, $i);
+                            $objPHPExcel->getActiveSheet()->mergeCells('B'.$z.':C'.$z)->setCellValue('B'.$z, str_replace('&amp;', '&', $itemname))->getStyle('C'.$z)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->setCellValue('D'.$z, $itemcount);
+                            $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $itemprice);
+                            $objPHPExcel->getActiveSheet()->setCellValue('F'.$z, $itemitogo);
 
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
                             $total += $itemitogo;
                         }
@@ -390,24 +390,24 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $z++;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':B' . $z)->setCellValue('A' . $z, "Итого");
-                        $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $total);
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':B'.$z)->setCellValue('A'.$z, "Итого");
+                        $objPHPExcel->getActiveSheet()->setCellValue('F'.$z, $total);
                         $z++;
-                        $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, "");
-                        $objPHPExcel->getActiveSheet()->mergeCells('B' . $z . ':F' . $z)->setCellValue('B' . $z, "Сумма прописью:   $totalstr");
+                        $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, "");
+                        $objPHPExcel->getActiveSheet()->mergeCells('B'.$z.':F'.$z)->setCellValue('B'.$z, "Сумма прописью:   $totalstr");
 
                         $z++;
-                        $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $orderdate);
+                        $objPHPExcel->getActiveSheet()->setCellValue('D'.$z, $orderdate);
                         $z += 2;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':F' . $z)->setCellValue('A' . $z, "                   м.п.                                 Руководитель                             гл. Бухгалтер");
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':F'.$z)->setCellValue('A'.$z, "                   м.п.                                 Руководитель                             гл. Бухгалтер");
 
                         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
                         $objPHPExcel->setActiveSheetIndex(0);
 
                         // Save Excel 2007 file
                         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-                        $objWriter->save('../images/docs/schetfactura_' . $order->order_id . '.xlsx');
-                        echo 'http://enter.kg/images/docs/schetfactura_' . $order->order_id . '.xlsx';
+                        $objWriter->save('../images/docs/schetfactura_'.$order->order_id.'.xlsx');
+                        echo 'http://enter.kg/images/docs/schetfactura_'.$order->order_id.'.xlsx';
 
                         break;
                     }
@@ -417,7 +417,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $vendor_info_id = (int) $order->vendor_info_id;
@@ -430,8 +430,8 @@ switch (JRequest::getVar('ajax')) {
                         $sql    = "SELECT * FROM `#__content` WHERE `catid`=$vendor_info_id AND `title`='nakladnaya' LIMIT 1"; //echo str_replace('#__','jos_',$sql).'<br>';
                         $db->setQuery($sql);
                         $vendor = $db->LoadObject();
-                        $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $vendor->introtext . '</div>';
-                        $vendorinfo2 .= '<div class="cond cond' . $row->id . '">' . $vendor->fulltext . '</div>';
+                        $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$vendor->introtext.'</div>';
+                        $vendorinfo2 .= '<div class="cond cond'.$row->id.'">'.$vendor->fulltext.'</div>';
 
                         $vr_br_count = (int) substr_count($vendorinfo, '</p>');
                         if (!$vr_br_count > 0)
@@ -458,7 +458,7 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->setCellValue('E3', "Итого");
                         $objPHPExcel->getActiveSheet()->setCellValue('F3', "Гарантия");
 
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -488,36 +488,36 @@ switch (JRequest::getVar('ajax')) {
 
                             $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
 
-                            $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
-                            $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
-                            $objPHPExcel->getActiveSheet()->setCellValue('C' . $z, $itemsku);
-                            $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
-                            $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
-                            $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $garantiya);
+                            $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, $itemcount);
+                            $objPHPExcel->getActiveSheet()->setCellValue('B'.$z, str_replace('&amp;', '&', $itemname))->getStyle('B'.$z)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->setCellValue('C'.$z, $itemsku);
+                            $objPHPExcel->getActiveSheet()->setCellValue('D'.$z, $itemprice);
+                            $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $itemitogo);
+                            $objPHPExcel->getActiveSheet()->setCellValue('F'.$z, $garantiya);
 
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
                             $total += $itemitogo;
                         }
@@ -583,24 +583,24 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $z++;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':B' . $z)->setCellValue('A' . $z, "Итого");
-                        $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $total);
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':B'.$z)->setCellValue('A'.$z, "Итого");
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $total);
                         $z++;
-                        $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, "");
-                        $objPHPExcel->getActiveSheet()->mergeCells('B' . $z . ':F' . $z)->setCellValue('B' . $z, "Сумма прописью:   $totalstr");
+                        $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, "");
+                        $objPHPExcel->getActiveSheet()->mergeCells('B'.$z.':F'.$z)->setCellValue('B'.$z, "Сумма прописью:   $totalstr");
 
                         $z += 2;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':F' . $z)->setCellValue('A' . $z, "                  Отпустил_____________________                     Принял________________________    ");
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':F'.$z)->setCellValue('A'.$z, "                  Отпустил_____________________                     Принял________________________    ");
 
                         $z += 2;
-                        $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $orderdate);
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $orderdate);
                         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
                         $objPHPExcel->setActiveSheetIndex(0);
 
                         // Save Excel 2007 file
                         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-                        $objWriter->save('../images/docs/schetfactura_' . $order->order_id . '.xlsx');
-                        echo 'http://enter.kg/images/docs/schetfactura_' . $order->order_id . '.xlsx';
+                        $objWriter->save('../images/docs/schetfactura_'.$order->order_id.'.xlsx');
+                        echo 'http://enter.kg/images/docs/schetfactura_'.$order->order_id.'.xlsx';
 
 
                         break;
@@ -611,7 +611,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $vendor_info_id = (int) $order->vendor_info_id;
@@ -624,8 +624,8 @@ switch (JRequest::getVar('ajax')) {
                         $sql    = "SELECT * FROM `#__content` WHERE `catid`=$vendor_info_id AND `title`='compred' LIMIT 1";
                         $db->setQuery($sql);
                         $vendor = $db->LoadObject();
-                        $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $vendor->introtext . '</div>';
-                        $vendorinfo2 .= '<div class="cond cond' . $row->id . '">' . $vendor->fulltext . '</div>';
+                        $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$vendor->introtext.'</div>';
+                        $vendorinfo2 .= '<div class="cond cond'.$row->id.'">'.$vendor->fulltext.'</div>';
 
                         $vr_br_count = (int) substr_count($vendorinfo, '</p>');
                         if (!$vr_br_count > 0)
@@ -652,7 +652,7 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->setCellValue('E3', "Итого");
                         $objPHPExcel->getActiveSheet()->setCellValue('F3', "Гарантия");
 
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -682,36 +682,36 @@ switch (JRequest::getVar('ajax')) {
 
                             $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
 
-                            $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
-                            $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
-                            $objPHPExcel->getActiveSheet()->setCellValue('C' . $z, $itemsku);
-                            $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
-                            $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
-                            $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $garantiya);
+                            $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, $itemcount);
+                            $objPHPExcel->getActiveSheet()->setCellValue('B'.$z, str_replace('&amp;', '&', $itemname))->getStyle('B'.$z)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->setCellValue('C'.$z, $itemsku);
+                            $objPHPExcel->getActiveSheet()->setCellValue('D'.$z, $itemprice);
+                            $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $itemitogo);
+                            $objPHPExcel->getActiveSheet()->setCellValue('F'.$z, $garantiya);
 
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
                             $total += $itemitogo;
                         }
@@ -764,23 +764,23 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $z++;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':B' . $z)->setCellValue('A' . $z, "Итого");
-                        $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $total);
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':B'.$z)->setCellValue('A'.$z, "Итого");
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $total);
                         $z++;
-                        $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, "");
-                        $objPHPExcel->getActiveSheet()->mergeCells('B' . $z . ':F' . $z)->setCellValue('B' . $z, "Сумма прописью:   $totalstr");
+                        $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, "");
+                        $objPHPExcel->getActiveSheet()->mergeCells('B'.$z.':F'.$z)->setCellValue('B'.$z, "Сумма прописью:   $totalstr");
 
                         $z += 2;
-                        $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $orderdate);
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $orderdate);
                         $z++;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':F' . $z)->setCellValue('A' . $z, trim(strip_tags($vendorinfo2)))->getStyle('A' . $z)->getAlignment()->setWrapText(true);
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':F'.$z)->setCellValue('A'.$z, trim(strip_tags($vendorinfo2)))->getStyle('A'.$z)->getAlignment()->setWrapText(true);
                         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
                         $objPHPExcel->setActiveSheetIndex(0);
 
                         // Save Excel 2007 file
                         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-                        $objWriter->save('../images/docs/compred_' . $order->order_id . '.xlsx');
-                        echo 'http://enter.kg/images/docs/compred_' . $order->order_id . '.xlsx';
+                        $objWriter->save('../images/docs/compred_'.$order->order_id.'.xlsx');
+                        echo 'http://enter.kg/images/docs/compred_'.$order->order_id.'.xlsx';
 
 
                         break;
@@ -791,7 +791,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $vendor_info_id = (int) $order->vendor_info_id;
@@ -804,8 +804,8 @@ switch (JRequest::getVar('ajax')) {
                         $sql    = "SELECT * FROM `#__content` WHERE `catid`=$vendor_info_id AND `title`='schnaopl' LIMIT 1";
                         $db->setQuery($sql);
                         $vendor = $db->LoadObject();
-                        $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $vendor->introtext . '</div>';
-                        $vendorinfo2 .= '<div class="cond cond' . $row->id . '">' . str_replace('&nbsp;', ' ', $vendor->fulltext) . '</div>';
+                        $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$vendor->introtext.'</div>';
+                        $vendorinfo2 .= '<div class="cond cond'.$row->id.'">'.str_replace('&nbsp;', ' ', $vendor->fulltext).'</div>';
 
                         $vr_br_count = (int) substr_count($vendorinfo, '</p>');
                         if (!$vr_br_count > 0)
@@ -832,7 +832,7 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->setCellValue('E3', "Итого");
                         $objPHPExcel->getActiveSheet()->setCellValue('F3', "Гарантия");
 
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -862,36 +862,36 @@ switch (JRequest::getVar('ajax')) {
 
                             $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
 
-                            $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
-                            $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
-                            $objPHPExcel->getActiveSheet()->setCellValue('C' . $z, $itemsku);
-                            $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
-                            $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
-                            $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $garantiya);
+                            $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, $itemcount);
+                            $objPHPExcel->getActiveSheet()->setCellValue('B'.$z, str_replace('&amp;', '&', $itemname))->getStyle('B'.$z)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->setCellValue('C'.$z, $itemsku);
+                            $objPHPExcel->getActiveSheet()->setCellValue('D'.$z, $itemprice);
+                            $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $itemitogo);
+                            $objPHPExcel->getActiveSheet()->setCellValue('F'.$z, $garantiya);
 
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
                             $total += $itemitogo;
                         }
@@ -944,24 +944,24 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $objPHPExcel->getActiveSheet()->getStyle('F5')->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
                         $z++;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':B' . $z)->setCellValue('A' . $z, "Итого");
-                        $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $total);
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':B'.$z)->setCellValue('A'.$z, "Итого");
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $total);
                         $z++;
-                        $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, "");
-                        $objPHPExcel->getActiveSheet()->mergeCells('B' . $z . ':F' . $z)->setCellValue('B' . $z, "Сумма прописью:   $totalstr");
+                        $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, "");
+                        $objPHPExcel->getActiveSheet()->mergeCells('B'.$z.':F'.$z)->setCellValue('B'.$z, "Сумма прописью:   $totalstr");
 
                         $z += 2;
-                        $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $orderdate);
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $orderdate);
                         $z++;
                         $objPHPExcel->getActiveSheet()->getRowDimension($z)->setRowHeight(80);
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':F' . $z)->setCellValue('A' . $z, trim(strip_tags($vendorinfo2)))->getStyle('A' . $z)->getAlignment()->setWrapText(true);
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':F'.$z)->setCellValue('A'.$z, trim(strip_tags($vendorinfo2)))->getStyle('A'.$z)->getAlignment()->setWrapText(true);
                         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
                         $objPHPExcel->setActiveSheetIndex(0);
 
                         // Save Excel 2007 file
                         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-                        $objWriter->save('../images/docs/schnaopl_' . $order->order_id . '.xlsx');
-                        echo 'http://enter.kg/images/docs/schnaopl_' . $order->order_id . '.xlsx';
+                        $objWriter->save('../images/docs/schnaopl_'.$order->order_id.'.xlsx');
+                        echo 'http://enter.kg/images/docs/schnaopl_'.$order->order_id.'.xlsx';
 
 
                         break;
@@ -972,7 +972,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $vendor_info_id = (int) $order->vendor_info_id;
@@ -983,7 +983,7 @@ switch (JRequest::getVar('ajax')) {
 
                         //получение списка продавцов, из материалов в категории условия для счет фактуры, id=15
                         if ($vendor > 0) {
-                            $sql = 'SELECT * FROM `#__content` WHERE `id`=' . $vendor;
+                            $sql = 'SELECT * FROM `#__content` WHERE `id`='.$vendor;
                         } else {
                             $sql = 'SELECT * FROM `#__content` WHERE `catid`=15 ORDER BY `ordering` LIMIT 1';
                         }
@@ -1013,7 +1013,7 @@ switch (JRequest::getVar('ajax')) {
                         $objPHPExcel->getActiveSheet()->setCellValue('F2', "Серийник");
                         $objPHPExcel->getActiveSheet()->setCellValue('G2', "Гарантия");
 
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -1044,41 +1044,41 @@ switch (JRequest::getVar('ajax')) {
                             $garantiya = ($attr['garantiya']) ? $attr['garantiya'] : '12 мес.';
                             $sn        = str_replace('<br>', chr(10), $attr['sn']);
 
-                            $objPHPExcel->getActiveSheet()->setCellValue('A' . $z, $itemcount);
-                            $objPHPExcel->getActiveSheet()->setCellValue('B' . $z, str_replace('&amp;', '&', $itemname))->getStyle('B' . $z)->getAlignment()->setWrapText(true);
-                            $objPHPExcel->getActiveSheet()->setCellValue('C' . $z, $itemsku);
-                            $objPHPExcel->getActiveSheet()->setCellValue('D' . $z, $itemprice);
-                            $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $itemitogo);
-                            $objPHPExcel->getActiveSheet()->setCellValue('F' . $z, $sn)->getStyle('B' . $z)->getAlignment()->setWrapText(true);
-                            $objPHPExcel->getActiveSheet()->setCellValue('G' . $z, $garantiya);
+                            $objPHPExcel->getActiveSheet()->setCellValue('A'.$z, $itemcount);
+                            $objPHPExcel->getActiveSheet()->setCellValue('B'.$z, str_replace('&amp;', '&', $itemname))->getStyle('B'.$z)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->setCellValue('C'.$z, $itemsku);
+                            $objPHPExcel->getActiveSheet()->setCellValue('D'.$z, $itemprice);
+                            $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $itemitogo);
+                            $objPHPExcel->getActiveSheet()->setCellValue('F'.$z, $sn)->getStyle('B'.$z)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->setCellValue('G'.$z, $garantiya);
 
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('A' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('A'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('B' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('B'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('C' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('C'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('D' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('D'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('E' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('E'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('F' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('F'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
-                            $objPHPExcel->getActiveSheet()->getStyle('G' . $z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('G' . $z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
-                            $objPHPExcel->getActiveSheet()->getStyle('G' . $z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('G'.$z)->getBorders()->getBottom()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('G'.$z)->getBorders()->getLeft()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
+                            $objPHPExcel->getActiveSheet()->getStyle('G'.$z)->getBorders()->getRight()->applyFromArray(array('style' => PHPExcel_Style_Border::BORDER_THIN, 'color' => array('rgb' => '000000')));
 
                             $total += $itemitogo;
                         }
@@ -1123,10 +1123,10 @@ switch (JRequest::getVar('ajax')) {
 
 
                         $z++;
-                        $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':B' . $z)->setCellValue('A' . $z, "Итого");
-                        $objPHPExcel->getActiveSheet()->setCellValue('E' . $z, $total);
+                        $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':B'.$z)->setCellValue('A'.$z, "Итого");
+                        $objPHPExcel->getActiveSheet()->setCellValue('E'.$z, $total);
                         $z++;
-                        $objPHPExcel->getActiveSheet()->mergeCells('F' . $z . ':G' . $z)->setCellValue('F' . $z, $orderdate);
+                        $objPHPExcel->getActiveSheet()->mergeCells('F'.$z.':G'.$z)->setCellValue('F'.$z, $orderdate);
 
                         if ($i == 1) {
                             $db       = JFactory::getDBO();
@@ -1137,7 +1137,7 @@ switch (JRequest::getVar('ajax')) {
                             $material = trim(strip_tags(str_replace(array('src="', '&nbsp;'), array('src="../', ' '), $material)));
 
                             $z++;
-                            $objPHPExcel->getActiveSheet()->mergeCells('A' . $z . ':G' . $z)->setCellValue('A' . $z, $material)->getStyle('A' . $z)->getAlignment()->setWrapText(true);
+                            $objPHPExcel->getActiveSheet()->mergeCells('A'.$z.':G'.$z)->setCellValue('A'.$z, $material)->getStyle('A'.$z)->getAlignment()->setWrapText(true);
                             $objPHPExcel->getActiveSheet()->getRowDimension($z)->setRowHeight(900);
                         }
 
@@ -1146,8 +1146,8 @@ switch (JRequest::getVar('ajax')) {
 
                         // Save Excel 2007 file
                         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-                        $objWriter->save('../images/docs/garantiya_' . $order->order_id . '.xlsx');
-                        echo 'http://enter.kg/images/docs/garantiya_' . $order->order_id . '.xlsx';
+                        $objWriter->save('../images/docs/garantiya_'.$order->order_id.'.xlsx');
+                        echo 'http://enter.kg/images/docs/garantiya_'.$order->order_id.'.xlsx';
 
 
                         break;
@@ -1181,7 +1181,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $vendor_info_id = (int) $order->vendor_info_id;
@@ -1204,16 +1204,16 @@ switch (JRequest::getVar('ajax')) {
                             $item = $db->LoadObject();
 
                             $sel = ($vendor_info_id == $row->id) ? 'selected' : '';
-                            $vendorlist .= '<option ' . $sel . ' value="' . $row->id . '">' . $row->title . '</option>';
-                            $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $item->introtext . '</div>';
-                            $condinfo .= '<div class="cond cond' . $row->id . '">' . $item->fulltext . '</div>';
+                            $vendorlist .= '<option '.$sel.' value="'.$row->id.'">'.$row->title.'</option>';
+                            $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$item->introtext.'</div>';
+                            $condinfo .= '<div class="cond cond'.$row->id.'">'.$item->fulltext.'</div>';
                         }
 
                         $vendorlist .= '</select>';
-                        $vendorinfo = $vendorlist . $vendorinfo;
+                        $vendorinfo = $vendorlist.$vendorinfo;
 
                         //получение позиций в заказе
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -1286,7 +1286,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $nrt            = $order->nrt;
@@ -1308,15 +1308,15 @@ switch (JRequest::getVar('ajax')) {
                             $item = $db->LoadObject();
 
                             $sel = ($vendor_info_id == $row->id) ? 'selected' : '';
-                            $vendorlist .= '<option ' . $sel . ' value="' . $row->id . '">' . $row->title . '</option>';
-                            $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $item->introtext . '</div>';
-                            $condinfo .= '<div class="cond cond' . $row->id . '">' . $item->fulltext . '</div>';
+                            $vendorlist .= '<option '.$sel.' value="'.$row->id.'">'.$row->title.'</option>';
+                            $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$item->introtext.'</div>';
+                            $condinfo .= '<div class="cond cond'.$row->id.'">'.$item->fulltext.'</div>';
                         }
 
                         $vendorlist .= '</select>';
-                        $vendorinfo = $vendorlist . $vendorinfo;
+                        $vendorinfo = $vendorlist.$vendorinfo;
 
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -1408,7 +1408,7 @@ switch (JRequest::getVar('ajax')) {
                         $order_id = $_GET['id'];
                         $date     = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $shopper_info   = ($order->shopper_info) ? $order->shopper_info : 'Основной клиент';
@@ -1431,15 +1431,15 @@ switch (JRequest::getVar('ajax')) {
                             $item = $db->LoadObject();
 
                             $sel = ($vendor_info_id == $row->id) ? 'selected' : '';
-                            $vendorlist .= '<option ' . $sel . ' value="' . $row->id . '">' . $row->title . '</option>';
-                            $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $item->introtext . '</div>';
-                            $condinfo .= '<div class="cond cond' . $row->id . '">' . $item->fulltext . '</div>';
+                            $vendorlist .= '<option '.$sel.' value="'.$row->id.'">'.$row->title.'</option>';
+                            $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$item->introtext.'</div>';
+                            $condinfo .= '<div class="cond cond'.$row->id.'">'.$item->fulltext.'</div>';
                         }
 
                         $vendorlist .= '</select>';
-                        $vendorinfo = $vendorlist . $vendorinfo;
+                        $vendorinfo = $vendorlist.$vendorinfo;
 
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -1531,7 +1531,7 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql            = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order          = $db->LoadObject();
                         $shopper_info   = ($order->shopper_info) ? $order->shopper_info : 'Основной клиент';
@@ -1554,15 +1554,15 @@ switch (JRequest::getVar('ajax')) {
                             $item = $db->LoadObject();
 
                             $sel = ($vendor_info_id == $row->id) ? 'selected' : '';
-                            $vendorlist .= '<option ' . $sel . ' value="' . $row->id . '">' . $row->title . '</option>';
-                            $vendorinfo .= '<div class="vendor vendor' . $row->id . '">' . $item->introtext . '</div>';
-                            $condinfo .= '<div class="cond cond' . $row->id . '">' . $item->fulltext . '</div>';
+                            $vendorlist .= '<option '.$sel.' value="'.$row->id.'">'.$row->title.'</option>';
+                            $vendorinfo .= '<div class="vendor vendor'.$row->id.'">'.$item->introtext.'</div>';
+                            $condinfo .= '<div class="cond cond'.$row->id.'">'.$item->fulltext.'</div>';
                         }
 
                         $vendorlist .= '</select>';
-                        $vendorinfo = $vendorlist . $vendorinfo;
+                        $vendorinfo = $vendorlist.$vendorinfo;
 
-                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql       = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem = $db->LoadObjectList();
                         $total     = 0;
@@ -1669,13 +1669,13 @@ switch (JRequest::getVar('ajax')) {
 
                         $date = date("d.m.Y");
 
-                        $sql          = 'SELECT * FROM `#__vm_orders` WHERE `order_id`=' . $order_id;
+                        $sql          = 'SELECT * FROM `#__vm_orders` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $order        = $db->LoadObject();
                         $orderdate    = date("d.m.Y", $order->cdate);
                         $shopper_info = ($order->shopper_info) ? $order->shopper_info : 'Основной клиент';
                         $nrt          = $order->nrt;
-                        $sql          = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`=' . $order_id;
+                        $sql          = 'SELECT * FROM `#__vm_order_item` WHERE `order_id`='.$order_id;
                         $db->setQuery($sql);
                         $orderitem    = $db->LoadObjectList();
                         $total        = 0;
@@ -1777,7 +1777,7 @@ switch (JRequest::getVar('ajax')) {
                 $maxlist = $db->loadResult();
 
                 $maxlist++;
-                $skladName = 'sklad-' . $maxlist . '-';
+                $skladName = 'sklad-'.$maxlist.'-';
                 $sql2      = "INSERT INTO `#__import_sklads` (
                             `price_name`, `sklad_name`, `currency`, `position_category_name`, 
                             `position_product_name`, `position_product_price`, `position_product_s_desk`, `clear_line`, `list`
@@ -1787,7 +1787,7 @@ switch (JRequest::getVar('ajax')) {
                 $db->setQuery($sql2);
                 $db->execute();
 
-                $msg    = 'Создан тип прайса ' . $priceName . ' / ' . $skladName . ', перейти в список складов?';
+                $msg    = 'Создан тип прайса '.$priceName.' / '.$skladName.', перейти в список складов?';
                 $status = 1;
             } else {
                 $msg    = 'Тип прайса с таким именем уже существует, введите другое имя';
@@ -1795,8 +1795,8 @@ switch (JRequest::getVar('ajax')) {
             }
 
             echo '<xml>
-	<message>' . $msg . '</message>
-	<status>' . $status . '</status>
+	<message>'.$msg.'</message>
+	<status>'.$status.'</status>
 </xml>';
 
             break;
@@ -1828,8 +1828,8 @@ switch (JRequest::getVar('ajax')) {
             }
 
             echo '<xml>
-	<message>' . $msg . '</message>
-	<status>' . $status . '</status>
+	<message>'.$msg.'</message>
+	<status>'.$status.'</status>
 </xml>';
 
             break;
@@ -1844,7 +1844,7 @@ switch (JRequest::getVar('ajax')) {
                 $data[$row->id]->id         = $row->id;
                 $data[$row->id]->price_name = $row->price_name;
                 $data[$row->id]->sklad_name = $row->sklad_name;
-                $data[$row->id]->currency    = $row->currency;
+                $data[$row->id]->currency   = $row->currency;
             }
 
             break;
@@ -1856,13 +1856,13 @@ switch (JRequest::getVar('ajax')) {
             $id = JRequest::getInt('id');
 
             if ($id > 0) {
-                $sql  = 'SELECT * FROM `#__import_sklads` WHERE `id`=' . $id;
+                $sql  = 'SELECT * FROM `#__import_sklads` WHERE `id`='.$id;
                 $db->setQuery($sql);
                 $rows = $db->loadObjectList();
                 foreach ($rows as $row) {
                     $price_name              = $row->price_name;
                     $sklad_name              = $row->sklad_name;
-                    $currency                 = $row->currency;
+                    $currency                = $row->currency;
                     $position_category_name  = $row->position_category_name;
                     $position_product_name   = $row->position_product_name;
                     $position_product_price  = $row->position_product_price;
@@ -1878,7 +1878,7 @@ switch (JRequest::getVar('ajax')) {
             $id = JRequest::getInt('id');
 
             if ($id > 0) {
-                $sql = 'DELETE FROM `#__import_sklads` WHERE `id`=' . $id;
+                $sql = 'DELETE FROM `#__import_sklads` WHERE `id`='.$id;
                 $db->setQuery($sql);
                 $db->execute();
 
@@ -1890,8 +1890,8 @@ switch (JRequest::getVar('ajax')) {
             }
 
             echo '<xml>
-	<message>' . $msg . '</message>
-	<status>' . $st . '</status>
+	<message>'.$msg.'</message>
+	<status>'.$st.'</status>
 </xml>';
 
             break;
@@ -1921,7 +1921,7 @@ switch (JRequest::getVar('ajax')) {
             }
             $per = round($prod * 100 / $count);
 
-            if (($time > 0) and (time() - $time > 5)) {
+            if (($time > 0) and ( time() - $time > 5)) {
                 $reload = 1;
                 $prod--;
                 setVars('works_products_time', 0);
@@ -1931,12 +1931,12 @@ switch (JRequest::getVar('ajax')) {
             }
 
             echo '<xml>
-	<update_status>' . $status . '</update_status>				
-	<update_status_name>' . $update_status_name . '</update_status_name>				
-	<count>' . $count . '</count>				
-	<prod>' . $prod . '</prod>					
-	<reload>' . $reload . '</reload>							
-	<per>' . $per . '</per>			
+	<update_status>'.$status.'</update_status>				
+	<update_status_name>'.$update_status_name.'</update_status_name>				
+	<count>'.$count.'</count>				
+	<prod>'.$prod.'</prod>					
+	<reload>'.$reload.'</reload>							
+	<per>'.$per.'</per>			
 </xml>';
             break;
         }
@@ -1962,17 +1962,17 @@ switch (JRequest::getVar('ajax')) {
                     $str .= '<tr>';
                 }
                 $str .= '<td valign="top">
-                            <div id="doc' . $i . '" class="documents" onclick="selectDocument(' . $i . ')">
+                            <div id="doc'.$i.'" class="documents" onclick="selectDocument('.$i.')">
                                 <div class="d_lt round"></div>
                                 <div class="d_lb round"></div>
                                 <div class="d_rt round"></div>
                                 <div class="d_rb round"></div>
                                 <img src="components/com_import/assets/images/document.png"/>	
-                                <h3>' . ($mas[$i]->basename) . '</h3>
+                                <h3>'.($mas[$i]->basename).'</h3>
                                 <div class="doc_info">
-                                        Размещен	:' . ($mas[$i]->dataload) . '<br>
-                                        Формат	: ' . ($mas[$i]->extension) . '</br>
-                                        Размер	: ' . ($mas[$i]->filesize) . 'kb
+                                        Размещен	:'.($mas[$i]->dataload).'<br>
+                                        Формат	: '.($mas[$i]->extension).'</br>
+                                        Размер	: '.($mas[$i]->filesize).'kb
                                 </div>
                             </div>
                         </td>';
@@ -1990,7 +1990,7 @@ switch (JRequest::getVar('ajax')) {
 
             echo '<xml>
 	<content>
-	' . $str . '
+	'.$str.'
 	</content>
 </xml>';
 
@@ -2017,13 +2017,13 @@ switch (JRequest::getVar('ajax')) {
                     $s_desc = ($item->product_s_desc) ? 'да' : 'нет';
                     $desc   = ($item->product_desc) ? 'да' : 'нет';
 
-                    $str .= '<tr onclick="parseProductName(' . $item->product_id . ')">
-                                <td>' . $item->product_name . '</td>
-                                <td>' . $item->product_sku . '</td>
-                                <td align="right">' . $item->product_price . '</td>
-                                <td align="center">' . $photo . '</td>
-                                <td align="center">' . $s_desc . '</td>
-                                <td align="center">' . $desc . '</td>
+                    $str .= '<tr onclick="parseProductName('.$item->product_id.')">
+                                <td>'.$item->product_name.'</td>
+                                <td>'.$item->product_sku.'</td>
+                                <td align="right">'.$item->product_price.'</td>
+                                <td align="center">'.$photo.'</td>
+                                <td align="center">'.$s_desc.'</td>
+                                <td align="center">'.$desc.'</td>
                         <tr>';
 
                     $num++;
@@ -2052,17 +2052,17 @@ switch (JRequest::getVar('ajax')) {
             foreach ($mas as $item) {
                 $x++;
 
-                $link .= $sep . $item;
+                $link .= $sep.$item;
                 $sep = ' ';
                 if ($x == 3) {
                     break;
                 }
             }
-            $content .= '<a onclick="setModelForProduct(' . $product_id . ',\'' . $link . '\')">' . $link . '</a>';
+            $content .= '<a onclick="setModelForProduct('.$product_id.',\''.$link.'\')">'.$link.'</a>';
             $lenght = strlen($link);
             foreach ($mas as $item) {
                 $lenght = $lenght + strlen($item);
-                $content .= '<a onclick="setModelForProduct(' . $product_id . ',\'' . $item . '\')">' . $item . '</a>';
+                $content .= '<a onclick="setModelForProduct('.$product_id.',\''.$item.'\')">'.$item.'</a>';
                 if ($lenght > 40) {
                     $content .= '<br>';
                     $lenght = 0;
@@ -2070,8 +2070,8 @@ switch (JRequest::getVar('ajax')) {
             }
 
             echo '<xml>
-    <model>' . $data->model . '</model>
-    <content>' . $content . '</content>
+    <model>'.$data->model.'</model>
+    <content>'.$content.'</content>
 </xml>';
 
             break;
@@ -2080,20 +2080,20 @@ switch (JRequest::getVar('ajax')) {
             $product_id = JRequest::getInt('id');
             $value      = JRequest::getVar('value');
 
-            $sql = 'SELECT id FROM `#__import_model` WHERE `product_id`=' . $product_id;
+            $sql = 'SELECT id FROM `#__import_model` WHERE `product_id`='.$product_id;
             $db->setQuery($sql);
             $id  = $db->loadResult();
 
             if ($id > 0) {
-                $sql = 'UPDATE `#__import_model` SET `model`=\'' . $value . '\' WHERE `product_id`=' . $product_id;
+                $sql = 'UPDATE `#__import_model` SET `model`=\''.$value.'\' WHERE `product_id`='.$product_id;
             } else {
-                $sql = 'INSERT INTO `#__import_model` (`product_id`, `model`) VALUES (\'' . $product_id . '\', \'' . $value . '\')';
+                $sql = 'INSERT INTO `#__import_model` (`product_id`, `model`) VALUES (\''.$product_id.'\', \''.$value.'\')';
             }
             $db->setQuery($sql);
             $db->execute();
 
             echo '<xml>
-    <model>' . $value . '</model>
+    <model>'.$value.'</model>
 </xml>';
             break;
         }
@@ -2112,24 +2112,24 @@ switch (JRequest::getVar('ajax')) {
                 $img    = '';
 
             if ($bigimg) {
-                $bigimgname = time() . '.jpg';
-                create_small($bigimg, '../components/com_virtuemart/shop_image/product/' . $bigimgname, 800, 600);
+                $bigimgname = time().'.jpg';
+                create_small($bigimg, '../components/com_virtuemart/shop_image/product/'.$bigimgname, 800, 600);
             }
             if ($img) {
-                $imgname = 'resized/' . time() . '_120x80.jpg';
-                create_small($img, '../components/com_virtuemart/shop_image/product/' . $imgname, 120, 80);
+                $imgname = 'resized/'.time().'_120x80.jpg';
+                create_small($img, '../components/com_virtuemart/shop_image/product/'.$imgname, 120, 80);
             }
 
-            $sql = 'UPDATE `jos_yaros_import_model` SET `model`=\'' . $model . '\', `yandex_product_id`=\'' . $yandex_product_id . '\' WHERE `product_id`=' . $product_id;
+            $sql = 'UPDATE `jos_yaros_import_model` SET `model`=\''.$model.'\', `yandex_product_id`=\''.$yandex_product_id.'\' WHERE `product_id`='.$product_id;
             echo $sql;
             ImportModelImport::insSql($sql);
 
-            $sql = 'UPDATE `jos_vm_product` SET `product_s_desc`=\'' . $s_desc . '\', `product_desc`=\'' . $desc . '\'';
+            $sql = 'UPDATE `jos_vm_product` SET `product_s_desc`=\''.$s_desc.'\', `product_desc`=\''.$desc.'\'';
             if ($img)
-                $sql .= ', `product_thumb_image`=\'' . $imgname . '\'';
+                $sql .= ', `product_thumb_image`=\''.$imgname.'\'';
             if ($bigimg)
-                $sql .= ', `product_full_image`=\'' . $bigimgname . '\' ';
-            $sql .= ' WHERE `product_id`=' . $product_id;
+                $sql .= ', `product_full_image`=\''.$bigimgname.'\' ';
+            $sql .= ' WHERE `product_id`='.$product_id;
             ImportModelImport::insSql($sql);
 
             break;
@@ -2142,8 +2142,8 @@ switch (JRequest::getVar('ajax')) {
 
             if ($id > 0) {
                 $sql = "UPDATE `#__import_xref` "
-                        . "SET `sum`='$sum', `sum_tax`='$sum_tax', `tax`='$value' "
-                        . "WHERE `id`=$id";
+                        ."SET `sum`='$sum', `sum_tax`='$sum_tax', `tax`='$value' "
+                        ."WHERE `id`=$id";
                 $db->setQuery($sql);
                 $db->execute();
             }
@@ -2170,7 +2170,7 @@ switch (JRequest::getVar('ajax')) {
             $markup = JRequest::getInt('markup');
             $price  = JRequest::getVar('price');
 
-            $db->setQuery('UPDATE #__import_sklads SET markup = ' . $markup . ' WHERE price_name = "' . $price . '"');
+            $db->setQuery('UPDATE #__import_sklads SET markup = '.$markup.' WHERE price_name = "'.$price.'"');
             $db->query();
 
             break;
@@ -2179,7 +2179,7 @@ switch (JRequest::getVar('ajax')) {
             $markup = JRequest::getInt('fix_markup');
             $price  = JRequest::getVar('price');
 
-            $db->setQuery('UPDATE #__import_sklads SET fix_markup = ' . $markup . ' WHERE price_name = "' . $price . '"');
+            $db->setQuery('UPDATE #__import_sklads SET fix_markup = '.$markup.' WHERE price_name = "'.$price.'"');
             $db->query();
 
             break;
@@ -2190,8 +2190,8 @@ switch (JRequest::getVar('ajax')) {
             $count = ceil($id / 2);
 
             echo '<xml>
-                        <id>' . $id . '</id>
-                        <count>' . $count . '</count>
+                        <id>'.$id.'</id>
+                        <count>'.$count.'</count>
                 </xml>';
 
             break;
@@ -2210,17 +2210,17 @@ switch (JRequest::getVar('ajax')) {
                     $str .= '<tr>';
                 }
                 $str .= '<td valign="top">
-                            <div id="doc' . $i . '" class="documents" onclick="selectDocument(' . $i . ')">
+                            <div id="doc'.$i.'" class="documents" onclick="selectDocument('.$i.')">
                                 <div class="d_lt round"></div>
                                 <div class="d_lb round"></div>
                                 <div class="d_rt round"></div>
                                 <div class="d_rb round"></div>
-                                <img src="' . PATH_ASSETS . '/images/document.png"/>	
-                                <h3>' . ($mas[$i]->basename) . '</h3>
+                                <img src="'.PATH_ASSETS.'/images/document.png"/>	
+                                <h3>'.($mas[$i]->basename).'</h3>
                                 <div class="doc_info">
-                                        Размещен	:' . ($mas[$i]->dataload) . '<br>
-                                        Формат	: ' . ($mas[$i]->extension) . '</br>
-                                        Размер	: ' . ($mas[$i]->filesize) . 'kb
+                                        Размещен	:'.($mas[$i]->dataload).'<br>
+                                        Формат	: '.($mas[$i]->extension).'</br>
+                                        Размер	: '.($mas[$i]->filesize).'kb
                                 </div>
                             </div>
                         </td>';
@@ -2235,7 +2235,7 @@ switch (JRequest::getVar('ajax')) {
 
             echo '<xml>
 	<content>
-	' . $str . '
+	'.$str.'
 	</content>
 </xml>';
 
@@ -2276,60 +2276,11 @@ switch (JRequest::getVar('ajax')) {
             break;
         }
     case 'createPrice': {
-            $pricepath = JRequest::getVar("pricepath");
+            require_once( dirname(__FILE__).'/../helpers/PriceUpdate.php');
 
-            $cleartime  = strtotime($clearDateValue);
-            $i          = 0;
-            $categories = getCategoryList(0);
-            $content    = '';
-            foreach ($categories as $c) {
-                $id   = $c->category_id;
-                $name = $c->category_name;
-                $lvl  = $c->lvl;
+            $priceUpdate = new PriceUpdate();
 
-                if ($lvl == 0) {
-                    $content .= "<tr><td colspan=2 style='background: #f90000; color: white; font-size: 16px;'>$name</td></tr>";
-                } else {
-                    $content .= "<tr><td colspan=2><strong>$name</strong></td></tr>";
-                }
-                $subsql = "SELECT `product_id`, `product_name`, 
-                                    (
-                                            SELECT `product_price` 
-                                            FROM `jos_vm_product_price` 
-                                            WHERE `product_id`=`jos_vm_product`.`product_id` AND `product_currency`='USD' 
-                                            LIMIT 1
-                                    ) AS `product_price`
-                            FROM `jos_vm_product` 
-                            WHERE `product_publish`='Y' AND `product_id` IN 
-                                    (
-                                            SELECT `product_id` 
-                                            FROM `jos_vm_product_category_xref` 
-                                            WHERE `category_id`=$id
-                                    )";
-                $db->setQuery($subsql);
-                $rows   = $db->LoadObjectList();
-                foreach ($rows as $row) {
-                    $product_id    = $row->product_id;
-                    $product_name  = $row->product_name;
-                    $product_price = $row->product_price;
-
-                    $content .= "<tr><td>$product_name</td><td>$product_price</td></tr>";
-                }
-            }
-
-            $template = '<html>
-                            <head>
-                                <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-                            <head>
-                            <body>
-                                <table class="price" border=1 width=1000>%CONTENT%</table>';
-            $filetext = str_replace('%CONTENT%', $content, $template);
-
-            $f = fopen("../$pricepath/price.xls", 'w');
-            fwrite($f, $filetext);
-            fclose($f);
-
-            echo 'Прайс лист обновлен';
+            $priceUpdate->execute();
 
             break;
         }
@@ -2350,7 +2301,7 @@ switch (JRequest::getVar('ajax')) {
                             </td>
                             <td>
                                 <div class='select_conteyner'>
-                                    <div id='type_nadbavka_" . $id . "_top' class='select_top select_top_addprice'>
+                                    <div id='type_nadbavka_".$id."_top' class='select_top select_top_addprice'>
                                         Фиксиров
                                     </div>
                                     <select id='type_nadbavka_$id' onchange='changeNadbavka($id)'>
@@ -2393,12 +2344,12 @@ switch (JRequest::getVar('ajax')) {
             preg_match_all($pattern1, $data, $mas1);
 
             $mas1[3][0] = preg_replace('/<meta[^>]*>/Us', '', $mas1[3][0]);
-            $result1    = $mas1[2][0] . $mas1[3][0] . $mas1[4][0];
+            $result1    = $mas1[2][0].$mas1[3][0].$mas1[4][0];
 
             $pattern2 = '/(<ul[^>]*class=["\'][^>]*b-vlist_type_friendly["\']>)(.*)(<\/ul>)/Us';
             preg_match_all($pattern2, $data, $mas2);
 
-            $result2 = $mas2[1][0] . $mas2[2][0] . $mas2[3][0];
+            $result2 = $mas2[1][0].$mas2[2][0].$mas2[3][0];
 
             $url   = "http://market.yandex.ru/model-spec.xml?&modelid=$id";
             $data3 = file_get_contents($url);
@@ -2406,18 +2357,18 @@ switch (JRequest::getVar('ajax')) {
             $pattern3 = '/(.*)(<table[^>]*class=[\'"]b-properties[\'"][^>]*>)(.*)(<\/table>)(.*)/Us';
             preg_match_all($pattern3, $data3, $mas3);
 
-            $result3 = $mas3[2][0] . $mas3[3][0] . $mas3[4][0];
+            $result3 = $mas3[2][0].$mas3[3][0].$mas3[4][0];
 
-            echo $result1 . '<br><br>' . $result2 . '<br><br>' . $result3;
+            echo $result1.'<br><br>'.$result2.'<br><br>'.$result3;
 
             break;
         }
     case 'loadProducts': {
             define('AC_DIR', dirname(__FILE__));
 
-            require_once( AC_DIR . '/../helpers/RollingCurl.php');
-            require_once( AC_DIR . '/../helpers/AngryCurl.php');
-            require_once( AC_DIR . '/../helpers/ProductImport.php');
+            require_once( AC_DIR.'/../helpers/RollingCurl.php');
+            require_once( AC_DIR.'/../helpers/AngryCurl.php');
+            require_once( AC_DIR.'/../helpers/ProductImport.php');
 
             $productImport = new ProductImport();
 
@@ -2458,9 +2409,9 @@ if (JRequest::getVar('load_file') == 1) {
     $filepath = $_FILES['price']['tmp_name'];
     $filename = $_FILES['price']['name'];
 
-    copy($filepath, '../images/prices/' . $filename);
+    copy($filepath, '../images/prices/'.$filename);
 }
-if (($tpl) and (file_exists("components/com_import/views/tmpl/$tpl.php"))) {
+if (($tpl) and ( file_exists("components/com_import/views/tmpl/$tpl.php"))) {
     include("tmpl/$tpl.php");
 } else {
     include('tmpl/default.php');
