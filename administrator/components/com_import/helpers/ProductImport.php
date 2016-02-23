@@ -37,7 +37,7 @@ class ProductImport
      */
     public function execute()
     {
-//        $this->clearBase();
+        $this->clearBase();
 //        $this->loadCategories();
         $this->loadTotal();
         $this->loadProducts();
@@ -642,18 +642,19 @@ class ProductImport
         $db->query();
         $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_categories`');
         $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_medias`');
-        $db->query();
         $db->setQuery('TRUNCATE TABLE `#__virtuemart_product_medias`');
         $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories`');
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_medias`');
+        $db->setQuery('DELETE FROM `#__virtuemart_medias` WHERE file_type = "product"');
         $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories_ru_ru`');
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_categories`');
-        $db->query();
-        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_medias`');
-        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_categories_ru_ru`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_categories`');
+//        $db->query();
+//        $db->setQuery('TRUNCATE TABLE `#__virtuemart_category_medias`');
+//        $db->query();
 //        $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_items`');
 //        $db->query();
 //        $db->setQuery('TRUNCATE TABLE `#__virtuemart_order_userinfos`');

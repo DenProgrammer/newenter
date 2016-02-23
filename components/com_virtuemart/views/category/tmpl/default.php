@@ -105,6 +105,7 @@ if ($this->showproducts) {
                 'products_per_row' => $this->perRow,
                 'showRating'       => $this->showRating,
                 'isSearch'         => $this->isSearch,
+                'actualTime'       => $this->actualTime,
             );
             echo shopFunctionsF::renderVmSubLayout($this->productsLayout, $data);
             ?>

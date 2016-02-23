@@ -1378,3 +1378,59 @@ div.moduletablecall div{
     font-size: 16px;
     margin: 50px;
 }
+
+div.new-product-image{
+    position:relative;
+}
+
+div.new-product-image img{
+    position:absolute;
+    left:100px;
+    top:-5px;
+}
+
+#tooltip
+{
+    text-align: left;
+    color: black;
+    background: #d5d5d5;
+    position: absolute;
+    z-index: 100;
+    padding: 15px 25px;
+    border-radius: 10px;
+}
+
+#tooltip:after /* triangle decoration */
+{
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #d5d5d5;
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    margin-left: -10px;
+}
+
+#tooltip.top:after
+{
+    border-top-color: transparent;
+    border-bottom: 10px solid #d5d5d5;
+    top: -20px;
+    bottom: auto;
+}
+
+#tooltip.left:after
+{
+    left: 10px;
+    margin: 0;
+}
+
+#tooltip.right:after
+{
+    right: 10px;
+    left: auto;
+    margin: 0;
+}

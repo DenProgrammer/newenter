@@ -56,6 +56,8 @@ class VirtuemartViewCategory extends VmView
             require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
         }
 
+        $this->assignRef('actualTime', $this->getActualTime());
+
         // add javascript for price and cart, need even for quantity buttons, so we need it almost anywhere
         vmJsApi::jPrice();
 
@@ -137,7 +139,7 @@ class VirtuemartViewCategory extends VmView
 
             $vendorId = $category->virtuemart_vendor_id;
             if ($this->showproducts) {
-  
+
                 // Load the products in the given category
                 $ids = $productModel->sortSearchListQuery(TRUE, $this->categoryId, false, false, null, $advanced_search);
 
@@ -471,5 +473,19 @@ class VirtuemartViewCategory extends VmView
         } else {
             $this->searchCustomList = '';
         }
+    }
+
+    /**
+     * generate custom fields list to display as search in FE
+     */
+    public function getActualTime()
+    {
+        $this->_db = JFactory::getDBO();
+        $this->_db->setQuery('SELECT `params` FROM `#__extensions` WHERE `element` ="com_import"');
+        $options   = $this->_db->loadResult();
+
+        $json = json_decode($options);
+
+        return $json && isset($json->actualtime) ? $json->actualtime : 0;
     }
 }

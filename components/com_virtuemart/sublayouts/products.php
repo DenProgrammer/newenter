@@ -15,6 +15,7 @@ $currency          = $viewData['currency'];
 $keyword           = $viewData['keyword'];
 $isSearch          = $viewData['isSearch'];
 $showRating        = $viewData['showRating'];
+$actualTime        = $viewData['actualTime'];
 $verticalseparator = " vertical-separator";
 
 $userGroup   = JFactory::getUser()->getAuthorisedGroups();
@@ -87,13 +88,23 @@ foreach ($viewData['products'] as $type => $products) {
 
                 $product->product_name = html_entity_decode($product->product_name);
 
+                $now = new \DateTime();
+                $old = new \DateTime($product->created_on);
+
+                $obj = $now->diff($old);
+
+                $newimg = $obj->d * 24 + $obj->h < $actualTime ? '<div class="new-product-image"><img src="images/newprod.gif"/></div>' : '';
+
                 // Show Products 
                 ?>
                 <div class="product vm-col<?php echo ' vm-col-'.$products_per_row.$show_vertical_separator ?>">
                     <table width="100%">
                         <tr>
                             <td width="140">
-                                <?php if ($product->images[0]->virtuemart_media_id > 0) { ?>
+                                <?php
+                                echo $newimg;
+                                if ($product->images[0]->virtuemart_media_id > 0) {
+                                    ?>
                                     <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
                                     <?php } else { ?>
                                         <a title="Найти в Google" target="blank" href="http://www.google.kg/search?q=<?php echo $product->product_name; ?>&tbm=isch">

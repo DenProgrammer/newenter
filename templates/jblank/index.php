@@ -30,7 +30,7 @@ if ($task == "edit" || $layout == "form") {
 } else {
     $fullWidth = 0;
 }
-//print_r($doc->_scripts);exit;
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 $doc->addScript('/templates/'.$this->template.'/js/jquery.myplugins.js');
@@ -52,6 +52,7 @@ if ($this->params->get('logoFile')) {
 } else {
     $logo = '<span class="site-title" title="'.$sitename.'">'.$sitename.'</span>';
 }
+
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
