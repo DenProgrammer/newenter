@@ -87,7 +87,7 @@ if (!empty($this->product->images)) {
             position: relative;
             width: 400px;
             height: 300px;
-            border: solid 1px black;
+            border: solid 2px #e80101;
             display: none;
         }
 
@@ -145,7 +145,7 @@ if (!empty($this->product->images)) {
                 paneContainer: document.querySelector('.detail'),
                 inlinePane: 900,
                 inlineOffsetY: -85,
-                zoomFactor: 6,
+                zoomFactor: 3,
                 containInline: true
             });
         });
