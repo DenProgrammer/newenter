@@ -77,17 +77,10 @@ jQuery(document).ready(function ($)
 
     $('body').on('click', 'form#simpleForm2_103 input.button-gloss', function () {
         $("form#simpleForm2_103").simpleform({
-            url: "http://newenter.local/modules/mod_simpleform2/index.php",
-            loaderImg: "http://newenter.local/modules/mod_simpleform2/images/loading.gif",
+            url: "/modules/mod_simpleform2/index.php",
+            loaderImg: "/modules/mod_simpleform2/images/loading.gif",
             checkCallBack: function (id) {
-                var name = $('#' + id).find('input#sf2_103_vashe_imja').val();
                 var phone = $('#' + id).find('input#sf2_103_vash_nomer').val();
-
-                if (!name) {
-                    alert('Введите ваше имя');
-
-                    return false;
-                }
 
                 var re = /^[0-9]*$/;
                 var valid = re.test(phone);
