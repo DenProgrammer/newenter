@@ -407,7 +407,7 @@ class VirtueMartModelProduct extends VmModel {
                 break;
             default;
                 if (!empty($this->filter_order)) {
-                    $orderBy = ' ORDER BY ' . $this->filter_order . ' ';
+                    $orderBy = ' ORDER BY p.' . $this->filter_order . ' ';
                 } else {
                     $this->filter_order_Dir = '';
                 }

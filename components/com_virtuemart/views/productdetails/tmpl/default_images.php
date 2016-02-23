@@ -60,14 +60,96 @@ if (VmConfig::get('usefancy', 1)) {
 	}
 	';
 }
-vmJsApi::addJScript('imagepopup', $imageJS);
+//vmJsApi::addJScript('imagepopup', $imageJS);
 
 if (!empty($this->product->images)) {
     $image = $this->product->images[0];
     ?>
+    <link rel="stylesheet" media="screen, projection" href="templates/jblank/css/drift-basic.css">
+    <style type="text/css">
+        body {
+            font-family: Helvetica Neue, Arial, sans;
+            margin-top: 2em;
+            background: #FAFAFA;
+        }
+
+        .wrapper {
+            margin: 0 auto;
+            width: 860px;
+        }
+
+        .drift-demo-trigger {
+            width: 40%;
+            float: left;
+        }
+
+        .detail {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            border: solid 1px black;
+            display: none;
+        }
+
+        h1 {
+            color: #013C4A;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        p {
+            max-width: 32em;
+            margin-bottom: 1em;
+            color: #23637f;
+            line-height: 1.6em;
+        }
+
+        p:last-of-type {
+            margin-bottom: 2em;
+        }
+
+        a {
+            color: #00C0FA;
+        }
+
+        .ix-link {
+            display: block;
+            margin-bottom: 3em;
+        }
+        .wrap-detail{
+            position: absolute;
+            left: 220px;
+            top: 0px;
+            z-index: 1000;
+        }
+        .vm-product-media-container{
+            position: relative;
+        }   
+    </style>
+    <script src="templates/jblank/js/Drift.min.js"></script>
     <div class="main-image">
-        <?php echo $image->displayMediaFull("", true, "rel='vm-additional-images'"); ?>
+        <img alt="" src="<?php echo $image->file_url; ?>" data-zoom="<?php echo $image->file_url; ?>">
         <div class="clear"></div>
     </div>
+    <div class="wrap-detail"><div class="detail"></div></div>
+
+    <script>
+        jQuery(function ($) {
+            $('div.main-image img').on('mouseover', '', function () {
+                $('div.detail').css('display', 'block');
+            }).on('mouseout', '', function () {
+                $('div.detail').css('display', 'none');
+            });
+
+            new Drift(document.querySelector('.main-image img'), {
+                paneContainer: document.querySelector('.detail'),
+                inlinePane: 900,
+                inlineOffsetY: -85,
+                zoomFactor: 6,
+                containInline: true
+            });
+        });
+
+    </script>
     <?php
 }

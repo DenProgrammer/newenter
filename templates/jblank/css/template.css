@@ -464,7 +464,7 @@ div.prod_price span.price{
 } 
 
 #wrapper #content .browse-view .vm-product-media-container{
-    display:inline-block;
+    display:block;
     vertical-align:top;
     width:20%;
 }   
@@ -561,7 +561,7 @@ div.prod_price span.price{
 }
 
 #wrapper #content .cart-view .checkout-button-top #checkoutFormSubmit{
-    width: 160px;
+    width: 170px;
     padding-top: 0px;
     padding-bottom: 0px;
     height: 28px;
@@ -1052,8 +1052,8 @@ div.tooltip-inner{
     overflow: hidden;
 }
 
-div.main-image a img{
-    width: 100px;
+div.main-image img{
+    width: 200px;
 }
 div.pathway{
     margin: 20px 0;

@@ -108,7 +108,7 @@ if (vRequest::getInt('print', false)) {
             </div>
         <?php } // PDF - Print - Email Icon END
         ?>
-
+        
         <div class="vm-product-container">
             <table style="width: 100%">
                 <tr>
