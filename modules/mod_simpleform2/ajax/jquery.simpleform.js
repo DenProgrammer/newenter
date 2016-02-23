@@ -1,1 +1,56 @@
-jQuery.fn.simpleform=function(a){a=jQuery.extend({checkCallBack:function(a){return!0},resultCallBack:function(a,b,d){return!0},tmp:null,url:"",loaderImg:"/modules/mod_simpleform2/images/loading.gif"},a);return this.each(function(){jQuery(this).bind("submit",function(c){c.preventDefault();"FORM"==jQuery(this).find("input[type=submit]").parent()[0].tagName&&jQuery(this).find("input[type=submit]").wrap("<span></span>");var b=jQuery(this).find("input[type=submit]").parent();c=b.html();""!=a.url&&jQuery(this).attr("action",a.url);b.html('<img src="'+a.loaderImg+'" alt="Loading..." title="Loading..." />');if(1!=a.checkCallBack(jQuery(this).attr("id")))return b.html(c),!1;jQuery(this).ajaxSubmit({form:this,btnWrap:b,tmp:c,success:function(d){var c=d.substring(0,1);d=d.substring(1);var f=jQuery(this.form).find("img.sf2Captcha"),e=!1;"="==c&&(e=!0);f.click();1==a.resultCallBack(jQuery(this.form).attr("id"),e,d)?e?jQuery(this.form).html(d):"!"==c?(b.html(this.tmp),alert(d)):(b.html(this.tmp),alert("Ajax error")):b.html(this.tmp)}});return!1})})};
+
+jQuery.fn.simpleform = function(options){
+    
+	var options = jQuery.extend({
+        checkCallBack: function(id){return true;},
+        resultCallBack: function(id,result,text){return true;},
+		tmp: null,
+		url: '',
+		loaderImg: '/modules/mod_simpleform2/images/loading.gif',
+	},options);
+	
+	return this.each(function(){
+		jQuery(this).bind("submit",function(e){
+			e.preventDefault();
+			var form = this;
+			if(jQuery(form).find('input[type=submit]').parent()[0].tagName=='FORM') jQuery(form).find('input[type=submit]').wrap('<span></span>');
+			var btnWrap = jQuery(form).find('input[type=submit]').parent();
+			var tmp = btnWrap.html();
+			if(options.url!='') jQuery(form).attr("action",options.url);
+			btnWrap.html('<img src="'+options.loaderImg+'" alt="Loading..." title="Loading..." />');
+			var uResult = options.checkCallBack(jQuery(form).attr('id'));
+			if(uResult!=true){
+				btnWrap.html(tmp);
+				return false;
+			}
+			jQuery(form).ajaxSubmit({
+				form : form,
+				btnWrap : btnWrap,
+				tmp : tmp,
+				success : function(data){
+					var key = data.substring(0,1);
+					var text = data.substring(1);
+					var captcha = jQuery(this.form).find('img.sf2Captcha');
+					var srvResult = false;
+					if(key=="=") srvResult = true;
+					captcha.click();
+					var uResult = options.resultCallBack(jQuery(this.form).attr('id'),srvResult,text);
+					if(uResult==true){
+						if(srvResult) jQuery(this.form).html(text);
+						else if(key=="!"){
+							btnWrap.html(this.tmp);
+							alert(text);
+						}
+						else{
+							btnWrap.html(this.tmp);
+							alert('Ajax error');
+						}
+					}
+					else btnWrap.html(this.tmp);
+				}
+			});
+			return false;
+		});
+	});
+
+};

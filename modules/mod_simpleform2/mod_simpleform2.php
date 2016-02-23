@@ -29,35 +29,8 @@ if ($loadScriptsMode == 'body') {
     $cache    = 1;
     $sysCache = 1;
 }
+//$script.= 'jQuery(document).ready(function(){jQuery("form#'.$id.'").simpleform({url:"'.JURI::root().'modules/mod_simpleform2/index.php",loaderImg:"'.JURI::root().'modules/mod_simpleform2/images/loading.gif",'.($userFunc != '' ? 'checkCallBack:'.$userFunc.',' : '').($userResultFunc != '' ? 'resultCallBack:'.$userResultFunc.',' : '').'});});';
 
-$script = '';
-if (!defined('SIMPLEFORM2') && $jqueryNoConflict) {
-    $script.= 'jQuery.noConflict();';
-}
-$script.= 'jQuery(document).ready(function(){jQuery("form#'.$id.'").simpleform({url:"'.JURI::root().'modules/mod_simpleform2/index.php",loaderImg:"'.JURI::root().'modules/mod_simpleform2/images/loading.gif",'.($userFunc != '' ? 'checkCallBack:'.$userFunc.',' : '').($userResultFunc != '' ? 'resultCallBack:'.$userResultFunc.',' : '').'});});';
-
-if ($cache == 1 && $sysCache == 1) {
-    if (!defined('SIMPLEFORM2')) {
-        if ($inclJquery)
-            echo '<script type="text/javascript" src="'.JURI::root().'modules/mod_simpleform2/ajax/jquery.js"></script>'."\n";
-        echo '<script type="text/javascript" src="'.JURI::root().'modules/mod_simpleform2/ajax/jquery.form.js"></script>'."\n";
-        echo '<script type="text/javascript" src="'.JURI::root().'modules/mod_simpleform2/ajax/jquery.simpleform.js"></script>'."\n";
-    }
-    echo '<script type="text/javascript">
-	'.$script.'
-	</script>';
-}
-else {
-    $doc = JFactory::getDocument();
-    if (!defined('SIMPLEFORM2')) {
-        if ($inclJquery) {
-            $doc->addScript('/modules/mod_simpleform2/ajax/jquery.js');
-        }
-        $doc->addScript('/modules/mod_simpleform2/ajax/jquery.form.js');
-        $doc->addScript('/modules/mod_simpleform2/ajax/jquery.simpleform.js');
-    }
-    $doc->addScriptDeclaration($script);
-}
 defined('SIMPLEFORM2') or define('SIMPLEFORM2', 1);
 
 $task     = JRequest::getCmd('task');

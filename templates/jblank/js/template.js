@@ -50,23 +50,20 @@ jQuery(document).ready(function ($)
     $('body').scrollBtn(options = $.extend({"posH": "right", "btnText2": "Вниз", "btnText": "Вверх"}));
 
     $('input[name=delcoocie]').click(function () {
-        jQuery.get('index.php?option=com_virtuemart&nosef=1&view=cart&task=deleteAll&format=json', {}, function () {
-            jQuery('div.vm_cart_products div.vmcontainer').html('');
-            jQuery('div.total_products').html('Корзина пуста');
+        $.get('index.php?option=com_virtuemart&nosef=1&view=cart&task=deleteAll&format=json', {}, function () {
+            $('div.vm_cart_products div.vmcontainer').html('');
+            $('div.total_products').html('Корзина пуста');
         });
     });
 
     $('body').css('background', '#000000 url("/templates/jblank/images/body-bg.png") repeat-x left top');
 
-    SqueezeBox.initialize({});
-    SqueezeBox.assign($('a.modal').get(), {
-        parse: 'rel'
-    });
-
-//    $("form#simpleForm2_103").simpleform({
-//        url: "/modules/mod_simpleform2/index.php",
-//        loaderImg: "/modules/mod_simpleform2/images/loading.gif"
-//    });
+    if (typeof SqueezeBox !== 'undefined') {
+        SqueezeBox.initialize({});
+        SqueezeBox.assign($('a.modal').get(), {
+            parse: 'rel'
+        });
+    }
 
     $('#VMmenu05_75748 li.VmClose ul').hide();
     $('#VMmenu05_75748 li .VmArrowdown').click(function () {
@@ -78,16 +75,30 @@ jQuery(document).ready(function ($)
         }
     });
 
-});
+    $('body').on('click', 'form#simpleForm2_103 input.button-gloss', function () {
+        $("form#simpleForm2_103").simpleform({
+            url: "http://newenter.local/modules/mod_simpleform2/index.php",
+            loaderImg: "http://newenter.local/modules/mod_simpleform2/images/loading.gif",
+            checkCallBack: function (id) {
+                var name = $('#' + id).find('input#sf2_103_vashe_imja').val();
+                var phone = $('#' + id).find('input#sf2_103_vash_nomer').val();
 
-(function ($) {
-    window.addEvent('domready', function () {
-        this.Slider105 = new DJImageSliderModule({id: '105', slider_type: 1, slide_size: 211, visible_slides: 2, show_buttons: 0, show_arrows: 1, preload: 800}, {auto: 1, transition: Fx.Transitions.Expo.easeInOut, duration: 1000, delay: 4000});
+                if (!name) {
+                    alert('Введите ваше имя');
+
+                    return false;
+                }
+
+                var re = /^[0-9]*$/;
+                var valid = re.test(phone);
+
+                if (!valid) {
+                    alert('Введите ваш телефонный номер');
+
+                    return false;
+                }
+                return true;
+            }
+        });
     });
-    window.addEvent('domready', function () {
-        this.Slider109 = new DJImageSliderModule({id: '109', slider_type: 1, slide_size: 211, visible_slides: 2, show_buttons: 0, show_arrows: 1, preload: 800}, {auto: 1, transition: Fx.Transitions.Expo.easeInOut, duration: 1000, delay: 4000});
-    });
-    window.addEvent('domready', function () {
-        this.Slider101 = new DJImageSliderModule({id: '101', slider_type: 2, slide_size: 700, visible_slides: 1, show_buttons: 0, show_arrows: 1, preload: 800}, {auto: 1, transition: Fx.Transitions.linear, duration: 600, delay: 3600});
-    });
-})(document.id);
+});
