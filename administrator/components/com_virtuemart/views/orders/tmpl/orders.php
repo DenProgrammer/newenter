@@ -45,7 +45,6 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                     <th colspan="2"><?php echo JText::_('COM_VIRTUEMART_ORDER_INVOICES') ?></th>
                     <th style="min-width:110px;"><?php echo vmText::_('COM_VIRTUEMART_PRINT_VIEW'); ?></th>
                     <th class="admin-dates"><?php echo $this->sort('created_on', 'COM_VIRTUEMART_ORDER_CDATE') ?></th>
-                    <th class="admin-dates"><?php echo $this->sort('modified_on', 'COM_VIRTUEMART_ORDER_LIST_MDATE') ?></th>
                     <th><?php echo $this->sort('order_total', 'COM_VIRTUEMART_TOTAL') ?></th>
 
                 </tr>
@@ -79,7 +78,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                                 }
                                 ?>
                             </td>
-                            <!-- Payment method -->
+                            <!-- invoices -->
                             <td>
                                 <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=commercial_invoice&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет-фактура</a><br />
                                 <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=waybill&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Накладная</a><br />
@@ -96,35 +95,14 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                             $print_url         = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=raw&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass;
                             $print_link        = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
                             $print_link .= '<span class="hasTip print_32" title="' . vmText::_('COM_VIRTUEMART_PRINT') . '">&nbsp;</span></a>';
-                            $invoice_link      = '';
-                            $deliverynote_link = '';
-
-                            if (!$order->invoiceNumber) {
-                                $invoice_url = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass . '&create_invoice=1';
-                                $invoice_link .= "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoicenew_32" title="' . vmText::_('COM_VIRTUEMART_INVOICE_CREATE') . '"></span></a>';
-                            } elseif (!shopFunctions::InvoiceNumberReserved($order->invoiceNumber)) {
-                                $invoice_url  = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass;
-                                $invoice_link = "<a href=\"$invoice_url\"  >" . '<span class="hasTip invoice_32" title="' . vmText::_('COM_VIRTUEMART_INVOICE') . '"></span></a>';
-                            }
-
-                            if (!$order->invoiceNumber) {
-                                $deliverynote_url  = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=deliverynote&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass . '&create_invoice=1';
-                                $deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynotenew_32" title="' . vmText::_('COM_VIRTUEMART_DELIVERYNOTE_CREATE') . '"></span></a>';
-                            } elseif (!shopFunctions::InvoiceNumberReserved($order->invoiceNumber)) {
-                                $deliverynote_url  = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=deliverynote&format=pdf&tmpl=component&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass;
-                                $deliverynote_link = "<a href=\"$deliverynote_url\"  >" . '<span class="hasTip deliverynote_32" title="' . vmText::_('COM_VIRTUEMART_DELIVERYNOTE') . '"></span></a>';
-                            }
+                            
                             ?>
                             <td><?php
                                 echo $print_link;
-                                echo $deliverynote_link;
-                                echo $invoice_link;
                                 ?>
                             </td>
                             <!-- Order date -->
                             <td><?php echo vmJsApi::date($order->created_on, 'LC2', TRUE); ?></td>
-                            <!-- Last modified -->
-                            <td><?php echo vmJsApi::date($order->modified_on, 'LC2', TRUE); ?></td>
                             <td><?php echo $order->order_total; ?></td>
 
                         </tr>
