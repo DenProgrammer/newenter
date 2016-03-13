@@ -56,14 +56,10 @@ if ($this->params->get('logoFile')) {
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="generator" content="Joomla! - Open Source Content Management" />
-        <title><?php echo $doc->title; ?></title>
         <jdoc:include type="head" />
+        <link rel="stylesheet" media="screen, projection" href="/templates/jblank/css/drift-basic.css" />
         <script type="text/javascript" src="/modules/mod_simpleform2/ajax/jquery.form.js"></script>
         <script type="text/javascript" src="/modules/mod_simpleform2/ajax/jquery.simpleform.js"></script>
-        <link rel="stylesheet" media="screen, projection" href="/templates/jblank/css/drift-basic.css" />
         <script src="/templates/jblank/js/Drift.min.js"></script>
     </head>
 

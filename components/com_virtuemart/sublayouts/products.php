@@ -51,8 +51,11 @@ $categoryNames = array();
 </script>
 <style>
     .wrap-detail {
-        left: 160px;
-        top: -100px;
+        left: 50%;
+        top: 50%;
+        position: fixed;
+        margin-top: -150px;
+        margin-left: -200px;
     }
 </style>
 <?php

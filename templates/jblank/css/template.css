@@ -1443,8 +1443,8 @@ div.new-product-image img{
 
 .detail {
     position: relative;
-    width: 400px;
-    height: 300px;
+    width: 380px;
+    height: 290px;
     border: solid 2px #e80101;
     border-radius: 10px;
     display: none;
