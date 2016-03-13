@@ -16,8 +16,8 @@
 define('ZYX_START_TIME', microtime());
 define('_JEXEC', 1);
 define('DS', DIRECTORY_SEPARATOR);
-$base = dirname(__FILE__);
-$base = str_replace(DS.'modules'.DS.'mod_simpleform2', '', $base);
+
+$base = str_replace(DS.'modules'.DS.'mod_simpleform2', '', dirname(__FILE__));
 define('JPATH_BASE', $base);
 
 require_once ( JPATH_BASE.DS.'includes'.DS.'defines.php' );
@@ -32,20 +32,20 @@ if (!isset($_SESSION['simple_form_last_send'])) {
     $_SESSION['simple_form_last_send'] = time();
 }
 
-//echo $nextSendThrough;exit;
-
 $language = JFactory::getLanguage();
 $language->load('mod_simpleform2', JPATH_SITE);
 $user     = JFactory::getUser();
 $task     = JRequest::getCmd('task');
 if ($task == 'captcha' || $task == 'sendForm') {
     $moduleID = (int) JRequest::getInt('moduleID', 0);
-    if ($moduleID == 0)
+    if ($moduleID == 0) {
         sfEcho('!'.JText::_('Form not found'));
-    $module   = JTable::getInstance('module');
+    }
+    $module = JTable::getInstance('module');
     $module->load($moduleID);
-    if (!$module->id || $module->id != $moduleID)
+    if (!$module->id || $module->id != $moduleID) {
         sfEcho('!'.JText::_('Form not found'));
+    }
 
     if (class_exists('JParameter')) {
         $params = new JParameter($module->params);
@@ -69,8 +69,9 @@ switch ($task) {
                 break;
             }
         }
-        if (is_null($captcha))
+        if (is_null($captcha)) {
             sfEcho('!'.JText::_('Form has no captcha'));
+        }
         $width      = ((int) $captcha->width > 0 ? (int) $captcha->width : 200);
         $height     = ((int) $captcha->height > 0 ? (int) $captcha->height : 60);
         $color      = ($captcha->color != '' ? $captcha->color : null);
@@ -82,7 +83,7 @@ switch ($task) {
         break;
     case 'sendForm':
         if ($_SESSION['simple_form_last_send'] + $nextSendThrough > time()) {
-            sfEcho("!Заказ письма можно делать раз в две минуты, попробуйте позднее!");
+            sfEcho("!Заказ звонка можно делать раз в две минуты, попробуйте позднее!");
         } else {
             $_SESSION['simple_form_last_send'] = time();
             $form->set('defaultError', JText::_('Enter value for'));
@@ -93,10 +94,10 @@ switch ($task) {
                 $ok = $form->sendEmail($result, $params);
                 if ($ok) {
                     sfEcho('='.$params->get('okText', JText::_('Form succeed')));
-                } else
+                } else {
                     sfEcho('!'.$form->getError());
-            }
-            else {
+                }
+            } else {
                 sfEcho('!'.$form->getError());
             }
         }

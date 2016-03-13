@@ -23,7 +23,39 @@ $allowGroups = array(7, 8);
 $showSku     = array_intersect($allowGroups, $userGroup);
 
 $categoryNames = array();
+?>
+<script>
+    jQuery(function ($) {
+        $('img[rel=product-image]').each(function () {
+            var id = $(this).attr('id');
+            var id1 = '.img_' + id;
+            var id2 = '.detail_' + id;
 
+            drift = new Drift(document.querySelector(id1), {
+                paneContainer: document.querySelector(id2),
+                inlinePane: 900,
+                inlineOffsetY: -85,
+                zoomFactor: 6,
+                containInline: true
+            });
+        });
+
+        $('td a img').on('mouseover', '', function () {
+            $(this).parent().parent().find('div.detail').css('display', 'block');
+        }).on('mouseout', '', function () {
+            $(this).parent().parent().find('div.detail').css('display', 'none');
+        });
+
+    });
+
+</script>
+<style>
+    .wrap-detail {
+        left: 160px;
+        top: -100px;
+    }
+</style>
+<?php
 foreach ($viewData['products'] as $type => $products) {
 
     $rowsHeight = shopFunctionsF::calculateProductRowsHeights($products, $currency, $products_per_row);
@@ -103,16 +135,29 @@ foreach ($viewData['products'] as $type => $products) {
                             <td width="140">
                                 <?php
                                 echo $newimg;
+
+                                $target = '';
                                 if ($product->images[0]->virtuemart_media_id > 0) {
-                                    ?>
-                                    <a title="<?php echo $product->product_name ?>" href="<?php echo $product->link; ?>">
-                                    <?php } else { ?>
-                                        <a title="Найти в Google" target="blank" href="http://www.google.kg/search?q=<?php echo $product->product_name; ?>&tbm=isch">
-                                        <?php } ?>
-                                        <?php
-                                        echo $product->images[0]->displayMediaThumb('class="browseProductImage"', false);
-                                        ?>
-                                    </a>
+                                    $title  = $product->product_name;
+                                    $href   = $product->link;
+                                    $target = ' target="blank" ';
+                                } else {
+                                    $title = 'Найти в Google';
+                                    $href  = 'http://www.google.kg/search?q='.$product->product_name.'&tbm=isch';
+                                }
+                                ?>
+                                <a title="<?php echo $title; ?>" <?php echo $target; ?> href="<?php echo $href; ?>">
+                                    <img 
+                                        id="<?php echo $product->virtuemart_product_id; ?>" 
+                                        class="img_<?php echo $product->virtuemart_product_id; ?>" alt="" width="100" 
+                                        rel="product-image"
+                                        src="<?php echo $product->images[0]->file_url; ?>" 
+                                        data-zoom="<?php echo $product->images[0]->file_url; ?>">
+                                </a>
+                                <div style="position: relative;">
+                                    <div class="wrap-detail"><div class="detail detail_<?php echo $product->virtuemart_product_id; ?>"></div></div>
+                                </div>
+
                             </td>
                             <td>
                                 <div class="rows">

@@ -60,7 +60,7 @@ if (vRequest::getInt('print', false)) {
             <?php echo $category_name; ?>
         </a>
 
-        <img alt="arrow" src="http://enter.kg/images/M_images/arrow.png">		
+        <img alt="arrow" src="/images/arrow.png">		
         <?php echo html_entity_decode($this->product->product_name); ?>
     </div>
 

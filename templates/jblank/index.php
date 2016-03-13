@@ -52,7 +52,6 @@ if ($this->params->get('logoFile')) {
 } else {
     $logo = '<span class="site-title" title="'.$sitename.'">'.$sitename.'</span>';
 }
-
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -64,6 +63,8 @@ if ($this->params->get('logoFile')) {
         <jdoc:include type="head" />
         <script type="text/javascript" src="/modules/mod_simpleform2/ajax/jquery.form.js"></script>
         <script type="text/javascript" src="/modules/mod_simpleform2/ajax/jquery.simpleform.js"></script>
+        <link rel="stylesheet" media="screen, projection" href="/templates/jblank/css/drift-basic.css" />
+        <script src="/templates/jblank/js/Drift.min.js"></script>
     </head>
 
     <body class="site <?php

@@ -41,8 +41,7 @@
 
 .drift-zoom-pane {
   background: rgba(0, 0, 0, 0.5);
-  /* This is required because of a bug that causes border-radius to not
-  work with child elements in certain cases. */
+  border-radius: 8px;
   transform: translate3d(0, 0, 0);
 }
 
