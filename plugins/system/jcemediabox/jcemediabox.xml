@@ -2,12 +2,12 @@
 <extension version="1.6" type="plugin" group="system" method="upgrade">
     <name>System - JCE MediaBox</name>
     <author>Ryan Demmer</author>
-    <creationDate>24 November 2015</creationDate>
+    <creationDate>15 March 2016</creationDate>
     <copyright>Copyright (C) 2006 - 2015 Ryan Demmer. All rights reserved</copyright>
     <license>GNU/GPL Version 2 - http://www.gnu.org/licenses/gpl-2.0.html</license>
     <authorEmail>@@email@@</authorEmail>
     <authorUrl>www.joomlacontenteditor.net</authorUrl>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <description>JCEMEDIABOX_DESC</description>
 
     <config>

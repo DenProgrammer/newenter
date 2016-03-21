@@ -1,11 +1,11 @@
 /**
- * JCEMediaBox 		1.2
+ * JCEMediaBox 		1.2.1
  * @package 		JCEMediaBox
  * @url				http://www.joomlacontenteditor.net
  * @copyright 		Copyright (C) 2006 - 2015 Ryan Demmer. All rights reserved
  * @copyright		Copyright 2009, Moxiecode Systems AB
  * @license 		GNU/GPL Version 2 - http://www.gnu.org/licenses/gpl-2.0.html
- * @date			24 November 2015
+ * @date			15 March 2016
  * This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
@@ -1145,7 +1145,7 @@
             },
             decode: function (s) {
                 var el;
-                
+
                 s = s.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
                 el = document.createElement("div");
@@ -2834,7 +2834,7 @@
             if (!data) {
                 // try data-mediabox-* attributes (since 1.1.23, JCE 2.5.3)
                 var i, attrs = n.attributes, x = 0;
-                
+
                 for (i = attrs.length - 1; i >= 0; i--) {
                     var attrName = attrs[i].name;
                     if (attrName && attrName.indexOf('data-mediabox-') !== -1) {
@@ -2843,7 +2843,7 @@
                         x++;
                     }
                 }
-                
+
                 if (x) {
                     return o;
                 }
@@ -3274,7 +3274,7 @@
                 DOM.addClass(this.page, 'scrolling');
                 DOM.style(this.overlay, 'height', DIM.getScrollHeight());
                 DOM.style(this.body, 'top', DIM.getScrollTop() + top);
-            }            
+            }
             // Fade in overlay
             if (JCEMediaBox.options.popup.overlay == 1 && this.overlay) {
                 DOM.show(this.overlay);
@@ -3438,8 +3438,8 @@
 
                 if (text) {
                     h += '<p>' + DOM.decode(text) + '</p>';
-                }                
-                
+                }
+
                 // set caption html (may be empty)
                 this.caption.innerHTML = h;
 
@@ -4191,6 +4191,7 @@
                         id: 'jcemediabox-popup-iframe',
                         frameborder: 0,
                         allowTransparency: true,
+                        allowfullscreen: true,
                         scrolling: t.active.params.scrolling || 'auto',
                         width: '100%',
                         height: '100%'

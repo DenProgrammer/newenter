@@ -31,14 +31,7 @@ jimport('joomla.plugin.plugin');
  */
 class plgSystemJCEMediabox extends JPlugin {
 
-    private static $version = '1.2';
-
-    /**
-     * Constructor
-     */
-    public function plgSystemJCEMediabox(&$subject, $config) {
-        parent::__construct($subject, $config);
-    }
+    private static $version = '1.2.1';
 
     protected function getPath() {
         return JPATH_PLUGINS . '/system/jcemediabox';

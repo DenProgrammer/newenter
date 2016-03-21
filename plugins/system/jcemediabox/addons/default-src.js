@@ -1,10 +1,10 @@
 /**
- * JCEMediaBox Addons 	1.2
+ * JCEMediaBox Addons 	1.2.1
  * @package             JCEMediaBox
  * @url			http://www.joomlacontenteditor.net
  * @copyright           Copyright (C) 2006 - 2015 Ryan Demmer. All rights reserved
  * @license 		GNU/GPL Version 2 - http://www.gnu.org/licenses/gpl-2.0.html
- * @date		24 November 2015
+ * @date		15 March 2016
  * This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
  * is derivative of works licensed under the GNU General Public License or
