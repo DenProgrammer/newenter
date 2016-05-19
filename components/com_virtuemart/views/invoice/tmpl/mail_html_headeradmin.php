@@ -25,7 +25,7 @@ defined('_JEXEC') or die('Restricted access');//echo '<pre>';print_r($this->vend
             <?php echo $this->vendor->vendor_store_desc; ?>
         </td>
         <td class="vmdoc-header-image">
-            <img src="<?php echo JURI::root().$this->vendor->images[0]->file_url_thumb; ?>" />
+            <img src="http://dark.go.kg/images/stories/enterkg230.jpg" />
         </td>
     </tr>
 </table>

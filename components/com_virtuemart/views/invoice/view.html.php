@@ -73,6 +73,7 @@ class VirtuemartViewInvoice extends VmView
                 } else {
                     $layout = 'mail_raw';
                 }
+                $layout = 'mail_html';
         }
         $this->setLayout($layout);
 
