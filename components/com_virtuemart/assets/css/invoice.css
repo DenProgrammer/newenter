@@ -1,0 +1,98 @@
+body{
+    word-wrap: break-word;
+}
+
+div.wrapper{
+    width: 100%;
+}
+
+table.main-table {
+    margin:10px auto;
+    width: 100%;
+}
+
+table.html-email {
+    margin:10px auto;
+    width: 90%;
+}
+
+.html-email tr{
+    border-bottom : 1px solid #eee;
+}
+
+span.grey {
+    color:#666;
+}
+
+span.date {
+    color:#666; 
+}
+
+a:link, a:hover, a:visited {
+    color:#666;
+    line-height:25px;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+a:hover {
+    color:#888;
+}
+
+.cart-summary{
+}
+
+.html-email th { 
+    background: #ccc;
+    margin: 0px;
+    padding: 10px;
+}
+
+.sectiontableentry2, .html-email th, .cart-summary th{ 
+    background: #ccc;
+    margin: 0px;
+    padding: 10px;
+}
+
+.sectiontableentry1, .html-email td, .cart-summary td {
+    background: #fff;
+    margin: 0px;
+    padding: 10px;
+}
+
+.line-through{
+    text-decoration:line-through;
+}
+
+#vmdoc-footer table, #vmdoc-header table, .vmdoc-footer table, .vmdoc-header table { 
+    font-size: inherit; 
+}
+
+#vmdoc-header h1, #vmdoc-footer h1, #vmdoc-header p, #vmdoc-footer p { 
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+.vmdoc-header-text{
+    text-align: left;
+}
+.vmdoc-header-image { 
+    padding: 0; 
+    vertical-align: top; 
+    text-align: right;
+}
+
+.vmdoc-header-vendor { 
+    width: 100%; 
+}
+
+td.vmdoc-header-separator, td.vmdoc-header-separator hr { 
+    padding: 0; 
+    margin-top: 0; 
+    margin-bottom: 0;
+}
+
+td.vmdoc-header-separator { 
+    padding: 0; 
+}
+

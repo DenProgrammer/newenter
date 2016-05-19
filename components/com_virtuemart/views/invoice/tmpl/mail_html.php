@@ -32,52 +32,137 @@ defined('_JEXEC') or die('Restricted access');
 
 <html>
     <head>
-	<style type="text/css">
-            body, td, span, p, th {  }
-	    table.html-email {margin:10px auto;background:#fff;border:solid #dad8d8 1px;}
-	    .html-email tr{border-bottom : 1px solid #eee;}
-	    span.grey {color:#666;}
-	    span.date {color:#666; }
-	    a.default:link, a.default:hover, a.default:visited {color:#666;line-height:25px;background: #f2f2f2;margin: 10px ;padding: 3px 8px 1px 8px;border: solid #CAC9C9 1px;border-radius: 4px;-webkit-border-radius: 4px;-moz-border-radius: 4px;text-shadow: 1px 1px 1px #f2f2f2;font-size: 12px;background-position: 0px 0px;display: inline-block;text-decoration: none;}
-	    a.default:hover {color:#888;background: #f8f8f8;}
-	    .cart-summary{ }
-	    .html-email th { background: #ccc;margin: 0px;padding: 10px;}
-	    .sectiontableentry2, .html-email th, .cart-summary th{ background: #ccc;margin: 0px;padding: 10px;}
-	    .sectiontableentry1, .html-email td, .cart-summary td {background: #fff;margin: 0px;padding: 10px;}
-	    .line-through{text-decoration:line-through}
-	    <?php if ($this->vendor->vendor_letter_header==1 || $this->vendor->vendor_letter_footer==1) { echo $this->vendor->vendor_letter_css; } ?> 
-	    /* Firefox has a hard-coded font-size style for tables, so it won't by default inherit the surrounding div's font-size! */
-	    #vmdoc-footer table, #vmdoc-header table, .vmdoc-footer table, .vmdoc-header table { font-size: inherit; }
-	    #vmdoc-header h1, #vmdoc-footer h1, #vmdoc-header p, #vmdoc-footer p { margin-top: 0; margin-bottom: 0; }
-	    .vmdoc-header-image { padding: 0; vertical-align: top; }
-	    .vmdoc-header-vendor { width: 100%; }
-	    td.vmdoc-header-separator, td.vmdoc-header-separator hr { padding: 0; margin-top: 0; margin-bottom: 0; }
-	    td.vmdoc-header-separator { padding: 0; }
-	</style>
+        <style type="text/css">
+            body{
+                word-wrap: break-word;
+            }
 
+            div.wrapper{
+                width: 100%;
+            }
+
+            table.main-table {
+                margin:10px auto;
+                width: 100%;
+            }
+
+            table.html-email {
+                margin:10px auto;
+                width: 90%;
+            }
+
+            .html-email tr{
+                border-bottom : 1px solid #eee;
+            }
+
+            span.grey {
+                color:#666;
+            }
+
+            span.date {
+                color:#666; 
+            }
+
+            a:link, a:hover, a:visited {
+                color:#666;
+                line-height:25px;
+                font-size: 12px;
+                text-decoration: none;
+            }
+
+            a:hover {
+                color:#888;
+            }
+
+            .cart-summary{
+            }
+
+            .html-email th { 
+                background: #ccc;
+                margin: 0px;
+                padding: 10px;
+            }
+
+            .sectiontableentry2, .html-email th, .cart-summary th{ 
+                background: #ccc;
+                margin: 0px;
+                padding: 10px;
+            }
+
+            .sectiontableentry1, .html-email td, .cart-summary td {
+                background: #fff;
+                margin: 0px;
+                padding: 10px;
+            }
+
+            .line-through{
+                text-decoration:line-through;
+            }
+
+            #vmdoc-footer table, #vmdoc-header table, .vmdoc-footer table, .vmdoc-header table { 
+                font-size: inherit; 
+            }
+
+            #vmdoc-header h1, #vmdoc-footer h1, #vmdoc-header p, #vmdoc-footer p { 
+                margin-top: 0; 
+                margin-bottom: 0; 
+            }
+
+            .vmdoc-header-text{
+                text-align: left;
+            }
+            .vmdoc-header-image { 
+                padding: 0; 
+                vertical-align: top; 
+                text-align: right;
+            }
+
+            .vmdoc-header-vendor { 
+                width: 100%; 
+            }
+
+            td.vmdoc-header-separator, td.vmdoc-header-separator hr { 
+                padding: 0; 
+                margin-top: 0; 
+                margin-bottom: 0;
+            }
+
+            td.vmdoc-header-separator { 
+                padding: 0; 
+            }
+
+
+        </style>
+        <?php
+        if ($this->vendor->vendor_letter_header == 1 || $this->vendor->vendor_letter_footer == 1) {
+            echo ''.$this->vendor->vendor_letter_css.'</style>';
+            echo '<style type="text/css">'.$this->vendor->vendor_letter_css.'</style>';
+        }
+        ?> 
     </head>
 
-    <body style="background: #F2F2F2;word-wrap: break-word;">
-	<div style="background-color: #e6e6e6;" width="100%">
-	    <table style="margin: auto;" cellpadding="0" cellspacing="0"  ><tr><td>
-			<?php
-// Shop desc for shopper and vendor
-			if ($this->recipient == 'shopper') {
-			    echo $this->loadTemplate('header');
-			}
-// Message for shopper or vendor
-			echo $this->loadTemplate($this->recipient);
-// render shipto billto adresses
-			echo $this->loadTemplate('shopperaddresses');
-// render price list
-			echo $this->loadTemplate('pricelist');
-// more infos
-			echo $this->loadTemplate($this->recipient . '_more');
-// end of mail
-			echo $this->loadTemplate('footer');
-			?>
-		    </td></tr>
-	    </table>
-	</div>
+    <body>
+        <div class="wrapper">
+            <table class="main-table">
+                <tr>
+                    <td>
+                        <?php
+                        if ($this->recipient == 'shopper') {
+                            echo $this->loadTemplate('header');
+                        } else {
+                            echo $this->loadTemplate('headeradmin');
+                        }
+
+                        echo $this->loadTemplate('orderinfo');
+                        echo $this->loadTemplate('shopperaddresses');
+                        echo $this->loadTemplate('pricelist');
+                        echo $this->loadTemplate($this->recipient);
+                        echo $this->loadTemplate($this->recipient.'_more');
+                        echo $this->loadTemplate('footer');
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

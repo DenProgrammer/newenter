@@ -158,7 +158,7 @@ class VirtueMartCart
                     self::$_cart->_fromCart       = $sessionCart->_fromCart;
                     self::$_cart->layout          = $sessionCart->layout;
                     self::$_cart->layoutPath      = $sessionCart->layoutPath;
-                    self::$_cart->note            = $sessionCart->note;
+                    self::$_cart->note            = @$sessionCart->note;
                 }
             }
 
