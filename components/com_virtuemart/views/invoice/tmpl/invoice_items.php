@@ -28,14 +28,14 @@ if ($this->doctype != 'invoice') {
 ?>
 <table class="html-email" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr align="left" class="sectiontableheader">
-        <td align="center" width="6%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QTY') ?></strong></td>
-        <td align="center" colspan="2" ><strong><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME_TITLE') ?></strong></td>
-        <td align="center" width="8%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></strong></td>
+        <th align="center" width="6%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QTY') ?></strong></th>
+        <th align="center" colspan="2" ><strong><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME_TITLE') ?></strong></th>
+        <th align="center" width="8%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></strong></th>
         <?php if ($this->doctype == 'invoice') { ?>
-            <td align="center" width="8%" ><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRICE') ?></strong></td>
+            <th align="center" width="8%" ><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRICE') ?></strong></th>
         <?php } ?>
         <?php if ($this->doctype == 'invoice') { ?>
-            <td align="center" width="8%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></strong></td>
+            <th align="center" width="8%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></strong></th>
         <?php } ?>
     </tr>
 
