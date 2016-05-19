@@ -1,10 +1,8 @@
 body{
-    background: #F2F2F2;
     word-wrap: break-word;
 }
 
 div.wrapper{
-    background-color: #e6e6e6;
     width: 100%;
 }
 
@@ -15,8 +13,6 @@ table.main-table {
 
 table.html-email {
     margin:10px auto;
-    background:#fff;
-    border:solid #dad8d8 1px;
     width: 90%;
 }
 

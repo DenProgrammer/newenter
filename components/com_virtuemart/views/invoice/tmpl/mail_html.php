@@ -52,6 +52,7 @@ defined('_JEXEC') or die('Restricted access');
                             echo $this->loadTemplate('headeradmin');
                         }
 
+                        echo $this->loadTemplate('orderinfo');
                         echo $this->loadTemplate('shopperaddresses');
                         echo $this->loadTemplate('pricelist');
                         echo $this->loadTemplate($this->recipient);

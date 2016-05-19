@@ -17,18 +17,15 @@
  *
  */
 // Check to ensure this file is included in Joomla!
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die('Restricted access');//echo '<pre>';print_r($this->vendor->images);exit;
 ?>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="html-email">
     <tr>
         <td class="vmdoc-header-text">
-            Салон компьютерной техники WWW.ENTER.KG<br />
-            пр. Чуй, 170<br />
-            ул.Московская, 195<br />
-            Бишкек, 720000<br />
+            <?php echo $this->vendor->vendor_store_desc; ?>
         </td>
         <td class="vmdoc-header-image">
-            <img src="<?php echo JURI::root().'/images/stories/enterkg.jpg' ?>" />
+            <img src="<?php echo JURI::root().$this->vendor->images[0]->file_url_thumb; ?>" />
         </td>
     </tr>
 </table>
