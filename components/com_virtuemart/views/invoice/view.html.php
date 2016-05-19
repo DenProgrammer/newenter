@@ -30,7 +30,7 @@ if (!class_exists('VmImage')) require(VMPATH_ADMIN.DS.'helpers'.DS.'image.php');
 class VirtuemartViewInvoice extends VmView {
 
 	var $format = 'html';
-	var $doVendor = false;
+	var $doVendor = true;
 	var $uselayout	= '';
 	var $orderDetails = 0;
 	var $invoiceNumber =0;

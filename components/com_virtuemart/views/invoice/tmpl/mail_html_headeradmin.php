@@ -1,12 +1,12 @@
 <?php
 /**
  *
- * Layout for the shopping cart, look in mailshopper for more details
+ * Define here the Header for order mail success !
  *
- * @package	VirtueMart
- * @subpackage Order
- * @author Max Milbers, Valerie Isaksen
- *
+ * @package    VirtueMart
+ * @subpackage Cart
+ * @author Kohl Patrick
+ * @author Valérie Isaksen
  * @link http://www.virtuemart.net
  * @copyright Copyright (c) 2004 - 2010 VirtueMart Team. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
@@ -21,12 +21,14 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="html-email">
     <tr>
-        <td>
-            <?php
-            if (!empty($this->orderDetails['details']['BT']->customer_note)) {
-                echo '<br /><br />'.vmText::sprintf('COM_VIRTUEMART_CART_MAIL_VENDOR_SHOPPER_QUESTION', $this->orderDetails['details']['BT']->customer_note).'<br />';
-            }
-            ?>
+        <td class="vmdoc-header-text">
+            Салон компьютерной техники WWW.ENTER.KG<br />
+            пр. Чуй, 170<br />
+            ул.Московская, 195<br />
+            Бишкек, 720000<br />
+        </td>
+        <td class="vmdoc-header-image">
+            <img src="<?php echo JURI::root().'/images/stories/enterkg.jpg' ?>" />
         </td>
     </tr>
 </table>

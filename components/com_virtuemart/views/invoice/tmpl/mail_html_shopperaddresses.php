@@ -21,49 +21,54 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 ?>
-<table class="html-email" cellspacing="0" cellpadding="0" border="0" width="100%">  <tr  >
-	<th width="50%">
-	    <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_BILLTO_LBL'); ?>
-	</th>
-	<th width="50%" >
-	    <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL'); ?>
-	</th>
+<table class="html-email" cellspacing="0" cellpadding="0" border="0" width="100%">  
+    <tr  >
+        <th>
+            <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_BILLTO_LBL'); ?>
+        </th>
     </tr>
     <tr>
-	<td valign="top" width="50%">
+        <td valign="top">
 
-	    <?php
+            <?php
+            foreach ($this->userfields['fields'] as $field) {
+                if (!empty($field['value'])) {
+                    ?><!-- span class="titles"><?php echo $field['title'] ?></span -->
+                    <span class="values vm2<?php echo '-'.$field['name'] ?>" ><?php echo $field['value'] ?></span>
+                    <?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
+                        <br class="clear" />
+                        <?php
+                    }
+                }
+            }
+            ?>
 
-	    foreach ($this->userfields['fields'] as $field) {
-		if (!empty($field['value'])) {
-			?><!-- span class="titles"><?php echo $field['title'] ?></span -->
-	    	    <span class="values vm2<?php echo '-' . $field['name'] ?>" ><?php echo $field['value'] ?></span>
-			<?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
-			    <br class="clear" />
-			    <?php
-			}
-		    }
-		 
-	    }
-	    ?>
+        </td>
+    </tr>
+</table>
 
-	</td>
-	<td valign="top" width="50%">
-	    <?php
-	    foreach ($this->shipmentfields['fields'] as $field) {
+<table class="html-email" cellspacing="0" cellpadding="0" border="0" width="100%"> 
+    <tr>
+        <th>
+            <?php echo vmText::_('COM_VIRTUEMART_USER_FORM_SHIPTO_LBL'); ?>
+        </th>
+    </tr>
+    <tr>
+        <td valign="top">
+            <?php
+            foreach ($this->shipmentfields['fields'] as $field) {
 
-		if (!empty($field['value'])) {
-			    ?><!-- span class="titles"><?php echo $field['title'] ?></span -->
-			    <span class="values vm2<?php echo '-' . $field['name'] ?>" ><?php echo $field['value'] ?></span>
-			    <?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
-		    	    <br class="clear" />
-				<?php
-			    }
-			}
-	    }
-
-	    ?>
-	</td>
+                if (!empty($field['value'])) {
+                    ?><!-- span class="titles"><?php echo $field['title'] ?></span -->
+                    <span class="values vm2<?php echo '-'.$field['name'] ?>" ><?php echo $field['value'] ?></span>
+                    <?php if ($field['name'] != 'title' and $field['name'] != 'first_name' and $field['name'] != 'middle_name' and $field['name'] != 'zip') { ?>
+                        <br class="clear" />
+                        <?php
+                    }
+                }
+            }
+            ?>
+        </td>
     </tr>
 </table>
 
