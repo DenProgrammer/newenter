@@ -25,17 +25,19 @@ if ($this->doctype != 'invoice') {
 } elseif (!VmConfig::get('show_tax')) {
     $colspan -= 1;
 }
+
+$details = $this->orderDetails['details']['BT'];
 ?>
 <table class="html-email" width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr align="left" class="sectiontableheader">
-        <th align="center" width="6%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QTY') ?></strong></th>
+        <th align="center" width="20"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QTY') ?></strong></th>
         <th align="center" colspan="2" ><strong><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME_TITLE') ?></strong></th>
-        <th align="center" width="8%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></strong></th>
+        <th align="center" width="100"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></strong></th>
         <?php if ($this->doctype == 'invoice') { ?>
-            <th align="center" width="8%" ><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRICE') ?></strong></th>
+            <th align="center" width="150" ><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRICE') ?></strong></th>
         <?php } ?>
         <?php if ($this->doctype == 'invoice') { ?>
-            <th align="center" width="8%"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></strong></th>
+            <th align="center" width="170"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></strong></th>
         <?php } ?>
     </tr>
 
@@ -43,8 +45,8 @@ if ($this->doctype != 'invoice') {
     $menuItemID = shopFunctionsF::getMenuItemId($this->orderDetails['details']['BT']->order_language);
 
     foreach ($this->orderDetails['items'] as $item) {
-        $qtt               = $item->product_quantity;
-        $product_link      = JURI::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='.$item->virtuemart_category_id.
+        $qtt          = $item->product_quantity;
+        $product_link = JURI::root().'index.php?option=com_virtuemart&view=productdetails&virtuemart_category_id='.$item->virtuemart_category_id.
                 '&virtuemart_product_id='.$item->virtuemart_product_id.'&Itemid='.$menuItemID;
         ?>
         <tr valign="top">
@@ -52,15 +54,9 @@ if ($this->doctype != 'invoice') {
                 <?php echo $qtt; ?>
             </td>
             <td align="left" colspan="2" >
-                <div float="right" ><a href="<?php echo $product_link; ?>"><?php echo $item->order_item_name; ?></a></div>
-                <?php
-                //if (!empty($item->product_attribute)) {
-                if (!class_exists('VirtueMartModelCustomfields'))
-                    require(VMPATH_ADMIN.DS.'models'.DS.'customfields.php');
-                $product_attribute = VirtueMartModelCustomfields::CustomsFieldOrderDisplay($item, 'FE');
-                echo $product_attribute;
-                //}
-                ?>
+                <a href="<?php echo $product_link; ?>">
+                    <?php echo html_entity_decode($item->order_item_name); ?>
+                </a>
             </td>
             <td align="left">
                 <?php echo $item->order_item_sku; ?>
@@ -68,28 +64,19 @@ if ($this->doctype != 'invoice') {
             <?php if ($this->doctype == 'invoice') { ?>
                 <td align="right"   class="priceCol" >
                     <?php
-                    $item->product_discountedPriceWithoutTax = (float) $item->product_discountedPriceWithoutTax;
-                    if (!empty($item->product_priceWithoutTax) && $item->product_discountedPriceWithoutTax != $item->product_priceWithoutTax) {
-                        echo '<span class="line-through">'.$this->currency->priceDisplay($item->product_item_price, $this->currency).'</span><br />';
-                        echo '<span >'.$this->currency->priceDisplay($item->product_discountedPriceWithoutTax, $this->currency).'</span><br />';
-                    } else {
-                        echo '<span >'.$this->currency->priceDisplay($item->product_item_price, $this->currency).'</span><br />';
-                    }
+                    echo round($this->currency->roundForDisplay($item->product_item_price, 165, 1, 0))
+                    .' '.JText::_('COM_VIRTUEMART_CURRENCY_KGS').' / '
+                    .round($item->product_item_price, 2).' $';
                     ?>
                 </td>
             <?php } ?>
             <?php if ($this->doctype == 'invoice') { ?>
                 <td align="right"  class="priceCol">
                     <?php
-                    $item->product_basePriceWithTax = (float) $item->product_basePriceWithTax;
-                    $class                          = '';
-                    if (!empty($item->product_basePriceWithTax) && $item->product_basePriceWithTax != $item->product_final_price) {
-                        echo '<span class="line-through" >'.$this->currency->priceDisplay($item->product_basePriceWithTax, $this->currency, $qtt).'</span><br />';
-                    } elseif (empty($item->product_basePriceWithTax) && $item->product_item_price != $item->product_final_price) {
-                        echo '<span class="line-through">'.$this->currency->priceDisplay($item->product_item_price, $this->currency, $qtt).'</span><br />';
-                    }
-
-                    echo $this->currency->priceDisplay($item->product_subtotal_with_tax, $this->currency); //No quantity or you must use product_final_price 
+                    echo round($item->product_subtotal_with_tax * $details->exchange_usd, 2).' '
+                    .JText::_('COM_VIRTUEMART_CURRENCY_KGS')
+                    .' / '
+                    .$this->currency->priceDisplay($item->product_subtotal_with_tax, $this->currency);
                     ?>
                 </td>
             <?php } ?>
@@ -99,10 +86,23 @@ if ($this->doctype != 'invoice') {
     }
     ?>
     <?php if ($this->doctype == 'invoice') { ?>
-        <tr><td colspan="6"><hr></td></tr>
         <tr>
-            <td align="right" class="pricePad" colspan="5"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></strong></td>
-            <td align="right"><strong><?php echo $this->currency->priceDisplay($this->orderDetails['details']['BT']->order_total, $this->currency); ?></strong></td>
+            <td colspan="6">
+                <hr />
+            </td>
+        </tr>
+        <tr>
+            <td align="right" class="pricePad" colspan="5">
+                <?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?>
+            </td>
+            <td align="right">
+                <?php
+                echo round($this->orderDetails['details']['BT']->order_total * $details->exchange_usd, 2).' '
+                .JText::_('COM_VIRTUEMART_CURRENCY_KGS')
+                .' / '
+                .$this->currency->priceDisplay($this->orderDetails['details']['BT']->order_total, $this->currency);
+                ?>
+            </td>
         </tr>
 
     <?php } ?>

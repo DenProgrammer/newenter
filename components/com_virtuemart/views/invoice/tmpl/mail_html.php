@@ -33,8 +33,10 @@ defined('_JEXEC') or die('Restricted access');
 <html>
     <head>
         <style type="text/css">
-            body{
-                word-wrap: break-word;
+            td,th,a{
+                font-family: Verdana,Arial,Helvetica,sans-serif;
+                font-size: 12px;
+                color: #000;
             }
 
             div.wrapper{
@@ -64,8 +66,6 @@ defined('_JEXEC') or die('Restricted access');
             }
 
             a:link, a:hover, a:visited {
-                color:#666;
-                line-height:25px;
                 font-size: 12px;
                 text-decoration: none;
             }
@@ -80,19 +80,19 @@ defined('_JEXEC') or die('Restricted access');
             .html-email th { 
                 background: #ccc;
                 margin: 0px;
-                padding: 10px;
+                padding: 2px;
             }
 
             .sectiontableentry2, .html-email th, .cart-summary th{ 
                 background: #ccc;
                 margin: 0px;
-                padding: 10px;
+                padding: 2px;
             }
 
             .sectiontableentry1, .html-email td, .cart-summary td {
                 background: #fff;
                 margin: 0px;
-                padding: 10px;
+                padding: 2px;
             }
 
             .line-through{
@@ -133,11 +133,6 @@ defined('_JEXEC') or die('Restricted access');
 
 
         </style>
-        <?php
-        if ($this->vendor->vendor_letter_header == 1 || $this->vendor->vendor_letter_footer == 1) {
-            echo '<style type="text/css">'.$this->vendor->vendor_letter_css.'</style>';
-        }
-        ?> 
     </head>
 
     <body>
