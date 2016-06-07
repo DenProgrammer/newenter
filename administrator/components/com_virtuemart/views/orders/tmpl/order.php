@@ -129,8 +129,8 @@ JPluginHelper::importPlugin('vmpayment');
                                 <th class="title" width="" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_NAME') ?></th>
                                 <th class="title" width="10%" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></th>
                                 <th class="title" width="47" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QUANTITY') ?></th>
-                                <th class="title" width="120" align="center"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_NET') ?></th>
-                                <th class="title" width="120" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></th>
+                                <th class="title" width="140" align="center"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_NET') ?></th>
+                                <th class="title" width="140" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></th>
                             </tr>
                         </thead>
                         <?php
