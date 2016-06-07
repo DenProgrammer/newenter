@@ -34,10 +34,10 @@ $details = $this->orderDetails['details']['BT'];
         <th align="center" colspan="2" ><strong><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_NAME_TITLE') ?></strong></th>
         <th align="center" width="100"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></strong></th>
         <?php if ($this->doctype == 'invoice') { ?>
-            <th align="center" width="150" ><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRICE') ?></strong></th>
+            <th align="center" width="140" ><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PRICE') ?></strong></th>
         <?php } ?>
         <?php if ($this->doctype == 'invoice') { ?>
-            <th align="center" width="170"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></strong></th>
+            <th align="center" width="150"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></strong></th>
         <?php } ?>
     </tr>
 
@@ -58,7 +58,7 @@ $details = $this->orderDetails['details']['BT'];
                     <?php echo html_entity_decode($item->order_item_name); ?>
                 </a>
             </td>
-            <td align="left">
+            <td align="center">
                 <?php echo $item->order_item_sku; ?>
             </td>
             <?php if ($this->doctype == 'invoice') { ?>

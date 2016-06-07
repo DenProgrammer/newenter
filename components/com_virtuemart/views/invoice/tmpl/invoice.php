@@ -35,82 +35,72 @@ if (!empty($this->vendor->vendor_letter_css)) {
 
 $this->vendor->vendor_letter_header_image;
 
-if ($this->headFooter) {
-    ?>
-    <style><?php echo $this->vendor->vendor_letter_css; ?></style>
-    <div class="vendor-details-view">
-        <?php echo ($this->format == "html") ? $this->replaceVendorFields($this->vendor->vendor_letter_header_html, $this->vendor) : $this->vendor->vendor_letter_header_html; ?>
-    </div>
-
-    <div class="vendor-description">
-    </div> <?php
-}
-
-
 if ($this->print) {
     ?>
-    <body onload="javascript:print();">
-    <?php }
-    ?>
-    <table width = "100%">
-        <tr>
-            <td id = "vmPage" style = "width:80%;vertical-align:top;padding-left: 5px;"><style type = 'text/css' media = 'print'>.vmNoPrint { display: none }</style><br />&nbsp; &nbsp;
-                <br /><br />
-                <table width = "100%" align = "center" border = "0" cellspacing = "0" cellpadding = "2">
-                    <tr>
-                        <td valign = "top">
-                            <h2>Информация о заказе</h2>
-                            <p>Салон компьютерной техники WWW.ENTER.KG<br />
-                                пр. Чуй, 170<br />
-                                ул.Московская, 195<br />
-                                Бишкек, 720000</p>
-                        </td>
-                        <td valign = "top" width = "10%" align = "right"><img border = "0" src = "http://enter.kg/components/com_virtuemart/shop_image/vendor/_________________4d71e35122017.jpg" alt = "Салон компьютерной техники WWW.ENTER.KG" /></td>
-                    </tr>
-                </table>
-                <?php
-                echo $this->loadTemplate('order');
-                ?>
-                <br />
-                <table border = "0" cellspacing = "0" cellpadding = "2" width = "100%">
-                    <tr>
-                        <td colspan = "2">&nbsp; </td>
-                    </tr>
-                    <tr>
-                        <td colspan = "2">&nbsp; </td>
-                    </tr>
-                    <!--Begin Order Items Information -->
-                    <tr class = "sectiontableheader">
-                        <th align = "left" colspan = "2">Содержание заказа</th>
-                    </tr>
-                    <tr>
-                        <td>&nbsp; </td>
-                        <td align = "right" style = "padding-right: 5px;">
-                            <strong> Курс доллара к сому: </strong> <?php echo $this->orderDetails['details']['BT']->exchange_usd; ?> сом
-                            &nbsp; &nbsp; &nbsp; &nbsp;
-                            <strong> Сдача по курсу: </strong> <?php echo $this->orderDetails['details']['BT']->delivery; ?> сом
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan = "2">
-                            <?php echo $this->loadTemplate('items'); ?>
-                        </td>
-                    </tr>
-                </table>
-                <script type = "text/javascript">
-                    //<!--
-                    window.document.title = "Вид для печати";
-                    //-->
-                </script>
-            </td>
-        </tr>
-    </table>
+    <html>
+        <head>
+            <title>Вид для печати</title>
+            <style type="text/css">
+                html, p, td, th, a{
+                    font-size: 14px;
+                    color: black;
+                    text-decoration: none;
+                }
+                h2{
+                    font-size: 16px;
+                }
+            </style>
+        </head>
+        <body onload="javascript:print2();">
+        <?php }
+        ?>
+        <table width = "100%">
+            <tr>
+                <td id = "vmPage" style = "width:80%;vertical-align:top;padding-left: 5px;">
+                    <style type = 'text/css' media = 'print'>
+                        .vmNoPrint { 
+                            display: none;
+                        }
+                    </style>
+                    <table width = "100%" align = "center" border = "0" cellspacing = "0" cellpadding = "2">
+                        <tr>
+                            <td valign = "top">
+                                <h2>Информация о заказе</h2>
+                                <p>Салон компьютерной техники WWW.ENTER.KG<br />
+                                    пр. Чуй, 170<br />
+                                    ул.Московская, 195<br />
+                                    Бишкек, 720000</p>
+                            </td>
+                            <td valign = "top" width = "10%" align = "right">
+                                <img border = "0" height="100" src = "http://enter.kg/components/com_virtuemart/shop_image/vendor/_________________4d71e35122017.jpg" alt = "Салон компьютерной техники WWW.ENTER.KG" />
+                            </td>
+                        </tr>
+                    </table>
+                    <?php
+                    echo $this->loadTemplate('order');
+                    ?>
+                    <br />
+                    <table border = "0" cellspacing = "0" cellpadding = "2" width = "100%">
+                        <!--Begin Order Items Information -->
+                        <tr class = "sectiontableheader">
+                            <th align = "left">Содержание заказа</th>
+                            <th align = "right">
+                                <strong> Курс доллара к сому: </strong> <?php echo $this->orderDetails['details']['BT']->exchange_usd; ?> сом
+                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                <strong> Сдача по курсу: </strong> <?php echo $this->orderDetails['details']['BT']->delivery; ?> сом
+                            </th>
+                        </tr>
+                        <tr>
+                            <td colspan = "2">
+                                <?php echo $this->loadTemplate('items'); ?>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
-</body>
+    </body>
 
-
+</html>

@@ -36,44 +36,11 @@ if ($this->doctype == 'invoice') {
 <br />
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
-        <td ><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_NUMBER') ?></td>
-        <td align="left"><strong>
-                <?php echo $this->orderDetails['details']['BT']->virtuemart_order_id; ?>
-            </strong>
-        </td>
-    </tr>
-
-    <tr>
-        <td class=""><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_DATE') ?></td>
-        <td align="left"><?php echo vmJsApi::date($this->orderDetails['details']['BT']->created_on, 'LC4', true); ?></td>
-    </tr>
-    <?php if ($this->orderDetails['details']['BT']->customer_note) { ?>
-        <tr>
-            <td><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_CUSTOMER_NOTE') ?></td>
-            <td valign="top" align="left" width="50%"><?php echo $this->orderDetails['details']['BT']->customer_note; ?></td>
-        </tr>
-    <?php } ?>
-
-    <tr>
-        <td colspan="2"><br /></td>
+        <th align="left">Информация о клиенте</th>
+        <th align="left">Информация о Заказе</th>
     </tr>
     <tr>
-        <th colspan="2" align="left">Информация о клиенте</th>
-    </tr>
-    <tr>
-        <td valign="top"><strong>
-                <?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_BILL_TO_LBL') ?></strong> <br/>
-            <table border="0"><?php
-                foreach ($this->userfields['fields'] as $field) {
-                    if (!empty($field['value'])) {
-                        echo '<tr><td class="key">'.$field['title'].'</td>'
-                        .'<td>'.$field['value'].'</td></tr>';
-                    }
-                }
-                ?></table>
-        </td>
-        <td valign="top" ><strong>
-                <?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIP_TO_LBL') ?></strong><br/>
+        <td valign="top">
             <table border="0"><?php
                 foreach ($this->shipmentfields['fields'] as $field) {
                     if (!empty($field['value'])) {
@@ -82,6 +49,28 @@ if ($this->doctype == 'invoice') {
                     }
                 }
                 ?></table>
+        </td>
+        <td valign="top" >
+            <table border="0">
+                <tr>
+                    <td class="key" ><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_NUMBER') ?></td>
+                    <td align="left"><strong>
+                            <?php echo $this->orderDetails['details']['BT']->virtuemart_order_id; ?>
+                        </strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="key"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_DATE') ?></td>
+                    <td align="left"><?php echo vmJsApi::date($this->orderDetails['details']['BT']->created_on, 'LC4', true); ?></td>
+                </tr>
+                <?php if ($this->orderDetails['details']['BT']->customer_note) { ?>
+                    <tr>
+                        <td class="key"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_CUSTOMER_NOTE') ?></td>
+                        <td valign="top" align="left" width="50%"><?php echo $this->orderDetails['details']['BT']->customer_note; ?></td>
+                    </tr>
+                <?php } ?>
+            </table>
         </td>
     </tr>
 </table>
