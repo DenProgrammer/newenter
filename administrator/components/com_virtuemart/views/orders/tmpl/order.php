@@ -24,220 +24,69 @@ AdminUIHelper::imitateTabs('start', 'COM_VIRTUEMART_ORDER_PRINT_PO_LBL');
 JPluginHelper::importPlugin('vmshopper');
 JPluginHelper::importPlugin('vmshipment');
 JPluginHelper::importPlugin('vmpayment');
-
-vmJsApi::addJScript('orderedit', "
-		jQuery( function($) {
-
-			$('.orderedit').hide();
-			$('.ordereditI').show();
-			$('.orderedit').css('backgroundColor', 'lightgray');
-
-			jQuery('.updateOrderItemStatus').click(function() {
-				document.orderItemForm.task.value = 'updateOrderItemStatus';
-				document.orderItemForm.submit();
-				return false
-			});
-
-			jQuery('select#virtuemart_paymentmethod_id').change(function(){
-				jQuery('span#delete_old_payment').show();
-				jQuery('input#delete_old_payment').attr('checked','checked');
-			});
-
-		});
-
-		function enableEdit(e)
-		{
-			jQuery('.orderedit').each( function()
-			{
-				var d = jQuery(this).css('visibility')=='visible';
-				jQuery(this).toggle();
-				jQuery('.orderedit').css('backgroundColor', d ? 'white' : 'lightgray');
-				jQuery('.orderedit').css('color', d ? 'blue' : 'black');
-			});
-			jQuery('.ordereditI').each( function()
-			{
-				jQuery(this).toggle();
-			});
-			e.preventDefault();
-		};
-
-		function addNewLine(e,i) {
-
-			var row = jQuery('#itemTable').find('tbody tr:first').html();
-			var needle = 'item_id['+i+']';
-			//var needle = new RegExp('item_id['+i+']','igm');
-			while (row.contains(needle)){
-				row = row.replace(needle,'item_id[0]');
-			}
-
-			//alert(needle);
-			jQuery('#itemTable').find('tbody').prepend('<tr>'+row+'</tr>');
-			e.preventDefault();
-		};
-
-		function cancelEdit(e) {
-			jQuery('#orderItemForm').each(function(){
-				this.reset();
-			});
-			jQuery('.selectItemStatusCode')
-				.find('option:selected').prop('selected', true)
-				.end().trigger('liszt:updated');
-			jQuery('.orderedit').hide();
-			jQuery('.ordereditI').show();
-			e.preventDefault();
-		}
-
-		function resetOrderHead(e) {
-			jQuery('#orderForm').each(function(){
-				this.reset();
-			});
-			jQuery('select#virtuemart_paymentmethod_id')
-				.find('option:selected').prop('selected', true)
-				.end().trigger('liszt:updated');
-			jQuery('select#virtuemart_shipmentmethod_id')
-				.find('option:selected').prop('selected', true)
-				.end().trigger('liszt:updated');
-			e.preventDefault();
-		}
-
-		");
 ?>
 <div style="text-align: left;">
+    <form name='adminForm' id="adminForm">
+        <input type="hidden" name="task" value="" />
+        <input type="hidden" name="option" value="com_virtuemart" />
+        <input type="hidden" name="view" value="orders" />
+        <input type="hidden" name="virtuemart_order_id" value="<?php echo $this->orderID; ?>" />
+        <?php echo JHtml::_('form.token'); ?>
 
-    <table class="adminlist table" style="table-layout: fixed;">
-        <tr>
-            <td valign="top">
-                <table class="adminlist" cellspacing="0" cellpadding="0">
-                    <thead>
-                        <tr>
-                            <th colspan="2"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_LBL') ?></th>
-                        </tr>
-                    </thead>
-                    <?php
-                    $print_url  = juri::root().'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=component&virtuemart_order_id='.$this->orderbt->virtuemart_order_id.'&order_number='.$this->orderbt->order_number.'&order_pass='.$this->orderbt->order_pass;
-                    $print_link = "<a title=\"".vmText::_('COM_VIRTUEMART_PRINT')."\" href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
-                    $print_link .= ' (Печать) </a>';
-                    ?>
-                    <tr>
-                        <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_NUMBER') ?></strong></td>
-                        <td><?php echo $this->orderbt->virtuemart_order_id.$print_link; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_DATE') ?></strong></td>
-                        <td><?php echo vmJsApi::date($this->orderbt->created_on, 'LC2', true); ?></td>
-                    </tr>
-                    <tr>
-                        <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_STATUS') ?></strong></td>
-                        <td><?php echo $this->orderstatuslist[$this->orderbt->order_status]; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_NAME') ?></strong></td>
-                        <td><?php
-                            $username   = $this->orderbt->company ? $this->orderbt->company." " : "";
-                            $username.=$this->orderbt->first_name." ".$this->orderbt->last_name." ";
-                            if ($this->orderbt->virtuemart_user_id) {
-                                $userlink = JROUTE::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]='.$this->orderbt->virtuemart_user_id);
-                                echo JHtml::_('link', JRoute::_($userlink), $username, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_USER').' '.$username));
-                            } else {
-                                echo $this->orderbt->first_name.' '.$this->orderbt->last_name;
-                            }
-                            ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_IPADDRESS') ?></strong></td>
-                        <td><?php echo $this->orderbt->ip_address; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_CUSTOMER_NOTE') ?></strong></td>
-                        <td><?php echo $this->orderbt->note; ?></td>
-                    </tr>
-                    <?php if ($this->orderbt->coupon_code) { ?>
-                        <tr>
-                            <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_COUPON_CODE') ?></strong></td>
-                            <td><?php echo $this->orderbt->coupon_code; ?></td>
-                        </tr>
-                    <?php } ?>
-                    <?php
-                    if ($this->orderbt->invoiceNumber and ! shopFunctions::InvoiceNumberReserved($this->orderbt->invoiceNumber)) {
-                        $invoice_url  = juri::root().'index.php?option=com_virtuemart&view=invoice&layout=invoice&format=pdf&tmpl=component&virtuemart_order_id='.$this->orderbt->virtuemart_order_id.'&order_number='.$this->orderbt->order_number.'&order_pass='.$this->orderbt->order_pass;
-                        $invoice_link = "<a title=\"".vmText::_('COM_VIRTUEMART_INVOICE_PRINT')."\"  href=\"javascript:void window.open('$invoice_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
-                        $invoice_link .= $this->orderbt->invoiceNumber.'</a>';
+        <table class="adminlist table" style="table-layout: fixed;">
+            <tr>
+                <td valign="top">
+                    <table class="adminlist" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th colspan="2"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_LBL') ?></th>
+                            </tr>
+                        </thead>
+                        <?php
+                        $print_url  = juri::root().'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=component&virtuemart_order_id='.$this->orderbt->virtuemart_order_id.'&order_number='.$this->orderbt->order_number.'&order_pass='.$this->orderbt->order_pass;
+                        $print_link = "<a title=\"".vmText::_('COM_VIRTUEMART_PRINT')."\" href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
+                        $print_link .= ' (Печать) </a>';
                         ?>
                         <tr>
-                            <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_INVOICE') ?></strong></td>
-                            <td><?php echo $invoice_link; ?></td>
+                            <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_NUMBER') ?></strong></td>
+                            <td><?php echo $this->orderbt->virtuemart_order_id.$print_link; ?></td>
                         </tr>
-                    <?php } ?>
-                </table>
-            </td>
-            <td valign="top">
-                <table class="adminlist table">
-                    <thead>
                         <tr>
-                            <th><?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY_DATE_ADDED') ?></th>
-                            <th><?php echo vmText::_('COM_VIRTUEMART_ORDER_HISTORY_CUSTOMER_NOTIFIED') ?></th>
-                            <th><?php echo vmText::_('COM_VIRTUEMART_ORDER_LIST_STATUS') ?></th>
-                            <th><?php echo vmText::_('COM_VIRTUEMART_COMMENT') ?></th>
+                            <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_DATE') ?></strong></td>
+                            <td><?php echo vmJsApi::date($this->orderbt->created_on, 'LC2', true); ?></td>
                         </tr>
-                    </thead>
-                    <?php
-                    foreach ($this->orderdetails['history'] as $this->orderbt_event) {
-                        echo "<tr >";
-                        echo "<td class='key'>".vmJsApi::date($this->orderbt_event->created_on, 'LC2', true)."</td>\n";
-                        if ($this->orderbt_event->customer_notified == 1) {
-                            echo '<td align="center">'.vmText::_('COM_VIRTUEMART_YES').'</td>';
-                        } else {
-                            echo '<td align="center">'.vmText::_('COM_VIRTUEMART_NO').'</td>';
-                        }
-                        if (!isset($this->orderstatuslist[$this->orderbt_event->order_status_code])) {
-                            if (empty($this->orderbt_event->order_status_code)) {
-                                $this->orderbt_event->order_status_code = 'unknown';
-                            }
-                            $this->orderstatuslist[$this->orderbt_event->order_status_code] = vmText::_('COM_VIRTUEMART_UNKNOWN_ORDER_STATUS');
-                        }
-
-                        echo '<td align="center">'.$this->orderstatuslist[$this->orderbt_event->order_status_code].'</td>';
-                        echo "<td>".$this->orderbt_event->comments."</td>\n";
-                        echo "</tr>\n";
-                    }
-                    ?>
-                    <tr>
-                        <td colspan="4">
-                            <a href="#" class="show_element"><span class="vmicon vmicon-16-editadd"></span><?php echo vmText::_('COM_VIRTUEMART_ORDER_UPDATE_STATUS') ?></a>
-                            <div style="display: none; background: white; z-index: 100;"
-                                 class="element-hidden vm-absolute"
-                                 id="updateOrderStatus"><?php echo $this->loadTemplate('editstatus'); ?>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <?php
-// Load additional plugins
-                    $_dispatcher    = JDispatcher::getInstance();
-                    $_returnValues1 = $_dispatcher->trigger('plgVmOnUpdateOrderBEPayment', array($this->orderID));
-                    $_returnValues2 = $_dispatcher->trigger('plgVmOnUpdateOrderBEShipment', array($this->orderID));
-                    $_returnValues  = array_merge($_returnValues1, $_returnValues2);
-                    $_plg           = '';
-                    foreach ($_returnValues as $_returnValue) {
-                        if ($_returnValue !== null) {
-                            $_plg .= ('	<td colspan="4">'.$_returnValue."</td>\n");
-                        }
-                    }
-                    if ($_plg !== '') {
-                        echo "<tr>\n$_plg</tr>\n";
-                    }
-                    ?>
-
-                </table>
-            </td>
-        </tr>
-    </table>
-
-    <form action="index.php" method="post" name="orderForm" id="orderForm"><!-- Update order head form -->
-        <table width="100%">
-            <tr>
-                <td width="50%" valign="top">
+                        <tr>
+                            <td class="key"><strong>Курс валюты</strong></td>
+                            <td><?php echo $this->orderbt->exchange_usd; ?></td>
+                        </tr>
+                        <tr>
+                            <td class="key"><strong>Сдача по курсу</strong></td>
+                            <td><?php echo $this->orderbt->delivery; ?></td>
+                        </tr>
+                        <tr>
+                            <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_IPADDRESS') ?></strong></td>
+                            <td><?php echo $this->orderbt->ip_address; ?></td>
+                        </tr>
+                        <?php if ($this->orderbt->coupon_code) { ?>
+                            <tr>
+                                <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_COUPON_CODE') ?></strong></td>
+                                <td><?php echo $this->orderbt->coupon_code; ?></td>
+                            </tr>
+                        <?php } ?>
+                        <?php
+                        if ($this->orderbt->invoiceNumber and ! shopFunctions::InvoiceNumberReserved($this->orderbt->invoiceNumber)) {
+                            $invoice_url  = juri::root().'index.php?option=com_virtuemart&view=invoice&layout=invoice&format=pdf&tmpl=component&virtuemart_order_id='.$this->orderbt->virtuemart_order_id.'&order_number='.$this->orderbt->order_number.'&order_pass='.$this->orderbt->order_pass;
+                            $invoice_link = "<a title=\"".vmText::_('COM_VIRTUEMART_INVOICE_PRINT')."\"  href=\"javascript:void window.open('$invoice_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
+                            $invoice_link .= $this->orderbt->invoiceNumber.'</a>';
+                            ?>
+                            <tr>
+                                <td class="key"><strong><?php echo vmText::_('COM_VIRTUEMART_INVOICE') ?></strong></td>
+                                <td><?php echo $invoice_link; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </td>
+                <td valign="top">
                     <table class="adminlist table">
                         <thead>
                             <tr>
@@ -255,45 +104,18 @@ vmJsApi::addJScript('orderedit', "
                                     </label>
                                 </td>
                                 <td>
-                                    <?php echo $_field['formcode']; ?>
+                                    <?php echo $_field['value']; ?>
                                 </td>
                             </tr>
                         <?php } ?>
-
-                    </table>
-                </td>
-                <td width="50%" valign="top">
-                    <table class="adminlist table">
-                        <thead>
-                            <tr>
-                                <th   style="text-align: center;" colspan="2"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SHIP_TO_LBL') ?></th>
-                            </tr>
-                        </thead>
-
-                        <?php foreach ($this->shipmentfields['fields'] as $_field) { ?>
-                            <tr>
-                                <td class="key">
-                                    <label for="<?php echo $_field['name']; ?>'_field">
-                                        <?php echo $_field['title'].($_field['required'] ? ' *' : ''); ?>
-                                    </label>
-                                </td>
-                                <td>
-                                    <?php echo $_field['formcode']; ?>
-                                </td>
-                            </tr>
-                        <?php } ?>
-
+                        <tr>
+                            <td class="key"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_CUSTOMER_NOTE') ?></td>
+                            <td><?php echo $this->orderbt->note; ?></td>
+                        </tr>
                     </table>
                 </td>
             </tr>
         </table>
-        <input type="hidden" name="task" value="updateOrderHead" />
-        <input type="hidden" name="option" value="com_virtuemart" />
-        <input type="hidden" name="view" value="orders" />
-        <input type="hidden" name="virtuemart_order_id" value="<?php echo $this->orderID; ?>" />
-        <input type="hidden" name="old_virtuemart_paymentmethod_id" value="<?php echo $this->orderbt->virtuemart_paymentmethod_id; ?>" />
-        <input type="hidden" name="old_virtuemart_shipmentmethod_id" value="<?php echo $this->orderbt->virtuemart_shipmentmethod_id; ?>" />
-        <?php echo JHtml::_('form.token'); ?>
     </form>
 
     <table width="100%">
@@ -303,12 +125,12 @@ vmJsApi::addJScript('orderedit', "
                     <table class="adminlist table"  id="itemTable" >
                         <thead>
                             <tr>
-                                <th class="title" width="3" align="left">#</th>
-                                <th class="title" width="" align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_NAME') ?></th>
-                                <th class="title" width="10%" align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></th>
-                                <th class="title" width="47" align="left"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QUANTITY') ?></th>
-                                <th class="title" width="70"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_NET') ?></th>
-                                <th class="title" width="70"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></th>
+                                <th class="title" width="3" align="center">#</th>
+                                <th class="title" width="" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_NAME') ?></th>
+                                <th class="title" width="10%" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_SKU') ?></th>
+                                <th class="title" width="47" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_QUANTITY') ?></th>
+                                <th class="title" width="120" align="center"><?php echo vmText::_('COM_VIRTUEMART_PRODUCT_FORM_PRICE_NET') ?></th>
+                                <th class="title" width="120" align="center"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?></th>
                             </tr>
                         </thead>
                         <?php
@@ -318,7 +140,7 @@ vmJsApi::addJScript('orderedit', "
                             <!-- Display the order item -->
                             <tr valign="top" ><?php /* id="showItem_<?php echo $item->virtuemart_order_item_id; ?>" data-itemid="<?php echo $item->virtuemart_order_item_id; ?>"> */ ?>
                                     <!--<td>
-                                <?php $removeLineLink    = JRoute::_('index.php?option=com_virtuemart&view=orders&orderId='.$this->orderbt->virtuemart_order_id.'&orderLineId='.$item->virtuemart_order_item_id.'&task=removeOrderItem'); ?>
+                                <?php $removeLineLink = JRoute::_('index.php?option=com_virtuemart&view=orders&orderId='.$this->orderbt->virtuemart_order_id.'&orderLineId='.$item->virtuemart_order_item_id.'&task=removeOrderItem'); ?>
                                             <a class="vmicon vmicon-16-bug" title="<?php echo vmText::_('remove'); ?>" onclick="javascript:confirmation('<?php echo $removeLineLink; ?>');"></a>
 
                                             <a href="javascript:enableItemEdit(<?php echo $item->virtuemart_order_item_id; ?>)"> <?php echo JHtml::_('image', 'administrator/components/com_virtuemart/assets/images/icon_16/icon-16-category.png', "Edit", NULL, true); ?></a>
@@ -332,15 +154,17 @@ vmJsApi::addJScript('orderedit', "
                                     <?php
                                     //echo $item->order_item_name;
                                     //if (!empty($item->product_attribute)) {
-                                    if (!class_exists('VirtueMartModelCustomfields'))
+                                    if (!class_exists('VirtueMartModelCustomfields')) {
                                         require(VMPATH_ADMIN.DS.'models'.DS.'customfields.php');
+                                    }
                                     $product_attribute = VirtueMartModelCustomfields::CustomsFieldOrderDisplay($item, 'BE');
-                                    if ($product_attribute)
+                                    if ($product_attribute) {
                                         echo '<div>'.$product_attribute.'</div>';
+                                    }
                                     //}
-                                    $_dispatcher       = JDispatcher::getInstance();
-                                    $_returnValues     = $_dispatcher->trigger('plgVmOnShowOrderLineBEShipment', array($this->orderID, $item->virtuemart_order_item_id));
-                                    $_plg              = '';
+                                    $_dispatcher   = JDispatcher::getInstance();
+                                    $_returnValues = $_dispatcher->trigger('plgVmOnShowOrderLineBEShipment', array($this->orderID, $item->virtuemart_order_item_id));
+                                    $_plg          = '';
                                     foreach ($_returnValues as $_returnValue) {
                                         if ($_returnValue !== null) {
                                             $_plg .= $_returnValue;
@@ -371,12 +195,14 @@ vmJsApi::addJScript('orderedit', "
                                 <td align="right" style="padding-right: 5px;">
                                     <?php
                                     $item->product_discountedPriceWithoutTax = (float) $item->product_discountedPriceWithoutTax;
-                                    if (!empty($item->product_priceWithoutTax) && $item->product_discountedPriceWithoutTax != $item->product_priceWithoutTax) {
-                                        echo '<span style="text-decoration:line-through">'.$this->currency->priceDisplay($item->product_item_price).'</span><br />';
-                                        echo '<span >'.$this->currency->priceDisplay($item->product_discountedPriceWithoutTax).'</span><br />';
-                                    } else {
-                                        echo '<span >'.$this->currency->priceDisplay($item->product_item_price).'</span><br />';
-                                    }
+//                                    if (!empty($item->product_priceWithoutTax) && $item->product_discountedPriceWithoutTax != $item->product_priceWithoutTax) {
+//                                        echo '<span style="text-decoration:line-through">'.$this->currency->priceDisplay($item->product_item_price).'</span><br />';
+//                                        echo '<span >'.$this->currency->priceDisplay($item->product_discountedPriceWithoutTax).'</span><br />';
+//                                    } else {
+//                                        echo '<span >'.$this->currency->priceDisplay($item->product_item_price).'</span><br />';
+//                                    }
+
+                                    echo ceil($item->product_item_price * $this->orderbt->exchange_usd).' Сом / '.round($item->product_item_price, 2).' $';
                                     ?>
                                     <!--<input class='orderedit' type="text" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_item_price]" value="<?php echo $item->product_item_price; ?>"/>-->
                                 </td>
@@ -388,7 +214,8 @@ vmJsApi::addJScript('orderedit', "
                                     } elseif (empty($item->product_basePriceWithTax) && $item->product_item_price != $item->product_final_price) {
                                         echo '<span style="text-decoration:line-through">'.$this->currency->priceDisplay($item->product_item_price, $this->currency, $item->product_quantity).'</span><br />';
                                     }
-                                    echo $this->currency->priceDisplay($item->product_subtotal_with_tax);
+//                                    echo $this->currency->priceDisplay($item->product_subtotal_with_tax);
+                                    echo ceil($item->product_subtotal_with_tax * $this->orderbt->exchange_usd).' Сом / '.round($item->product_subtotal_with_tax, 2).' $';
                                     ?>
                                     <!--<input class='orderedit' type="hidden" size="8" name="item_id[<?php echo $item->virtuemart_order_item_id; ?>][product_subtotal_with_tax]" value="<?php echo $item->product_subtotal_with_tax; ?>"/>-->
                                 </td>
@@ -413,7 +240,7 @@ vmJsApi::addJScript('orderedit', "
                         <tr>
                             <td align="right" colspan="4"><strong><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_TOTAL') ?>:</strong></td>
                             <td align="right" style="padding-right: 5px;">&nbsp;</td>
-                            <td align="right" style="padding-right: 5px;"><strong><?php echo $this->currency->priceDisplay($this->orderbt->order_total); ?></strong>
+                            <td align="right" style="padding-right: 5px;"><strong><?php echo ceil($this->orderbt->order_total * $this->orderbt->exchange_usd).' Сом / '.round($this->orderbt->order_total, 2).' $'; ?></strong>
                             </td>
                         </tr>
                         <?php if ($this->orderbt->user_currency_rate != 1.0) { ?>
@@ -436,19 +263,8 @@ vmJsApi::addJScript('orderedit', "
     &nbsp;
     <table width="100%">
         <tr>
-            <td valign="top" width="50%"><?php
-                JPluginHelper::importPlugin('vmshipment');
-                $_dispatcher  = JDispatcher::getInstance();
-                $returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEShipment', array($this->orderID, $this->orderbt->virtuemart_shipmentmethod_id, $this->orderdetails));
-
-                foreach ($returnValues as $returnValue) {
-                    if ($returnValue !== null) {
-                        echo $returnValue;
-                    }
-                }
-                ?>
-            </td>
-            <td valign="top"><?php
+            <td valign="top" width="50%">
+                <?php
                 JPluginHelper::importPlugin('vmpayment');
                 $_dispatcher   = JDispatcher::getInstance();
                 $_returnValues = $_dispatcher->trigger('plgVmOnShowOrderBEPayment', array($this->orderID, $this->orderbt->virtuemart_paymentmethod_id, $this->orderdetails));
@@ -458,7 +274,11 @@ vmJsApi::addJScript('orderedit', "
                         echo $_returnValue;
                     }
                 }
-                ?></td>
+                ?>
+            </td>
+            <td valign="top">
+                &nbsp;
+            </td>
         </tr>
 
     </table>

@@ -19,9 +19,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if (!class_exists('VmViewAdmin'))
+if (!class_exists('VmViewAdmin')){
     require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmviewadmin.php');
-
+}
 /**
  * HTML View class for the VirtueMart Component
  *
@@ -34,14 +34,15 @@ class VirtuemartViewOrders extends VmViewAdmin {
 
 
         //Load helpers
-        if (!class_exists('CurrencyDisplay'))
+        if (!class_exists('CurrencyDisplay')){
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'currencydisplay.php');
-
-        if (!class_exists('VmHTML'))
+        }
+        if (!class_exists('VmHTML')){
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'html.php');
-
-        if (!class_exists('vmPSPlugin'))
+        }
+        if (!class_exists('vmPSPlugin')){
             require(VMPATH_PLUGINLIBS . DS . 'vmpsplugin.php');
+        }
         $orderStatusModel = VmModel::getModel('orderstatus');
         $orderStates      = $orderStatusModel->getOrderStatusList();
 
@@ -157,13 +158,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
             $this->assignRef('currentOrderStat', $_currentOrderStat);
 
             /* Toolbar */
-            if (JVM_VERSION < 3) {
-                $backward = "back";
-                $list     = 'back';
-            } else {
-                $backward = 'backward';
-                $list     = 'list';
-            }
+            if (JVM_VERSION < 3) { $backward="back"; $list='back';} else {$backward='backward';$list='list';}
             JToolBarHelper::custom('prevItem', $backward, '', 'COM_VIRTUEMART_ITEM_PREVIOUS', false);
             JToolBarHelper::custom('nextItem', 'forward', '', 'COM_VIRTUEMART_ITEM_NEXT', false);
             JToolBarHelper::divider();
