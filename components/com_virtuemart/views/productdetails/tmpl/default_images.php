@@ -19,16 +19,27 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if (!empty($this->product->images)) {
-    $image = $this->product->images[0];
-    ?>
-    <div class="main-image">
-        <a href="<?php echo $image->file_url; ?>" rel="vm-additional-images">
-            <img alt="" src="<?php echo $image->file_url; ?>" data-zoom="<?php echo $image->file_url; ?>">
-        </a>
-        <div class="clear"></div>
-    </div>
-    <div class="wrap-detail"><div class="detail"></div></div>
+if ($this->product->images[0]->virtuemart_media_id > 0) {
+    $title  = $this->product->product_name;
+    $href   = $this->product->link;
+    $target = ' target="blank" ';
+    $url    = $this->product->images[0]->file_url;
+    $style  = '';
+} else {
+    $title = 'Найти в Google';
+    $href  = 'http://www.google.kg/search?q='.$this->product->product_name.'&tbm=isch';
+    $url   = 'images/yandex.png';
+    $style = 'style="width: 100px;"';
+}
+?>
+<div class="main-image">
+    <a href="<?php echo $href; ?>" rel="vm-additional-images">
+        <img <?php echo $style; ?> alt="<?php echo $title; ?>" src="<?php echo $url; ?>" data-zoom="<?php echo $url; ?>">
+    </a>
+    <div class="clear"></div>
+</div>
+<div class="wrap-detail"><div class="detail"></div></div>
+    <?php if ($this->product->images[0]->virtuemart_media_id > 0) { ?>
     <script>
         jQuery(function ($) {
             $('div.main-image a img').on('mouseover', '', function () {
@@ -46,7 +57,7 @@ if (!empty($this->product->images)) {
                 $('body').append(wrapper);
 
                 $('div.images-wrapper').show();
-                $('div.images-wrapper').find('img').css('margin-top',- $('div.images-wrapper').find('img').height()/2);
+                $('div.images-wrapper').find('img').css('margin-top', -$('div.images-wrapper').find('img').height() / 2);
 
                 return false;
             });
