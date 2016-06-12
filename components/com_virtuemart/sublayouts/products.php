@@ -45,7 +45,7 @@ $categoryNames = array();
             
             elem.hide().delay(1000).show(1);
         }).on('mouseout', '', function () {
-            $(this).parent().parent().find('div.detail').hide();
+            $('div.detail').hide();
         });
 
     });
