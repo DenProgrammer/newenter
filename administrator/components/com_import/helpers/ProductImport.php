@@ -583,6 +583,7 @@ class ProductImport
             $item_name   = $item->order_item_name;
             $quantity    = $item->product_quantity;
             $currency    = $item->order_item_currency;
+            $attribute   = $this->parseAttribute($item->product_attribute);
             $item_price  = $currency == 'USD' ? $item->product_item_price : $item->product_item_price / $delivery;
             $final_price = $currency == 'USD' ? $item->product_final_price : $item->product_final_price / $delivery;
 
@@ -598,7 +599,7 @@ class ProductImport
                     ."'$item_sku', '$item_name', $quantity, $item_price, "
                     ."$item_price, 0.00000, 0.00000, $item_price, "
                     ."$item_price, 0.00000, $final_price, NULL, "
-                    ."'U', '[]', NULL, '$cdate', "
+                    ."'U', '$attribute', NULL, '$cdate', "
                     ."0, '$cdate', 0, '0000-0-0 00:00:00', 0);";
             $sqlDump .= $itemSql."\n";
             $db->setQuery($itemSql);
@@ -609,6 +610,28 @@ class ProductImport
 //        file_put_contents('dump.sql', str_replace('#__','wy587_',$sqlDump), FILE_APPEND);
 
         return true;
+    }
+
+    /**
+     * parse attribute
+     *
+     * @param string $data
+     * @return json
+     */
+    public function parseAttribute($data)
+    {
+        $items = explode(';', $data);
+
+        $attribute = array();
+        foreach ($items as $item) {
+            @list($key, $val) = explode('=', trim($item));
+
+            if ($key) {
+                $attribute[$key] = $val;
+            }
+        }
+
+        return json_encode($attribute, JSON_UNESCAPED_UNICODE);
     }
 
     /**

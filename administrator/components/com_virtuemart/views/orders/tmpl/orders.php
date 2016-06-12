@@ -27,8 +27,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
             <table>
                 <tr>
                     <td align="left" width="100%">
-                        <?php echo $this->displayDefaultViewSearch('COM_VIRTUEMART_ORDER_PRINT_NAME'); ?>
-                        <?php echo vmText::_('COM_VIRTUEMART_ORDERSTATUS') . ':' . $this->lists['state_list']; ?>
+                        <?php echo $this->displayDefaultViewSearch('COM_VIRTUEMART_ORDER_PRINT_NAME', 'search', true); ?>
                     </td>
                 </tr>
             </table>
@@ -58,7 +57,7 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 
                     foreach ($this->orderslist as $key => $order) {
                         $checked = JHtml::_('grid.id', $i, $order->virtuemart_order_id);
-                        $link    = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=' . $order->virtuemart_order_id;
+                        $link    = 'index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id='.$order->virtuemart_order_id;
                         ?>
                         <tr class="row<?php echo $k; ?>">
                             <!-- Checkbox -->
@@ -66,13 +65,13 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                                 <?php echo $checked; ?>
                             </td>
                             <td>
-                                <?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->virtuemart_order_id, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_ID') . ' ' . $order->virtuemart_order_id)); ?>
+                                <?php echo JHtml::_('link', JRoute::_($link, FALSE), $order->virtuemart_order_id, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_ORDER_ID').' '.$order->virtuemart_order_id)); ?>
                             </td>
                             <td>
                                 <?php
                                 if ($order->virtuemart_user_id) {
-                                    $userlink = JROUTE::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=' . $order->virtuemart_user_id, FALSE);
-                                    echo JHtml::_('link', JRoute::_($userlink, FALSE), $order->order_name, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_USER') . ' ' . htmlentities($order->order_name)));
+                                    $userlink = JROUTE::_('index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]='.$order->virtuemart_user_id, FALSE);
+                                    echo JHtml::_('link', JRoute::_($userlink, FALSE), $order->order_name, array('title' => vmText::_('COM_VIRTUEMART_ORDER_EDIT_USER').' '.htmlentities($order->order_name)));
                                 } else {
                                     echo $order->order_name;
                                 }
@@ -92,14 +91,13 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                             <!-- Print view -->
                             <?php
                             /* Print view URL */
-                            $print_url         = juri::root() . 'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=raw&virtuemart_order_id=' . $order->virtuemart_order_id . '&order_number=' . $order->order_number . '&order_pass=' . $order->order_pass;
-                            $print_link        = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
-                            $print_link .= '<span class="hasTip print_32" title="' . vmText::_('COM_VIRTUEMART_PRINT') . '">&nbsp;</span></a>';
-                            
+                            $print_url  = juri::root().'index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=raw&virtuemart_order_id='.$order->virtuemart_order_id.'&order_number='.$order->order_number.'&order_pass='.$order->order_pass;
+                            $print_link = "<a href=\"javascript:void window.open('$print_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
+                            $print_link .= '<span class="hasTip print_32" title="'.vmText::_('COM_VIRTUEMART_PRINT').'">&nbsp;</span></a>';
                             ?>
                             <td><?php
-                                echo $print_link;
-                                ?>
+                    echo $print_link;
+                            ?>
                             </td>
                             <!-- Order date -->
                             <td><?php echo vmJsApi::date($order->created_on, 'LC2', TRUE); ?></td>
@@ -129,23 +127,23 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
 <script type="text/javascript">
 <!--
 
-    jQuery('.show_comment').click(function() {
+    jQuery('.show_comment').click(function () {
         jQuery(this).prev('.element-hidden').show();
         return false
     });
 
-    jQuery('.element-hidden').mouseleave(function() {
+    jQuery('.element-hidden').mouseleave(function () {
         jQuery(this).hide();
     });
-    jQuery('.element-hidden').mouseout(function() {
+    jQuery('.element-hidden').mouseout(function () {
         jQuery(this).hide();
     });
-  -->
+-->
 </script>
 
 <script>
-    jQuery(document).ready(function() {
-        jQuery('.orderstatus_select').change(function() {
+    jQuery(document).ready(function () {
+        jQuery('.orderstatus_select').change(function () {
 
             var name = jQuery(this).attr('name');
             var brindex = name.indexOf("orders[");
