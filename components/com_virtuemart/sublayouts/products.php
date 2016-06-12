@@ -40,7 +40,7 @@ $categoryNames = array();
             });
         });
 
-        $('td a img').on('mouseover', '', function () {
+        $('td a img[rel=product-image]').on('mouseover', '', function () {
             $(this).parent().parent().find('div.detail').css('display', 'block');
         }).on('mouseout', '', function () {
             $(this).parent().parent().find('div.detail').css('display', 'none');
@@ -138,24 +138,27 @@ foreach ($viewData['products'] as $type => $products) {
                             <td width="140">
                                 <?php
                                 echo $newimg;
-                                
+
                                 $target = '';
                                 if ($product->images[0]->virtuemart_media_id > 0) {
                                     $title  = $product->product_name;
                                     $href   = $product->link;
-                                    $target = ' target="blank" ';
-                                    $url = $product->images[0]->file_url;
+                                    $target = '';
+                                    $url    = $product->images[0]->file_url;
+                                    $rel    = 'product-image';
                                 } else {
                                     $title = 'Найти в Google';
                                     $href  = 'http://www.google.kg/search?q='.$product->product_name.'&tbm=isch';
-                                    $url = 'images/yandex.png';
+                                    $target = ' target="blank" ';
+                                    $url   = 'images/yandex.png';
+                                    $rel   = 'product-image-default';
                                 }
                                 ?>
                                 <a title="<?php echo $title; ?>" <?php echo $target; ?> href="<?php echo $href; ?>">
                                     <img 
                                         id="<?php echo $product->virtuemart_product_id; ?>" 
                                         class="img_<?php echo $product->virtuemart_product_id; ?>" alt="" width="100" 
-                                        rel="product-image"
+                                        rel="<?php echo $rel; ?>"
                                         src="<?php echo $url; ?>" 
                                         data-zoom="<?php echo $url; ?>">
                                 </a>
