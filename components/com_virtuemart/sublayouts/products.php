@@ -40,12 +40,10 @@ $categoryNames = array();
             });
         });
 
-        $('td a img[rel=product-image]').on('mouseover', '', function () {
-            var elem = $(this).parent().parent().find('div.detail');
-
-            elem.hide().delay(1000).show(1);
+        $('td a img').on('mouseover', '', function () {
+            $(this).parent().parent().find('div.detail').css('display', 'block');
         }).on('mouseout', '', function () {
-            $('div.detail').css('display', 'none');
+            $(this).parent().parent().find('div.detail').css('display', 'none');
         });
 
     });
@@ -149,11 +147,11 @@ foreach ($viewData['products'] as $type => $products) {
                                     $url    = $product->images[0]->file_url;
                                     $rel    = 'product-image';
                                 } else {
-                                    $title  = 'Найти в Google';
-                                    $href   = 'http://www.google.kg/search?q='.$product->product_name.'&tbm=isch';
+                                    $title = 'Найти в Google';
+                                    $href  = 'http://www.google.kg/search?q='.$product->product_name.'&tbm=isch';
                                     $target = ' target="blank" ';
-                                    $url    = 'images/yandex.png';
-                                    $rel    = 'product-image-default';
+                                    $url   = 'images/yandex.png';
+                                    $rel   = 'product-image-default';
                                 }
                                 ?>
                                 <a title="<?php echo $title; ?>" <?php echo $target; ?> href="<?php echo $href; ?>">
