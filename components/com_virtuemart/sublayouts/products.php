@@ -41,9 +41,11 @@ $categoryNames = array();
         });
 
         $('td a img[rel=product-image]').on('mouseover', '', function () {
-            $(this).parent().parent().find('div.detail').css('display', 'block');
+            var elem = $(this).parent().parent().find('div.detail');
+            
+            elem.hide().delay(1000).show(1);
         }).on('mouseout', '', function () {
-            $(this).parent().parent().find('div.detail').css('display', 'none');
+            $(this).parent().parent().find('div.detail').hide();
         });
 
     });
