@@ -40,7 +40,7 @@ $categoryNames = array();
             });
         });
 
-        $('td a img').on('mouseover', '', function () {
+        $('td a img[rel=product-image]').on('mouseover', '', function () {
             $(this).parent().parent().find('div.detail').css('display', 'block');
         }).on('mouseout', '', function () {
             $(this).parent().parent().find('div.detail').css('display', 'none');
@@ -151,7 +151,7 @@ foreach ($viewData['products'] as $type => $products) {
                                     $href  = 'http://www.google.kg/search?q='.$product->product_name.'&tbm=isch';
                                     $target = ' target="blank" ';
                                     $url   = 'images/yandex.png';
-                                    $rel   = 'product-image-default';
+                                    $rel   = '';
                                 }
                                 ?>
                                 <a title="<?php echo $title; ?>" <?php echo $target; ?> href="<?php echo $href; ?>">
