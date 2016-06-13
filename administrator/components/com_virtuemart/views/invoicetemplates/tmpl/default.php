@@ -40,7 +40,7 @@ AdminUIHelper::startAdminArea($this);
             </thead>
             <?php
             $k = 0;
-            for ($i = 0, $n = count($this->invoicetemplates); $i < $n; $i++) {
+            for ($i = 1, $n = count($this->invoicetemplates); $i <= $n; $i++) {
                 $row       = $this->invoicetemplates[$i];
                 $published = $this->gridPublished($row, $i);
 
