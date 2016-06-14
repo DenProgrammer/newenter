@@ -63,4 +63,12 @@ $order = $this->orderDetails['details']['BT'];
             <?php echo $order->delivery; ?> KGS
         </td>
     </tr>
+    <tr>
+        <td class="vmdoc-header-text">
+            Примечание:
+        </td>
+        <td class="vmdoc-header-text">
+            <?php echo $order->note; ?> KGS
+        </td>
+    </tr>
 </table>
