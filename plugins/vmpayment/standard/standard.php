@@ -128,12 +128,14 @@ class plgVmPaymentStandard extends vmPSPlugin
         }
         $currency = CurrencyDisplay::getInstance('', $order['details']['BT']->virtuemart_vendor_id);
 
+        $total = round($order['details']['BT']->order_total * $order['details']['BT']->exchange_usd).' Сом / '.round($order['details']['BT']->order_total, 2).' $';
+
         $html                       = $this->renderByLayout('post_payment', array(
-            'order_id'                  => $order['details']['BT']->virtuemart_order_id,
+            'order_id'                      => $order['details']['BT']->virtuemart_order_id,
             'order_number'                  => $order['details']['BT']->order_number,
             'order_pass'                    => $order['details']['BT']->order_pass,
             'payment_name'                  => $dbValues['payment_name'],
-            'displayTotalInPaymentCurrency' => $totalInPaymentCurrency['display']
+            'displayTotalInPaymentCurrency' => $total,
         ));
         $modelOrder                 = VmModel::getModel('orders');
         $order['order_status']      = $this->getNewStatus($method);
