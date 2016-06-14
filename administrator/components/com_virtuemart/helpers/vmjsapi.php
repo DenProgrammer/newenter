@@ -361,7 +361,7 @@ class vmJsApi{
 		var con = $('div".$container."').html();
 		$('a".$activator."').click(function(event) {
 			event.preventDefault();
-			$.fancybox ({ div: '".$container."', content: con });
+			$.fancybox ({ div: '".$container."', content: con ,width: 700, height: 400, autoDimensions: false, centerOnScroll: false, margin: 10});
 		});
 	});
 
