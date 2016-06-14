@@ -79,14 +79,14 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                             </td>
                             <!-- invoices -->
                             <td>
-                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=commercial_invoice&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет-фактура</a><br />
-                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=waybill&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Накладная</a><br />
-                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=commercial_offer&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Комм. предл.</a>
+                                <a href="index.php?option=com_virtuemart&view=invoice&task=commercial_invoice&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет-фактура</a><br />
+                                <a href="index.php?option=com_virtuemart&view=invoice&task=waybill&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Накладная</a><br />
+                                <a href="index.php?option=com_virtuemart&view=invoice&task=commercial_offer&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Комм. предл.</a>
                             </td>
                             <td>
-                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=invoice_payment&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет на оплату</a><br />
-                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=app&tmpl=ajax">Приложение</a><br />
-                                <a target="_blank" href="index.php?option=com_virtuemart&view=invoice&task=guaranty&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Гарантия</a>
+                                <a href="index.php?option=com_virtuemart&view=invoice&task=invoice_payment&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Счет на оплату</a><br />
+                                <a href="index.php?option=com_virtuemart&view=invoice&task=app&tmpl=ajax">Приложение</a><br />
+                                <a href="index.php?option=com_virtuemart&view=invoice&task=guaranty&order_id=<?php echo $order->virtuemart_order_id ?>&tmpl=ajax">Гарантия</a>
                             </td>
                             <!-- Print view -->
                             <?php

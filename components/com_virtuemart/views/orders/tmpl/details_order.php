@@ -23,7 +23,7 @@ defined('_JEXEC') or die('Restricted access');
     <tr>
         <td   class="orders-key"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_NUMBER') ?></td>
         <td class="orders-key" align="left">
-            <?php echo $this->orderdetails['details']['BT']->order_number; ?>
+            <?php echo $this->orderdetails['details']['BT']->virtuemart_order_id; ?>
         </td>
     </tr>
     <tr>

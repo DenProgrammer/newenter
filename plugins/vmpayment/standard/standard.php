@@ -129,6 +129,7 @@ class plgVmPaymentStandard extends vmPSPlugin
         $currency = CurrencyDisplay::getInstance('', $order['details']['BT']->virtuemart_vendor_id);
 
         $html                       = $this->renderByLayout('post_payment', array(
+            'order_id'                  => $order['details']['BT']->virtuemart_order_id,
             'order_number'                  => $order['details']['BT']->order_number,
             'order_pass'                    => $order['details']['BT']->order_pass,
             'payment_name'                  => $dbValues['payment_name'],

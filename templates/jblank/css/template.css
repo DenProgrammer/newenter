@@ -1476,14 +1476,28 @@ div.images-wrapper{
     cursor: pointer;
 }
 img.images-container{
-    width: 600px;
+    width: 400px;
     position: absolute;
     left: 50%;
-    margin-left: -310px;
+    margin-left: -210px;
     top: 50%;
     margin-top: -210px;
     background: #fff;
     border: solid 2px red;
     border-radius: 10px;
     padding: 20px;
+}
+
+
+div.order-done{
+    text-align: center;
+}
+
+div.order-done h3{
+    color: #ff0000; 
+    font-size: 18pt;
+}
+
+div.order-done div{
+    font-size: 16px;
 }

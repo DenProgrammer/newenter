@@ -21,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 
 if ($this->product->images[0]->virtuemart_media_id > 0) {
     $title  = $this->product->product_name;
-    $href   = $this->product->link;
+    $href   = $this->product->images[0]->file_url;
     $target = ' target="blank" ';
     $url    = $this->product->images[0]->file_url;
     $style  = '';
