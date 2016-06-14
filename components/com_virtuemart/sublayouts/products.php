@@ -19,7 +19,7 @@ $actualTime        = $viewData['actualTime'];
 $verticalseparator = " vertical-separator";
 
 $userGroup   = JFactory::getUser()->getAuthorisedGroups();
-$allowGroups = array(7, 8);
+$allowGroups = array(7, 8, 10, 11);
 $showSku     = array_intersect($allowGroups, $userGroup);
 
 $categoryNames = array();

@@ -271,13 +271,16 @@ class VirtuemartViewInvoice extends VmView
         // this is no setting in BE to change the layout !
         //shopFunctionsF::setVmTemplate($this,0,0,$layoutName);
 
+        $total = (round($orderDetails['details']['BT']->order_total * $orderDetails['details']['BT']->exchange_usd))
+                .' Сом / '.round($orderDetails['details']['BT']->order_total, 2).' $';
+        
         if (strpos($layout, 'mail') !== false) {
             if ($this->doVendor) {
                 //Old text key COM_VIRTUEMART_MAIL_SUBJ_VENDOR_C
-                $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_VENDOR_'.$orderDetails['details']['BT']->order_status, $this->shopperName, strip_tags($currency->priceDisplay($orderDetails['details']['BT']->order_total, $currency)), $orderDetails['details']['BT']->order_number);
+                $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_VENDOR_'.$orderDetails['details']['BT']->order_status, $this->shopperName, $total, $orderDetails['details']['BT']->virtuemart_order_id);
                 $recipient     = 'vendor';
             } else {
-                $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_SHOPPER_'.$orderDetails['details']['BT']->order_status, $vendor->vendor_store_name, strip_tags($currency->priceDisplay($orderDetails['details']['BT']->order_total, $currency)), $orderDetails['details']['BT']->order_number);
+                $this->subject = vmText::sprintf('COM_VIRTUEMART_MAIL_SUBJ_SHOPPER_'.$orderDetails['details']['BT']->order_status, $vendor->vendor_store_name, $total, $orderDetails['details']['BT']->virtuemart_order_id);
                 $recipient     = 'shopper';
             }
             $this->assignRef('recipient', $recipient);
