@@ -36,6 +36,7 @@ class TableAssembly_products extends VmTable {
     /** @var int Primary key */
     var $id            = 0;
     var $assembly_id   = null;
+    var $product_type   = null;
     var $product_id    = null;
     var $product_count = null;
 

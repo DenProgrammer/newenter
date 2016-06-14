@@ -19,8 +19,9 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists('VmController'))
-    require(VMPATH_ADMIN . DS . 'helpers' . DS . 'vmcontroller.php');
+if (!class_exists('VmController')) {
+    require(VMPATH_ADMIN.DS.'helpers'.DS.'vmcontroller.php');
+}
 
 /**
  * Product Controller
@@ -28,7 +29,8 @@ if (!class_exists('VmController'))
  * @package    VirtueMart
  * @author
  */
-class VirtuemartControllerAssembly extends VmController {
+class VirtuemartControllerAssembly extends VmController
+{
 
     /**
      * Method to display the view
@@ -36,11 +38,11 @@ class VirtuemartControllerAssembly extends VmController {
      * @access	public
      * @author
      */
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
-        $this->addViewPath(VMPATH_ADMIN . DS . 'views');
+        $this->addViewPath(VMPATH_ADMIN.DS.'views');
     }
-
 }
 
 // pure php no closing tag

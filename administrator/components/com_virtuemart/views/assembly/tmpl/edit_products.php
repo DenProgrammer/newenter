@@ -25,6 +25,7 @@ defined('_JEXEC') or die('Restricted access');
     <br />
     <table class="admintable" id="items">
         <tr>
+            <td>Product Type</td>
             <td>Product ID</td>
             <td>Count</td>
             <td>&nbsp;</td>

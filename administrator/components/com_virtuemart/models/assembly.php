@@ -157,11 +157,11 @@ class VirtueMartModelAssembly extends VmModel {
         $db->setQuery($sqlDel);
         $db->execute();
 
-        $sqlIns  = 'INSERT INTO #__virtuemart_assembly_products (assembly_id, product_id, product_count) VALUES ';
+        $sqlIns  = 'INSERT INTO #__virtuemart_assembly_products (assembly_id, product_id, product_count, product_type) VALUES ';
         $inserts = array();
         foreach ($data['products'] as $item) {
             if ($item['id'] > 0 && $item['count'] > 0) {
-                $inserts[] = '(' . $id . ', ' . $item['id'] . ', ' . $item['count'] . ')';
+                $inserts[] = '(' . $id . ', ' . $item['id'] . ', ' . $item['count'] . ', \'' . $item['type'] . '\')';
             }
         }
 

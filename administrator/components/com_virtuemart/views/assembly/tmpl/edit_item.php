@@ -25,6 +25,15 @@ if (count($this->assembly->items) > 0) {
         <tr id="row_<?php echo $i; ?>">
             <td valign="top">
                 <input 
+                    type="text" 
+                    value="<?php echo $items->product_type; ?>" 
+                    name="products[<?php echo $i; ?>][type]" 
+                    id="products_<?php echo $i; ?>_type" 
+                    class="inputbox" 
+                    />
+            </td>
+            <td valign="top">
+                <input 
                     type="hidden" 
                     value="<?php echo $items->product_id; ?>" 
                     name="products[<?php echo $i; ?>][id]" 

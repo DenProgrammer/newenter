@@ -41,15 +41,14 @@ if (VmConfig::get('oncheckout_show_legal_info', 1) and $app->isSite()) {
             <a href="<?php echo JRoute::_('index.php?option=com_virtuemart&view=vendor&layout=tos&virtuemart_vendor_id=1', FALSE) ?>" class="terms-of-service" id="terms-of-service" rel="facebox"
                target="_blank">
                 <span class="vmicon vm2-termsofservice-icon"></span>
-    <?php echo vmText::_('COM_VIRTUEMART_CART_TOS_READ_AND_ACCEPTED') ?>
+                <?php echo vmText::_('COM_VIRTUEMART_CART_TOS_READ_AND_ACCEPTED') ?>
             </a>
         </label>
 
         <div id="full-tos">
             <h2><?php echo vmText::_('COM_VIRTUEMART_CART_TOS') ?></h2>
-    <?php echo $cart->vendor->vendor_terms_of_service ?>
+            <?php echo $cart->vendor->vendor_terms_of_service ?>
         </div>
     </div>
     <?php
 }
-?>

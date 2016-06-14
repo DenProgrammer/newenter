@@ -2,85 +2,85 @@
 <config>
 
     <fieldset name="component">
-		<field
-			name="shownewproduct"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default=""
-			label="COM_IMPORT_CONFIG_SHOW_NEW_PRODUCT_LABEL"
-			description="COM_IMPORT_CONFIG_SHOW_NEW_PRODUCT_DESC">
-			<option value="on">JYES</option>
-			<option value="">JNO</option>
-		</field>
+        <field
+            name="shownewproduct"
+            type="radio"
+            class="btn-group btn-group-yesno"
+            default=""
+            label="COM_IMPORT_CONFIG_SHOW_NEW_PRODUCT_LABEL"
+            description="COM_IMPORT_CONFIG_SHOW_NEW_PRODUCT_DESC">
+            <option value="on">JYES</option>
+            <option value="">JNO</option>
+        </field>
 
-		<field name="show_error"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_IMPORT_SHOW_ERROR_LABEL"
-				description="COM_IMPORT_SHOW_ERROR_DESC"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-		</field>
+        <field name="show_error"
+               type="radio"
+               class="btn-group btn-group-yesno"
+               default="0"
+               label="COM_IMPORT_SHOW_ERROR_LABEL"
+               description="COM_IMPORT_SHOW_ERROR_DESC"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
 
-		<field name="debbuger"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="COM_IMPORT_DEBUGGER_LABEL"
-				description="COM_IMPORT_DEBUGGER_DESC"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-		</field>
+        <field name="debbuger"
+               type="radio"
+               class="btn-group btn-group-yesno"
+               default="0"
+               label="COM_IMPORT_DEBUGGER_LABEL"
+               description="COM_IMPORT_DEBUGGER_DESC"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
 
-		<field
-			name="move_file"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			label="COM_IMPORT_MOVEFILE_LABEL"
-			description="COM_IMPORT_MOVEFILE_DESC">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-		</field>
+        <field
+            name="move_file"
+            type="radio"
+            class="btn-group btn-group-yesno"
+            default="0"
+            label="COM_IMPORT_MOVEFILE_LABEL"
+            description="COM_IMPORT_MOVEFILE_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
 
-		<field
-			name="file_directory"
-			type="text"
-			label="COM_IMPORT_FILE_DIRECTORY_LABEL"
-			description="COM_IMPORT_FILE_DIRECTORY_DESC"
-		/>
+        <field
+            name="file_directory"
+            type="text"
+            label="COM_IMPORT_FILE_DIRECTORY_LABEL"
+            description="COM_IMPORT_FILE_DIRECTORY_DESC"
+        />
 
-		<field
-			name="file_directory_arhiv"
-			type="text"
-			label="COM_IMPORT_FILE_DIRECTORY_ARHIV_LABEL"
-			description="COM_IMPORT_FILE_DIRECTORY_ARHIV_DESC"
-		/>
+        <field
+            name="file_directory_arhiv"
+            type="text"
+            label="COM_IMPORT_FILE_DIRECTORY_ARHIV_LABEL"
+            description="COM_IMPORT_FILE_DIRECTORY_ARHIV_DESC"
+        />
 
-		<field
-			name="actualtime"
-			type="text"
-			default="0"
-			label="COM_IMPORT_ACTUAL_TIME_LABEL"
-			description="COM_IMPORT_ACTUAL_TIME_DESC"
-		/>
-	</fieldset>
+        <field
+            name="actualtime"
+            type="text"
+            default="0"
+            label="COM_IMPORT_ACTUAL_TIME_LABEL"
+            description="COM_IMPORT_ACTUAL_TIME_DESC"
+        />
+    </fieldset>
 
     <fieldset name="permissions"
-                  label="JCONFIG_PERMISSIONS_LABEL"
-                  description="JCONFIG_PERMISSIONS_DESC"
+              label="JCONFIG_PERMISSIONS_LABEL"
+              description="JCONFIG_PERMISSIONS_DESC"
     >
 
         <field name="rules"
-                       type="rules"
-                       label="JCONFIG_PERMISSIONS_LABEL"
-                       validate="rules"
-                       filter="rules"
-                       component="com_contact"
-                       section="component" />
+               type="rules"
+               label="JCONFIG_PERMISSIONS_LABEL"
+               validate="rules"
+               filter="rules"
+               component="com_contact"
+               section="component" />
     </fieldset>
 
 </config>

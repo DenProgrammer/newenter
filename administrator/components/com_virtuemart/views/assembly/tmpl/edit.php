@@ -27,6 +27,15 @@ vmJsApi::addJScript('assembly', "
 				var newRow   = '<tr style=\"display:none;\" id=\"row_ID\">';
                                 newRow   += '<td valign=\"top\">';
                                 newRow   += '   <input ';
+                                newRow   += '       type=\"text\" ';
+                                newRow   += '       value=\"\" ';
+                                newRow   += '       name=\"products[ID][type]\" ';
+                                newRow   += '       id=\"products_ID_type\" ';
+                                newRow   += '       class=\"inputbox\" ';
+                                newRow   += '   />';
+                                newRow   += '</td>';
+                                newRow   += '<td valign=\"top\">';
+                                newRow   += '   <input ';
                                 newRow   += '       type=\"hidden\" ';
                                 newRow   += '       value=\"1\" ';
                                 newRow   += '       name=\"products[ID][id]\" ';

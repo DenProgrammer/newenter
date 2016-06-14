@@ -97,7 +97,11 @@ foreach ($viewData['products'] as $type => $products) {
                                 <div class="rows">
                                     <table width='100%'>
                                         <tr>
-                                            <td>&nbsp;</td>
+                                            <td align="left">
+                                                <span style="color: blue; font-size: 16px;">
+                                                    <?php echo $assemblyProducts[$product->virtuemart_product_id]->product_type; ?>
+                                                </span>
+                                            </td>
                                             <?php if ($product->published) { ?>
                                                 <td width='260'>
                                                     <label class="pricelbl">
