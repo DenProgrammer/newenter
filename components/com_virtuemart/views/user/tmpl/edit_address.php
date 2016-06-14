@@ -20,12 +20,12 @@ defined('_JEXEC') or die('Restricted access');
 
 // Implement Joomla's form validation
 JHtml::_('behavior.formvalidation');
-JHtml::stylesheet('vmpanels.css', JURI::root() . 'components/com_virtuemart/assets/css/');
+JHtml::stylesheet('vmpanels.css', JURI::root().'components/com_virtuemart/assets/css/');
 ?>
 <h1><?php echo $this->page_title ?></h1>
 <?php
 if (!class_exists('VirtueMartCart')) {
-    require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
+    require(VMPATH_SITE.DS.'helpers'.DS.'cart.php');
 }
 
 $this->cart = VirtueMartCart::getCart();
@@ -40,7 +40,7 @@ $task = '';
 if ($this->cart->getInCheckOut()) {
     //$task = '&task=checkout';
 }
-$url = JRoute::_('index.php?option=com_virtuemart&view=' . $rview . $task, $this->useXHTML, $this->useSSL);
+$url = JRoute::_('index.php?option=com_virtuemart&view='.$rview.$task, $this->useXHTML, $this->useSSL);
 
 echo shopFunctionsF::getLoginForm(TRUE, FALSE, $url);
 
@@ -73,13 +73,13 @@ $this->vmValidator();
         // end of captcha addition
 
         if (!class_exists('VirtueMartCart')) {
-            require(VMPATH_SITE . DS . 'helpers' . DS . 'cart.php');
+            require(VMPATH_SITE.DS.'helpers'.DS.'cart.php');
         }
 
         if (count($this->userFields['functions']) > 0) {
-            echo '<script language="javascript">' . "\n";
+            echo '<script language="javascript">'."\n";
             echo join("\n", $this->userFields['functions']);
-            echo '</script>' . "\n";
+            echo '</script>'."\n";
         }
 
         echo $this->loadTemplate('userfields');
@@ -92,7 +92,7 @@ $this->vmValidator();
         <input type="hidden" name="address_type" value="<?php echo $this->address_type; ?>"/>
         <?php
         if (!empty($this->virtuemart_userinfo_id)) {
-            echo '<input type="hidden" name="shipto_virtuemart_userinfo_id" value="' . (int) $this->virtuemart_userinfo_id . '" />';
+            echo '<input type="hidden" name="shipto_virtuemart_userinfo_id" value="'.(int) $this->virtuemart_userinfo_id.'" />';
         }
         echo JHtml::_('form.token');
         ?>
@@ -107,7 +107,7 @@ $this->vmValidator();
 
 
             if (VmConfig::get('oncheckout_show_register', 1) && $this->userDetails->JUser->id == 0 && !VmConfig::get('oncheckout_only_registered', 0) && $this->address_type == 'BT' and $rview == 'cart') {
-                echo '<div id="reg_text">' . vmText::sprintf('COM_VIRTUEMART_ONCHECKOUT_DEFAULT_TEXT_REGISTER', vmText::_('COM_VIRTUEMART_REGISTER_AND_CHECKOUT'), vmText::_('COM_VIRTUEMART_CHECKOUT_AS_GUEST')) . '</div>';
+                echo '<div id="reg_text">'.vmText::sprintf('COM_VIRTUEMART_ONCHECKOUT_DEFAULT_TEXT_REGISTER', vmText::_('COM_VIRTUEMART_REGISTER_AND_CHECKOUT'), vmText::_('COM_VIRTUEMART_CHECKOUT_AS_GUEST')).'</div>';
             } else {
                 //echo vmText::_('COM_VIRTUEMART_REGISTER_ACCOUNT');
             }
@@ -120,14 +120,14 @@ $this->vmValidator();
                             onclick="javascript:return myValidator(userForm, false);"><?php echo vmText::_('COM_VIRTUEMART_CHECKOUT_AS_GUEST'); ?></button>
                         <?php } ?>
                 <button class="default" type="reset"
-                        onclick="window.location.href = '<?php echo JRoute::_('index.php?option=com_virtuemart&view=' . $rview . '&task=cancel'); ?>'"><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button>
+                        onclick="window.location.href = '<?php echo JRoute::_('index.php?option=com_virtuemart&view='.$rview.'&task=cancel'); ?>'"><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button>
                         <?php
                     } else {
                         ?>
-                <button class="<?php echo $buttonclass ?>" type="submit"
+                <button class="default <?php echo $buttonclass ?>" type="submit"
                         onclick="javascript:return myValidator(userForm, true);"><?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?></button>
                 <button class="default" type="reset"
-                        onclick="window.location.href = '<?php echo JRoute::_('index.php?option=com_virtuemart&view=' . $rview . '&task=cancel'); ?>'"><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button>
+                        onclick="window.location.href = '<?php echo JRoute::_('index.php?option=com_virtuemart&view='.$rview.'&task=cancel'); ?>'"><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button>
                     <?php } ?>
         </div>
 
