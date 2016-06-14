@@ -37,7 +37,7 @@ class modChatHelper
         $date = getdate();
 
         $wday = $date['wday'];
-        $time = time() + 6 * 3600;
+        $time = strtotime(date('d.m.Y H:i:s'));
 
         if ($wday == 0 || $wday == 6) {
             $start       = $weekend_start;
@@ -59,13 +59,19 @@ class modChatHelper
         $time_start  = strtotime(date('d.m.Y').' '.$start_hour.':'.$start.':00');
         $time_finish = strtotime(date('d.m.Y').' '.$finish_hour.':'.$finish.':00');
 
-        if ($time_start <= $time && $time_finish >= $time) {
-            return false;
-        } else {
+        if ($time_start <= $time and $time_finish >= $time) {
             return true;
+        } else {
+            return false;
         }
     }
 
+    /**
+     * format
+     *
+     * @param string $number
+     * @return string
+     */
     public static function format($number)
     {
         if ($number < 10) {
