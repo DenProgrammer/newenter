@@ -96,16 +96,16 @@ $styleDateCol = 'style="width:5%;min-width:110px"';
                             $print_link .= '<span class="hasTip print_32" title="'.vmText::_('COM_VIRTUEMART_PRINT').'">&nbsp;</span></a>';
                             ?>
                             <td><?php
-                    echo $print_link;
-                            ?>
+                                echo $print_link;
+                                ?>
                             </td>
                             <!-- Order date -->
                             <td><?php echo vmJsApi::date($order->created_on, 'LC2', TRUE); ?></td>
-                            <td><?php echo $order->order_total; ?></td>
+                            <td><?php echo round($order->order_salesPrice * $order->exchange_usd).' Сом / '.$order->order_total; ?></td>
 
                         </tr>
                         <?php
-                        $k = 1 - $k;
+                        $k          = 1 - $k;
                         $i++;
                     }
                 }

@@ -98,6 +98,11 @@ if ($this->print) {
                     </table>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    Примечание покупателя: <?php echo $this->orderDetails['details']['BT']->note; ?>
+                </td>
+            </tr>
         </table>
         <br />
         <br />
