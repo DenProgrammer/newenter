@@ -32,7 +32,7 @@ class VirtuemartViewInvoice extends VmView
 {
 
     var $format           = 'html';
-    var $doVendor         = true;
+    var $doVendor         = false;
     var $uselayout        = '';
     var $orderDetails     = 0;
     var $invoiceNumber    = 0;
