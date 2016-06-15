@@ -45,7 +45,7 @@ foreach (JPluginHelper::getPlugin('captcha') as $plugin) {
         <?php endforeach; ?>
         <div class="control-group">
             <div class="controls">
-                <button class="btn btn-primary validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
+                <button class="btn btn-primary validate button-gloss" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
                 <input type="hidden" name="option" value="com_contact" />
                 <input type="hidden" name="task" value="contact.submit" />
                 <input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
