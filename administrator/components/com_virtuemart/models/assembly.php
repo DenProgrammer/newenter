@@ -89,13 +89,22 @@ class VirtueMartModelAssembly extends VmModel {
      *
      * @return object List of order status objects
      */
-    function getAssembly($assembly_id = 0) {
+    function getAssembly($assembly_id = 0, $onlyPubished = false) {
         $db = JFactory::getDbo();
 
-        $db->setQuery('SELECT * FROM #__virtuemart_assembly '
-                . 'WHERE id = ' . $assembly_id);
+        $sql = 'SELECT * FROM #__virtuemart_assembly WHERE id = ' . $assembly_id;
+        
+        if ($onlyPubished){
+            $sql .= ' AND published = 1 ';
+        }
+        
+        $db->setQuery($sql);
         $assembly = $db->loadObject();
 
+        if (!$assembly && $onlyPubished) {
+            return false;
+        }
+        
         if (!$assembly) {
             $assembly = $this->getTable('assembly');
         }

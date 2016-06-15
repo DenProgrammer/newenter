@@ -20,8 +20,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Load the view framework
-if (!class_exists('VmView'))
-    require(VMPATH_SITE . DS . 'helpers' . DS . 'vmview.php');
+if (!class_exists('VmView')) {
+    require(VMPATH_SITE.DS.'helpers'.DS.'vmview.php');
+}
 
 /**
  * Handle the category view
@@ -31,7 +32,8 @@ if (!class_exists('VmView'))
  * @todo set meta data
  * @todo add full path to breadcrumb
  */
-class VirtuemartViewAssembly extends VmView {
+class VirtuemartViewAssembly extends VmView
+{
 
     /**
      * display view
@@ -39,13 +41,14 @@ class VirtuemartViewAssembly extends VmView {
      * @param string $tpl
      * @return boolean
      */
-    public function display($tpl = null) {
+    public function display($tpl = null)
+    {
         if (!class_exists('calculationHelper')) {
-            require(VMPATH_ADMIN . DS . 'helpers' . DS . 'calculationh.php');
+            require(VMPATH_ADMIN.DS.'helpers'.DS.'calculationh.php');
         }
 
         if (!class_exists('shopFunctionsF')) {
-            require(VMPATH_SITE . DS . 'helpers' . DS . 'shopfunctionsf.php');
+            require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
         }
 
         // add javascript for price and cart, need even for quantity buttons, so we need it almost anywhere
@@ -55,7 +58,7 @@ class VirtuemartViewAssembly extends VmView {
         $app      = JFactory::getApplication();
 
         if (!class_exists('VmImage')) {
-            require(VMPATH_ADMIN . DS . 'helpers' . DS . 'image.php');
+            require(VMPATH_ADMIN.DS.'helpers'.DS.'image.php');
         }
 
         $this->assemblyId = vRequest::getInt('assembly_id', -1);
@@ -68,9 +71,12 @@ class VirtuemartViewAssembly extends VmView {
             $assemblyIds = vRequest::getInt('assembly_ids', -1);
             $assembly    = array();
             foreach ($assemblyIds as $item) {
-                $assemblyItem = $assemblyModel->getAssembly($item);
+                $assemblyItem = $assemblyModel->getAssembly($item, true);
                 $this->getAssemblyData($assemblyItem);
-                $assembly[]   = $assemblyItem;
+
+                if ($assemblyItem) {
+                    $assembly[] = $assemblyItem;
+                }
                 unset($assemblyItem);
             }
         } else {
@@ -88,7 +94,7 @@ class VirtuemartViewAssembly extends VmView {
         }
 
         if (vRequest::getInt('error')) {
-            $title .=' ' . vmText::_('COM_VIRTUEMART_PRODUCT_NOT_FOUND');
+            $title .=' '.vmText::_('COM_VIRTUEMART_PRODUCT_NOT_FOUND');
         }
 
         $document->setTitle($title);
@@ -96,7 +102,13 @@ class VirtuemartViewAssembly extends VmView {
         parent::display($tpl);
     }
 
-    protected function getAssemblyData(&$assembly) {
+    /**
+     * get assembly data
+     *
+     * @param stdClass $assembly
+     */
+    protected function getAssemblyData(&$assembly)
+    {
         $assemblyModel = VmModel::getModel('assembly');
         $productModel  = VmModel::getModel('product');
 
@@ -136,7 +148,8 @@ class VirtuemartViewAssembly extends VmView {
      * @param object $app
      * @return string
      */
-    public function setTitleByJMenu($app) {
+    public function setTitleByJMenu($app)
+    {
         $menus = $app->getMenu();
         $menu  = $menus->getActive();
 
@@ -163,7 +176,8 @@ class VirtuemartViewAssembly extends VmView {
      * @param integer $categoryId
      * @param integer $manId
      */
-    public function setCanonicalLink($tpl, $document, $categoryId, $manId) {
+    public function setCanonicalLink($tpl, $document, $categoryId, $manId)
+    {
         // Set Canonic link
         if (!empty($tpl)) {
             $format = $tpl;
@@ -174,10 +188,10 @@ class VirtuemartViewAssembly extends VmView {
 
             $link = 'index.php?option=com_virtuemart&view=category';
             if ($categoryId !== -1) {
-                $link .= '&virtuemart_category_id=' . $categoryId;
+                $link .= '&virtuemart_category_id='.$categoryId;
             }
             if ($manId !== -1) {
-                $link .= '&virtuemart_manufacturer_id=' . $manId;
+                $link .= '&virtuemart_manufacturer_id='.$manId;
             }
 
             $document->addHeadLink(JRoute::_($link, FALSE), 'canonical', 'rel', '');
@@ -187,7 +201,8 @@ class VirtuemartViewAssembly extends VmView {
     /**
      * generate custom fields list to display as search in FE
      */
-    public function getSearchCustom() {
+    public function getSearchCustom()
+    {
 
         $emptyOption            = array('virtuemart_custom_id' => 0, 'custom_title' => vmText::_('COM_VIRTUEMART_LIST_EMPTY_OPTION'));
         $this->_db              = JFactory::getDBO();
@@ -195,14 +210,14 @@ class VirtuemartViewAssembly extends VmView {
         $this->options          = $this->_db->loadAssocList();
         $this->custom_parent_id = 0;
         if ($this->custom_parent_id = vRequest::getInt('custom_parent_id', 0)) {
-            $this->_db->setQuery('SELECT `virtuemart_custom_id`, `custom_title` FROM `#__virtuemart_customs` WHERE custom_parent_id=' . $this->custom_parent_id);
+            $this->_db->setQuery('SELECT `virtuemart_custom_id`, `custom_title` FROM `#__virtuemart_customs` WHERE custom_parent_id='.$this->custom_parent_id);
             $this->selected           = $this->_db->loadObjectList();
             $this->searchCustomValues = '';
             foreach ($this->selected as $selected) {
-                $this->_db->setQuery('SELECT `custom_value` as virtuemart_custom_id,`custom_value` as custom_title FROM `#__virtuemart_product_customfields` WHERE virtuemart_custom_id=' . $selected->virtuemart_custom_id);
+                $this->_db->setQuery('SELECT `custom_value` as virtuemart_custom_id,`custom_value` as custom_title FROM `#__virtuemart_product_customfields` WHERE virtuemart_custom_id='.$selected->virtuemart_custom_id);
                 $valueOptions = $this->_db->loadAssocList();
                 $valueOptions = array_merge(array($emptyOption), $valueOptions);
-                $this->searchCustomValues .= vmText::_($selected->custom_title) . ' ' . JHtml::_('select.genericlist', $valueOptions, 'customfields[' . $selected->virtuemart_custom_id . ']', 'class="inputbox"', 'virtuemart_custom_id', 'custom_title', 0);
+                $this->searchCustomValues .= vmText::_($selected->custom_title).' '.JHtml::_('select.genericlist', $valueOptions, 'customfields['.$selected->virtuemart_custom_id.']', 'class="inputbox"', 'virtuemart_custom_id', 'custom_title', 0);
             }
         }
 
@@ -215,10 +230,9 @@ class VirtuemartViewAssembly extends VmView {
             $this->options          = array_merge(array($emptyOption), $this->options);
             // render List of available groups
             vmJsApi::chosenDropDowns();
-            $this->searchCustomList = vmText::_('COM_VIRTUEMART_SET_PRODUCT_TYPE') . ' ' . JHtml::_('select.genericlist', $this->options, 'custom_parent_id', 'class="inputbox vm-chzn-select"', 'virtuemart_custom_id', 'custom_title', $this->custom_parent_id);
+            $this->searchCustomList = vmText::_('COM_VIRTUEMART_SET_PRODUCT_TYPE').' '.JHtml::_('select.genericlist', $this->options, 'custom_parent_id', 'class="inputbox vm-chzn-select"', 'virtuemart_custom_id', 'custom_title', $this->custom_parent_id);
         } else {
             $this->searchCustomList = '';
         }
     }
-
 }
