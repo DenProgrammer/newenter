@@ -52,7 +52,6 @@ class VirtuemartControllerInvoice extends VmController {
         /* Load the data */
         $data = vRequest::getRequest();
 
-        print_r($data);
         // Load helpers
         if (!class_exists('NumberAnaliz')) {
             require(VMPATH_ADMIN . DS . 'helpers' . DS . 'string.php');
