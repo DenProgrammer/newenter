@@ -93,6 +93,9 @@ if ($product_parent_id) {
                     <th width="90px">
                         <?php echo $this->sort('product_sku') ?>
                     </th>
+                    <th width="20px">
+                        Фото
+                    </th>
                     <th width="70px" >
                         <?php echo $this->sort('product_price', 'COM_VIRTUEMART_PRODUCT_PRICE_TITLE'); ?>
                     </th>
@@ -140,6 +143,7 @@ if ($product_parent_id) {
 
                             <!-- Product SKU -->
                             <td><?php echo $product->product_sku; ?></td>
+                            <td><?php echo count($product->virtuemart_media_id); ?></td>
 
                             <!-- Product price -->
                             <td align="right" ><?php
