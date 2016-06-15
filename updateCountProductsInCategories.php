@@ -52,5 +52,3 @@ function getCountProducts($catId = 0)
     return $count;
 }
 getCountProducts();
-
-exit;

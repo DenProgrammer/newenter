@@ -182,7 +182,7 @@ class VirtuemartViewOrders extends VmViewAdmin {
             $this->setLayout('orders');
 
             $model                     = VmModel::getModel();
-            $this->addStandardDefaultViewLists($model, 'created_on');
+            $this->addStandardDefaultViewLists($model, 'virtuemart_order_id');
             $orderStatusModel          = VmModel::getModel('orderstatus');
             $orderstates               = vRequest::getCmd('order_status_code', '');
             $this->lists['state_list'] = $orderStatusModel->renderOSList($orderstates, 'order_status_code', FALSE, ' onchange="this.form.submit();" ');
