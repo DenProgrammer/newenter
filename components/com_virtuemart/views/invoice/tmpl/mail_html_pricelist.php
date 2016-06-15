@@ -19,8 +19,24 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die('Restricted access');
 
-$oldlayout=$this->getLayout();
+$oldlayout = $this->getLayout();
 $this->setLayout('invoice');
 echo $this->loadTemplate('items');
 $this->setLayout($oldlayout);
+?>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="html-email">
+    <tr>
+        <td colspan="2">
+            <hr />
+        </td>
+    </tr>
+    <tr>
+        <td class="vmdoc-header-text">
+            Примечание покупателя:
+        </td>
+        <td class="vmdoc-header-text">
+            <?php echo $this->orderDetails['details']['BT']->note; ?>
+        </td>
+    </tr>
+</table>
 

@@ -110,6 +110,7 @@ Virtuemart.cartEffect = function (form) {
                         "overlayShow": true,
                         "overlayOpacity": 0
                     });
+                    setTimeout("jQuery('a#fancybox-close').click()", 3000); 
                 } else {
                     jQuery.facebox.settings.closeImage = closeImage;
                     jQuery.facebox.settings.loadingImage = loadingImage;

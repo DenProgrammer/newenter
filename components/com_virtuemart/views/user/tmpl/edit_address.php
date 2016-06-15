@@ -125,10 +125,8 @@ $this->vmValidator();
                     } else {
                         ?>
                 <button class="default <?php echo $buttonclass ?>" type="submit"
-                        onclick="javascript:return myValidator(userForm, true);"><?php echo vmText::_('COM_VIRTUEMART_SAVE'); ?></button>
-                <button class="default" type="reset"
-                        onclick="window.location.href = '<?php echo JRoute::_('index.php?option=com_virtuemart&view='.$rview.'&task=cancel'); ?>'"><?php echo vmText::_('COM_VIRTUEMART_CANCEL'); ?></button>
-                    <?php } ?>
+                        onclick="javascript:return myValidator(userForm, true);">Регистрация</button>
+                <?php } ?>
         </div>
 
     </fieldset>
