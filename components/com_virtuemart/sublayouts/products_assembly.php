@@ -98,7 +98,7 @@ foreach ($viewData['products'] as $type => $products) {
                                     <table width='100%'>
                                         <tr>
                                             <td align="left">
-                                                <span style="color: blue; font-size: 16px;">
+                                                <span style="color: blue; font-size: 16px; font-weight: bold;">
                                                     <?php echo $assemblyProducts[$product->virtuemart_product_id]->product_type; ?>
                                                 </span>
                                             </td>

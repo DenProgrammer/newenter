@@ -715,7 +715,10 @@ ul.VMmenu li div{
 }
 
 #wrapper #content .form-validate{
-    /*float:left;*/
+    float:left;
+}
+#wrapper #content .contact .form-validate{
+    float:none;
 }
 
 #wrapper #content .form-validate fieldset{
