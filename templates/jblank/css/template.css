@@ -1515,6 +1515,6 @@ div.contact{
 div.contact legend{
     width: 100%;
 }
-div.contact input[type=text], div.contact textarea{
+div.contact input[type=text], div.contact input[type=email], div.contact textarea{
     width: 400px;
 }
