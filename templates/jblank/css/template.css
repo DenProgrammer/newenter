@@ -1512,6 +1512,9 @@ div.order-done div{
 div.contact{
     text-align: center;
 }
+div.contact legend{
+    width: 100%;
+}
 div.contact input[type=text], div.contact textarea{
     width: 400px;
 }
