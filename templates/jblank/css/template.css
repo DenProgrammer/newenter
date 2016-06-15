@@ -715,7 +715,7 @@ ul.VMmenu li div{
 }
 
 #wrapper #content .form-validate{
-    float:left;
+    /*float:left;*/
 }
 
 #wrapper #content .form-validate fieldset{
@@ -956,6 +956,13 @@ input.addtocart-button{
     line-height: 0px;
     padding: 4px 5px;
 }
+input.addtocart-assembly-button{
+    width: 200px;
+    height: 40px;
+    line-height: 0px;
+    padding: 4px 5px;
+    font-size: 20px;
+}
 span.price{
     color: #f90000;
     margin-right: 20px;
@@ -975,8 +982,8 @@ span.prouct_name a{
     font-weight: bold;
 }
 label.pricelbl{
-    font-weight: normal;
-    font-size: 11px;
+    font-weight: bold;
+    font-size: 20px;
 }
 span.cart{
     display: inline-block;
@@ -1500,4 +1507,11 @@ div.order-done h3{
 
 div.order-done div{
     font-size: 16px;
+}
+
+div.contact{
+    text-align: center;
+}
+div.contact input[type=text], div.contact textarea{
+    width: 400px;
 }

@@ -106,7 +106,7 @@ vmJsApi::addJScript('imagepopup', $imageJS);
                                 type="submit" 
                                 title="Купить" 
                                 value="Купить" 
-                                class="addtocart-button button-gloss" 
+                                class="addtocart-button addtocart-assembly-button button-gloss" 
                                 name="addtocart" 
                                 />                        
                         </span>
