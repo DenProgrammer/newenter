@@ -143,7 +143,7 @@ if ($product_parent_id) {
 
                             <!-- Product SKU -->
                             <td><?php echo $product->product_sku; ?></td>
-                            <td><?php echo count($product->virtuemart_media_id); ?></td>
+                            <td><?php echo $product->virtuemart_media_id && count($product->virtuemart_media_id)>0?1:0; ?></td>
 
                             <!-- Product price -->
                             <td align="right" ><?php
