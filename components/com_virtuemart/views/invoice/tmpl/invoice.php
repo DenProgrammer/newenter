@@ -42,12 +42,19 @@ if ($this->print) {
             <title>Вид для печати</title>
             <style type="text/css">
                 html, p, td, th, a{
-                    font-size: 14px;
+                    font-size: 12px;
                     color: black;
                     text-decoration: none;
                 }
                 h2{
                     font-size: 16px;
+                }
+                table{
+                    border-collapse: collapse;
+                }
+                span.note{
+                    font-size: 16px;
+                    font-weight: bold;
                 }
             </style>
         </head>
@@ -72,7 +79,7 @@ if ($this->print) {
                                     Бишкек, 720000</p>
                             </td>
                             <td valign = "top" width = "10%" align = "right">
-                                <img border = "0" height="100" src = "http://enter.kg/components/com_virtuemart/shop_image/vendor/_________________4d71e35122017.jpg" alt = "Салон компьютерной техники WWW.ENTER.KG" />
+                                <img border = "0" height="100" src = "images/printlogo.jpg" alt = "Салон компьютерной техники WWW.ENTER.KG" />
                             </td>
                         </tr>
                     </table>
@@ -100,7 +107,9 @@ if ($this->print) {
             </tr>
             <tr>
                 <td>
-                    Примечание покупателя: <?php echo $this->orderDetails['details']['BT']->note; ?>
+                    <span class="note">
+                        Примечание покупателя: <?php echo $this->orderDetails['details']['BT']->note; ?>
+                    </span>
                 </td>
             </tr>
         </table>

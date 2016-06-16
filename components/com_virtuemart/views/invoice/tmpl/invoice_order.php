@@ -62,7 +62,7 @@ if ($this->doctype == 'invoice') {
 
                 <tr>
                     <td class="key"><?php echo vmText::_('COM_VIRTUEMART_ORDER_PRINT_PO_DATE') ?></td>
-                    <td align="left"><?php echo vmJsApi::date($this->orderDetails['details']['BT']->created_on, 'LC4', true); ?></td>
+                    <td align="left"><?php echo vmJsApi::date($this->orderDetails['details']['BT']->created_on, 'LC2', true); ?></td>
                 </tr>
                 <?php if ($this->orderDetails['details']['BT']->customer_note) { ?>
                     <tr>

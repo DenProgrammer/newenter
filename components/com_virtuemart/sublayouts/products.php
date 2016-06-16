@@ -147,17 +147,42 @@ foreach ($viewData['products'] as $type => $products) {
                                     $url    = $product->images[0]->file_url;
                                     $rel    = 'product-image';
                                 } else {
-                                    $title = 'Найти в Google';
-                                    $href  = 'http://www.google.kg/search?q='.$product->product_name.'&tbm=isch';
+                                    $title  = 'Найти в Google';
+                                    $href   = 'http://www.google.kg/search?q='.$product->product_name.'&tbm=isch';
                                     $target = ' target="blank" ';
-                                    $url   = 'images/yandex.png';
-                                    $rel   = '';
+                                    $url    = 'images/yandex.png';
+                                    $rel    = '';
                                 }
+
+                                $imgParams = getimagesize($url);
+
+                                $imgWidth  = $imgParams[0];
+                                $imgHeight = $imgParams[1];
+                                $imgSizeW  = 100;
+                                $imgSizeH  = 100;
+
+                                if ($imgWidth > $imgSizeW) {
+                                    $k         = $imgSizeW / $imgWidth;
+                                    $imgWidth  = $imgSizeW;
+                                    $imgHeight = round($imgHeight * $k);
+                                }
+
+                                if ($imgHeight > $imgSizeH) {
+                                    $k         = $imgSizeH / $imgHeight;
+                                    $imgHeight = $imgSizeH;
+                                    $imgWidth  = round($imgWidth * $k);
+                                }
+
+                                $margin = round(($imgSizeH - $imgHeight) / 2);
                                 ?>
-                                <a title="<?php echo $title; ?>" <?php echo $target; ?> href="<?php echo $href; ?>">
+                                <a class="product-image-link" title="<?php echo $title; ?>" <?php echo $target; ?> href="<?php echo $href; ?>">
                                     <img 
                                         id="<?php echo $product->virtuemart_product_id; ?>" 
-                                        class="img_<?php echo $product->virtuemart_product_id; ?>" alt="" width="100" 
+                                        class="img_<?php echo $product->virtuemart_product_id; ?>" 
+                                        alt=""  
+                                        style="margin-top: <?php echo $margin; ?>px;"
+                                        width="<?php echo $imgWidth; ?>" 
+                                        height="<?php echo $imgHeight; ?>" 
                                         rel="<?php echo $rel; ?>"
                                         src="<?php echo $url; ?>" 
                                         data-zoom="<?php echo $url; ?>">
