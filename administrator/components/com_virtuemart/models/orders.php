@@ -326,6 +326,7 @@ class VirtueMartModelOrders extends VmModel
             $search = str_replace(' ', '%', $search);
 
             $searchFields   = array();
+            $searchFields[] = 'o.virtuemart_order_id';
             $searchFields[] = 'u.first_name';
             $searchFields[] = 'u.middle_name';
             $searchFields[] = 'u.last_name';
