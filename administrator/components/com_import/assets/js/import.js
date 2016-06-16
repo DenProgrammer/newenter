@@ -47,7 +47,7 @@ function selectDocument(num)
     jQuery("#doc" + num).addClass('documents_active');
 
     var url = mainurl + '&ajax=set_active_document';
-    jQuery.get(url, {id: num}, function() {
+    jQuery.get(url, {id: num}, function () {
         hidePreloader();
     });
     action_document = num;
@@ -91,56 +91,56 @@ function hidePreloader()
 }
 /****************************************scrolling********************************/
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
 
-    jQuery("#bar").mousemove(function(e) {
+//    jQuery("#bar").mousemove(function (e) {
+//
+//        var checkdiv = jQuery("#win").css("height");
+//        var checktable = jQuery("#doclisttable").css("height");
+//
+//        checkdiv = parseInt(checkdiv.replace('px', ''));
+//        checktable = parseInt(checktable.replace('px', ''));
+//
+//        if ((scroll_action) && (e.pageY >= sdvig) && (e.pageY <= (sdvig + 170)) && (checktable > checkdiv))
+//        {
+//            jQuery("#bar").css("margin-top", e.pageY - sdvig);
+//
+//            var height = jQuery("#win div.data").css("height");
+//            height = height.replace('px', '');
+//            var margin = Math.round((height / 170 - 1) * (e.pageY - sdvig));
+//            jQuery("#win div.data").css("margin-top", -margin);
+//        }
+//    }).mouseout(function () {
+//        scroll_action = false;
+//    }).mouseover(function () {
+//        scroll_action = true;
+//    });
 
-        var checkdiv = jQuery("#win").css("height");
-        var checktable = jQuery("#doclisttable").css("height");
-
-        checkdiv = parseInt(checkdiv.replace('px', ''));
-        checktable = parseInt(checktable.replace('px', ''));
-
-        if ((scroll_action) && (e.pageY >= sdvig) && (e.pageY <= (sdvig + 170)) && (checktable > checkdiv))
-        {
-            jQuery("#bar").css("margin-top", e.pageY - sdvig);
-
-            var height = jQuery("#win div.data").css("height");
-            height = height.replace('px', '');
-            var margin = Math.round((height / 170 - 1) * (e.pageY - sdvig));
-            jQuery("#win div.data").css("margin-top", -margin);
-        }
-    }).mouseout(function() {
-        scroll_action = false;
-    }).mouseover(function() {
-        scroll_action = true;
-    });
-
-    jQuery("#bar2").mousemove(function(e) {
-
-        var checkdiv = jQuery("#win2").css("height");
-        var checktable = jQuery("#doclisttable2").css("height");
-
-        checkdiv = parseInt(checkdiv.replace('px', ''));
-        checktable = parseInt(checktable.replace('px', ''));
-
-        if ((scroll_action2) && (e.pageY >= sdvig2) && (e.pageY <= (sdvig2 + 170)) && (checktable > checkdiv))
-        {
-            jQuery("#bar2").css("margin-top", e.pageY - sdvig2);
-
-            var height = jQuery("#win2 div.data").css("height");
-            height = height.replace('px', '');
-            var margin = Math.round((height / 170 - 1) * (e.pageY - sdvig2));
-            jQuery("#win2 div.data").css("margin-top", -margin);
-        }
-    }).mouseout(function() {
-        scroll_action2 = false;
-    }).mouseover(function() {
-        scroll_action2 = true;
-    });
+//    jQuery("#bar2").mousemove(function (e) {
+//
+//        var checkdiv = jQuery("#win2").css("height");
+//        var checktable = jQuery("#doclisttable2").css("height");
+//
+//        checkdiv = parseInt(checkdiv.replace('px', ''));
+//        checktable = parseInt(checktable.replace('px', ''));
+//
+//        if ((scroll_action2) && (e.pageY >= sdvig2) && (e.pageY <= (sdvig2 + 170)) && (checktable > checkdiv))
+//        {
+//            jQuery("#bar2").css("margin-top", e.pageY - sdvig2);
+//
+//            var height = jQuery("#win2 div.data").css("height");
+//            height = height.replace('px', '');
+//            var margin = Math.round((height / 170 - 1) * (e.pageY - sdvig2));
+//            jQuery("#win2 div.data").css("margin-top", -margin);
+//        }
+//    }).mouseout(function () {
+//        scroll_action2 = false;
+//    }).mouseover(function () {
+//        scroll_action2 = true;
+//    });
 
     var url = mainurl + '&ajax=get_active_document';
-    jQuery.get(url, {}, function(data) {
+    jQuery.get(url, {}, function (data) {
         var id = getDataFromXML(data, 'id');
         var count = getDataFromXML(data, 'count');
         if (id > 0)
@@ -154,13 +154,13 @@ jQuery(document).ready(function() {
     selectMenu(page);
     parseProductName(product_id);
 
-    jQuery("#datecreate_import").datepicker();
+//    jQuery("#datecreate_import").datepicker();
 
-}).mousemove(function(e) {
+}).mousemove(function (e) {
     jQuery("#import_prldr").css("left", e.clientX).css("top", e.clientY)
-}).mouseout(function(e) {
+}).mouseout(function (e) {
     jQuery("#import_prldr").css("display", "none");
-}).mouseover(function(e) {
+}).mouseover(function (e) {
     if (show_preloader)
         jQuery("#import_prldr").css("display", "block");
 });
@@ -191,7 +191,7 @@ function changePrice()
     jQuery('#markup_top').html(markupStr);
     jQuery('#markup').val(markup);
     jQuery('#markup_fix_value').val(fixMarkup);
-    
+
     if (markup === 2) {
         jQuery('#show_fix_markup').css('display', 'table-row');
     } else {
@@ -243,11 +243,11 @@ function changeMarkup()
     var price = jQuery("#price").val();
 
     markups[price] = markup;
-    
+
     if (markup === 2) {
-        jQuery('#show_fix_markup').css('display', 'table-row');
+        jQuery('tr#show_fix_markup').show();
     } else {
-        jQuery('#show_fix_markup').css('display', 'none');
+        jQuery('tr#show_fix_markup').hide();
     }
 
     var url = mainurl + '&ajax=setMarkup';
@@ -269,7 +269,7 @@ function changeCategory(value, filtr)
     jQuery("#category_top").html(html);
 
     var url = mainurl + '&ajax=setCategory';
-    jQuery.get(url, {id: value, title: html, filtr: filtr}, function(data) {
+    jQuery.get(url, {id: value, title: html, filtr: filtr}, function (data) {
         jQuery("#doclisttable2 tbody").html(data);
     });
 }
@@ -291,7 +291,7 @@ function addNadbavka()
 {
     showPreloader();
     var url = mainurl + '&ajax=get_nadbavka';
-    jQuery.get(url, {}, function(data) {
+    jQuery.get(url, {}, function (data) {
         var content = getDataFromXML(data, 'content');
 
         jQuery("#addprice_table tbody").append(content);
@@ -311,7 +311,7 @@ function startUpdate()
     var url = mainurl + '&ajax=startUpdate&markup_fix_value=' + markup_fix_value;
     jQuery('#import_loading').show();
 
-    jQuery.get(url, {}, function(data) {
+    jQuery.get(url, {}, function (data) {
         jQuery('#import_loading').hide();
 
         data = jQuery.parseJSON(data);
@@ -324,7 +324,7 @@ function startUpdate()
         if (confirm(message))
         {
             var url = mainurl + '&ajax=delete_price';
-            jQuery.get(url, {}, function(data) {
+            jQuery.get(url, {}, function (data) {
                 var content = getDataFromXML(data, 'content');
                 jQuery("div.data table").html(content);
                 document.location = 'index.php?option=com_import';
@@ -353,7 +353,7 @@ function parseProductName(id)
 
     product_id = id;
     var url = mainurl + '&ajax=parseProductName';
-    jQuery.get(url, {id: id}, function(data) {
+    jQuery.get(url, {id: id}, function (data) {
         var model = getDataFromXML(data, 'model');
         var content = getDataFromXML(data, 'content');
 
@@ -370,7 +370,7 @@ function setModelForProduct(id, value)
 {
     showPreloader();
     var url = mainurl + '&ajax=setModelForProduct';
-    jQuery.get(url, {id: id, value: value}, function(data) {
+    jQuery.get(url, {id: id, value: value}, function (data) {
         var model = getDataFromXML(data, 'model');
         jQuery("#model").attr("value", model);
         searchText();
@@ -380,7 +380,7 @@ function setModel(value)
 {
     showPreloader();
     var url = mainurl + '&ajax=setModelForProduct';
-    jQuery.get(url, {id: product_id, value: value}, function(data) {
+    jQuery.get(url, {id: product_id, value: value}, function (data) {
         var model = getDataFromXML(data, 'model');
         jQuery("#model").attr("value", model);
 
@@ -402,17 +402,17 @@ function searchText()
 
     text = jQuery("#model").attr("value");
     var str = '<table>';
-    jQuery.get(url, {text: text}, function(data) {
+    jQuery.get(url, {text: text}, function (data) {
         jQuery("#parse_panel").html(data);
 
-        jQuery("#parse_panel div.b-pager__pages a").each(function() {
+        jQuery("#parse_panel div.b-pager__pages a").each(function () {
             v = jQuery(this).html();
             jQuery(this).attr("href", "javascript:search_page=" + v + ";searchText()");
         });
 
         var pagination = jQuery("#parse_panel div.b-pager__pages").html();
 
-        jQuery("#parse_panel div.b-offers").each(function() {
+        jQuery("#parse_panel div.b-offers").each(function () {
             id = jQuery(this).attr("id");
             name = jQuery(this).find("a.b-offers__name").html();
             img = jQuery(this).find("img.b-offers__img").attr("src");
@@ -440,7 +440,7 @@ function searchById(id)
     yandex_product_id = id;
 
     var str = '';
-    jQuery.get(url, {id: id}, function(data) {
+    jQuery.get(url, {id: id}, function (data) {
         jQuery("#parse_panel").html(data);
 
         bigimg = jQuery(".b-model-pictures__big a").attr("href");
@@ -468,7 +468,7 @@ function setDataForProduct()
     var model = jQuery("#model").attr("value");
 
     var url = mainurl + '&ajax=setDataForProduct';
-    jQuery.post(url, {product_id: product_id, yandex_product_id: yandex_product_id, bigimg: bigimg, img: img, s_desc: s_desc, desc: desc, model: model}, function(data) {
+    jQuery.post(url, {product_id: product_id, yandex_product_id: yandex_product_id, bigimg: bigimg, img: img, s_desc: s_desc, desc: desc, model: model}, function (data) {
         alert('Информация о товаре обновлена');
     });
 }
@@ -478,14 +478,14 @@ function setDataForProduct()
 function getWinAddNewSklad()
 {
     var url = mainurl + '&ajax=getWinAddNewSklad';
-    jQuery.post(url, {}, function(data) {
+    jQuery.post(url, {}, function (data) {
         jQuery("#sklads").html(data).animate({opacity: "show"}, 500);
     });
 }
 
 function hideWinAddNewSklad()
 {
-    jQuery("#sklads").animate({opacity: "hide"}, 500, function() {
+    jQuery("#sklads").animate({opacity: "hide"}, 500, function () {
         jQuery("#sklads").html("")
     });
 }
@@ -493,7 +493,7 @@ function hideWinAddNewSklad()
 function getWinListSklad()
 {
     var url = mainurl + '&ajax=getWinListSklad';
-    jQuery.post(url, {}, function(data) {
+    jQuery.post(url, {}, function (data) {
         jQuery("#sklads").html(data).animate({opacity: "show"}, 500);
     });
 }
@@ -510,7 +510,7 @@ function saveEditSklad(id)
     var url = mainurl + '&ajax=saveEditSklad';
     jQuery.post(url, {id: id, clearLine: clearLine, categoryNamePosition: categoryNamePosition,
         productNamePosition: productNamePosition, productPricePosition: productPricePosition,
-        productDescPosition: productDescPosition, priceName: priceName}, function(data) {
+        productDescPosition: productDescPosition, priceName: priceName}, function (data) {
         var msg = getDataFromXML(data, 'message');
         var st = getDataFromXML(data, 'status');
         if (st === '1')
@@ -541,7 +541,7 @@ function addNewSklad()
 
     var url = mainurl + '&ajax=addNewSklad';
     jQuery.post(url, {priceName: priceName, clearLine: clearLine, categoryNamePosition: categoryNamePosition,
-        productNamePosition: productNamePosition, productPricePosition: productPricePosition, productDescPosition: productDescPosition}, function(data) {
+        productNamePosition: productNamePosition, productPricePosition: productPricePosition, productDescPosition: productDescPosition}, function (data) {
         var msg = getDataFromXML(data, 'message');
         var st = getDataFromXML(data, 'status');
         if (st === '1')
@@ -564,7 +564,7 @@ function addNewSklad()
 function editPrice(id)
 {
     var url = mainurl + '&ajax=editPrice';
-    jQuery.get(url, {id: id}, function(data) {
+    jQuery.get(url, {id: id}, function (data) {
         jQuery("#sklads").html(data).animate({opacity: "show"}, 500);
     });
 }
@@ -573,7 +573,7 @@ function deletePrice(id)
     if (confirm('Тип прайса будет удален, вы уверены?'))
     {
         var url = mainurl + '&ajax=deletePrice';
-        jQuery.get(url, {id: id}, function(data) {
+        jQuery.get(url, {id: id}, function (data) {
             var msg = getDataFromXML(data, 'message');
 
             alert(msg);
@@ -592,7 +592,7 @@ function setClear()
     var clearDateValue = jQuery("#datecreate_import").attr("value");
 
     var url = mainurl + '&ajax=setClear';
-    jQuery.get(url, {clearDateType: clearDateType, clearDateValue: clearDateValue}, function(data) {
+    jQuery.get(url, {clearDateType: clearDateType, clearDateValue: clearDateValue}, function (data) {
         alert(data);
     });
 }
@@ -601,7 +601,7 @@ function createPrice()
     var pricepath = jQuery("#pricepath").attr("value");
 
     var url = mainurl + '&ajax=createPrice';
-    jQuery.get(url, {pricepath: pricepath}, function(data) {
+    jQuery.get(url, {pricepath: pricepath}, function (data) {
         alert(data);
     });
 }
@@ -611,7 +611,7 @@ var clearImagesStatus = false;
 function clearData() {
     jQuery('#clearImages-status').html('');
     jQuery('#clearImages-status').append('Инициализация<br>');
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=clear', {}, function() {
+    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=clear', {}, function () {
         jQuery('#clearImages-status').append('Выполнено!<br>');
 
         prepareData();
@@ -619,7 +619,7 @@ function clearData() {
 }
 function prepareData() {
     jQuery('#clearImages-status').append('Сбор данных по изображениям<br>');
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=prepare', {}, function(data) {
+    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=prepare', {}, function (data) {
         var data = jQuery.parseJSON(data);
         jQuery('#clearImages-status').append('Выполнено, изображений найдено ' + data.count + '!<br>');
 
@@ -628,7 +628,7 @@ function prepareData() {
 }
 function detectImages() {
     jQuery('#clearImages-status').append('Определение ненужных изображений<br>');
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=detect', {}, function(data) {
+    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=detect', {}, function (data) {
         var data = jQuery.parseJSON(data);
         jQuery('#clearImages-status').append('Выполнено, будет удалено ' + data.count + ' изображений!<br>');
 
@@ -642,7 +642,7 @@ function moveImages() {
     moveImagesProcees();
 }
 function moveImagesProcees() {
-    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=move', {}, function(data) {
+    jQuery.get('index.php?option=com_import&view=clearimages&tmpl=ajax&action=move', {}, function (data) {
         var data = jQuery.parseJSON(data);
         var move = parseInt(jQuery('#moveImages').html());
 

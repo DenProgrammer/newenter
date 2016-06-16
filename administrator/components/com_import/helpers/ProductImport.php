@@ -16,9 +16,9 @@ class ProductImport
     protected $total;
     protected $totalOrd;
     protected $passw    = 'ofhwoephgepwohg';
-    protected $page     = 'http://enter.kg/exportProducts.php';
-    protected $pageCat  = 'http://enter.kg/exportCategories.php';
-    protected $pageOrd  = 'http://enter.kg/exportOrders.php';
+    protected $page     = 'http://old.enter.kg/exportProducts.php';
+    protected $pageCat  = 'http://old.enter.kg/exportCategories.php';
+    protected $pageOrd  = 'http://old.enter.kg/exportOrders.php';
     protected $media    = 'images/stories/virtuemart/';
     protected $user     = 436;
     protected $catId    = null; //array(281, 282);

@@ -29,7 +29,7 @@ $category_id   = $this->product->categoryItem[0]['virtuemart_category_id'];
 $category_name = $this->product->categoryItem[0]['category_name'];
 
 $userGroup   = JFactory::getUser()->getAuthorisedGroups();
-$allowGroups = array(7, 8);
+$allowGroups = array(7, 8, 10, 11);
 $showSku     = array_intersect($allowGroups, $userGroup);
 
 if ($showSku) {

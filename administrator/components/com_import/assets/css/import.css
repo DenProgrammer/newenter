@@ -63,7 +63,7 @@ div#element-box div.m {
     margin:5px;
     position:relative;
     background:#ffffff;
-    overflow:hidden;
+    overflow:auto;
 }
 #win2{
     width:600px;
@@ -71,7 +71,7 @@ div#element-box div.m {
     margin:5px;
     position:relative;
     background:#ffffff;
-    overflow:hidden;
+    overflow:auto;
 }
 .win_lt{left:0px;top:0px;background:url(../images/round/win_lt.png) center center no-repeat;}
 .win_rt{right:0px;top:0px;background:url(../images/round/win_rt.png) center center no-repeat;}

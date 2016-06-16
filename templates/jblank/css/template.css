@@ -984,7 +984,7 @@ span.prouct_name a{
     text-decoration: none;
     font-weight: bold;
 }
-label.pricelbl{
+div.total_price label.pricelbl{
     font-weight: bold;
     font-size: 20px;
 }

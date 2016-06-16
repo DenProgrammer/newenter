@@ -41,10 +41,6 @@ $category = getCategoryList();
                         <div class="win_lb round"></div>
                         <div class="win_rb round"></div>
 
-                        <div id="scroll">
-                            <div id="bar"></div>
-                        </div>
-
                         <div class="data">
                             <table id="doclisttable">
                                 <?php
@@ -402,10 +398,6 @@ foreach ($fix_markups as $key => $val) {
                         <div class="win_rt round"></div>
                         <div class="win_lb round"></div>
                         <div class="win_rb round"></div>
-
-                        <div id="scroll2">
-                            <div id="bar2"></div>
-                        </div>
 
                         <div class="data">
                             <table id="doclisttable2" cellpadding="0" cellspacing="0" style="width:560px;table-layout:fixed;">

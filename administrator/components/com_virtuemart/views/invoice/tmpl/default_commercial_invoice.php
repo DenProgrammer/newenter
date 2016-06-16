@@ -95,7 +95,7 @@ $details = $this->data->order['details']['BT'];
             }
             function resumm(id)
             {
-                var count = $("#itemquantitytext" + id).attr("value");
+                var count = $("#itemquantitytext" + id).val();
                 var price = $("#itempricetext" + id).val();
                 price = price.replace(',', '.');
                 count = count - 1 + 1;
@@ -115,19 +115,19 @@ $details = $this->data->order['details']['BT'];
             function changeNRT()
             {
                 var oldnrt = nrt;
-                var tempnrt = parseFloat($("#nrt").attr("value"));
+                var tempnrt = parseFloat($("#nrt").val());
                 if (tempnrt >= 0)
                 {
                     nrt = tempnrt;
                     var total = 0;
                     $("tr.itemrow").each(function(i, el) {
-
-                        var itemprice = parseFloat($(this).find("td input.itempricetext").attr("value"));
-                        var itemquantity = parseFloat($(this).find("td div.itemquantity").html());
+                        var itemprice = parseFloat($(this).find("td input.itempricetext").val());
+                        var itemquantity = parseFloat($(this).find("td input.itemquantitytext").val());
+                        
                         var realprice = parseFloat(itemprice / (1 + oldnrt / 100));
                         var newprice = Math.round(realprice * (1 + nrt / 100));
                         var itemitogo = Math.round(newprice * itemquantity);
-                        $(this).find("td input.itempricetext").attr("value", newprice);
+                        $(this).find("td input.itempricetext").val(newprice);
                         $(this).find("td div.itemitogo").html(itemitogo);
                         total += itemitogo;
                     });
@@ -488,7 +488,7 @@ $details = $this->data->order['details']['BT'];
                     <td height=20 class=xl68 align=right style='height:15.0pt;border:solid 1px black;text-align:center;' x:num><?php echo $num; ?></td>
                     <td colspan=7 class=xl71 style='border:solid 1px black;text-align:left;'>
                         <div class='itemname changeelement'><?php echo $itemname; ?></div>
-                        <input size='67' id='itemnametext<?php echo $item_id; ?>' class='itemnametext editelement' type='text'/>
+                        <input size='55' id='itemnametext<?php echo $item_id; ?>' class='itemnametext editelement' type='text'/>
                     </td>
                     <td class=xl68 style='border:solid 1px black;text-align:right;'>
                         <div class='itemquantity changeelement'><?php echo $quantity; ?></div>

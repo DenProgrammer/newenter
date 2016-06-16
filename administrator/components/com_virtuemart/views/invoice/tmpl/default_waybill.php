@@ -100,7 +100,7 @@ $details = $this->data->order['details']['BT'];
             }
             function resumm(id)
             {
-                var count = $("#itemquantitytext" + id).attr("value");
+                var count = $("#itemquantitytext" + id).val();
                 var price = $("#itempricetext" + id).val();
                 price = price.replace(',', '.');
                 count = count - 1 + 1;
@@ -117,7 +117,7 @@ $details = $this->data->order['details']['BT'];
             function changeNRT()
             {
                 var oldnrt = nrt;
-                var tempnrt = parseFloat($("#nrt").attr("value"));
+                var tempnrt = parseFloat($("#nrt").val());
                 if (tempnrt >= 0)
                 {
                 }
@@ -126,12 +126,12 @@ $details = $this->data->order['details']['BT'];
                 nrt = tempnrt;
                 var total = 0;
                 $("tr.itemrow").each(function(i, el) {
-                    var itemprice = parseFloat($(this).find("td input.itempricetext").attr("value"));
-                    var itemquantity = parseFloat($(this).find("td div.itemquantity").html());
+                    var itemprice = parseFloat($(this).find("td input.itempricetext").val());
+                    var itemquantity = parseFloat($(this).find("td input.itemquantitytext").val());
                     var realprice = parseFloat(itemprice / (1 + oldnrt / 100));
                     var newprice = Math.round(realprice * (1 + nrt / 100));
                     var itemitogo = Math.round(newprice * itemquantity);
-                    $(this).find("td input.itempricetext").attr("value", newprice);
+                    $(this).find("td input.itempricetext").val(newprice);
                     $(this).find("td div.itemitogo").html(itemitogo);
                     total += itemitogo;
                 })

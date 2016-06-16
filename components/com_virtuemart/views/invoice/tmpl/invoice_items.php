@@ -54,9 +54,7 @@ $details = $this->orderDetails['details']['BT'];
                 <?php echo $qtt; ?>
             </td>
             <td align="left" colspan="2" >
-                <a href="<?php echo $product_link; ?>">
-                    <?php echo html_entity_decode($item->order_item_name); ?>
-                </a>
+                <?php echo html_entity_decode($item->order_item_name); ?>
             </td>
             <td align="center">
                 <?php echo $item->order_item_sku; ?>
