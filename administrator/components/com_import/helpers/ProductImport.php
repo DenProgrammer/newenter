@@ -37,11 +37,11 @@ class ProductImport
      */
     public function execute()
     {
-        $this->clearBase();
-//        $this->loadCategories();
+//        $this->clearBase();
         $this->loadTotal();
-        $this->loadProducts();
-        $this->loadOrders();
+//        $this->loadProducts();
+        $this->loadProductsMedia();
+//        $this->loadOrders();
     }
 
     /**
@@ -87,6 +87,26 @@ class ProductImport
             }
             $file = file_get_contents($url);
             $this->loadProductsCallback($file, $url);
+        }
+    }
+
+    /**
+     * load products
+     */
+    public function loadProductsMedia()
+    {
+        echo "->\tLoad product medias<br>\n";
+
+        $count = ceil($this->total / $this->limit);
+
+        for ($i = 0; $i < $count; $i++) {
+            $offset = $i * $this->limit;
+            $url    = $this->page.'?limit='.$this->limit.'&offset='.$offset.'&passw='.$this->passw;
+            if ($this->catId) {
+                $url.='&catid='.implode(',', $this->catId);
+            }
+            $file = file_get_contents($url);
+            $this->loadProductsMediaCallback($file, $url);
         }
     }
 
@@ -179,6 +199,38 @@ class ProductImport
         if (isset($data->items) && count($data->items)) {
             foreach ($data->items as $item) {
                 if ($this->saveProduct($item)) {
+                    $countSaved++;
+                } else {
+                    $countSkip++;
+                }
+            }
+        }
+
+        echo $this->iterator."\t->\tLoad\t".count($data->items)."\tSaved\t".$countSaved."\tSkip\t".$countSkip."<br>\n";
+
+        return;
+    }
+
+    /**
+     * load product callback
+     * 
+     * @param string $response
+     * @param object $url
+     * @return null
+     */
+    public function loadProductsMediaCallback($response, $url)
+    {
+        $this->iterator++;
+
+        $data = json_decode($response);
+
+        echo $this->iterator."\t->\tOK\t".$url."<br>\n";
+
+        $countSaved = 0;
+        $countSkip  = 0;
+        if (isset($data->items) && count($data->items)) {
+            foreach ($data->items as $item) {
+                if ($this->saveProductMedia($item)) {
                     $countSaved++;
                 } else {
                     $countSkip++;
@@ -399,6 +451,66 @@ class ProductImport
             $product_id, $category_id, 0)";
         $db->setQuery($categoriesSql);
         $db->query();
+
+        if ($product_full_image || $product_thumb_image) {
+            $file_title = $this->getFileTitle($product);
+            $mime_type  = $this->getFileMimetype($product);
+
+            $mediaSql = "INSERT INTO `#__virtuemart_medias` (
+                    `virtuemart_vendor_id`, `file_title`, `file_description`, `file_meta`, 
+                    `file_mimetype`, `file_type`, `file_url`, `file_url_thumb`, 
+                    `file_is_product_image`, `file_is_downloadable`, `file_is_forSale`, `file_params`, 
+                    `file_lang`, `shared`, `published`, `created_on`, 
+                    `created_by`, `modified_on`, `modified_by`, `locked_on`, `locked_by`
+                    ) VALUES (
+                    1, '$file_title', '', '', 
+                    '$mime_type', 'product', '$product_full_image', '$product_thumb_image', 
+                    0, 0, 0, '', 
+                    '', 0, 1, '2015-1-1 00:00:00', 
+                    $user_id, '2015-1-1 00:00:00', $user_id, '0000-0-0 00:00:00', 0)";
+            $db->setQuery($mediaSql);
+            $db->query();
+
+            $media_id = $db->insertid();
+
+            $mediaProductSql = "INSERT INTO `#__virtuemart_product_medias` (
+                    `virtuemart_product_id`, `virtuemart_media_id`, `ordering`
+                    ) VALUES (
+                    $product_id, $media_id, 1)";
+            $db->setQuery($mediaProductSql);
+            $db->query();
+        }
+
+        return true;
+    }
+
+    /**
+     * save product
+     * 
+     * @param object $product
+     */
+    protected function saveProductMedia($product)
+    {
+        $db = JFactory::getDbo();
+
+        $media_path          = $this->media.'product/';
+        $user_id             = $this->user;
+        $product_id          = $product->product_id;
+        $product_full_image  = ($product->full_image) ? $media_path.$product->full_image : null;
+        $product_thumb_image = ($product->thumb_image) ? $media_path.$product->thumb_image : null;
+
+        if (!$product_full_image) {
+            $product_full_image = $product_thumb_image;
+        }
+
+        $checkSql = "SELECT `virtuemart_product_id` FROM `#__virtuemart_products`
+                WHERE `virtuemart_product_id` = $product_id LIMIT 1";
+        $db->setQuery($checkSql);
+        $check    = $db->loadResult();
+
+        if (!$check) {
+            return false;
+        }
 
         if ($product_full_image || $product_thumb_image) {
             $file_title = $this->getFileTitle($product);

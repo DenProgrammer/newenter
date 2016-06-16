@@ -253,7 +253,7 @@ class ImportController
                     $arr[] = trim(str_replace(array(chr(194).chr(160)), ' ', $cell->getValue()));
                 }
 
-                if ($arr[$options->position_product_name] && $arr[$options->position_product_price] > 0) {
+                if (isset($arr[$options->position_product_name]) && $arr[$options->position_product_price] > 0) {
                     $data[$row] = array(
                         'product_name'  => $arr[$options->position_product_name],
                         'product_price' => $arr[$options->position_product_price],
