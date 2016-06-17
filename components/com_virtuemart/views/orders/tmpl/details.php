@@ -45,8 +45,18 @@ if ($this->print) {
     <h1><?php echo vmText::_('COM_VIRTUEMART_ACC_ORDER_INFO'); ?>
 
         <?php
+        $user = JFactory::getUser();
+        if($user->id > 0){
+            $id = $this->orderdetails['details']['BT']->virtuemart_order_id;
+            $num = $this->orderdetails['details']['BT']->order_number;
+            $pass = $this->orderdetails['details']['BT']->order_pass;
+            $url = "index.php?option=com_virtuemart&view=invoice&layout=invoice&tmpl=raw&virtuemart_order_id=$id&order_number=$num&order_pass=$pass";
+        }else{
+            $url = $this->details_url;
+        }
+        
         /* Print view URL */
-        $details_link = "<a href=\"javascript:void window.open('$this->details_url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
+        $details_link = "<a href=\"javascript:void window.open('$url', 'win2', 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no');\"  >";
         //$details_link .= '<span class="hasTip print_32" title="' . vmText::_('COM_VIRTUEMART_PRINT') . '">&nbsp;</span></a>';
         $button       = 'system/printButton.png';
         $details_link .= JHtml::_('image', $button, vmText::_('COM_VIRTUEMART_PRINT'), NULL, true);

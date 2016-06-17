@@ -132,7 +132,7 @@ class VirtuemartViewInvoice extends VmViewAdmin {
                     $data->total_string = $NumberAnalyser->CurrencyToText($total, "KGS");
 
                     $data->guaranty = null;
-                    if (count($data->order['items']) == 1) {
+                    if (count($data->order['items']) <= 4) {
                         $sql = 'SELECT `fulltext` FROM `#__content` WHERE `id`=10';
 
                         $db->setQuery($sql);

@@ -129,7 +129,8 @@ $details = $this->data->order['details']['BT'];
             }
         </script>
         <style>
-            p{font-size:12px;
+            p{
+                font-size:9px;
               font-family:"Times New Roman";
               margin-top:3px;
               margin-bottom:3px;
@@ -144,56 +145,38 @@ $details = $this->data->order['details']['BT'];
             #ui-datepicker-div{
                 width:240px;
             }
+            table tr td{
+                font-size: 12px;
+            }
         </style>
     </head>
-    <body lang=RU style='tab-interval:35.4pt;text-justify-trim:punctuation'>
-        <div class="Section1" style="width:705px;position:relative;">
-            <div style="position:absolute;right:0px;cursor:pointer;width:48px;height:48px;display:inline-block;background:url(http://enter.kg/images/M_images/excel_icon.png) no-repeat;" title="Скачать в формате EXCEL" onclick="getExcelLink()"></div>
+    <body>
+        <div style="position:relative;">
+            <!--<div style="position:absolute;right:0px;cursor:pointer;width:48px;height:48px;display:inline-block;background:url(http://enter.kg/images/M_images/excel_icon.png) no-repeat;" title="Скачать в формате EXCEL" onclick="getExcelLink()"></div>-->
 
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;
-               mso-layout-grid-align:none;text-autospace:none'><b><span style='font-size:20.0pt;
-                       font-family:"Bookman Old Style";mso-bidi-font-family:"Bookman Old Style"' onclick="edit()">Гарантийный талон</span></b></p>
-
-            <p class=MsoNormal align=center style='text-align:center;mso-pagination:none;
-               mso-layout-grid-align:none;text-autospace:none'><span style='font-size:9.0pt;
-                    font-family:"Times New Roman CYR"'></span></p>
-
-            <table class="MsoNormalTable" border=0 cellspacing=0 cellpadding=0 style='table-layout:fixed;margin-left:4.8pt;border-collapse:collapse;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
-                <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:15.0pt'>
-                    <td width=20 valign=bottom style='border:solid windowtext 1.0pt; mso-border-alt:solid windowtext .5pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>кол.</span>
-                        </p>
+            <h3 style="text-align: center;" onclick="edit()">Гарантийный талон</h3>
+            <table border=1 cellspacing=0 cellpadding=0 style='width: 100%;border-collapse:collapse;'>
+                <tr>
+                    <td width=20>
+                        кол.
                     </td>
-                    <td valign=bottom style='border:solid windowtext 1.0pt;border-left:none;mso-border-top-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>Наименование</span>
-                        </p>
+                    <td>
+                        Наименование
                     </td>
-                    <td width=50 valign=bottom style='border:solid windowtext 1.0pt;border-left:none;mso-border-top-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR"; color:black'>Артикул</span>
-                        </p>
+                    <td width=80>
+                        Артикул
                     </td>
-                    <td width=45 valign=bottom style='border:solid windowtext 1.0pt;border-left:none;mso-border-top-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>Цена сом</span>
-                        </p>
+                    <td width=45>
+                        Цена сом
                     </td>
-                    <td width=45 valign=bottom style='border:solid windowtext 1.0pt;border-left:none;mso-border-top-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>Итого сом</span>
-                        </p>
+                    <td width=45>
+                        Итого сом
                     </td>
-                    <td valign=bottom style='border:solid windowtext 1.0pt;border-left:none;mso-border-top-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>SN</span>
-                        </p>
+                    <td width=50>
+                        SN
                     </td>
-                    <td width=25 valign=bottom style='border:solid windowtext 1.0pt;border-left:none;mso-border-top-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>Гар. мес.</span>
-                        </p>
+                    <td width=45>
+                       Гар. мес.
                     </td>
                 </tr>
                 <?php
@@ -215,72 +198,56 @@ $details = $this->data->order['details']['BT'];
                     $guaranty = isset($attribute->guaranty) ? $attribute->guaranty : '12 мес.';
                     $sn       = isset($attribute->sn) ? $attribute->sn : null;
                     ?>
-                    <tr id='row<?php echo $num; ?>' rel='<?php echo $item_id; ?>' class='itemrow' style='mso-yfti-irow:1;height:15.0pt'>
-                        <td width=51 valign=bottom style='width:38.0pt;border:solid windowtext 1.0pt;border-top:none;mso-border-left-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+                    <tr id='row<?php echo $num; ?>' rel='<?php echo $item_id; ?>' class='itemrow'>
+                        <td>
                             <div class='itemquantity changeelement'><?php echo $quantity; ?></div>
                             <input onkeyup='resumm(<?php echo $num; ?>)' size='2' id='itemquantitytext<?php echo $num; ?>' class='itemquantitytext editelement' type='text'/>
                         </td>
-                        <td width=434 valign=bottom style='width:325.2pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+                        <td>
                             <div class='itemname changeelement'><?php echo $itemname; ?></div>
                             <input size='67' id='itemnametext<?php echo $num; ?>' class='itemnametext editelement' type='text'/>
                         </td>
-                        <td width=65 valign=bottom style='width:48.85pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+                        <td>
                             <div class='itemsku changeelement'><?php echo $itemsku; ?></div>
                             <input size='10' id='itemskutext<?php echo $num; ?>' class='itemskutext editelement' type='text'/>
                         </td>
-                        <td width=67 valign=bottom style='width:50.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
+                        <td>
                             <div class='itemprice changeelement'><?php echo $price; ?></div>
                             <input onkeyup='resumm(<?php echo $num; ?>)' size='2'id='itempricetext<?php echo $num; ?>' class='itempricetext editelement' type='text'/>
                         </td>
-                        <td width=71 style='border:solid 1px black;text-align:right;'>
+                        <td>
                             <div id='itemitogo<?php echo $num; ?>' class='itemitogo'>
                                 <?php echo $totalprice; ?>
                             </div>
                         </td>
-                        <td class='itemsn' valign=bottom 
-                            style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'
-                            ><?php echo $sn; ?></td>
-                        <td style='border:solid 1px black;text-align:right;'>
+                        <td class='itemsn'><?php echo $sn; ?></td>
+                        <td>
                             <div class='itemguaranty changeelement'><?php echo $guaranty; ?></div>
                             <input size='5' id='itemguarantytext<?php echo $num; ?>' class='itemguarantytext editelement' type='text'/>
                         </td>
                     </tr>
                 <?php } ?>
-                <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes;height:15.0pt'>
-                    <td valign=bottom style='border:solid windowtext 1.0pt;border-top:none;mso-border-left-alt:solid windowtext .5pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'><span style='mso-spacerun:yes'>  </span></span>
-                        </p>
+                <tr>
+                    <td>
+                        &nbsp;
                     </td>
-                    <td valign=bottom style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>Итого к оплате</span>
-                        </p>
+                    <td>
+                        Итого к оплате
                     </td>
-                    <td valign=bottom style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>&nbsp;</span>
-                        </p>
+                    <td>
+                        &nbsp;
                     </td>
-                    <td valign=bottom style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>&nbsp;</span>
-                        </p>
+                    <td>
+                        &nbsp;
                     </td>
-                    <td valign=bottom style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal align=right style='text-align:right;mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'><?php echo $total; ?></span>
-                        </p>
+                    <td>
+                        <?php echo $total; ?>
                     </td>
-                    <td valign=bottom style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>&nbsp;</span>
-                        </p>
+                    <td>
+                        &nbsp;
                     </td>
-                    <td valign=bottom style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;mso-border-bottom-alt:solid windowtext .5pt;mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:15.0pt'>
-                        <p class=MsoNormal style='mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'>
-                            <span style='font-size:11.0pt;font-family:"Times New Roman CYR";color:black'>&nbsp;</span>
-                        </p>
+                    <td>
+                        &nbsp;
                     </td>
                 </tr>
             </table>

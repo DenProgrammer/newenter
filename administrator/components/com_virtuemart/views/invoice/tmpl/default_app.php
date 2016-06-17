@@ -3,7 +3,7 @@
         <meta http-equiv=Content-Type content="text/html; charset=utf8">
             <title>Приложение к гарантийному талону</title>
             <style>
-                p{font-size:10.0pt;
+                p{font-size:8.0pt;
                   font-family:"Times New Roman";
                   margin-top:3px;
                   margin-bottom:3px;

@@ -938,6 +938,7 @@ div.latest_products ul li a div.prod_price span:last-child{
 }
 div.moduletable-latest{
     float: left;
+    width: 100%;
 }
 div.moduletable-latest h3{
     text-align: center;

@@ -1771,7 +1771,7 @@ class VirtueMartCart
         $data->dataValidated = $this->_dataValidated;
 
         if ($data->totalProduct > 1)
-            $data->totalProductTxt = vmText::sprintf('COM_VIRTUEMART_CART_X_PRODUCTS', $data->totalProduct);
+            $data->totalProductTxt = vmText::sprintf('COM_VIRTUEMART_CART_X_PRODUCTS', $data->totalProduct).'<br /> '.vmText::sprintf('COM_VIRTUEMART_CART_TOTALP', $data->billTotal);
         else if ($data->totalProduct == 1)
             $data->totalProductTxt = vmText::_('COM_VIRTUEMART_CART_ONE_PRODUCT');
         else

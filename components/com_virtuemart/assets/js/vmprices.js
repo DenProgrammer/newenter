@@ -65,9 +65,11 @@ Virtuemart.sendtocart = function (form) {
     }
 }
 
+var VMtimeout = 0;
 Virtuemart.cartEffect = function (form) {
     var $ = jQuery;
-
+    
+    clearTimeout(VMtimeout);
     var dat = form.serialize();
 
     if (usefancy) {
@@ -107,10 +109,10 @@ Virtuemart.cartEffect = function (form) {
                         "height": 125,
                         "width": 600,
                         "padding": 0,
-                        "overlayShow": true,
+                        "overlayShow": false,
                         "overlayOpacity": 0
                     });
-                    setTimeout("jQuery('a#fancybox-close').click()", 3000); 
+                    VMtimeout = setTimeout("jQuery('a#fancybox-close').click()", 3000); 
                 } else {
                     jQuery.facebox.settings.closeImage = closeImage;
                     jQuery.facebox.settings.loadingImage = loadingImage;
