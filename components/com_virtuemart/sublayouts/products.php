@@ -12,7 +12,7 @@
 defined('_JEXEC') or die('Restricted access');
 $products_per_row  = $viewData['products_per_row'];
 $currency          = $viewData['currency'];
-$keyword           = $viewData['keyword'];
+$keyword           = isset($viewData['keyword']) ? $viewData['keyword'] : null;
 $isSearch          = $viewData['isSearch'];
 $showRating        = $viewData['showRating'];
 $actualTime        = $viewData['actualTime'];
@@ -87,7 +87,7 @@ foreach ($viewData['products'] as $type => $products) {
                 $categoryNames[$product->category_name] = 1;
                 ?>
                 <?php if ($isSearch) { ?>
-            <h2 class="search-category-name"><div><?php echo $product->category_name; ?></div></h2>
+                    <h2 class="search-category-name"><div><?php echo $product->category_name; ?></div></h2>
                 <?php } else { ?>
                     <div style="visibility: hidden; font-size: 1px;">1</div>
                 <?php } ?>

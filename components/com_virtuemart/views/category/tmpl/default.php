@@ -77,20 +77,6 @@ if (VmConfig::get('showCategory', 1) and empty($this->keyword)) {
 if ($this->showproducts) {
     ?>
     <div class="browse-view">
-        <div class="orderby-displaynumber">
-            <div class="floatleft vm-order-list">
-                <?php echo $this->orderByList['orderby']; ?>
-                <?php echo $this->orderByList['manufacturer']; ?>
-            </div>
-            <div class="vm-pagination vm-pagination-top">
-                <?php echo $this->vmPagination->getPagesLinks(); ?>
-                <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
-            </div>
-            <div class="floatright display-number"><?php echo $this->vmPagination->getResultsCounter(); ?><br/><?php echo $this->vmPagination->getLimitBox($this->category->limit_list_step); ?></div>
-
-
-            <div class="clear"></div>
-        </div> <!-- end of orderby-displaynumber -->
 
         <h2 class="search-category-name"><?php echo $this->category->category_name; ?></h2>
 
@@ -108,16 +94,30 @@ if ($this->showproducts) {
                 'actualTime'       => $this->actualTime,
             );
             ?>
-            <div class="vm-pagination vm-pagination-bottom">
-                <?php echo $this->vmPagination->getPagesLinks(); ?>
-                <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
-            </div>
+            <table border="0" style="width: 100%;">
+                <tr>
+                    <td width="170">
+                        <?php echo $this->orderByList['orderby']; ?>
+                    </td>
+                    <td>
+                        <div class="vm-pagination">
+                            <?php echo $this->vmPagination->getPagesLinks(); ?>
+                            <br />
+                            <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
+                        </div>
+                    </td>
+                    <td width="170">
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
             <?php
             echo shopFunctionsF::renderVmSubLayout($this->productsLayout, $data);
             ?>
 
             <div class="vm-pagination vm-pagination-bottom">
                 <?php echo $this->vmPagination->getPagesLinks(); ?>
+                <br />
                 <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
             </div>
 

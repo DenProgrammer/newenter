@@ -445,9 +445,9 @@ div.prod_price span.price{
     width: 100%;
 } 
 
-#wrapper #content .orderby-displaynumber{
+/*#wrapper #content .orderby-displaynumber{
     display:none;
-}  
+}  */
 
 #wrapper #content h1{
     font-size: 18px;
@@ -1557,4 +1557,11 @@ h2.search-category-name div{
 
 div.tos{
     text-align: center;
+}
+
+.vm-pagination-bottom{
+    display: inline-block;
+    float: left;
+    margin-top: 10px;
+    width: 100%;
 }

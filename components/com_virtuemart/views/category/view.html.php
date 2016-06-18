@@ -56,7 +56,8 @@ class VirtuemartViewCategory extends VmView
             require(VMPATH_SITE.DS.'helpers'.DS.'shopfunctionsf.php');
         }
 
-        $this->assignRef('actualTime', $this->getActualTime());
+        $actualTime = $this->getActualTime();
+        $this->assignRef('actualTime', $actualTime);
 
         // add javascript for price and cart, need even for quantity buttons, so we need it almost anywhere
         vmJsApi::jPrice();
