@@ -107,7 +107,7 @@ Virtuemart.cartEffect = function (form) {
                         "centerOnScroll": false,
                         "autoScale": true,
                         "height": 125,
-                        "width": 600,
+                        "width": 560,
                         "padding": 0,
                         "overlayShow": false,
                         "overlayOpacity": 0

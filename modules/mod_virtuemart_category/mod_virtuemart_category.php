@@ -50,7 +50,7 @@ if (empty($categories)) {
 }
 
 foreach ($categories as $category) {
-    $category->childs = $categoryModel->getChildCategoryList($vendorId, $category->virtuemart_category_id, 'c.ordering, category_name');
+    $category->childs = $categoryModel->getChildCategoryList($vendorId, $category->virtuemart_category_id, 'c.ordering DESC, category_name');
     // No image used here
     //$categoryModel->addImages($category->childs);
 }

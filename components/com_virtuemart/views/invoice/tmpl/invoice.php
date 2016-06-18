@@ -73,10 +73,7 @@ if ($this->print) {
                         <tr>
                             <td valign = "top">
                                 <h2>Информация о заказе</h2>
-                                <p>Салон компьютерной техники WWW.ENTER.KG<br />
-                                    пр. Чуй, 170<br />
-                                    ул.Московская, 195<br />
-                                    Бишкек, 720000</p>
+                                <p>Салон компьютерной техники WWW.ENTER.KG</p>
                             </td>
                             <td valign = "top" width = "10%" align = "right">
                                 <img border = "0" height="100" src = "images/printlogo.jpg" alt = "Салон компьютерной техники WWW.ENTER.KG" />
@@ -107,6 +104,8 @@ if ($this->print) {
             </tr>
             <tr>
                 <td>
+                    <br />
+                    <br />
                     <span class="note">
                         Примечание покупателя: <?php echo $this->orderDetails['details']['BT']->note; ?>
                     </span>

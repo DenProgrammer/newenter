@@ -87,7 +87,7 @@ foreach ($viewData['products'] as $type => $products) {
                 $categoryNames[$product->category_name] = 1;
                 ?>
                 <?php if ($isSearch) { ?>
-                    <h2><?php echo $product->category_name; ?></h2>
+            <h2 class="search-category-name"><div><?php echo $product->category_name; ?></div></h2>
                 <?php } else { ?>
                     <div style="visibility: hidden; font-size: 1px;">1</div>
                 <?php } ?>
@@ -140,7 +140,7 @@ foreach ($viewData['products'] as $type => $products) {
                                 echo $newimg;
 
                                 $target = '';
-                                if ($product->images[0]->virtuemart_media_id > 0) {
+                                if ($product->images[0]->virtuemart_media_id > 0 && is_file($product->images[0]->file_url)) {
                                     $title  = $product->product_name;
                                     $href   = $product->link;
                                     $target = '';

@@ -219,7 +219,7 @@ h1, h2, h3, h4, h5, h6, .site-title{
 
 #wrapper #rightcol #mod_virtuemart_search{
     width: 189px;
-    text-align: center;
+    text-align: left;
 }
 
 #wrapper #rightcol .moduletablecall{
@@ -299,8 +299,8 @@ h1, h2, h3, h4, h5, h6, .site-title{
 
 #wrapper #content .moduletabletopinfo{
     text-align:center;
-    border:1px solid #111111;
-    background:#c6c6c6;
+    border:1px solid red;
+    border-radius: 10px;
     padding:5px;
     font-family:Arial;
     margin-bottom: 15px;
@@ -441,6 +441,8 @@ div.prod_price span.price{
 
 #wrapper #content .horizontal-separator{
     background:none;
+    float: left;
+    width: 100%;
 } 
 
 #wrapper #content .orderby-displaynumber{
@@ -1129,7 +1131,12 @@ div.danger div.vm_cart_products{
 }
 
 table.cart-summary tr.sectiontableentry td{
-    border-bottom: dashed 1px #999;
+    /*border-bottom: dashed 1px #999;*/
+    border-color: grey;
+}
+table.cart-summary tr th{
+    /*border-bottom: dashed 1px #999;*/
+    border-color: grey;
 }
 table.cart-summary tr.sectiontableentry:last-child td{
     border-bottom: none;
@@ -1530,4 +1537,24 @@ a.product-image-link{
     display: block;
     width: 100px;
     height: 100px;
+}
+
+h2.search-category-name{
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    float: left;
+    width: 100%;
+}
+h2.search-category-name div{
+    border: solid 1px rgb(204, 16, 19);
+    background: rgb(204, 16, 19);
+    margin-top: 15px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    padding: 4px 0;
+}
+
+div.tos{
+    text-align: center;
 }

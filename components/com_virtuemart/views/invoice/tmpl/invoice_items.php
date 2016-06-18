@@ -81,7 +81,7 @@ $details = $this->orderDetails['details']['BT'];
             <?php if ($this->doctype == 'invoice') { ?>
                 <td align="center"  class="priceCol">
                     <?php
-                    echo round($item->product_subtotal_with_tax * $details->exchange_usd, 2).' '
+                    echo round($item->product_subtotal_with_tax * $details->exchange_usd).' '
                     .JText::_('COM_VIRTUEMART_CURRENCY_KGS')
                     .' / '
                     .$this->currency->priceDisplay($item->product_subtotal_with_tax, $this->currency);
@@ -104,7 +104,7 @@ $details = $this->orderDetails['details']['BT'];
             </td>
             <td align="center">
                 <b> <?php
-                    echo round($this->orderDetails['details']['BT']->order_total * $details->exchange_usd, 2).' '
+                    echo round($this->orderDetails['details']['BT']->order_total * $details->exchange_usd).' '
                     .JText::_('COM_VIRTUEMART_CURRENCY_KGS')
                     .' / '
                     .$this->currency->priceDisplay($this->orderDetails['details']['BT']->order_total, $this->currency);

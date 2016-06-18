@@ -51,9 +51,6 @@ defined('_JEXEC') or die('Restricted access');
 
         <div class="total_products">
             <?php echo $data->totalProductTxt ?>
-            <?php if ($data->totalProduct and $show_price and $currencyDisplay->_priceConfig['salesPrice'][0]) { ?>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $data->billTotal; ?>
-            <?php } ?>
         </div>
     </div>
 

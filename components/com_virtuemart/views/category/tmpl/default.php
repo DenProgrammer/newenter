@@ -57,7 +57,7 @@ $imageJS = '
 
 vmJsApi::addJScript('imagepopup', $imageJS);
 ?>
-<h1><?php echo $this->category->category_name; ?></h1>
+<h2 class="search-category-name"><div><?php echo $this->category->category_name; ?></div></h2>
 <?php if (empty($this->keyword) and ! empty($this->category)) {
     ?>
     <div class="category_description">
@@ -92,7 +92,7 @@ if ($this->showproducts) {
             <div class="clear"></div>
         </div> <!-- end of orderby-displaynumber -->
 
-        <h1><?php echo $this->category->category_name; ?></h1>
+        <h2 class="search-category-name"><?php echo $this->category->category_name; ?></h2>
 
         <?php
         if (!empty($this->products)) {
@@ -107,6 +107,12 @@ if ($this->showproducts) {
                 'isSearch'         => $this->isSearch,
                 'actualTime'       => $this->actualTime,
             );
+            ?>
+            <div class="vm-pagination vm-pagination-bottom">
+                <?php echo $this->vmPagination->getPagesLinks(); ?>
+                <span class="vm-page-counter"><?php echo $this->vmPagination->getPagesCounter(); ?></span>
+            </div>
+            <?php
             echo shopFunctionsF::renderVmSubLayout($this->productsLayout, $data);
             ?>
 

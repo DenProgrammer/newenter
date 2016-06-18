@@ -36,7 +36,7 @@ class ProductImport
      * execute script
      */
     public function execute()
-    {
+    {return false;
 //        $this->clearBase();
         $this->loadTotal();
 //        $this->loadProducts();

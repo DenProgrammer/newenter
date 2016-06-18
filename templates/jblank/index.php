@@ -71,6 +71,39 @@ if ($this->params->get('logoFile')) {
     .($itemid ? ' itemid-'.$itemid : '')
     .($params->get('fluidContainer') ? ' fluid' : '');
     ?>">
+
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+            (function (d, w, c) {
+                (w[c] = w[c] || []).push(function () {
+                    try {
+                        w.yaCounter34077300 = new Ya.Metrika({id: 34077300,
+                            webvisor: true,
+                            clickmap: true,
+                            accurateTrackBounce: true});
+                    } catch (e) {
+                    }
+                });
+
+                var n = d.getElementsByTagName("script")[0],
+                        s = d.createElement("script"),
+                        f = function () {
+                            n.parentNode.insertBefore(s, n);
+                        };
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+                if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                } else {
+                    f();
+                }
+            })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="//mc.yandex.ru/watch/34077300" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+
         <div id="main">
             <div id="header_top">
                 <jdoc:include type="modules" name="position-0" style="xhtml" />
@@ -107,5 +140,11 @@ if ($this->params->get('logoFile')) {
         <div id="footer">
             <jdoc:include type="modules" name="footer" style="xhtml" />
         </div>
+
+        <center> <!-- WWW.NET.KG , code for http://www.enter.kg --> <noscript>
+ <a href='http://www.net.kg/stat.php?id=545&amp;fromsite=545' target='_blank'><img
+  src="http://www.net.kg/img.php?id=545" border='0' alt='WWW.NET.KG' width='88'
+  height='31' /></a>
+</noscript> <!-- /WWW.NET.KG --> </center>
     </body>
 </html>

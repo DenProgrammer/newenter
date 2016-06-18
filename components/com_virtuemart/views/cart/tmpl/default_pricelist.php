@@ -1,6 +1,6 @@
 <fieldset class="vm-fieldset-pricelist">
     <table
-        class="cart-summary" cellspacing="0" cellpadding="0" border="0" width="100%">
+        class="cart-summary" cellspacing="0" cellpadding="0" border="1" style="width:100%; border-collapse: collapse;">
         <tr>
             <th align="left"><?php echo vmText::_('COM_VIRTUEMART_CART_NAME') ?></th>
             <th align="left"><?php echo vmText::_('COM_VIRTUEMART_CART_SKU') ?></th>
@@ -12,13 +12,23 @@
                 width="110px"><?php echo vmText::_('COM_VIRTUEMART_CART_QUANTITY') ?>
                 / <?php echo vmText::_('COM_VIRTUEMART_CART_ACTION') ?></th>
 
-            <th align="right" width="120px"><?php echo vmText::_('COM_VIRTUEMART_CART_TOTAL') ?></th>
+            <th align="right" width="110px"><?php echo vmText::_('COM_VIRTUEMART_CART_TOTAL') ?></th>
         </tr>
 
         <?php
         $i = 1;
 
+        $userGroup   = JFactory::getUser()->getAuthorisedGroups();
+        $allowGroups = array(7, 8, 10, 11);
+        $showSku     = array_intersect($allowGroups, $userGroup);
+
         foreach ($this->cart->products as $pkey => $prow) {
+
+            if ($showSku) {
+                $sku = str_replace('sklad-', '', $prow->product_sku);
+            } else {
+                $sku = preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $prow->product_sku);
+            }
             ?>
             <tr valign="top" class="sectiontableentry sectiontableentry<?php echo $i ?>">
                 <td align="left">
@@ -37,21 +47,21 @@
                     ?>
 
                 </td>
-                <td align="left"><?php echo preg_replace('/(sklad-)([0-9]{1,3})([-]{1})([0-9]*)/', '$4', $prow->product_sku); ?></td>
+                <td align="left"><?php echo $sku; ?></td>
                 <td align="center">
                     <?php
-                    echo round($this->currency->roundForDisplay($prow->prices['salesPrice'], 165, 1, 0)) . ' '
-                    . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
-                    . ' / '
-                    . round($prow->prices['salesPrice'], 2) . ' $';
+                    echo round($this->currency->roundForDisplay($prow->prices['salesPrice'], 165, 1, 0)).' '
+                    .JText::_('COM_VIRTUEMART_CURRENCY_KGS')
+                    .' / '
+                    .round($prow->prices['salesPrice'], 2).' $';
                     ?>
                 </td>
                 <td align="right"><?php
-                    $step = ($prow->step_order_level) ? $prow->step_order_level : 1;
+                $step = ($prow->step_order_level) ? $prow->step_order_level : 1;
 
-                    if ($step == 0) {
-                        $step = 1;
-                    }
+                if ($step == 0) {
+                    $step = 1;
+                }
                     ?>
                     <input type="text"
                            onblur="Virtuemart.checkQuantity(this,<?php echo $step ?>, '<?php echo vmText::_('COM_VIRTUEMART_WRONG_AMOUNT_ADDED') ?>');"
@@ -71,10 +81,10 @@
 
                 <td colspan="1" align="right">
                     <?php
-                    echo round($this->currency->roundForDisplay($prow->prices['salesPrice'] * $prow->quantity, 165, 1, 0)) . ' '
-                    . JText::_('COM_VIRTUEMART_CURRENCY_KGS')
-                    . ' / '
-                    . round($prow->prices['salesPrice'] * $prow->quantity, 2) . ' $';
+                    echo round($this->currency->roundForDisplay($prow->prices['salesPrice'] * $prow->quantity, 165, 1, 0)).' '
+                    .JText::_('COM_VIRTUEMART_CURRENCY_KGS')
+                    .' / '
+                    .round($prow->prices['salesPrice'] * $prow->quantity, 2).' $';
                     ?>
                 </td>
             </tr>
@@ -97,7 +107,7 @@
             <td align="right">
                 <strong>
                     <?php
-                    echo round($this->currency->roundForDisplay($this->cart->cartPrices['billTotal'], 165, 1, 0)) . ' ';
+                    echo round($this->currency->roundForDisplay($this->cart->cartPrices['billTotal'], 165, 1, 0)).' ';
                     echo JText::_('COM_VIRTUEMART_CURRENCY_KGS');
                     echo ' / ';
                     echo round($this->cart->cartPrices['billTotal'], 2), ' $';

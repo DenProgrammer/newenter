@@ -65,7 +65,9 @@ vmJsApi::addJScript('vm.checkoutFormSubmit', '
 <div class="cart-view">
     <div class="vm-cart-header-container">
         <div class="width50 floatleft vm-cart-header">
-            <h1><?php echo vmText::_('COM_VIRTUEMART_CART_TITLE'); ?></h1>
+            <h2 class="search-category-name">
+                <div><?php echo vmText::_('COM_VIRTUEMART_CART_TITLE'); ?></div>
+            </h2>
             <div class="payments_signin_button"></div>
 
         </div>
