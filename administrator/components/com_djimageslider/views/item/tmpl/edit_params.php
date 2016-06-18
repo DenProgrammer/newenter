@@ -24,25 +24,27 @@
  * along with DJ-ImageSlider. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 // No direct access.
 defined('_JEXEC') or die;
 
 $fieldSets = $this->form->getFieldsets('params');
-foreach ($fieldSets as $name => $fieldSet) : ?>
-	
-	<fieldset class="panelform" >
-		
-			<h3><?php echo JText::_($fieldSet->label); ?></h3>
-			<?php if (isset($fieldSet->description) && trim($fieldSet->description)) :
-				echo '<p class="tip alert alert-info">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-			endif; ?>
-			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-				<div class="control-group">
-					<div class="control-label"><?php echo $field->label; ?></div>
-					<div class="controls"><?php echo $field->input; ?></div>
-				</div>
-			<?php endforeach; ?>
-		
-	</fieldset>
-<?php endforeach; ?>
+foreach ($fieldSets as $name => $fieldSet) :
+    ?>
+    <fieldset class="panelform" >
+
+        <h3><?php echo JText::_($fieldSet->label); ?></h3>
+        <?php
+        if (isset($fieldSet->description) && trim($fieldSet->description)) :
+            echo '<p class="tip alert alert-info">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+        endif;
+        ?>
+        <?php foreach ($this->form->getFieldset($name) as $field) : ?>
+            <div class="control-group">
+                <div class="control-label"><?php echo $field->label; ?></div>
+                <div class="controls"><?php echo $field->input; ?></div>
+            </div>
+        <?php endforeach; ?>
+
+    </fieldset>
+    <?php
+endforeach;

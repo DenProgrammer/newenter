@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version $Id: item.php 5 2013-01-11 10:22:28Z szymon $
  * @package DJ-ImageSlider
@@ -24,13 +25,12 @@
  * along with DJ-ImageSlider. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 // No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controllerform');
 
-class DJImageSliderControllerItem extends JControllerForm {
+class DJImageSliderControllerItem extends JControllerForm
+{
+    
 }
-
-?>

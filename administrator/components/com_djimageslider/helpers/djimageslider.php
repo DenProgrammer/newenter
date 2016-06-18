@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @version $Id: djimageslider.php 5 2013-01-11 10:22:28Z szymon $
  * @package DJ-ImageSlider
@@ -24,38 +25,30 @@
  * along with DJ-ImageSlider. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 defined('_JEXEC') or die;
 
 abstract class DJImageSliderHelper
 {
-	
-	public static function addSubmenu($vName)
-	{
-		if($vName=='item' || $vName=='category') return;
-		
-		JSubMenuHelper::addEntry(
-			JText::_('COM_DJIMAGESLIDER_SUBMENU_CPANEL'),
-			'index.php?option=com_djimageslider',
-			$vName == 'cpanel'
-		);
-		JSubMenuHelper::addEntry(
-			JText::_('COM_DJIMAGESLIDER_SUBMENU_SLIDES'),
-			'index.php?option=com_djimageslider&view=items',
-			$vName == 'items'
-		);
-		JSubMenuHelper::addEntry(
-			JText::_('COM_DJIMAGESLIDER_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_djimageslider',
-			$vName == 'categories'
-		);
 
-		if ($vName=='categories') {
-			JToolBarHelper::title(
-				JText::sprintf('COM_DJIMAGESLIDER_CATEGORIES_TITLE',JText::_('com_djimageslider')),
-				'slider-categories');
-		}
-	}
-	
+    public static function addSubmenu($vName)
+    {
+        if ($vName == 'item' || $vName == 'category') {
+            return;
+        }
+
+        JSubMenuHelper::addEntry(
+                JText::_('COM_DJIMAGESLIDER_SUBMENU_CPANEL'), 'index.php?option=com_djimageslider', $vName == 'cpanel'
+        );
+        JSubMenuHelper::addEntry(
+                JText::_('COM_DJIMAGESLIDER_SUBMENU_SLIDES'), 'index.php?option=com_djimageslider&view=items', $vName == 'items'
+        );
+        JSubMenuHelper::addEntry(
+                JText::_('COM_DJIMAGESLIDER_SUBMENU_CATEGORIES'), 'index.php?option=com_categories&extension=com_djimageslider', $vName == 'categories'
+        );
+
+        if ($vName == 'categories') {
+            JToolBarHelper::title(
+                    JText::sprintf('COM_DJIMAGESLIDER_CATEGORIES_TITLE', JText::_('com_djimageslider')), 'slider-categories');
+        }
+    }
 }
-?>

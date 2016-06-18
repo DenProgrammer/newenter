@@ -29,6 +29,15 @@
 			size="30"
 			required="true"
 		 />
+		
+		<field name="ordering"
+			type="text"
+			label="JGLOBAL_ARTICLE_MANAGER_ORDER"
+			description="JGLOBAL_ARTICLE_MANAGER_ORDER"
+			class="inputbox"
+			size="30"
+			required="true"
+		 />
 		 
 		 <field name="alias"
 			type="text"
